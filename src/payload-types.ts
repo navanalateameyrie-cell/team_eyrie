@@ -1172,6 +1172,29 @@ export interface HomePage {
         }[]
       | null;
   };
+  whyEyrie?: {
+    tagline?: string | null;
+    heading?: string | null;
+    subheading?: string | null;
+    items?:
+      | {
+          tag?: string | null;
+          title: string;
+          description: string;
+          image?: (number | null) | Media;
+          imageUrl?: string | null;
+          link?: string | null;
+          linkLabel?: string | null;
+          bullets?:
+            | {
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1298,6 +1321,31 @@ export interface HomePageSelect<T extends boolean = true> {
           | {
               title?: T;
               description?: T;
+              id?: T;
+            };
+      };
+  whyEyrie?:
+    | T
+    | {
+        tagline?: T;
+        heading?: T;
+        subheading?: T;
+        items?:
+          | T
+          | {
+              tag?: T;
+              title?: T;
+              description?: T;
+              image?: T;
+              imageUrl?: T;
+              link?: T;
+              linkLabel?: T;
+              bullets?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
               id?: T;
             };
       };

@@ -83,5 +83,43 @@ export const HomePage: GlobalConfig = {
         },
       ],
     },
+    {
+      type: 'group',
+      name: 'whyEyrie',
+      label: 'Why Team Eyrie (Sticky Scroll Showcase)',
+      fields: [
+        { name: 'tagline', type: 'text', defaultValue: 'The Team Eyrie Advantage' },
+        { name: 'heading', type: 'text', defaultValue: 'Why Team Eyrie?' },
+        {
+          name: 'subheading',
+          type: 'textarea',
+          defaultValue:
+            'A single umbrella combining senior leadership, multidisciplinary intelligence, and technology-assisted execution.',
+        },
+        {
+          name: 'items',
+          type: 'array',
+          label: 'Feature Showcase Cards',
+          admin: {
+            initCollapsed: true,
+          },
+          fields: [
+            { name: 'tag', type: 'text', label: 'Category Tag (e.g. Synergy, Coverage)' },
+            { name: 'title', type: 'text', required: true, label: 'Title' },
+            { name: 'description', type: 'textarea', required: true, label: 'Description' },
+            { name: 'image', type: 'upload', relationTo: 'media', label: 'Upload Feature Image' },
+            { name: 'imageUrl', type: 'text', label: 'Or Image Path (e.g. /images/Why.png)' },
+            { name: 'link', type: 'text', label: 'CTA Link (e.g. /why-team-eyrie)' },
+            { name: 'linkLabel', type: 'text', label: 'CTA Label (e.g. Explore Details)' },
+            {
+              name: 'bullets',
+              type: 'array',
+              label: 'Bullet Highlights',
+              fields: [{ name: 'text', type: 'text', required: true, label: 'Point' }],
+            },
+          ],
+        },
+      ],
+    },
   ],
 }

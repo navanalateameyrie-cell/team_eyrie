@@ -4,6 +4,8 @@ import config from '@payload-config'
 import HeroSection from '../../components/HeroSection'
 import CorporateIcon from '../../components/CorporateIcon'
 import IndiaNetworkMap from '../../components/IndiaNetworkMap'
+import WhyTeamEyrieScroll from '../../components/WhyTeamEyrieScroll'
+import HorizontalServicesScroll from '../../components/HorizontalServicesScroll'
 
 export const dynamic = 'force-dynamic'
 
@@ -282,6 +284,7 @@ export default async function HomePage() {
   let heroEyebrow = "India's Integrated Professional Services Network"
   let heroHeadline = 'TEAM EYRIE'
   let heroSubheadline = 'Together, We Create Value. Together, We Build Trust.'
+  let whyEyrieData: any = undefined
 
   try {
     const payload = await getPayload({ config })
@@ -330,6 +333,42 @@ export default async function HomePage() {
             secondaryCta: { label: s.secondaryCtaLabel || 'Contact Us', href: s.secondaryCtaLink || '/contact' },
           }
         })
+      }
+    }
+
+    if (homePageRes?.whyEyrie) {
+      const we = homePageRes.whyEyrie
+      const items =
+        Array.isArray(we.items) && we.items.length > 0
+          ? we.items.map((it: any, idx: number) => {
+              let img = defaultBgImages[idx % defaultBgImages.length]
+              if (it.image && typeof it.image === 'object' && it.image.url) {
+                img = it.image.url
+              } else if (it.imageUrl) {
+                img = it.imageUrl
+              }
+              const bullets = Array.isArray(it.bullets)
+                ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
+                : undefined
+              return {
+                id: `why-item-${idx}`,
+                num: `0${idx + 1}`,
+                tag: it.tag || 'Advantage',
+                title: it.title,
+                description: it.description,
+                image: img,
+                link: it.link || '/why-team-eyrie',
+                linkLabel: it.linkLabel || 'Explore Detail',
+                bullets,
+              }
+            })
+          : undefined
+
+      whyEyrieData = {
+        tagline: we.tagline,
+        heading: we.heading,
+        subheading: we.subheading,
+        items,
       }
     }
   } catch {
@@ -558,108 +597,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 4. What We Do — Integrated Services Grid with Card Thumbnail Design */}
-      <section style={{ padding: '48px 0', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: 840, margin: '0 auto 28px' }}>
-            <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
-              Comprehensive Offerings
-            </span>
-            <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#1f3864', margin: '6px 0 10px', fontWeight: 800 }}>
-              What We Do
-            </h2>
-            <p style={{ color: '#64748b', fontSize: 15.5, lineHeight: 1.55 }}>
-              Delivering end-to-end solutions from assurance and taxation to transaction advisory and international expansion.
-            </p>
-          </div>
+      {/* 4. What We Do — Interactive Horizontal Services Showcase (Image on Right, Content & Horizontal Rail on Left) */}
+      <HorizontalServicesScroll services={displayServices} />
 
-          <div className="services-thumbnail-grid">
-            {displayServices.map((srv) => (
-              <a
-                key={srv.title}
-                href={srv.href}
-                className="service-thumb-card"
-              >
-                <div className="service-thumb-card__image-box">
-                  <img
-                    src={srv.bgImage}
-                    alt={srv.title}
-                    className="service-thumb-card__image"
-                  />
-                  <div className="service-thumb-card__icon-badge">
-                    <CorporateIcon name={srv.iconName} size={18} color="#ffffff" />
-                  </div>
-                </div>
-                <div className="service-thumb-card__body">
-                  <div>
-                    <h3 className="service-thumb-card__title">
-                      {srv.title}
-                    </h3>
-                    <p className="service-thumb-card__desc">
-                      {srv.desc}
-                    </p>
-                  </div>
-                  <div className="service-thumb-card__link">
-                    <span>Explore Practice Area</span>
-                    <span className="service-thumb-card__arrow">→</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: 32 }}>
-            <a href="/services" className="hero-btn hero-btn--gold" style={{ padding: '11px 28px', fontSize: 14.5 }}>
-              View Complete Service Catalog
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Why Team Eyrie? (6 Value Pillars - 3x2 / 3-Across Balanced Grid) */}
-      <section style={{ padding: '52px 0', background: '#f8fafc' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: 840, margin: '0 auto 32px' }}>
-            <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#b08d57' }} />
-              The Team Eyrie Advantage
-            </span>
-            <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#1f3864', margin: '6px 0 10px', fontWeight: 800 }}>
-              Why Team Eyrie?
-            </h2>
-            <p style={{ color: '#64748b', fontSize: 15.5, lineHeight: 1.55 }}>
-              A single umbrella combining senior leadership, multidisciplinary intelligence, and technology-assisted execution.
-            </p>
-          </div>
-
-          <div className="pillars-grid-3col">
-            {valuePillars.map((pil) => (
-              <div key={pil.title} className="pillar-card-v2">
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <span
-                      style={{
-                        background: 'rgba(176, 141, 87, 0.12)',
-                        color: '#b08d57',
-                        fontSize: 11,
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        padding: '4px 9px',
-                        borderRadius: 4,
-                        letterSpacing: 0.5,
-                      }}
-                    >
-                      {pil.tag}
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: 18, color: '#1f3864', margin: '0 0 8px', fontWeight: 700 }}>{pil.title}</h3>
-                  <p style={{ color: '#64748b', fontSize: 14, lineHeight: 1.6, margin: 0 }}>{pil.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 5. Why Team Eyrie? (Interactive Sticky Scroll Feature Showcase) */}
+      <WhyTeamEyrieScroll
+        tagline={whyEyrieData?.tagline}
+        heading={whyEyrieData?.heading}
+        subheading={whyEyrieData?.subheading}
+        items={whyEyrieData?.items}
+      />
 
       {/* 6. Industries We Serve (Luxury Dark Theme + Related Icons + Horizontal Moving Marquee) */}
       <section className="sectors-marquee-section">
