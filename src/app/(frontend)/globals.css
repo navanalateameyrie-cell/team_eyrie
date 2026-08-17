@@ -661,10 +661,6 @@ a.card:hover {
     gap: 8px;
   }
 
-  .top-bar__nav {
-    display: none;
-  }
-
   .brand-tagline {
     display: none;
   }
@@ -1073,8 +1069,6 @@ a.card:hover {
   }
 
   .hero-section__main-row {
-    flex-direction: column;
-    align-items: flex-start;
     margin-top: 36px;
     margin-bottom: 20px;
   }
@@ -1082,14 +1076,8 @@ a.card:hover {
   .hero-vertical-indicators {
     flex-direction: row;
     margin-right: 0;
-    margin-top: 18px;
-    margin-bottom: 0;
+    margin-bottom: 18px;
     gap: 8px;
-    order: 2;
-  }
-
-  .hero-section__left-col {
-    order: 1;
   }
 
   .hero-vertical-indicator {
@@ -1788,7 +1776,7 @@ a.card:hover {
 @media (max-width: 1024px) {
   .hero-section {
     height: auto;
-    min-height: 70vh;
+    min-height: auto;
     padding: 36px 0 24px;
   }
 
@@ -1802,29 +1790,11 @@ a.card:hover {
   }
 }
 
-@media (max-width: 768px) {
-  .hero-section {
-    min-height: 80vh;
-  }
-
-  .hero-section__overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(11, 19, 36, 0.75) 0%,
-      rgba(11, 19, 36, 0.55) 50%,
-      rgba(11, 19, 36, 0.4) 100%
-    );
-  }
-
-  .hero-section__overlay-radial {
-    background: radial-gradient(circle at 50% 30%, rgba(22, 41, 74, 0.45) 0%, transparent 70%);
-  }
-}
-
 @media (max-width: 640px) {
   .hero-section {
     padding: 32px 0 20px;
-    min-height: 75vh;
+    height: auto;
+    min-height: auto;
   }
 
   .hero-glass-card {
@@ -2826,7 +2796,6 @@ html {
 @media (max-width: 968px) {
   .hz-scroll-container {
     height: auto !important;
-    overflow: hidden;
   }
 
   .hz-scroll-sticky {
@@ -2843,9 +2812,8 @@ html {
 
   .hz-scroll-cards-track {
     transform: none !important;
-    padding-left: 16px;
-    padding-right: 16px;
-    gap: 16px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .hz-service-slide-card {
