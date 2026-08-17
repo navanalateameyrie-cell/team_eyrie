@@ -211,20 +211,6 @@ export default function HeroSection({
           {/* LEFT CORNER: Translucent / Transparent Frosted-Glass Hero Information Card */}
           <div className="hero-section__left-col">
             <div className="hero-glass-card" key={activeSlide.id}>
-              {/* Top Badge & Network Identifier */}
-              <div className="hero-glass-card__top">
-                <span className="hero-glass-card__eyebrow">
-                  <span className="hero-glass-card__dot" />
-                  {eyebrow}
-                </span>
-              </div>
-
-              {/* Slide Category Tag */}
-              <div className="hero-glass-card__badge-row">
-                <span className="hero-glass-card__badge">{activeSlide.badge}</span>
-                <span className="hero-glass-card__brand-pill">{headline}</span>
-              </div>
-
               {/* Animated Headline & Subtitle */}
               <h1 className="hero-glass-card__title">{activeSlide.title}</h1>
               <p className="hero-glass-card__tagline">{activeSlide.tagline}</p>
@@ -259,31 +245,6 @@ export default function HeroSection({
                   {activeSlide.secondaryCta.label}
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Integrated Alliance Partner Firm Bar (Clean typography strip right below the main content) */}
-        <div className="hero-alliance-bar">
-          <div className="hero-alliance-bar__inner">
-            <div className="hero-alliance-bar__header">
-              <span className="hero-alliance-bar__tag">Strategic Alliance Network</span>
-              <span className="hero-alliance-bar__title">
-                Formed by Three Esteemed Chartered Accountancy Partnerships
-              </span>
-            </div>
-            <div className="hero-alliance-bar__text-list">
-              {allianceFirms.map((firm) => (
-                <div key={firm.name} className="hero-alliance-text-item">
-                  <div className="hero-alliance-text-item__name">
-                    <span className="hero-alliance-text-item__bullet" />
-                    {firm.name}
-                  </div>
-                  <div className="hero-alliance-text-item__role">
-                    {firm.role} <span className="hero-alliance-text-item__dot">•</span> {firm.hub}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>

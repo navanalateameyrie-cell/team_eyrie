@@ -1,16 +1,14 @@
 import type { CollectionConfig } from 'payload'
-
-const isStaff = ({ req: { user } }: { req: { user?: { role?: string } | null } }) =>
-  Boolean(user)
+import { anyone, isEditor, isAdmin } from '../access'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: { group: 'Content' },
   access: {
-    read: () => true, // public assets
-    create: isStaff,
-    update: isStaff,
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    read: anyone, // public assets
+    create: isEditor,
+    update: isEditor,
+    delete: isAdmin,
   },
   upload: {
     staticDir: 'media',

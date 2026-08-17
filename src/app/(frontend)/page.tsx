@@ -338,7 +338,7 @@ export default async function HomePage() {
 
   return (
     <main>
-      {/* 1. Dynamic Hero Section with Integrated Strategic Alliance at Bottom */}
+      {/* 1. Dynamic Hero Section */}
       <HeroSection
         eyebrow={heroEyebrow}
         headline={heroHeadline}
@@ -346,6 +346,38 @@ export default async function HomePage() {
         slides={heroSlides}
         allianceFirms={allianceFirms}
       />
+
+      {/* 2. Strategic Alliance Network / Author Details (Separated below Hero Banner) */}
+      <section className="alliance-firms-section">
+        <div className="container">
+          <div className="alliance-firms-bar">
+            <div className="alliance-firms-header">
+              <span className="alliance-firms-tag">Strategic Alliance Network</span>
+              <h2 className="alliance-firms-title">
+                Formed by Three Esteemed Chartered Accountancy Partnerships
+              </h2>
+            </div>
+            <div className="alliance-firms-grid">
+              {allianceFirms.map((firm) => (
+                <div key={firm.name} className="alliance-firm-card">
+                  <div className="alliance-firm-card__header">
+                    <span className="alliance-firm-card__bullet" />
+                    <h3 className="alliance-firm-card__name">{firm.name}</h3>
+                  </div>
+                  <div className="alliance-firm-card__meta">
+                    <span className="alliance-firm-card__role">{firm.role}</span>
+                    <span className="alliance-firm-card__dot">•</span>
+                    <span className="alliance-firm-card__hub">{firm.hub}</span>
+                  </div>
+                  {firm.desc && (
+                    <p className="alliance-firm-card__desc">{firm.desc}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 2.5 Quick Feature Cards with Background Images */}
       <section style={{ padding: '36px 0 16px', background: '#ffffff' }}>
@@ -373,11 +405,6 @@ export default async function HomePage() {
               style={{ backgroundImage: "url('/images/Aboutus.png')" }}
             >
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(176, 141, 87, 0.25)', border: '1px solid rgba(216, 193, 154, 0.45)', padding: '3px 9px', borderRadius: 4, color: '#d8c19a', fontSize: 11, fontWeight: 800, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 10 }}>
-                  <span>01</span>
-                  <span>•</span>
-                  <span>Strategic Alliance</span>
-                </div>
                 <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
                   Network Profile
                 </h3>
@@ -398,11 +425,6 @@ export default async function HomePage() {
               style={{ backgroundImage: "url('/images/services.png')" }}
             >
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(176, 141, 87, 0.25)', border: '1px solid rgba(216, 193, 154, 0.45)', padding: '3px 9px', borderRadius: 4, color: '#d8c19a', fontSize: 11, fontWeight: 800, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 10 }}>
-                  <span>02</span>
-                  <span>•</span>
-                  <span>Integrated Practice</span>
-                </div>
                 <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
                   Practice Areas
                 </h3>
@@ -423,11 +445,6 @@ export default async function HomePage() {
               style={{ backgroundImage: "url('/images/Why.png')" }}
             >
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(176, 141, 87, 0.25)', border: '1px solid rgba(216, 193, 154, 0.45)', padding: '3px 9px', borderRadius: 4, color: '#d8c19a', fontSize: 11, fontWeight: 800, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 10 }}>
-                  <span>03</span>
-                  <span>•</span>
-                  <span>Core Advantages</span>
-                </div>
                 <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
                   The Eyrie Advantage
                 </h3>
@@ -448,11 +465,6 @@ export default async function HomePage() {
               style={{ backgroundImage: "url('/images/industries.png')" }}
             >
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(176, 141, 87, 0.25)', border: '1px solid rgba(216, 193, 154, 0.45)', padding: '3px 9px', borderRadius: 4, color: '#d8c19a', fontSize: 11, fontWeight: 800, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 10 }}>
-                  <span>04</span>
-                  <span>•</span>
-                  <span>17+ Sectors</span>
-                </div>
                 <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
                   17 Sectors We Serve
                 </h3>
@@ -546,7 +558,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 4. What We Do — Integrated Services Grid */}
+      {/* 4. What We Do — Integrated Services Grid with Card Thumbnail Design */}
       <section style={{ padding: '48px 0', background: '#ffffff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: 840, margin: '0 auto 28px' }}>
@@ -561,79 +573,42 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="services-grid-4col">
+          <div className="services-thumbnail-grid">
             {displayServices.map((srv) => (
               <a
                 key={srv.title}
                 href={srv.href}
-                className="pillar-hover-card"
-                style={{
-                  backgroundImage: `url('${srv.bgImage}')`,
-                  minHeight: 220,
-                  padding: '22px 20px',
-                  borderRadius: 12,
-                }}
+                className="service-thumb-card"
               >
-                <div>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', marginBottom: 12 }}>
-                    <div
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.18)',
-                        backdropFilter: 'blur(8px)',
-                        padding: '7px 9px',
-                        borderRadius: 8,
-                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <CorporateIcon name={srv.iconName} size={18} color="#ffffff" />
-                    </div>
+                <div className="service-thumb-card__image-box">
+                  <img
+                    src={srv.bgImage}
+                    alt={srv.title}
+                    className="service-thumb-card__image"
+                  />
+                  <div className="service-thumb-card__icon-badge">
+                    <CorporateIcon name={srv.iconName} size={18} color="#ffffff" />
                   </div>
-                  <h3
-                    style={{
-                      fontSize: 18,
-                      color: '#ffffff',
-                      margin: '0 0 6px',
-                      fontWeight: 800,
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.65)',
-                    }}
-                  >
-                    {srv.title}
-                  </h3>
-                  <p
-                    style={{
-                      color: 'rgba(255, 255, 255, 0.92)',
-                      fontSize: 13,
-                      lineHeight: 1.45,
-                      margin: 0,
-                      textShadow: '0 1px 5px rgba(0, 0, 0, 0.6)',
-                    }}
-                  >
-                    {srv.desc}
-                  </p>
                 </div>
-                <div
-                  style={{
-                    marginTop: 14,
-                    color: '#d8c19a',
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 5,
-                    textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
-                  }}
-                >
-                  <span>Explore Practice Area</span>
-                  <span>→</span>
+                <div className="service-thumb-card__body">
+                  <div>
+                    <h3 className="service-thumb-card__title">
+                      {srv.title}
+                    </h3>
+                    <p className="service-thumb-card__desc">
+                      {srv.desc}
+                    </p>
+                  </div>
+                  <div className="service-thumb-card__link">
+                    <span>Explore Practice Area</span>
+                    <span className="service-thumb-card__arrow">→</span>
+                  </div>
                 </div>
               </a>
             ))}
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: 28 }}>
+          <div style={{ textAlign: 'center', marginTop: 32 }}>
             <a href="/services" className="hero-btn hero-btn--gold" style={{ padding: '11px 28px', fontSize: 14.5 }}>
               View Complete Service Catalog
             </a>

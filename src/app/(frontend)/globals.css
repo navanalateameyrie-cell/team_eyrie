@@ -92,8 +92,12 @@ h3 {
   font-weight: 600;
 }
 
-img {
+img,
+svg {
   max-width: 100%;
+}
+
+img {
   height: auto;
 }
 
@@ -431,11 +435,15 @@ a.card:hover {
 }
 
 .top-bar__icon {
-  width: 15px;
-  height: 15px;
-  color: #e66a2b;
-  stroke: #e66a2b;
-  flex-shrink: 0;
+  width: 15px !important;
+  height: 15px !important;
+  max-width: 15px !important;
+  max-height: 15px !important;
+  color: #e66a2b !important;
+  stroke: #e66a2b !important;
+  flex-shrink: 0 !important;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .top-bar__nav {
@@ -807,6 +815,8 @@ a.card:hover {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  margin-top: 130px;
+  margin-bottom: 30px;
 }
 
 .hero-section__left-col {
@@ -1058,6 +1068,11 @@ a.card:hover {
     align-items: flex-start;
   }
 
+  .hero-section__main-row {
+    margin-top: 36px;
+    margin-bottom: 20px;
+  }
+
   .hero-vertical-indicators {
     flex-direction: row;
     margin-right: 0;
@@ -1069,118 +1084,269 @@ a.card:hover {
     width: 32px;
     height: 5px;
   }
-
 }
 
-/* ---- Integrated Hero Alliance Ribbon / Clean Typography Strip at bottom of Hero ---- */
-.hero-alliance-bar {
-  position: relative;
-  z-index: 6;
-  width: 100%;
-  margin-top: 0;
-  padding-top: 12px;
-  padding-bottom: 2px;
-  border-top: 1px solid rgba(216, 193, 154, 0.35);
-  flex-shrink: 0;
+/* ---- Strategic Alliance Network Section (Decoupled below hero image) ---- */
+.alliance-firms-section {
+  background: #f8fafc;
+  border-top: 3px solid #b08d57;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 30px 0;
+  color: #1f3864;
 }
 
-.hero-alliance-bar__inner {
+.alliance-firms-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
+  gap: 36px;
 }
 
-.hero-alliance-bar__header {
+.alliance-firms-header {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 320px;
-  max-width: 360px;
+  min-width: 300px;
+  max-width: 340px;
   flex-shrink: 0;
-  border-right: 1.5px solid rgba(216, 193, 154, 0.35);
+  border-right: 1.5px solid #cbd5e1;
   padding-right: 32px;
 }
 
-.hero-alliance-bar__tag {
+.alliance-firms-tag {
   font-size: 11.5px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #d8c19a;
+  color: #b08d57;
 }
 
-.hero-alliance-bar__title {
-  font-size: 16px;
+.alliance-firms-title {
+  font-size: 16.5px;
   font-weight: 800;
-  color: #ffffff;
+  color: #1f3864;
   line-height: 1.35;
-  letter-spacing: 0.2px;
+  margin: 0;
 }
 
-.hero-alliance-bar__text-list {
+.alliance-firms-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 18px;
   flex: 1;
 }
 
-.hero-alliance-text-item {
+.alliance-firm-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 3px solid #b08d57;
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0 3px 12px rgba(31, 56, 100, 0.04);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.4, 1);
 }
 
-.hero-alliance-text-item__name {
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: 0.3px;
+.alliance-firm-card:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  border-top-color: #967341;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(31, 56, 100, 0.1);
+}
+
+.alliance-firm-card__header {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
 }
 
-.hero-alliance-text-item__bullet {
+.alliance-firm-card__bullet {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #e5b358;
-  box-shadow: 0 0 10px #e5b358;
+  background: #b08d57;
+  box-shadow: 0 0 6px rgba(176, 141, 87, 0.45);
   flex-shrink: 0;
 }
 
-.hero-alliance-text-item__role {
-  color: #cbd5e1;
-  font-size: 13.5px;
-  font-weight: 500;
-  line-height: 1.45;
-  padding-left: 17px;
+.alliance-firm-card__name {
+  color: #1f3864;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.hero-alliance-text-item__dot {
-  color: #d8c19a;
-  margin: 0 5px;
-  font-weight: 700;
+.alliance-firm-card__meta {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding-left: 16px;
+}
+
+.alliance-firm-card__dot {
+  color: #b08d57;
+  font-weight: 800;
+}
+
+.alliance-firm-card__desc {
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.45;
+  margin: 4px 0 0;
+  padding-left: 16px;
 }
 
 @media (max-width: 1100px) {
-  .hero-alliance-bar__inner {
+  .alliance-firms-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 18px;
+    gap: 20px;
   }
-  .hero-alliance-bar__header {
+  .alliance-firms-header {
     border-right: none;
     padding-right: 0;
     max-width: 100%;
   }
-  .hero-alliance-bar__text-list {
+  .alliance-firms-grid {
     width: 100%;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
+}
+
+/* ---- Services Thumbnail Grid Cards ---- */
+.services-thumbnail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1100px) {
+  .services-thumbnail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .services-thumbnail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service-thumb-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.4, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.service-thumb-card:hover {
+  transform: translateY(-5px);
+  border-color: #cbd5e1;
+  box-shadow: 0 16px 36px rgba(31, 56, 100, 0.12);
+  text-decoration: none;
+}
+
+.service-thumb-card__image-box {
+  position: relative;
+  width: 100%;
+  height: 165px;
+  overflow: hidden;
+  background: #0f1c33;
+}
+
+.service-thumb-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+.service-thumb-card:hover .service-thumb-card__image {
+  transform: scale(1.08);
+}
+
+.service-thumb-card__icon-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(15, 28, 51, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(216, 193, 154, 0.6);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.service-thumb-card__body {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.service-thumb-card__title {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: #1f3864;
+  margin: 0 0 8px;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+.service-thumb-card:hover .service-thumb-card__title {
+  color: #b08d57;
+}
+
+.service-thumb-card__desc {
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0 0 16px;
+  flex: 1;
+}
+
+.service-thumb-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #b08d57;
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.service-thumb-card:hover .service-thumb-card__link {
+  color: #967341;
+  gap: 10px;
+}
+
+.service-thumb-card__arrow {
+  transition: transform 0.2s ease;
+}
+
+.service-thumb-card:hover .service-thumb-card__arrow {
+  transform: translateX(3px);
 }
 
 /* Pillar Hover Card with clearly visible background photos & high contrast readability */

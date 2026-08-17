@@ -106,7 +106,7 @@ export default buildConfig({
         },
       })
     : undefined,
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.PAYLOAD_SECRET || 'team-eyrie-payload-secret-key-prod-2026-safe',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
