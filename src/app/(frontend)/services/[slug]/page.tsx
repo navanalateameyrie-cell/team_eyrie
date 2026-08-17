@@ -57,8 +57,8 @@ export default async function ServiceDetail({
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services' }, { label: service.title }]}
         bgImage="/images/services.png"
       />
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 340px', gap: 48 }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
+        <div className="container layout-sidebar-right--narrow">
           <div>
             {service.body ? (
               <div style={{ fontSize: 16.5, lineHeight: 1.75, color: '#334155' }}>

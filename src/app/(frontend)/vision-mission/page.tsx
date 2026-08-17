@@ -22,7 +22,7 @@ export default function VisionMissionPage() {
         bgImage="/images/about.png"
       />
 
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
         <div className="container">
           <SectionHeader
             eyebrow="Foundational Purpose"
@@ -48,6 +48,7 @@ export default function VisionMissionPage() {
 
           {/* Guiding Core Values */}
           <div
+            className="box-mobile-compact"
             style={{
               background: 'linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)',
               borderRadius: 18,

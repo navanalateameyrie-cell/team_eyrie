@@ -42,7 +42,7 @@ export default async function InsightDetail({ params }: { params: Promise<{ slug
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Insights', href: '/insights' }, { label: post.title }]}
         bgImage="/hero/hero-2.png"
       />
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
         <div className="container" style={{ maxWidth: 860 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
             {post.publishedDate && (

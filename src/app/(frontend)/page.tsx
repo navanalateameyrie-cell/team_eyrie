@@ -521,9 +521,9 @@ export default async function HomePage() {
       </section>
 
       {/* 3. Executive About & Multidisciplinary Capability */}
-      <section style={{ padding: '48px 0', background: '#f8fafc' }}>
+      <section className="section-mobile-compact" style={{ padding: '48px 0', background: '#f8fafc' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 36, alignItems: 'center' }}>
+          <div className="layout-split-weighted">
             <div>
               <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
                 About Team Eyrie

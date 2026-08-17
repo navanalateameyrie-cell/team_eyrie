@@ -67,7 +67,7 @@ export default async function PeoplePage() {
         bgImage="/hero/hero-3.png"
       />
 
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
         <div className="container">
           <SectionHeader
             eyebrow="Partner Leadership"

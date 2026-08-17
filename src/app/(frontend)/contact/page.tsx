@@ -32,7 +32,7 @@ export default async function ContactPage() {
       />
 
       <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 32 }}>
+        <div className="container layout-contact-grid">
           <div>
             <div style={{ marginBottom: 20 }}>
               <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>

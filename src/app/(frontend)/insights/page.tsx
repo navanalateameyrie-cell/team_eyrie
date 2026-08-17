@@ -39,7 +39,7 @@ export default async function InsightsPage() {
         bgImage="/hero/hero-2.png"
       />
 
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
         <div className="container">
           <SectionHeader
             eyebrow="Publications"

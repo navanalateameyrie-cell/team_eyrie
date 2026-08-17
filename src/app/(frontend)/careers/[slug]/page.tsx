@@ -56,8 +56,8 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Careers', href: '/careers' }, { label: job.title }]}
         bgImage="/hero/hero-1.png"
       />
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 380px', gap: 48 }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
+        <div className="container layout-sidebar-right">
           <div>
             <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
               <span style={{ fontSize: 13, fontWeight: 700, background: 'rgba(176, 141, 87, 0.12)', color: '#b08d57', padding: '5px 12px', borderRadius: 6 }}>

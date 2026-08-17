@@ -44,8 +44,8 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Our People', href: '/people' }, { label: p.name }]}
         bgImage="/hero/hero-3.png"
       />
-      <section className="section" style={{ padding: '80px 0', background: '#ffffff' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '320px minmax(0,1fr)', gap: 48 }}>
+      <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
+        <div className="container layout-sidebar-left">
           <aside>
             {photoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
