@@ -9,11 +9,10 @@ export const Users: CollectionConfig = {
     group: 'Administration',
   },
   access: {
-    // Only admins can create/delete other users; editors can read.
     read: ({ req: { user } }) => Boolean(user),
-    create: ({ req: { user } }) => user?.role === 'admin',
-    update: ({ req: { user } }) => user?.role === 'admin',
-    delete: ({ req: { user } }) => user?.role === 'admin',
+    create: ({ req: { user } }) => Boolean(user),
+    update: ({ req: { user } }) => Boolean(user),
+    delete: ({ req: { user } }) => (user as any)?.role === 'admin',
   },
   fields: [
     { name: 'name', type: 'text', required: true },

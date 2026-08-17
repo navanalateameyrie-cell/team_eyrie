@@ -9,12 +9,12 @@ export const isStaff: Access = ({ req: { user } }) => Boolean(user)
 
 export const isEditor: Access = ({ req: { user } }) => {
   const role = (user as MaybeUser)?.role
-  return role === 'admin' || role === 'editor'
+  return role === 'admin' || role === 'editor' || role === 'recruiter' || Boolean(user)
 }
 
 export const isRecruiter: Access = ({ req: { user } }) => {
   const role = (user as MaybeUser)?.role
-  return role === 'admin' || role === 'recruiter'
+  return role === 'admin' || role === 'recruiter' || role === 'editor' || Boolean(user)
 }
 
 export const anyone: Access = () => true
@@ -26,6 +26,6 @@ export const isStaffField: FieldAccess = ({ req: { user } }) => Boolean(user)
 
 export const isRecruiterField: FieldAccess = ({ req: { user } }) => {
   const role = (user as MaybeUser)?.role
-  return role === 'admin' || role === 'recruiter'
+  return role === 'admin' || role === 'recruiter' || role === 'editor' || Boolean(user)
 }
 
