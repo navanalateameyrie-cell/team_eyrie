@@ -1,1 +1,327 @@
 @import "~@payloadcms/ui/scss";
+
+@layer payload-default {
+  /* Force Light Theme Colors Globally (Overriding both light and dark mode variables) */
+  :root, html, body, [data-theme="dark"], [data-theme="light"] {
+    --theme-bg: #f5f7fa !important;
+    --theme-elevation-0: #ffffff !important;
+    --theme-elevation-50: #ffffff !important;
+    --theme-elevation-100: #f8fafc !important;
+    --theme-elevation-150: #f1f5f9 !important;
+    --theme-elevation-200: #e2e8f0 !important;
+    --theme-elevation-250: #cbd5e1 !important;
+    --theme-elevation-300: #94a3b8 !important;
+    --theme-elevation-400: #64748b !important;
+    --theme-elevation-500: #475569 !important;
+    --theme-elevation-600: #334155 !important;
+    --theme-elevation-700: #1e293b !important;
+    --theme-elevation-800: #0f172a !important;
+    
+    --theme-text: #1f2937 !important;
+    --theme-error-400: #ef4444 !important;
+    --theme-success-400: #10b981 !important;
+
+    /* Custom Variables */
+    --te-navy: #0b1324;
+    --te-navy-light: #16294a;
+    --te-gold: #b08d57;
+    --te-gold-light: #d8c19a;
+    --te-blue: #1f3864;
+    
+    color: var(--theme-text) !important;
+    background-color: var(--theme-bg) !important;
+  }
+
+  /* --- SIDEBAR (NAV) --- */
+  .nav {
+    background-color: var(--te-navy) !important;
+    border-right: none !important;
+  }
+  
+  /* Prevent dark theme overrides on the nav text */
+  .nav * {
+    color: #e2e8f0;
+  }
+
+  /* Nav groups styling (ADMINISTRATION, CONTENT etc) */
+  .nav-group__title {
+    color: var(--te-gold) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    margin-top: 15px !important;
+    margin-bottom: 5px !important;
+    opacity: 1 !important;
+  }
+
+  /* Nav Links */
+  .nav__link {
+    color: #cbd5e1 !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    margin-bottom: 2px !important;
+    padding: 8px 12px !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .nav__link:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+  }
+
+  .nav__link--active, .nav__link.active {
+    background-color: #ffffff !important;
+    color: var(--te-navy) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .nav__link--active *, .nav__link.active * {
+    color: var(--te-navy) !important;
+  }
+  
+  .nav__link--active .nav__link-indicator {
+    display: none !important;
+  }
+  
+  .nav__wrap {
+    padding: 24px 16px !important;
+  }
+
+  .nav__header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding-bottom: 24px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* --- BUTTONS --- */
+  .btn--style-primary {
+    background-color: var(--te-blue) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    border: none !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .btn--style-primary:hover {
+    background-color: var(--te-navy-light) !important;
+    box-shadow: 0 4px 12px rgba(31, 56, 100, 0.25) !important;
+    transform: translateY(-1px) !important;
+  }
+  
+  .btn--style-secondary {
+    background-color: #f1f5f9 !important;
+    color: var(--te-navy) !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+
+  /* --- MAIN CONTENT AREA & TABLES --- */
+  .template-default__wrap, .payload-default {
+    background-color: var(--theme-bg) !important;
+  }
+  
+  .app-header {
+    background-color: var(--theme-elevation-0) !important;
+    border-bottom: 1px solid var(--theme-elevation-200) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+    color: var(--theme-text) !important;
+  }
+
+  /* Cards (Views, Forms) */
+  .collection-edit, .collection-list, .dashboard__wrap, .card {
+    background-color: var(--theme-elevation-0) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid var(--theme-elevation-200) !important;
+    padding: 24px !important;
+  }
+  
+  /* Tables & Lists */
+  .table {
+    background-color: var(--theme-elevation-0) !important;
+  }
+  
+  .table thead tr {
+    background-color: var(--theme-elevation-100) !important;
+    border-bottom: 2px solid var(--theme-elevation-200) !important;
+  }
+  
+  .table th {
+    color: var(--theme-elevation-600) !important;
+    font-weight: 600 !important;
+  }
+  
+  .table tbody tr {
+    border-bottom: 1px solid var(--theme-elevation-150) !important;
+    background-color: var(--theme-elevation-0) !important;
+    transition: background-color 0.15s ease !important;
+  }
+  
+  .table tbody tr:hover {
+    background-color: var(--theme-elevation-100) !important;
+  }
+  
+  .table td {
+    color: var(--theme-text) !important;
+  }
+
+  /* --- LOGIN PAGE STYLING --- */
+  /* Target the body or main template when login is active */
+  body:has(.payload-login), 
+  .template-default:has(.payload-login),
+  .template-default:has(.login) {
+    background-image: linear-gradient(rgba(11, 19, 36, 0.88), rgba(11, 19, 36, 0.95)), url('/images/hero-home.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-color: var(--te-navy) !important;
+    min-height: 100vh !important;
+  }
+  
+  /* Next.js 14 doesn't fully support :has everywhere, let's also target the wrapper directly */
+  .payload-login {
+    background-image: linear-gradient(rgba(11, 19, 36, 0.88), rgba(11, 19, 36, 0.95)), url('/images/hero-home.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+  }
+
+  /* Login Form Container */
+  .payload-login .login__wrap,
+  .payload-login form,
+  .template-default:has(.login) .login__wrap,
+  .login-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 40px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+    border-top: 4px solid var(--te-gold) !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Login Logo area */
+  .payload-login .nav__brand, .login-card .nav__brand {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .payload-login .nav__brand::after, .login-card .nav__brand::after {
+    content: "TEAM EYRIE";
+    display: block;
+    color: var(--te-navy);
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    margin-top: 16px;
+  }
+
+  /* Login Inputs */
+  .payload-login .field-type input {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    transition: all 0.2s ease !important;
+    color: #1e293b !important;
+  }
+
+  .payload-login .field-type input:focus {
+    border-color: var(--te-blue) !important;
+    box-shadow: 0 0 0 3px rgba(31, 56, 100, 0.1) !important;
+    background: #ffffff !important;
+  }
+  
+  /* Input Labels */
+  .field-type label {
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--te-navy) !important;
+    margin-bottom: 6px !important;
+  }
+  
+  /* Login submit button */
+  .payload-login button[type="submit"] {
+    width: 100% !important;
+    padding: 14px !important;
+    background-color: var(--te-navy) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    font-size: 14px !important;
+    margin-top: 10px !important;
+  }
+  
+  .payload-login button[type="submit"]:hover {
+    background-color: var(--te-blue) !important;
+  }
+
+  /* --- HEADER PROFILE AVATAR --- */
+  .app-header .avatar {
+    width: 36px !important;
+    height: 36px !important;
+    background-color: var(--te-navy) !important;
+    border: 2px solid var(--te-gold) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(176, 141, 87, 0.3) !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .app-header .avatar:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.4) !important;
+  }
+
+  /* Target the SVG inside the avatar */
+  .app-header .avatar svg {
+    fill: #ffffff !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  /* Target any image inside the avatar if one is uploaded */
+  .app-header .avatar img {
+    border-radius: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  /* --- HEADER LOGO FIX --- */
+  /* Force Payload's native narrow header breadcrumb container to expand */
+  .app-header .step-nav a,
+  .app-header .step-nav__link,
+  .app-header .step-nav__brand,
+  .app-header .icon,
+  .step-nav a:first-child,
+  .app-header picture {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 150px !important;
+    overflow: visible !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .step-nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+}
