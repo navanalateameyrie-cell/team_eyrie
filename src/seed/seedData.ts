@@ -333,7 +333,7 @@ export async function runSeed(payload: Payload) {
     if (existing.totalDocs === 0) {
       const locationIds = j.locations
         .map((city) => officeMap.get(city))
-        .filter(Boolean) as (number | string)[]
+        .filter(Boolean) as number[]
 
       await payload.create({
         collection: 'jobs',
