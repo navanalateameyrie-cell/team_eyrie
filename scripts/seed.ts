@@ -6,6 +6,7 @@ const run = async () => {
   const payload = await getPayload({ config })
   const log = await runSeed(payload)
   log.forEach((item) => payload.logger.info(item))
+
   payload.logger.info('Seed complete.')
   process.exit(0)
 }

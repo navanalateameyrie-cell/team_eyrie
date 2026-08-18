@@ -377,13 +377,13 @@ export default function ServicesPage() {
                   {/* Card Action Link */}
                   <div style={{ marginTop: 18, paddingTop: 13, borderTop: `1px dashed ${theme.borderColor}`, display: 'flex', justifyContent: 'flex-end' }}>
                     <a
-                      href={`/contact?service=${encodeURIComponent(cat.title)}`}
+                      href={`/services/${cat.id}`}
                       className="service-practice-link"
                       style={{
                         color: theme.linkColor,
                       }}
                     >
-                      <span>Engage {cat.title} Practice</span>
+                      <span>Explore {cat.title} Practice</span>
                       <span className="service-practice-arrow">→</span>
                     </a>
                   </div>

@@ -253,6 +253,18 @@ export async function runSeed(payload: Payload) {
     data: {
       organizationName: 'Team Eyrie',
       tagline: 'Together, We Create Value. Together, We Build Trust.',
+      contact: {
+        email: 'contact@teameyrie.in',
+        phone: '+91 86182 59712',
+        whatsapp: '+91 86182 59712',
+      },
+      social: {
+        linkedin: 'https://linkedin.com/company/team-eyrie',
+        twitter: 'https://twitter.com/teameyrie',
+        facebook: 'https://facebook.com/teameyrie',
+      },
+      enquiryEmail: 'contact@teameyrie.in',
+      recruitmentEmail: 'careers@teameyrie.in',
     },
   })
   log.push('Updated site settings')
