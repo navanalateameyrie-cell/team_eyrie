@@ -144,141 +144,30 @@ const serviceThemePresets: Record<
   },
 }
 
-const serviceCategories: Array<{
-  id: string
-  title: string
-  subtitle: string
-  iconName: string
-  theme: ServiceThemeColor
-  items: string[]
-}> = [
-  {
-    id: 'assurance-audit',
-    title: 'Assurance & Audit',
-    subtitle: 'Independent evaluation, financial transparency, and governance frameworks.',
-    iconName: 'assurance',
-    theme: 'navy',
-    items: [
-      'Statutory Audit',
-      'Internal Audit',
-      'Bank Audit',
-      'Concurrent Audit',
-      'Tax Audit',
-      'Due Diligence',
-      'Risk Advisory',
-      'Internal Financial Controls (IFC)',
-      'Forensic Reviews',
-    ],
-  },
-  {
-    id: 'tax-advisory',
-    title: 'Tax Advisory',
-    subtitle: 'Strategic direct tax planning, dispute resolution, and cross-border structuring.',
-    iconName: 'tax',
-    theme: 'gold',
-    items: [
-      'Direct Tax Advisory',
-      'Income Tax Litigation',
-      'International Taxation',
-      'Transfer Pricing',
-      'Expatriate Taxation',
-      'Tax Structuring',
-      'FEMA Advisory',
-    ],
-  },
-  {
-    id: 'gst-indirect-taxes',
-    title: 'GST & Indirect Taxes',
-    subtitle: 'Complete indirect tax compliance, litigation support, and trade advisory.',
-    iconName: 'gst',
-    theme: 'teal',
-    items: [
-      'GST Advisory Services',
-      'GST Compliance & Filing',
-      'GST Litigation & Representation',
-      'Customs & Tariff Advisory',
-      'Foreign Trade Policy Advisory',
-    ],
-  },
-  {
-    id: 'corporate-regulatory',
-    title: 'Corporate & Regulatory Advisory',
-    subtitle: 'End-to-end secretarial, SEBI, RBI, and corporate governance compliance.',
-    iconName: 'corporate',
-    theme: 'indigo',
-    items: [
-      'Company Law Advisory',
-      'LLP Advisory & Formation',
-      'Secretarial Compliance',
-      'Corporate Governance Frameworks',
-      'RBI & FEMA Compliance',
-      'SEBI Advisory',
-      'ROC Compliance & Filings',
-    ],
-  },
-  {
-    id: 'business-consulting',
-    title: 'Business Consulting',
-    subtitle: 'Financial strategy, virtual CFO services, and business performance improvement.',
-    iconName: 'consulting',
-    theme: 'sky',
-    items: [
-      'Business Structuring',
-      'Financial Modelling & Projection',
-      'Business Process Improvement',
-      'Virtual CFO Services',
-      'Performance Management',
-      'Strategic Planning & Advisory',
-    ],
-  },
-  {
-    id: 'transaction-advisory',
-    title: 'Transaction Advisory',
-    subtitle: 'Strategic support for capital raising, M&A, startup growth, and valuation.',
-    iconName: 'transaction',
-    theme: 'emerald',
-    items: [
-      'Start-up Advisory',
-      'Venture Capital Advisory',
-      'Private Equity Advisory',
-      'Investor Due Diligence',
-      'Fund Raising Assistance',
-      'Mergers & Acquisitions (M&A)',
-      'Corporate Restructuring',
-    ],
-  },
-  {
-    id: 'family-business',
-    title: 'Family Business Advisory',
-    subtitle: 'Preserving wealth, establishing family governance, and succession planning.',
-    iconName: 'family',
-    theme: 'bronze',
-    items: [
-      'Family Constitution Formulation',
-      'Family Settlement Advisory',
-      'Succession Planning',
-      'Estate Planning & Trusts',
-      'Governance Framework',
-      'Wealth Preservation Strategy',
-    ],
-  },
-  {
-    id: 'global-business',
-    title: 'Global Business Services',
-    subtitle: 'Navigating international tax, cross-border investments, and global expansion.',
-    iconName: 'global',
-    theme: 'azure',
-    items: [
-      'Cross-Border Transactions',
-      'International Business Structuring',
-      'Overseas Investment Advisory',
-      'NRI Taxation & Compliance',
-      'Global Expansion Support',
-    ],
-  },
-]
+const serviceConfigMap: Record<string, { theme: ServiceThemeColor; iconName: string }> = {
+  'assurance-audit': { theme: 'navy', iconName: 'assurance' },
+  'tax-advisory': { theme: 'gold', iconName: 'tax' },
+  'gst-indirect-taxes': { theme: 'teal', iconName: 'gst' },
+  'corporate-regulatory-advisory': { theme: 'indigo', iconName: 'corporate' },
+  'business-consulting': { theme: 'sky', iconName: 'consulting' },
+  'transaction-advisory': { theme: 'emerald', iconName: 'transaction' },
+  'family-business-advisory': { theme: 'bronze', iconName: 'family' },
+  'global-business-services': { theme: 'azure', iconName: 'global' },
+}
 
-export default function ServicesPage() {
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
+export default async function ServicesPage() {
+  const payload = await getPayload({ config })
+  const { docs: services } = await payload.find({
+    collection: 'services',
+    limit: 100,
+    sort: 'order',
+  })
+
+  const fallbackConfig = { theme: 'navy' as ServiceThemeColor, iconName: 'corporate' }
+
   return (
     <main>
       <PageHero
@@ -297,14 +186,14 @@ export default function ServicesPage() {
             subtitle="Team Eyrie combines deep technical expertise with industry specialization across eight core practice areas, providing seamless support for corporate, institutional, and high-net-worth clients."
           />
 
-          {/* 8 Core Practice Areas Grid (2-Column Balanced Grid) */}
           <div className="services-catalog-grid">
-            {serviceCategories.map((cat) => {
-              const theme = serviceThemePresets[cat.theme]
+            {services.map((service: any) => {
+              const catConfig = serviceConfigMap[service.slug] || fallbackConfig
+              const theme = serviceThemePresets[catConfig.theme]
               return (
                 <div
-                  key={cat.id}
-                  id={cat.id}
+                  key={service.slug}
+                  id={service.slug}
                   className="service-practice-card"
                   style={
                     {
@@ -336,14 +225,14 @@ export default function ServicesPage() {
                           boxShadow: theme.iconShadow,
                         }}
                       >
-                        <CorporateIcon name={cat.iconName} size={24} color="#ffffff" strokeWidth={2.4} />
+                        <CorporateIcon name={catConfig.iconName} size={24} color="#ffffff" strokeWidth={2.4} />
                       </div>
                       <div style={{ flex: 1 }}>
                         <h3 style={{ fontSize: 19, color: '#1f3864', margin: '0 0 3px', fontWeight: 800, letterSpacing: '-0.01em' }}>
-                          {cat.title}
+                          {service.title}
                         </h3>
                         <p style={{ color: '#526071', fontSize: 13.5, margin: 0, lineHeight: 1.5 }}>
-                          {cat.subtitle}
+                          {service.summary}
                         </p>
                       </div>
                     </div>
@@ -358,9 +247,9 @@ export default function ServicesPage() {
                         gap: 8,
                       }}
                     >
-                      {cat.items.map((item) => (
+                      {service.subServices?.map((item: any) => (
                         <div
-                          key={item}
+                          key={item.name || item.id}
                           className="service-practice-tag"
                           style={{
                             background: theme.tagBg,
@@ -368,7 +257,7 @@ export default function ServicesPage() {
                           }}
                         >
                           <CorporateIcon name="check" size={13} color={theme.checkColor} strokeWidth={2.8} />
-                          <span style={{ whiteSpace: 'normal', lineHeight: 1.3 }}>{item}</span>
+                          <span style={{ whiteSpace: 'normal', lineHeight: 1.3 }}>{item.name}</span>
                         </div>
                       ))}
                     </div>
@@ -377,13 +266,13 @@ export default function ServicesPage() {
                   {/* Card Action Link */}
                   <div style={{ marginTop: 18, paddingTop: 13, borderTop: `1px dashed ${theme.borderColor}`, display: 'flex', justifyContent: 'flex-end' }}>
                     <a
-                      href={`/services/${cat.id}`}
+                      href={`/services/${service.slug}`}
                       className="service-practice-link"
                       style={{
                         color: theme.linkColor,
                       }}
                     >
-                      <span>Explore {cat.title} Practice</span>
+                      <span>Explore {service.title} Practice</span>
                       <span className="service-practice-arrow">→</span>
                     </a>
                   </div>
@@ -392,7 +281,6 @@ export default function ServicesPage() {
             })}
           </div>
 
-          {/* Reusable CtaBanner */}
           <CtaBanner
             eyebrow="Specialized Practice Solutions"
             title="Need Specialized Advisory or Audit Services?"
