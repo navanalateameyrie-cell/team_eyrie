@@ -170,104 +170,131 @@
   }
 
   /* --- LOGIN PAGE STYLING --- */
-  /* Target the body or main template when login is active */
-  body:has(.payload-login), 
-  .template-default:has(.payload-login),
-  .template-default:has(.login) {
+  /* Aggressive global targeting for any page without the sidebar (e.g. Login, Reset Password) */
+  html:not(:has(.nav)) body,
+  html:not(:has(.nav)) .template-default,
+  html:not(:has(.nav)) .payload-default,
+  body:not(:has(.nav)) {
     background-image: linear-gradient(rgba(11, 19, 36, 0.88), rgba(11, 19, 36, 0.95)), url('/images/hero-home.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
     background-color: var(--te-navy) !important;
+    background-attachment: fixed !important;
     min-height: 100vh !important;
   }
-  
-  /* Next.js 14 doesn't fully support :has everywhere, let's also target the wrapper directly */
-  .payload-login {
-    background-image: linear-gradient(rgba(11, 19, 36, 0.88), rgba(11, 19, 36, 0.95)), url('/images/hero-home.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    min-height: 100vh !important;
+
+  html:not(:has(.nav)) .template-default__wrap,
+  html:not(:has(.nav)) main {
+    background: transparent !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    min-height: 100vh !important;
     padding: 20px !important;
   }
 
-  /* Login Form Container */
-  .payload-login .login__wrap,
-  .payload-login form,
-  .template-default:has(.login) .login__wrap,
-  .login-card {
-    background: #ffffff !important;
+  /* Login Form Container / Glassmorphism Card */
+  html:not(:has(.nav)) main > div:has(form),
+  html:not(:has(.nav)) .template-default__wrap > div:has(form),
+  .step-login {
+    background: rgba(11, 19, 36, 0.75) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
     border-radius: 16px !important;
-    padding: 40px !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+    padding: 44px 40px !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-top: 4px solid var(--te-gold) !important;
     width: 100% !important;
     max-width: 440px !important;
     margin: 0 auto !important;
   }
-
-  /* Login Logo area */
-  .payload-login .nav__brand, .login-card .nav__brand {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    margin-bottom: 30px !important;
+  
+  /* Text and links inside the login card */
+  html:not(:has(.nav)) h1, 
+  html:not(:has(.nav)) h2, 
+  html:not(:has(.nav)) p, 
+  html:not(:has(.nav)) .form-note,
+  html:not(:has(.nav)) label {
+    color: #ffffff !important;
   }
   
-  .payload-login .nav__brand::after, .login-card .nav__brand::after {
-    content: "TEAM EYRIE";
-    display: block;
-    color: var(--te-navy);
-    font-weight: 900;
-    font-size: 20px;
-    letter-spacing: 1.5px;
-    margin-top: 16px;
+  html:not(:has(.nav)) a {
+    color: var(--te-gold) !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  html:not(:has(.nav)) a:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+  }
+
+  /* Make logo inside login responsive and white (if it has text, invert filter helps) */
+  html:not(:has(.nav)) img {
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 60px !important;
+    margin: 0 auto 30px !important;
+    display: block !important;
+    /* Optional: filter: brightness(0) invert(1); to make a dark logo white */
   }
 
   /* Login Inputs */
-  .payload-login .field-type input {
-    background: #f8fafc !important;
-    border: 1px solid #cbd5e1 !important;
+  html:not(:has(.nav)) input:not([type="checkbox"]) {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 8px !important;
-    padding: 12px 16px !important;
-    transition: all 0.2s ease !important;
-    color: #1e293b !important;
+    padding: 14px 16px !important;
+    transition: all 0.25s ease !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    width: 100% !important;
+    margin-bottom: 16px !important;
   }
 
-  .payload-login .field-type input:focus {
-    border-color: var(--te-blue) !important;
-    box-shadow: 0 0 0 3px rgba(31, 56, 100, 0.1) !important;
-    background: #ffffff !important;
+  html:not(:has(.nav)) input:not([type="checkbox"]):focus {
+    border-color: var(--te-gold) !important;
+    box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.2) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    outline: none !important;
   }
   
   /* Input Labels */
-  .field-type label {
-    font-weight: 700 !important;
-    font-size: 11px !important;
+  html:not(:has(.nav)) label {
+    font-weight: 600 !important;
+    font-size: 12px !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    color: var(--te-navy) !important;
-    margin-bottom: 6px !important;
+    letter-spacing: 1px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 8px !important;
+    display: block !important;
   }
   
   /* Login submit button */
-  .payload-login button[type="submit"] {
+  html:not(:has(.nav)) button[type="submit"],
+  html:not(:has(.nav)) .btn {
     width: 100% !important;
-    padding: 14px !important;
-    background-color: var(--te-navy) !important;
-    color: white !important;
+    padding: 16px !important;
+    background: linear-gradient(135deg, #b08d57 0%, #967341 100%) !important;
+    color: #ffffff !important;
     border-radius: 8px !important;
+    border: none !important;
     font-weight: 700 !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 1.5px !important;
     text-transform: uppercase !important;
     font-size: 14px !important;
-    margin-top: 10px !important;
+    margin-top: 16px !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.3) !important;
+    transition: all 0.25s ease !important;
+    cursor: pointer !important;
   }
   
-  .payload-login button[type="submit"]:hover {
-    background-color: var(--te-blue) !important;
+  html:not(:has(.nav)) button[type="submit"]:hover,
+  html:not(:has(.nav)) .btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(176, 141, 87, 0.4) !important;
+    background: linear-gradient(135deg, #be9c66 0%, #a4804d 100%) !important;
   }
 
   /* --- HEADER PROFILE AVATAR --- */
