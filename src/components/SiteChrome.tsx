@@ -100,6 +100,8 @@ export async function SiteFooter() {
             {contact.phone && <a href={`tel:${contact.phone}`}>📞 {contact.phone}</a>}
             {contact.email && <a href={`mailto:${contact.email}`}>✉️ {contact.email}</a>}
             <a href="/contact">Contact Us →</a>
+            <a href="tel:+918618259712" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>📞 8618259712</a>
+            <a href="tel:+919845721255" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>📞 9845721255</a>
             {(social.linkedin || social.twitter || social.facebook) && (
               <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
                 {social.linkedin && <a href={social.linkedin}>LinkedIn</a>}
@@ -111,8 +113,11 @@ export async function SiteFooter() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {year} Team Eyrie. All rights reserved.</span>
-          <span>Knowledge. Integrity. Innovation.</span>
+          <span className="footer-bottom__left">© {year} Team Eyrie. All rights reserved.</span>
+          <span className="footer-bottom__center">Knowledge. Integrity. Innovation.</span>
+          <span className="footer-bottom__right">
+            Designed by <a href="https://www.navanalatech.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline', padding: 0 }}>NavaNala Technologies</a>
+          </span>
         </div>
       </div>
     </footer>

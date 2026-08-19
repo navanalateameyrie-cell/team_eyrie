@@ -171,17 +171,17 @@ export default function CookieConsent() {
       }}
       style={{
         position: 'fixed',
-        left: 18,
-        bottom: 18,
-        width: 48,
-        height: 48,
+        left: 12,
+        bottom: 12,
+        width: 36,
+        height: 36,
         borderRadius: '50%',
         background: BRAND,
         color: '#fff',
         border: 'none',
         cursor: 'pointer',
         boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
-        fontSize: 22,
+        fontSize: 16,
         zIndex: 9998,
       }}
     >
