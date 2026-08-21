@@ -21,10 +21,10 @@ export const RecruitmentOverview: GlobalConfig = {
   },
   fields: [
     {
-      name: 'info',
-      type: 'ui',
+      name: 'dummyField',
+      type: 'text',
       admin: {
-        description: 'This is a custom dashboard view. No data is stored here.',
+        hidden: true,
       },
     },
   ],

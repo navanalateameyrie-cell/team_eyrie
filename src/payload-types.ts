@@ -1249,6 +1249,7 @@ export interface ConsentSetting {
  */
 export interface RecruitmentOverview {
   id: number;
+  dummyField?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1400,6 +1401,7 @@ export interface ConsentSettingsSelect<T extends boolean = true> {
  * via the `definition` "recruitment-overview_select".
  */
 export interface RecruitmentOverviewSelect<T extends boolean = true> {
+  dummyField?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
