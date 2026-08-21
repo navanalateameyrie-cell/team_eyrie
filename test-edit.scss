@@ -1,0 +1,59 @@
+  /* --- MAIN CONTENT AREA & TABLES --- */
+  .template-default__wrap, .payload-default {
+    background: linear-gradient(135deg, #f5f7fa 0%, #eef2f6 100%) !important;
+    min-height: 100vh !important;
+  }
+  
+  .app-header {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(11, 19, 36, 0.05) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+    color: var(--theme-text) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+  }
+
+  /* Headings & Dashboard Layout */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--te-navy) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .dashboard__group-title, .dashboard__group > h2 {
+    font-size: 1.25rem !important;
+    color: var(--te-navy) !important;
+    border-bottom: 2px solid rgba(176, 141, 87, 0.2) !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 24px !important;
+    margin-top: 32px !important;
+    display: inline-block !important;
+    font-weight: 600 !important;
+  }
+
+  /* Cards (Views, Forms) */
+  .collection-edit, .collection-list, .dashboard__wrap, .card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 24px rgba(11, 19, 36, 0.04), 0 1px 2px rgba(11, 19, 36, 0.02) !important;
+    border: 1px solid rgba(11, 19, 36, 0.05) !important;
+    padding: 24px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  /* Specific hover for dashboard cards */
+  a.card:hover, .dashboard__card-list .card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 32px rgba(11, 19, 36, 0.08), 0 4px 8px rgba(11, 19, 36, 0.03) !important;
+    border-color: rgba(176, 141, 87, 0.3) !important;
+  }
+  
+  .card__actions button:hover, .card__actions a:hover {
+    background-color: var(--te-gold-light) !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    transform: scale(1.1) !important;
+  }

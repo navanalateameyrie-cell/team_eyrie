@@ -14,7 +14,7 @@ export const Icon = () => (
       style={{
         maxWidth: '100%',
         height: 'auto',
-        maxHeight: '48px', /* Increased size significantly */
+        maxHeight: '48px',
         objectFit: 'contain',
         objectPosition: 'left center'
       }}

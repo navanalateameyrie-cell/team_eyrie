@@ -113,11 +113,13 @@ export interface Config {
     'site-settings': SiteSetting;
     'home-page': HomePage;
     'consent-settings': ConsentSetting;
+    'recruitment-overview': RecruitmentOverview;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'consent-settings': ConsentSettingsSelect<false> | ConsentSettingsSelect<true>;
+    'recruitment-overview': RecruitmentOverviewSelect<false> | RecruitmentOverviewSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1243,6 +1245,15 @@ export interface ConsentSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recruitment-overview".
+ */
+export interface RecruitmentOverview {
+  id: number;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -1380,6 +1391,15 @@ export interface ConsentSettingsSelect<T extends boolean = true> {
         body?: T;
       };
   privacyNotice?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recruitment-overview_select".
+ */
+export interface RecruitmentOverviewSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

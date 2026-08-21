@@ -23,7 +23,7 @@ import { ConsentLogs } from './collections/ConsentLogs'
 import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
-
+import { RecruitmentOverview } from './globals/RecruitmentOverview'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -70,6 +70,9 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     components: {
+      beforeNavLinks: [
+        '/components/admin/BackButton#BackButton',
+      ],
       graphics: {
         Logo: '/components/admin/Logo#Logo',
         Icon: '/components/admin/Icon#Icon',
@@ -103,7 +106,7 @@ export default buildConfig({
     CaseStudies,
     ConsentLogs,
   ],
-  globals: [SiteSettings, HomePage, ConsentSettings],
+  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview],
   editor: lexicalEditor(),
   // Real email is sent when SMTP_* env vars are present; otherwise Payload falls
   // back to its console transport (emails are logged, not delivered).
