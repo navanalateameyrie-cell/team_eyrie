@@ -251,14 +251,11 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
-  .dashboard__card-list .card,
-  .dashboard__card-list .card h1,
-  .dashboard__card-list .card h2,
-  .dashboard__card-list .card h3,
-  .dashboard__card-list .card h4,
-  .dashboard__card-list .card .card__title,
-  .dashboard__card-list .card * {
-    font-weight: normal !important;
+  .dashboard__group a,
+  .dashboard__group a *,
+  .dashboard__group .card,
+  .dashboard__group .card * {
+    font-weight: 500 !important;
   }
 
   /* Specific hover for dashboard cards */

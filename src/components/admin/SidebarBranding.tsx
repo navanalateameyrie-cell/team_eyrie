@@ -10,6 +10,15 @@ export const SidebarBranding: React.FC = () => {
         const el = h as HTMLElement;
         if (el.textContent?.trim() === '[Untitled]') {
           el.style.display = 'none'
+          
+          // Also hide the parent header container to remove its padding/margin
+          const headerElement = el.closest('.doc-header, .collection-edit__header, header') as HTMLElement;
+          if (headerElement) {
+            headerElement.style.display = 'none';
+          } else if (el.parentElement) {
+            // Fallback: hide the immediate wrapper if it has no other significant siblings
+            el.parentElement.style.display = 'none';
+          }
         }
       })
     }
