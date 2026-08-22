@@ -20,10 +20,12 @@ import { Announcements } from './collections/Announcements'
 import { Testimonials } from './collections/Testimonials'
 import { CaseStudies } from './collections/CaseStudies'
 import { ConsentLogs } from './collections/ConsentLogs'
+import { PartnerRegistrations } from './collections/PartnerRegistrations'
 import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -106,6 +108,7 @@ export default buildConfig({
     Testimonials,
     CaseStudies,
     ConsentLogs,
+    PartnerRegistrations,
   ],
   globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview],
   editor: lexicalEditor(),

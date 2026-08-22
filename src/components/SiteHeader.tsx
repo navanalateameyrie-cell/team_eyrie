@@ -107,6 +107,25 @@ export default function SiteHeader({
                 </a>
               </React.Fragment>
             ))}
+            <span className="top-bar__pipe">|</span>
+            <a
+              href="/login"
+              className="top-bar__nav-link"
+              style={{
+                background: '#e66a2b',
+                color: '#fff',
+                padding: '4px 12px',
+                borderRadius: '4px',
+                fontWeight: '600',
+                marginLeft: '8px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textDecoration: 'none'
+              }}
+            >
+              Login
+            </a>
           </div>
         </div>
       </div>

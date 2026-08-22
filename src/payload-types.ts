@@ -80,6 +80,7 @@ export interface Config {
     testimonials: Testimonial;
     'case-studies': CaseStudy;
     'consent-logs': ConsentLog;
+    'partner-registrations': PartnerRegistration;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     'consent-logs': ConsentLogsSelect<false> | ConsentLogsSelect<true>;
+    'partner-registrations': PartnerRegistrationsSelect<false> | PartnerRegistrationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -604,6 +606,28 @@ export interface ConsentLog {
   createdAt: string;
 }
 /**
+ * Partner registration requests
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partner-registrations".
+ */
+export interface PartnerRegistration {
+  id: number;
+  name: string;
+  designation: string;
+  aadhaar: string;
+  pan: string;
+  mobile: string;
+  companyName: string;
+  sector: 'government' | 'private';
+  gst?: string | null;
+  services: (number | Service)[];
+  email: string;
+  status?: ('pending' | 'approved' | 'rejected') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -678,6 +702,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'consent-logs';
         value: number | ConsentLog;
+      } | null)
+    | ({
+        relationTo: 'partner-registrations';
+        value: number | PartnerRegistration;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1042,6 +1070,25 @@ export interface ConsentLogsSelect<T extends boolean = true> {
   consentDate?: T;
   url?: T;
   userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partner-registrations_select".
+ */
+export interface PartnerRegistrationsSelect<T extends boolean = true> {
+  name?: T;
+  designation?: T;
+  aadhaar?: T;
+  pan?: T;
+  mobile?: T;
+  companyName?: T;
+  sector?: T;
+  gst?: T;
+  services?: T;
+  email?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
