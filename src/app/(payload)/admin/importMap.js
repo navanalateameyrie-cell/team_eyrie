@@ -25,6 +25,7 @@ import { RecruitmentDashboard as RecruitmentDashboard_a75cba8ab8a81d811163b0687e
 import { Icon as Icon_dfe4008080d895d460898c3a6155e9ba } from '../../../components/admin/Icon'
 import { Logo as Logo_91a09b539d3c86b0aebf520e7564ce08 } from '../../../components/admin/Logo'
 import { BackButton as BackButton_82e827f81194b82e29cd2f9421fa9f68 } from '../../../components/admin/BackButton'
+import { SidebarBranding as SidebarBranding_74063fab68dec7e35ca698f14129ed24 } from '../../../components/admin/SidebarBranding'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
@@ -57,6 +58,7 @@ export const importMap = {
   "/components/admin/Icon#Icon": Icon_dfe4008080d895d460898c3a6155e9ba,
   "/components/admin/Logo#Logo": Logo_91a09b539d3c86b0aebf520e7564ce08,
   "/components/admin/BackButton#BackButton": BackButton_82e827f81194b82e29cd2f9421fa9f68,
+  "/components/admin/SidebarBranding#SidebarBranding": SidebarBranding_74063fab68dec7e35ca698f14129ed24,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

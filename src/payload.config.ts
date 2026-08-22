@@ -72,6 +72,7 @@ export default buildConfig({
     components: {
       beforeNavLinks: [
         '/components/admin/BackButton#BackButton',
+        '/components/admin/SidebarBranding#SidebarBranding',
       ],
       graphics: {
         Logo: '/components/admin/Logo#Logo',

@@ -169,31 +169,6 @@
     overflow: visible !important;
   }
 
-  /* Inject branding text directly next to the nav toggler button */
-  .nav .nav-toggler::after {
-    content: "TEAM EYRIE \A ADMIN PANEL" !important;
-    white-space: pre !important;
-    color: var(--te-gold) !important;
-    font-weight: 800 !important;
-    font-size: 13px !important;
-    line-height: 1.4 !important;
-    letter-spacing: 1.5px !important;
-    text-align: left !important;
-    
-    /* Position it to the right of the button */
-    position: absolute !important;
-    left: calc(100% + 16px) !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    
-    /* Add the golden divider line */
-    padding-left: 16px !important;
-    border-left: 2px solid rgba(176, 141, 87, 0.3) !important;
-    min-width: max-content !important;
-    display: block !important;
-    z-index: 10 !important;
-  }
-
   /* --- BUTTONS --- */
   .btn--style-primary {
     background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
