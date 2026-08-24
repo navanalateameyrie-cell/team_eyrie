@@ -25,6 +25,7 @@ export const Users: CollectionConfig = {
         { label: 'Administrator', value: 'admin' },
         { label: 'Editor', value: 'editor' },
         { label: 'Recruiter', value: 'recruiter' },
+        { label: 'Client', value: 'client' },
       ],
     },
   ],

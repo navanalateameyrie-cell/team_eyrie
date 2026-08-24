@@ -158,7 +158,7 @@ export interface UserAuthOperations {
 export interface User {
   id: number;
   name: string;
-  role: 'admin' | 'editor' | 'recruiter';
+  role: 'admin' | 'editor' | 'recruiter' | 'client';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -613,16 +613,9 @@ export interface ConsentLog {
  */
 export interface PartnerRegistration {
   id: number;
-  name: string;
-  designation: string;
-  aadhaar: string;
-  pan: string;
-  mobile: string;
-  companyName: string;
-  sector: 'government' | 'private';
-  gst?: string | null;
-  services: (number | Service)[];
+  username: string;
   email: string;
+  password: string;
   status?: ('pending' | 'approved' | 'rejected') | null;
   updatedAt: string;
   createdAt: string;
@@ -1078,16 +1071,9 @@ export interface ConsentLogsSelect<T extends boolean = true> {
  * via the `definition` "partner-registrations_select".
  */
 export interface PartnerRegistrationsSelect<T extends boolean = true> {
-  name?: T;
-  designation?: T;
-  aadhaar?: T;
-  pan?: T;
-  mobile?: T;
-  companyName?: T;
-  sector?: T;
-  gst?: T;
-  services?: T;
+  username?: T;
   email?: T;
+  password?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;

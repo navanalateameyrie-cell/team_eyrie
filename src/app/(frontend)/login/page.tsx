@@ -1,23 +1,16 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import Select from 'react-select'
+import React, { useState } from 'react'
 
 export default function LoginPage() {
+  const [loginType, setLoginType] = useState<'client' | 'staff'>('client')
   const [isRegistering, setIsRegistering] = useState(false)
-  const [servicesOptions, setServicesOptions] = useState<{ value: string, label: string }[]>([])
   
   const [formData, setFormData] = useState({
-    name: '',
-    designation: '',
-    aadhaar: '',
-    pan: '',
-    mobile: '',
+    username: '',
     email: '',
-    companyName: '',
-    sector: 'private',
-    gst: '',
-    services: [] as string[]
+    password: '',
+    confirmPassword: ''
   })
   
   const [loginData, setLoginData] = useState({
@@ -29,31 +22,8 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  useEffect(() => {
-    // Fetch services from Payload CMS API
-    fetch('/api/services?limit=100')
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.docs) {
-          const options = data.docs.map((service: any) => ({
-            value: service.id,
-            label: service.title
-          }))
-          setServicesOptions(options)
-        }
-      })
-      .catch(err => console.error('Error fetching services:', err))
-  }, [])
-
   const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
-  const handleServicesChange = (selectedOptions: any) => {
-    setFormData({
-      ...formData,
-      services: selectedOptions ? selectedOptions.map((opt: any) => opt.value) : []
-    })
   }
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,13 +35,20 @@ export default function LoginPage() {
     setIsSubmitting(true)
     setError('')
     
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match')
+      setIsSubmitting(false)
+      return
+    }
+    
     try {
+      const { confirmPassword, ...submitData } = formData
       const res = await fetch('/api/partner-registrations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(submitData)
       })
 
       if (res.ok) {
@@ -87,9 +64,32 @@ export default function LoginPage() {
     }
   }
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    alert('The Partner Dashboard is currently in development. Please wait for the official launch after your account is approved!')
+    setIsSubmitting(true)
+    setError('')
+    
+    try {
+      const res = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: loginData.email,
+          password: loginData.password,
+        }),
+      })
+
+      if (res.ok) {
+        window.location.href = '/client-dashboard'
+      } else {
+        const errorData = await res.json()
+        setError(errorData.errors?.[0]?.message || 'Invalid email or password.')
+      }
+    } catch (err) {
+      setError('A network error occurred. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -129,16 +129,47 @@ export default function LoginPage() {
     }}>
       <div className="login-container" style={{ 
         background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '3rem 2.5rem', 
-        borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', width: '100%', maxWidth: isRegistering ? '700px' : '550px',
+        borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', width: '100%', maxWidth: '550px',
         border: '1px solid rgba(255,255,255,0.2)'
       }}>
         
+        <div style={{ display: 'flex', borderBottom: '1px solid #cbd5e1', marginBottom: '2rem' }}>
+          <button 
+            type="button"
+            onClick={() => { setLoginType('client'); setIsRegistering(false); setError(''); }}
+            style={{ 
+              flex: 1, padding: '1rem', background: 'none', border: 'none', cursor: 'pointer',
+              borderBottom: loginType === 'client' ? '3px solid #e66a2b' : '3px solid transparent',
+              color: loginType === 'client' ? '#e66a2b' : '#64748b',
+              fontWeight: loginType === 'client' ? '700' : '500',
+              fontSize: '1.1rem', transition: 'all 0.2s'
+            }}
+          >
+            Client Portal
+          </button>
+          <button 
+            type="button"
+            onClick={() => { setLoginType('staff'); setError(''); }}
+            style={{ 
+              flex: 1, padding: '1rem', background: 'none', border: 'none', cursor: 'pointer',
+              borderBottom: loginType === 'staff' ? '3px solid #e66a2b' : '3px solid transparent',
+              color: loginType === 'staff' ? '#e66a2b' : '#64748b',
+              fontWeight: loginType === 'staff' ? '700' : '500',
+              fontSize: '1.1rem', transition: 'all 0.2s'
+            }}
+          >
+            Staff Portal
+          </button>
+        </div>
+
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <h1 style={{ fontSize: '2.2rem', color: '#0f172a', marginBottom: '0.5rem', fontWeight: '700', letterSpacing: '-0.5px' }}>
-            {isRegistering ? 'Register as Partner' : 'Login'}
+            {loginType === 'staff' ? 'Staff Authentication' : (isRegistering ? 'Register as Client' : 'Client Login')}
           </h1>
           <p style={{ color: '#64748b', fontSize: '1.05rem' }}>
-            {isRegistering ? 'Join the Team Eyrie network by providing your professional details.' : 'Welcome back! Please enter your details to sign in.'}
+            {loginType === 'staff' 
+              ? 'Access the secure administration dashboard.'
+              : (isRegistering ? 'Create your client account to access our network.' : 'Welcome back! Please enter your details to sign in.')}
           </p>
         </div>
         
@@ -148,129 +179,81 @@ export default function LoginPage() {
           </div>
         )}
 
-        {isRegistering ? (
-          <form className="login-form" onSubmit={handleRegisterSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-            
-            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-              <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Full Name *</label>
-              <input type="text" id="name" name="name" value={formData.name} onChange={handleRegisterChange} required placeholder="e.g. John Doe" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
+        {loginType === 'staff' ? (
+          <div style={{ textAlign: 'center', padding: '1rem 0 2rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', borderRadius: '50%', background: '#f1f5f9', color: '#475569', marginBottom: '1.5rem' }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="designation" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Designation *</label>
-              <input type="text" id="designation" name="designation" value={formData.designation} onChange={handleRegisterChange} required placeholder="Partner" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="companyName" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Company Name *</label>
-              <input type="text" id="companyName" name="companyName" value={formData.companyName} onChange={handleRegisterChange} required placeholder="Eyrie Corp" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="mobile" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Mobile Number *</label>
-              <input type="tel" id="mobile" name="mobile" value={formData.mobile} onChange={handleRegisterChange} required placeholder="+91 98765 43210" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Email Address *</label>
-              <input type="email" id="email" name="email" value={formData.email} onChange={handleRegisterChange} required placeholder="john@example.com" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="aadhaar" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Aadhaar Number *</label>
-              <input type="text" id="aadhaar" name="aadhaar" value={formData.aadhaar} onChange={handleRegisterChange} required placeholder="1234 5678 9012" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="pan" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>PAN Number *</label>
-              <input type="text" id="pan" name="pan" value={formData.pan} onChange={handleRegisterChange} required placeholder="ABCDE1234F" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', textTransform: 'uppercase', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="gst" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>GST Number</label>
-              <input type="text" id="gst" name="gst" value={formData.gst} onChange={handleRegisterChange} placeholder="Optional" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', textTransform: 'uppercase', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Sector *</label>
-              <div style={{ display: 'flex', gap: '1.5rem', padding: '0.5rem 0' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                  <input type="radio" name="sector" value="government" checked={formData.sector === 'government'} onChange={handleRegisterChange} style={{ accentColor: '#e66a2b', width: '1.2rem', height: '1.2rem' }} />
-                  <span>Government</span>
-                </label>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                  <input type="radio" name="sector" value="private" checked={formData.sector === 'private'} onChange={handleRegisterChange} style={{ accentColor: '#e66a2b', width: '1.2rem', height: '1.2rem' }} />
-                  <span>Private</span>
-                </label>
+            <h3 style={{ fontSize: '1.3rem', color: '#334155', marginBottom: '1.5rem' }}>Secure Admin Access</h3>
+            <p style={{ color: '#64748b', marginBottom: '2rem' }}>Staff and administrators are required to authenticate via the dedicated management console.</p>
+            <a href="/admin" style={{ display: 'block', width: '100%', background: '#0f172a', color: '#fff', padding: '1rem', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s' }}>
+              Proceed to Admin Login
+            </a>
+          </div>
+        ) : (
+          isRegistering ? (
+            <form className="login-form" onSubmit={handleRegisterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              
+              <div className="form-group">
+                <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Username *</label>
+                <input type="text" id="username" name="username" value={formData.username} onChange={handleRegisterChange} required placeholder="e.g. johndoe" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
               </div>
-            </div>
 
-            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Services *</label>
-              <Select
-                isMulti
-                name="services"
-                options={servicesOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                placeholder="Select services..."
-                onChange={handleServicesChange}
-                menuShouldBlockScroll={true}
-                styles={{
-                  control: (baseStyles, state) => ({
-                    ...baseStyles,
-                    borderColor: state.isFocused ? '#e66a2b' : '#cbd5e1',
-                    borderRadius: '8px',
-                    padding: '0.25rem',
-                    boxShadow: state.isFocused ? '0 0 0 1px #e66a2b' : 'none',
-                    '&:hover': {
-                      borderColor: '#cbd5e1'
-                    }
-                  }),
-                  menuList: (baseStyles) => ({
-                    ...baseStyles,
-                    overscrollBehavior: 'contain'
-                  })
-                }}
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Email Address *</label>
+                <input type="email" id="email" name="email" value={formData.email} onChange={handleRegisterChange} required placeholder="john@example.com" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
+              </div>
 
-            <div style={{ gridColumn: '1 / -1', marginTop: '1rem' }}>
-              <button type="submit" disabled={isSubmitting} style={{ width: '100%', background: '#e66a2b', color: '#fff', padding: '1rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', cursor: isSubmitting ? 'not-allowed' : 'pointer', opacity: isSubmitting ? 0.7 : 1, transition: 'background 0.2s' }}>
-                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+              <div className="form-group">
+                <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Password *</label>
+                <input type="password" id="password" name="password" value={formData.password} onChange={handleRegisterChange} required placeholder="••••••••" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="confirmPassword" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Confirm Password *</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleRegisterChange} required placeholder="••••••••" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
+              </div>
+
+              <div style={{ marginTop: '0.5rem' }}>
+                <button type="submit" disabled={isSubmitting} style={{ width: '100%', background: '#e66a2b', color: '#fff', padding: '1rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', cursor: isSubmitting ? 'not-allowed' : 'pointer', opacity: isSubmitting ? 0.7 : 1, transition: 'background 0.2s' }}>
+                  {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+                </button>
+                
+                <p style={{ textAlign: 'center', marginTop: '1rem', color: '#64748b' }}>
+                  Already have an active account?{' '}
+                  <button type="button" onClick={() => setIsRegistering(false)} style={{ background: 'none', border: 'none', color: '#e66a2b', fontWeight: '600', cursor: 'pointer', fontSize: '1rem', padding: 0 }}>
+                    Login Here
+                  </button>
+                </p>
+              </div>
+            </form>
+          ) : (
+            <form className="login-form" onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div className="form-group">
+                <label htmlFor="login-email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Email Address</label>
+                <input type="email" id="login-email" name="email" value={loginData.email} onChange={handleLoginChange} required placeholder="john@example.com" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="login-password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Password</label>
+                <input type="password" id="login-password" name="password" value={loginData.password} onChange={handleLoginChange} required placeholder="••••••••" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
+              </div>
+
+              <button type="submit" style={{ marginTop: '0.5rem', background: '#e66a2b', color: '#fff', padding: '1rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', cursor: 'pointer', transition: 'background 0.2s' }}>
+                Login
               </button>
               
               <p style={{ textAlign: 'center', marginTop: '1rem', color: '#64748b' }}>
-                Already have an active account?{' '}
-                <button type="button" onClick={() => setIsRegistering(false)} style={{ background: 'none', border: 'none', color: '#e66a2b', fontWeight: '600', cursor: 'pointer', fontSize: '1rem', padding: 0 }}>
-                  Login Here
+                Not a partner yet?{' '}
+                <button type="button" onClick={() => setIsRegistering(true)} style={{ background: 'none', border: 'none', color: '#e66a2b', fontWeight: '600', cursor: 'pointer', fontSize: '1rem', padding: 0 }}>
+                  Register as a Client
                 </button>
               </p>
-            </div>
-          </form>
-        ) : (
-          <form className="login-form" onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div className="form-group">
-              <label htmlFor="login-email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Email Address</label>
-              <input type="email" id="login-email" name="email" value={loginData.email} onChange={handleLoginChange} required placeholder="john@example.com" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="login-password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Password</label>
-              <input type="password" id="login-password" name="password" value={loginData.password} onChange={handleLoginChange} required placeholder="••••••••" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
-            </div>
-
-            <button type="submit" style={{ marginTop: '0.5rem', background: '#e66a2b', color: '#fff', padding: '1rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', cursor: 'pointer', transition: 'background 0.2s' }}>
-              Login
-            </button>
-            
-            <p style={{ textAlign: 'center', marginTop: '1rem', color: '#64748b' }}>
-              Not a partner yet?{' '}
-              <button type="button" onClick={() => setIsRegistering(true)} style={{ background: 'none', border: 'none', color: '#e66a2b', fontWeight: '600', cursor: 'pointer', fontSize: '1rem', padding: 0 }}>
-                Register as a Partner
-              </button>
-            </p>
-          </form>
+            </form>
+          )
         )}
       </div>
     </div>

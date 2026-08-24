@@ -122,5 +122,40 @@ export const JobApplications: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc, previousDoc, operation, req }) => {
+        // Trigger email notification when the application stage is updated by the admin
+        if (operation === 'update' && previousDoc.stage !== doc.stage) {
+          try {
+            let subject = 'Update on your Job Application at Team Eyrie'
+            let body = `<h3>Update on your application</h3><p>Hi ${doc.fullName},</p>`
+            
+            if (doc.stage === 'shortlisted') {
+              body += `<p>Great news! Your application has been shortlisted. Our recruitment team will contact you shortly regarding the next steps.</p>`
+            } else if (doc.stage === 'interview') {
+              body += `<p>We would like to invite you for an interview. Our team will reach out to schedule a convenient time.</p>`
+            } else if (doc.stage === 'offer') {
+              body += `<p>Congratulations! We are thrilled to extend an offer to you. Please check your emails for the official offer details.</p>`
+            } else if (doc.stage === 'hired') {
+              body += `<p>Welcome to Team Eyrie! Your hiring process is now complete.</p>`
+            } else if (doc.stage === 'rejected') {
+              body += `<p>Thank you for your interest in joining Team Eyrie. After careful consideration, we have decided to move forward with other candidates at this time. We will keep your profile on file for future opportunities.</p>`
+            } else {
+              body += `<p>Your application status has been updated to: <strong>${doc.stage}</strong>.</p>`
+            }
+
+            body += `<br /><p>Best regards,<br/>Team Eyrie Recruitment Team</p>`
+
+            await req.payload.sendEmail({
+              to: doc.email,
+              subject,
+              html: body,
+            })
+          } catch (err) {
+            req.payload.logger.error({ err }, 'Failed to send applicant status email')
+          }
+        }
+      },
+    ],
   },
 }
