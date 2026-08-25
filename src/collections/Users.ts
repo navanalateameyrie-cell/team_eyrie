@@ -28,5 +28,16 @@ export const Users: CollectionConfig = {
         { label: 'Client', value: 'client' },
       ],
     },
+    // Client-specific profile fields
+    { name: 'phone', type: 'text', admin: { condition: (data) => data.role === 'client' } },
+    { name: 'pan', type: 'text', label: 'PAN Number', admin: { condition: (data) => data.role === 'client' } },
+    { name: 'aadhaar', type: 'text', label: 'Aadhaar Number', admin: { condition: (data) => data.role === 'client' } },
+    { 
+      name: 'selectedServices', 
+      type: 'relationship', 
+      relationTo: 'services', 
+      hasMany: true,
+      admin: { condition: (data) => data.role === 'client' }
+    },
   ],
 }

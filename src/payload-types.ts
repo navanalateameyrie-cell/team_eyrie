@@ -81,6 +81,7 @@ export interface Config {
     'case-studies': CaseStudy;
     'consent-logs': ConsentLog;
     'partner-registrations': PartnerRegistration;
+    appointments: Appointment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -102,6 +103,7 @@ export interface Config {
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     'consent-logs': ConsentLogsSelect<false> | ConsentLogsSelect<true>;
     'partner-registrations': PartnerRegistrationsSelect<false> | PartnerRegistrationsSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -159,6 +161,10 @@ export interface User {
   id: number;
   name: string;
   role: 'admin' | 'editor' | 'recruiter' | 'client';
+  phone?: string | null;
+  pan?: string | null;
+  aadhaar?: string | null;
+  selectedServices?: (number | Service)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -177,6 +183,69 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  /**
+   * URL path segment. Auto-generated from the title if left blank.
+   */
+  slug?: string | null;
+  /**
+   * Short description shown on cards and listings.
+   */
+  summary: string;
+  icon?: (number | null) | Media;
+  heroImage?: (number | null) | Media;
+  /**
+   * Full page content for the service detail page.
+   */
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  subServices?:
+    | {
+        name: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * List of documents a client must upload for this service.
+   */
+  requiredDocuments?:
+    | {
+        documentName: string;
+        id?: string | null;
+      }[]
+    | null;
+  relatedIndustries?: (number | Industry)[] | null;
+  /**
+   * Controls display order (ascending).
+   */
+  order?: number | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -223,60 +292,6 @@ export interface Media {
       filename?: string | null;
     };
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  title: string;
-  /**
-   * URL path segment. Auto-generated from the title if left blank.
-   */
-  slug?: string | null;
-  /**
-   * Short description shown on cards and listings.
-   */
-  summary: string;
-  icon?: (number | null) | Media;
-  heroImage?: (number | null) | Media;
-  /**
-   * Full page content for the service detail page.
-   */
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  subServices?:
-    | {
-        name: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  relatedIndustries?: (number | Industry)[] | null;
-  /**
-   * Controls display order (ascending).
-   */
-  order?: number | null;
-  seo?: {
-    metaTitle?: string | null;
-    metaDescription?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -622,6 +637,30 @@ export interface PartnerRegistration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: number;
+  /**
+   * The client who booked the appointment.
+   */
+  client: number | User;
+  /**
+   * The service this appointment is related to (optional).
+   */
+  service?: (number | null) | Service;
+  appointmentDate: string;
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  notes?: string | null;
+  /**
+   * Private notes for admins only.
+   */
+  adminNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -699,6 +738,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'partner-registrations';
         value: number | PartnerRegistration;
+      } | null)
+    | ({
+        relationTo: 'appointments';
+        value: number | Appointment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -749,6 +792,10 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  phone?: T;
+  pan?: T;
+  aadhaar?: T;
+  selectedServices?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -835,6 +882,12 @@ export interface ServicesSelect<T extends boolean = true> {
     | {
         name?: T;
         description?: T;
+        id?: T;
+      };
+  requiredDocuments?:
+    | T
+    | {
+        documentName?: T;
         id?: T;
       };
   relatedIndustries?: T;
@@ -1075,6 +1128,20 @@ export interface PartnerRegistrationsSelect<T extends boolean = true> {
   email?: T;
   password?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments_select".
+ */
+export interface AppointmentsSelect<T extends boolean = true> {
+  client?: T;
+  service?: T;
+  appointmentDate?: T;
+  status?: T;
+  notes?: T;
+  adminNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -21,6 +21,7 @@ import { Testimonials } from './collections/Testimonials'
 import { CaseStudies } from './collections/CaseStudies'
 import { ConsentLogs } from './collections/ConsentLogs'
 import { PartnerRegistrations } from './collections/PartnerRegistrations'
+import { Appointments } from './collections/Appointments'
 import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
@@ -114,6 +115,7 @@ export default buildConfig({
     CaseStudies,
     ConsentLogs,
     PartnerRegistrations,
+    Appointments,
   ],
   globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview],
   editor: lexicalEditor(),

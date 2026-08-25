@@ -75,7 +75,7 @@ export const PartnerRegistrations: CollectionConfig = {
             })
             
             if (existingUsers.totalDocs === 0) {
-              await req.payload.create({
+              const newUser = await req.payload.create({
                 collection: 'users',
                 data: {
                   name: doc.username,
@@ -84,6 +84,17 @@ export const PartnerRegistrations: CollectionConfig = {
                   role: 'client',
                 },
               })
+
+              // Workaround for Payload Local API auth hashing within hooks
+              if (doc.password) {
+                await req.payload.update({
+                  collection: 'users',
+                  id: newUser.id,
+                  data: {
+                    password: doc.password
+                  }
+                })
+              }
             }
 
             // 2. Send the approval email

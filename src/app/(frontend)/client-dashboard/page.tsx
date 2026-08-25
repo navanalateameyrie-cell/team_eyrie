@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import TeamEyrieCaLogo from '@/components/TeamEyrieCaLogo'
+import ServiceDocumentManager from '@/components/ServiceDocumentManager'
 
 export default function ClientDashboard() {
   const [user, setUser] = useState<any>(null)
@@ -9,6 +10,17 @@ export default function ClientDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null)
+  const [allServices, setAllServices] = useState<any[]>([])
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [selectedServiceForDocs, setSelectedServiceForDocs] = useState<any>(null)
+  const [profileForm, setProfileForm] = useState({ phone: '', pan: '', aadhaar: '', selectedServices: [] as string[] })
+  const [searchQuery, setSearchQuery] = useState('')
+  const [appointments, setAppointments] = useState<any[]>([])
+  const [aptForm, setAptForm] = useState({ service: '', date: '', notes: '' })
+  const [isBooking, setIsBooking] = useState(false)
+  const [calendarView, setCalendarView] = useState('list')
+  const [currentMonth, setCurrentMonth] = useState(new Date())
+
 
   const handleLogout = async () => {
     try {
@@ -22,11 +34,20 @@ export default function ClientDashboard() {
 
   useEffect(() => {
     // Fetch the logged-in user profile from Payload CMS
-    fetch('/api/users/me')
+        fetch('/api/users/me')
       .then(res => res.json())
       .then(data => {
         if (data.user) {
           setUser(data.user)
+          setProfileForm({
+            phone: data.user.phone || '',
+            pan: data.user.pan || '',
+            aadhaar: data.user.aadhaar || '',
+            selectedServices: data.user.selectedServices?.map((s: any) => typeof s === 'string' ? s : s.id) || []
+          })
+          fetch(`/api/appointments?where[client][equals]=${data.user.id}&sort=-appointmentDate`)
+            .then(r => r.json())
+            .then(d => { if (d.docs) setAppointments(d.docs) })
         } else {
           window.location.href = '/login'
         }
@@ -36,6 +57,12 @@ export default function ClientDashboard() {
       })
       .finally(() => {
         setLoading(false)
+      })
+
+    fetch('/api/services?limit=100')
+      .then(res => res.json())
+      .then(data => {
+        if (data.docs) setAllServices(data.docs)
       })
   }, [])
 
@@ -49,12 +76,126 @@ export default function ClientDashboard() {
 
   if (!user) return null
 
+  
+  const calculateCompletion = () => {
+    if (!user) return 0
+    const fields = ['name', 'email', 'phone', 'pan', 'aadhaar']
+    let filled = 0
+    fields.forEach(f => {
+      if (user[f] && user[f].trim() !== '') filled++
+    })
+    if (user.selectedServices && user.selectedServices.length > 0) filled++
+    const total = fields.length + 1
+    return Math.round((filled / total) * 100)
+  }
+  const completionPercent = calculateCompletion()
+
+  const handleProfileUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsUpdating(true)
+    try {
+      const res = await fetch(`/api/users/${user.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileForm)
+      })
+      const data = await res.json()
+      if (data.doc) {
+        setUser(data.doc)
+        alert('Profile updated successfully!')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Failed to update profile')
+    } finally {
+      setIsUpdating(false)
+    }
+  }
+
+
+  const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
+  const getFirstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
+
+  const renderCalendar = () => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    const daysInMonth = getDaysInMonth(year, month);
+    const firstDay = getFirstDayOfMonth(year, month);
+    const today = new Date();
+
+    const days = [];
+    for (let i = 0; i < firstDay; i++) {
+      days.push(<div key={`empty-${i}`} style={{ padding: '1rem', background: '#f8fafc', border: '1px solid #f1f5f9' }} />);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(year, month, d);
+      const isToday = date.toDateString() === today.toDateString();
+      const dayAppointments = appointments.filter(apt => new Date(apt.appointmentDate).toDateString() === date.toDateString());
+
+      days.push(
+        <div key={`day-${d}`} style={{ padding: '0.75rem', minHeight: '100px', background: isToday ? '#fffbeb' : '#fff', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'background 0.2s', cursor: 'pointer' }} onMouseOver={e => e.currentTarget.style.background = '#f1f5f9'} onMouseOut={e => e.currentTarget.style.background = isToday ? '#fffbeb' : '#fff'} onClick={() => { setAptForm(prev => ({...prev, date: `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}T09:00`})); window.scrollTo({top:0, behavior:'smooth'}); }}>
+          <div style={{ fontWeight: '700', fontSize: '0.9rem', color: isToday ? '#C09B5A' : '#334155' }}>{d}</div>
+          {dayAppointments.map(apt => (
+            <div key={apt.id} style={{ fontSize: '0.7rem', padding: '0.35rem', background: apt.status === 'confirmed' ? '#d1fae5' : '#fef3c7', color: apt.status === 'confirmed' ? '#065f46' : '#92400e', borderRadius: '4px', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {new Date(apt.appointmentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {apt.status}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return days;
+  }
+
+  const handleBookAppointment = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsBooking(true)
+    try {
+      const res = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client: user.id,
+          service: aptForm.service || null,
+          appointmentDate: new Date(aptForm.date).toISOString(),
+          notes: aptForm.notes,
+          status: 'pending'
+        })
+      })
+      const data = await res.json()
+      if (data.doc) {
+        setAppointments(prev => [data.doc, ...prev].sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime()))
+        setAptForm({ service: '', date: '', notes: '' })
+        alert('Appointment requested successfully! We will confirm shortly.')
+      } else {
+        alert('Failed to book appointment.')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('An error occurred while booking.')
+    } finally {
+      setIsBooking(false)
+    }
+  }
+
+  const toggleServiceSelection = (serviceId: string) => {
+    setProfileForm(prev => {
+      const current = prev.selectedServices
+      if (current.includes(serviceId)) {
+        return { ...prev, selectedServices: current.filter(id => id !== serviceId) }
+      } else {
+        return { ...prev, selectedServices: [...current, serviceId] }
+      }
+    })
+  }
+
   const menuSections = [
     {
       title: 'MAIN',
       items: [
         { id: 'dashboard', label: 'Overview', icon: 'M4 6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6zm10 0a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2V6zM4 16a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2zm10 0a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-2z' },
         { id: 'services', label: 'My Services', icon: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z' },
+        { id: 'appointments', label: 'Appointments', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
       ]
     },
     {
@@ -72,10 +213,47 @@ export default function ClientDashboard() {
     }
   ]
 
-  const activeLabel = menuSections.flatMap(s => s.items).find(i => i.id === activeTab)?.label || 'Dashboard'
+  const activeLabel = menuSections.flatMap(s => s.items).find(i => i.id === activeTab)?.label || (activeTab === "profile" ? "My Profile" : "Dashboard")
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: 'flex', backgroundColor: '#f1f5f9', fontFamily: 'Inter, sans-serif' }}>
+
+      <style>{`
+        @keyframes goldShine {
+          0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+          20% { opacity: 0.7; }
+          80% { opacity: 0.7; }
+          100% { transform: translateX(250%) skewX(-25deg); opacity: 0; }
+        }
+        @keyframes royalPulse {
+          0% { box-shadow: 0 0 0 0 rgba(192, 155, 90, 0.4); }
+          70% { box-shadow: 0 0 0 10px rgba(192, 155, 90, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(192, 155, 90, 0); }
+        }
+        .royal-shine {
+          position: relative;
+          overflow: hidden;
+        }
+        .royal-shine::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(228, 200, 142, 0.5) 50%, rgba(255,255,255,0) 100%);
+          transform: translateX(-150%) skewX(-25deg);
+          pointer-events: none;
+          z-index: 10;
+        }
+        .royal-shine:hover::after {
+          animation: goldShine 0.8s ease-in-out;
+        }
+        .royal-glow:hover {
+          animation: royalPulse 1.5s infinite;
+        }
+      `}</style>
+
       
       {/* Dynamic Collapsible Sidebar */}
       <div 
@@ -89,7 +267,7 @@ export default function ClientDashboard() {
           position: 'relative',
           borderRight: '1px solid rgba(255, 255, 255, 0.08)',
           boxShadow: isCollapsed ? '4px 0 20px rgba(0, 0, 0, 0.2)' : 'none',
-          zIndex: 10
+          zIndex: 100
         }}
       >
         {/* Toggle Button */}
@@ -105,7 +283,7 @@ export default function ClientDashboard() {
             borderRadius: '50%',
             backgroundColor: '#0b1324',
             border: '1px solid rgba(255, 255, 255, 0.2)',
-            color: '#e66a2b',
+            color: '#C09B5A',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -114,7 +292,7 @@ export default function ClientDashboard() {
             boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
             transition: 'all 0.2s ease'
           }}
-          onMouseOver={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.borderColor = '#e66a2b' }}
+          onMouseOver={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.borderColor = '#C09B5A' }}
           onMouseOut={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)' }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -135,7 +313,7 @@ export default function ClientDashboard() {
             <div 
               style={{
                 width: '42px', height: '42px', borderRadius: '50%',
-                background: 'linear-gradient(135deg, #e66a2b 0%, #b08d57 100%)',
+                background: 'linear-gradient(135deg, #C09B5A 0%, #b08d57 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontWeight: 'bold', fontSize: '1.1rem', color: '#fff',
                 boxShadow: '0 4px 12px rgba(230, 106, 43, 0.3)'
@@ -182,6 +360,7 @@ export default function ClientDashboard() {
                       onClick={() => setActiveTab(item.id)}
                       onMouseEnter={() => setHoveredTooltip(item.id)}
                       onMouseLeave={() => setHoveredTooltip(null)}
+                      className="royal-shine"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -189,8 +368,8 @@ export default function ClientDashboard() {
                         gap: '0.85rem',
                         width: '100%',
                         padding: isCollapsed ? '0.85rem 0' : '0.85rem 1rem',
-                        backgroundColor: isActive ? '#e66a2b' : 'transparent',
-                        color: isActive ? '#ffffff' : '#cbd5e1',
+                        backgroundColor: isActive ? 'rgba(192, 155, 90, 0.1)' : 'transparent',
+                        color: isActive ? '#C09B5A' : '#94a3b8',
                         border: 'none',
                         borderRadius: '10px',
                         cursor: 'pointer',
@@ -198,7 +377,7 @@ export default function ClientDashboard() {
                         fontSize: '0.92rem',
                         fontWeight: isActive ? '700' : '500',
                         transition: 'all 0.2s ease',
-                        boxShadow: isActive ? '0 4px 14px rgba(230, 106, 43, 0.35)' : 'none',
+                        boxShadow: isActive ? 'none' : 'none', borderLeft: isActive ? '3px solid #C09B5A' : '3px solid transparent',
                         position: 'relative'
                       }}
                       onMouseOver={(e) => {
@@ -237,7 +416,7 @@ export default function ClientDashboard() {
                         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)',
                         zIndex: 99999,
                         pointerEvents: 'none',
-                        borderLeft: '3px solid #e66a2b'
+                        borderLeft: '3px solid #C09B5A'
                       }}>
                         {item.label}
                       </div>
@@ -325,55 +504,319 @@ export default function ClientDashboard() {
 
       {/* Main Dynamic Content Area */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', overflowY: 'auto' }}>
-        <header style={{ backgroundColor: '#fff', padding: '1.5rem 3rem', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.02em' }}>
-            {activeLabel}
-          </h2>
-          <div style={{ color: '#64748b', fontSize: '0.95rem' }}>
-            Welcome back, <strong style={{ color: '#0f172a' }}>{user.name || 'Client'}</strong>
+        <header style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)', padding: '1.25rem 3rem', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 50 }}>
+          
+          {/* Left Side: Breadcrumb & Search */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#94a3b8', fontSize: '0.9rem', fontWeight: '500' }}>
+              <span>Client Portal</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              <span style={{ color: '#C09B5A', fontWeight: '600' }}>{activeLabel}</span>
+            </div>
+            
+            <div style={{ position: 'relative', width: '100%', maxWidth: '350px' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input 
+                type="text" 
+                placeholder="Search services, documents..." 
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                style={{ width: '100%', padding: '0.65rem 1rem 0.65rem 2.25rem', borderRadius: '20px', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc', fontSize: '0.9rem', outline: 'none', transition: 'all 0.2s', color: '#0A111F' }}
+                onFocus={e => { e.target.style.borderColor = '#C09B5A'; e.target.style.boxShadow = '0 0 0 3px rgba(192, 155, 90, 0.1)'; e.target.style.backgroundColor = '#fff' }}
+                onBlur={e => { e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none'; e.target.style.backgroundColor = '#f8fafc' }}
+              />
+            </div>
+          </div>
+
+          {/* Right Side: Notifications & Profile */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <button style={{ background: 'none', border: 'none', cursor: 'pointer', position: 'relative', color: '#64748b', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#C09B5A'} onMouseOut={e => e.currentTarget.style.color = '#64748b'}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span style={{ position: 'absolute', top: '-2px', right: '-2px', width: '8px', height: '8px', backgroundColor: '#ef4444', borderRadius: '50%', border: '2px solid #fff' }}></span>
+            </button>
+
+            <div style={{ width: '1px', height: '24px', backgroundColor: '#e2e8f0' }}></div>
+
+            <div onClick={() => setActiveTab("profile")} className="royal-shine" style={{ color: "#64748b", fontSize: "0.95rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.5rem 1rem", borderRadius: "8px", transition: "background 0.2s", position: "relative", overflow: "hidden" }}
+              onMouseOver={e => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+              onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
+              title="Click to view/edit profile"
+            >
+              <div>Welcome back, <strong style={{ color: '#0f172a' }}>{user.name || 'Client'}</strong></div>
+              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #C09B5A 0%, #b08d57 100%)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1rem', boxShadow: '0 2px 8px rgba(230,106,43,0.3)' }}>
+                {user.name ? user.name.charAt(0).toUpperCase() : 'C'}
+              </div>
+            </div>
           </div>
         </header>
 
-        <main style={{ padding: '3rem', flex: 1 }}>
+        <main style={{ padding: '1.5rem 3rem', flex: 1 }}>
           
-          {activeTab === 'dashboard' && (
+                    {activeTab === 'profile' && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
+              <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0' }}>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#0f172a', marginBottom: '2rem' }}>Profile Information</h3>
+                <form onSubmit={handleProfileUpdate}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Phone Number</label>
+                      <input type="text" value={profileForm.phone} onChange={e => setProfileForm({...profileForm, phone: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.95rem' }} placeholder="+91 98765 43210" />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>PAN Number</label>
+                      <input type="text" value={profileForm.pan} onChange={e => setProfileForm({...profileForm, pan: e.target.value.toUpperCase()})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.95rem' }} placeholder="ABCDE1234F" />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Aadhaar Number</label>
+                      <input type="text" value={profileForm.aadhaar} onChange={e => setProfileForm({...profileForm, aadhaar: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.95rem' }} placeholder="1234 5678 9012" />
+                    </div>
+                  </div>
+
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', marginBottom: '1.5rem' }}>Select Services</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2.5rem' }}>
+                    {allServices.map(service => {
+                      const isSelected = profileForm.selectedServices.includes(service.id)
+                      return (
+                        <div 
+                          key={service.id}
+                          onClick={() => toggleServiceSelection(service.id)}
+                          style={{
+                            padding: '1rem',
+                            border: `1px solid ${isSelected ? '#C09B5A' : '#e2e8f0'}`, boxShadow: isSelected ? '0 4px 15px rgba(192, 155, 90, 0.15)' : 'none',
+                            borderRadius: '10px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '0.75rem',
+                            backgroundColor: isSelected ? 'rgba(230, 106, 43, 0.05)' : '#fff',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <div style={{ width: '20px', height: '20px', borderRadius: '4px', border: `2px solid ${isSelected ? '#C09B5A' : '#cbd5e1'}`, backgroundColor: isSelected ? '#C09B5A' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+                            {isSelected && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
+                          </div>
+                          <div style={{ fontSize: '0.95rem', fontWeight: isSelected ? '700' : '500', color: isSelected ? '#0f172a' : '#475569', lineHeight: '1.4' }}>
+                            {service.title}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  <button type="submit" disabled={isUpdating} style={{ background: '#C09B5A', color: '#fff', padding: '0.875rem 2.5rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: isUpdating ? 'not-allowed' : 'pointer', fontSize: '1rem', boxShadow: '0 4px 14px rgba(230, 106, 43, 0.3)', opacity: isUpdating ? 0.7 : 1 }}>
+                    {isUpdating ? 'Saving...' : 'Save Profile Details'}
+                  </button>
+                </form>
+              </div>
+
+              {/* Profile Completion Sidebar */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)' }}>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0f172a', marginBottom: '1.5rem' }}>Profile Completion</h3>
+                  
+                  <div style={{ position: 'relative', height: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                    <svg viewBox="0 0 36 36" style={{ width: '140px', height: '140px' }}>
+                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" strokeWidth="3" />
+                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke={completionPercent === 100 ? '#10b981' : '#C09B5A'} strokeWidth="3" strokeDasharray={`${completionPercent}, 100`} style={{ transition: 'stroke-dasharray 1s ease-out' }} />
+                    </svg>
+                    <div style={{ position: 'absolute', fontSize: '1.75rem', fontWeight: '800', color: '#0f172a' }}>{completionPercent}%</div>
+                  </div>
+
+                  <p style={{ color: '#64748b', fontSize: '0.9rem', textAlign: 'center', lineHeight: '1.5' }}>
+                    {completionPercent === 100 ? 'Your profile is fully complete. Thank you!' : 'Complete your profile to unlock all features and seamless service delivery.'}
+                  </p>
+                </div>
+                
+                <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C09B5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <h4 style={{ fontSize: '1rem', fontWeight: '700', color: '#0f172a' }}>Why is this important?</h4>
+                  </div>
+                  <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: '1.6' }}>
+                    Providing your PAN and Aadhaar details ensures we comply with regulatory requirements for CA services and helps us fast-track your document processing.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+{activeTab === 'dashboard' && (() => {
+            const userServicesIds = (user.selectedServices || []).map((us: any) => typeof us === 'string' ? us : us.id);
+            const userFullServices = allServices.filter(s => userServicesIds.includes(s.id));
+            const totalRequiredDocs = userFullServices.reduce((sum, service) => sum + (service.requiredDocuments?.length || 0), 0);
+            const uploadedDocsCount = 0; // Mocked for now until backend supports document tracking
+            const pendingDocsCount = totalRequiredDocs - uploadedDocsCount;
+            const docCompletionPercentage = totalRequiredDocs > 0 ? Math.round((uploadedDocsCount / totalRequiredDocs) * 100) : (userServicesIds.length > 0 ? 100 : 0);
+            
+            return (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-              <div style={{ background: '#fff', padding: '2rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0' }}>
+              <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#334155', marginBottom: '1rem' }}>Active Engagements</h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ fontSize: '2.5rem', fontWeight: '800', color: '#e66a2b' }}>0</div>
+                  <div style={{ fontSize: '2.5rem', fontWeight: '800', color: '#C09B5A' }}>{userServicesIds.length}</div>
                   <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.4' }}>Projects currently in progress</p>
                 </div>
               </div>
 
-              <div style={{ background: '#fff', padding: '2rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0' }}>
+              <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#334155', marginBottom: '1rem' }}>Pending Documents</h3>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ fontSize: '2.5rem', fontWeight: '800', color: '#0f172a' }}>0</div>
-                  <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.4' }}>Files requiring your signature or upload</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: '800', color: '#0f172a' }}>{pendingDocsCount}</div>
+                    <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.4' }}>Files requiring your signature or upload</p>
+                  </div>
+                  {totalRequiredDocs > 0 && (
+                    <div style={{ background: 'rgba(192, 155, 90, 0.1)', color: '#C09B5A', padding: '0.5rem 1rem', borderRadius: '20px', fontWeight: '700', fontSize: '0.85rem' }}>
+                      {docCompletionPercentage}% Uploaded
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div style={{ background: '#fff', padding: '2rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0', gridColumn: '1 / -1' }}>
+              <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)', gridColumn: '1 / -1' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#334155', marginBottom: '1rem' }}>Recent Activity</h3>
-                <p style={{ color: '#64748b', fontSize: '1rem' }}>No recent activity found for <strong style={{ color: '#0f172a' }}>{user.email}</strong>. Start by uploading a document or requesting a new service.</p>
+                {userServicesIds.length > 0 ? (
+                  <p style={{ color: '#64748b', fontSize: '1rem' }}>You have <strong style={{ color: '#0f172a' }}>{pendingDocsCount} documents pending</strong> for your {userServicesIds.length} active service(s). Navigate to "My Services" to upload them.</p>
+                ) : (
+                  <p style={{ color: '#64748b', fontSize: '1rem' }}>No recent activity found for <strong style={{ color: '#0f172a' }}>{user.email}</strong>. Start by uploading a document or requesting a new service.</p>
+                )}
               </div>
+            </div>
+            )
+          })()}
+
+          {activeTab === 'services' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              {selectedServiceForDocs ? (
+                <ServiceDocumentManager serviceTitle={selectedServiceForDocs.title} documents={selectedServiceForDocs.requiredDocuments || []} onBack={() => setSelectedServiceForDocs(null)} />
+              ) : (
+                user.selectedServices && user.selectedServices.length > 0 ? (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                    {allServices
+                      .filter(s => (user.selectedServices || []).some((us: any) => (typeof us === 'string' ? us : us.id) === s.id))
+                      .filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()) || (s.summary && s.summary.toLowerCase().includes(searchQuery.toLowerCase())))
+                      .map(service => (
+                      <div key={service.id} style={{ background: "#fff", padding: "2.5rem 2rem", borderRadius: "16px", boxShadow: "0 10px 40px -10px rgba(0,0,0,0.06)", border: "1px solid rgba(0, 0, 0, 0.04)", display: "flex", flexDirection: "column", height: "100%", position: "relative", transition: "transform 0.2s, box-shadow 0.2s" }} onMouseOver={e => {e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 15px 50px -10px rgba(0,0,0,0.08)"}} onMouseOut={e => {e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 10px 40px -10px rgba(0,0,0,0.06)"}}>
+                        <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#0A111F', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#C09B5A' }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                        </div>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F', marginBottom: '0.75rem', letterSpacing: '-0.01em', lineHeight: '1.3' }}>{service.title}</h3>
+                        <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', flex: 1 }}>{service.summary}</p>
+                        
+                        <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <span style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: '500' }}>Active Service</span>
+                          <button onClick={() => setSelectedServiceForDocs(service)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: "transparent", border: "none", color: "#C09B5A", fontWeight: "700", cursor: "pointer", transition: "all 0.2s", fontSize: "0.9rem", padding: 0 }} onMouseOver={e => {e.currentTarget.style.color = "#0A111F"; e.currentTarget.style.transform = "translateX(4px)"}} onMouseOut={e => {e.currentTarget.style.color = "#C09B5A"; e.currentTarget.style.transform = "none"}}>
+                            View Details 
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div style={{ background: '#fff', padding: '4rem 2rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0', textAlign: 'center' }}>
+                    <svg style={{ margin: '0 auto 1.5rem', color: '#cbd5e1' }} width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#0f172a', marginBottom: '1rem' }}>No Services Requested</h3>
+                    <p style={{ color: '#64748b', maxWidth: '500px', margin: '0 auto 2rem', lineHeight: '1.6' }}>You haven't enrolled in any Chartered Accountant services yet. Contact our team to begin your professional engagement.</p>
+                    <button onClick={() => setActiveTab('profile')} className="royal-shine royal-glow" style={{ background: '#C09B5A', color: '#fff', padding: '0.875rem 2.5rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '1.05rem', boxShadow: '0 4px 14px rgba(192, 155, 90, 0.4)' }}>Request CA Service</button>
+                  </div>
+                )
+              )}
             </div>
           )}
 
-          {activeTab === 'services' && (
-            <div style={{ background: '#fff', padding: '4rem 2rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-              <svg style={{ margin: '0 auto 1.5rem', color: '#cbd5e1' }} width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#0f172a', marginBottom: '1rem' }}>No Services Requested</h3>
-              <p style={{ color: '#64748b', maxWidth: '500px', margin: '0 auto 2rem', lineHeight: '1.6' }}>You haven't enrolled in any Chartered Accountant services yet. Contact our team to begin your professional engagement.</p>
-              <button style={{ background: '#e66a2b', color: '#fff', padding: '0.875rem 2.5rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '1.05rem', boxShadow: '0 4px 14px rgba(230, 106, 43, 0.3)' }}>Request CA Service</button>
+          {activeTab === 'appointments' && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
+              <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)' }}>
+                
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F', marginBottom: '0.5rem' }}>Schedule Appointment</h3>
+                <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '2rem' }}>Request a dedicated slot to discuss your services with our team.</p>
+                <form onSubmit={handleBookAppointment}>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Service Context (Optional)</label>
+                    <select value={aptForm.service} onChange={e => setAptForm({...aptForm, service: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}}>
+                      <option value="">General Discussion</option>
+                      {allServices.filter(s => (user.selectedServices || []).some((us: any) => (typeof us === 'string' ? us : us.id) === s.id)).map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                    </select>
+                  </div>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Preferred Date & Time</label>
+                    <input type="datetime-local" required value={aptForm.date} onChange={e => setAptForm({...aptForm, date: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', fontFamily: 'inherit', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}} />
+                  </div>
+                  <div style={{ marginBottom: '2rem' }}>
+                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Agenda / Notes</label>
+                    <textarea rows={4} value={aptForm.notes} onChange={e => setAptForm({...aptForm, notes: e.target.value})} placeholder="What would you like to discuss?" style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', resize: 'none', fontFamily: 'inherit', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}}></textarea>
+                  </div>
+                  <button type="submit" disabled={isBooking} className="royal-shine royal-glow" style={{ background: '#0A111F', color: '#fff', padding: '1rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: isBooking ? 'not-allowed' : 'pointer', fontSize: '1rem', width: '100%', opacity: isBooking ? 0.7 : 1, transition: 'all 0.3s' }}>
+                    {isBooking ? 'Scheduling...' : 'Request Appointment'}
+                  </button>
+                </form>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F' }}>Your Schedule</h3>
+                  <div style={{ display: 'flex', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px' }}>
+                    <button onClick={() => setCalendarView('list')} style={{ padding: '0.5rem 1rem', borderRadius: '6px', border: 'none', background: calendarView === 'list' ? '#fff' : 'transparent', color: calendarView === 'list' ? '#0f172a' : '#64748b', fontWeight: '600', cursor: 'pointer', boxShadow: calendarView === 'list' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}>List</button>
+                    <button onClick={() => setCalendarView('calendar')} style={{ padding: '0.5rem 1rem', borderRadius: '6px', border: 'none', background: calendarView === 'calendar' ? '#fff' : 'transparent', color: calendarView === 'calendar' ? '#0f172a' : '#64748b', fontWeight: '600', cursor: 'pointer', boxShadow: calendarView === 'calendar' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}>Calendar</button>
+                  </div>
+                </div>
+
+                {calendarView === 'list' ? (
+                  appointments.length === 0 ? (
+                    <div style={{ background: '#fff', padding: '3rem 2rem', borderRadius: '16px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
+                      <svg style={{ margin: '0 auto 1rem', color: '#cbd5e1' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                      <p style={{ color: '#64748b', fontSize: '0.95rem', fontWeight: '500' }}>No upcoming appointments scheduled.</p>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {appointments.map(apt => (
+                        <div key={apt.id} style={{ background: '#fff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e2e8f0', borderLeft: apt.status === 'confirmed' ? '4px solid #10b981' : '4px solid #C09B5A', transition: 'transform 0.2s, box-shadow 0.2s' }} onMouseOver={e => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.05)'}} onMouseOut={e => {e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'}}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                            <div>
+                              <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '700', marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                {new Date(apt.appointmentDate).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                              </div>
+                              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0A111F' }}>{apt.service ? (typeof apt.service === 'string' ? 'Service Consultation' : apt.service.title) : 'General Discussion'}</div>
+                            </div>
+                            <div style={{ display: 'inline-block', padding: '0.35rem 0.85rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', background: apt.status === 'confirmed' ? 'rgba(16,185,129,0.1)' : apt.status === 'completed' ? 'rgba(59,130,246,0.1)' : apt.status === 'cancelled' ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)', color: apt.status === 'confirmed' ? '#10b981' : apt.status === 'completed' ? '#3b82f6' : apt.status === 'cancelled' ? '#ef4444' : '#f59e0b' }}>
+                              {apt.status}
+                            </div>
+                          </div>
+                          {apt.notes && <p style={{ marginTop: '1rem', color: '#475569', fontSize: '0.9rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #f1f5f9' }}>{apt.notes}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  )
+                ) : (
+                  <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
+                      <h4 style={{ fontWeight: '700', color: '#0f172a', margin: 0, fontSize: '1.1rem' }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h4>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', background: '#f8fafc', padding: '0.75rem 0', borderBottom: '1px solid #e2e8f0' }}>
+                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day} style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>{day}</div>)}
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
+                      {renderCalendar()}
+                    </div>
+                  </div>
+                )}
+
+              </div>
             </div>
           )}
 
           {activeTab === 'documents' && (
-            <div style={{ background: '#fff', padding: '2rem', borderRadius: '14px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e2e8f0' }}>
+            <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#334155' }}>Your Secure Tax Vault</h3>
                 <button style={{ background: '#0f172a', color: '#fff', padding: '0.65rem 1.35rem', borderRadius: '8px', border: 'none', fontWeight: '600', cursor: 'pointer' }}>+ Upload Document</button>

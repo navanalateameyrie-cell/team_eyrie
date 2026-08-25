@@ -37,6 +37,16 @@ export const Services: CollectionConfig = {
       ],
     },
     {
+      name: 'requiredDocuments',
+      type: 'array',
+      label: 'Required Documents for Client Portal',
+      labels: { singular: 'Document', plural: 'Documents' },
+      admin: { description: 'List of documents a client must upload for this service.' },
+      fields: [
+        { name: 'documentName', type: 'text', required: true, label: 'Document Name' },
+      ],
+    },
+    {
       name: 'relatedIndustries',
       type: 'relationship',
       relationTo: 'industries',
