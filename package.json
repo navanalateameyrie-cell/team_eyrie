@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Team Eyrie corporate website (Next.js + Payload CMS + PostgreSQL)",
   "license": "UNLICENSED",
-  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",

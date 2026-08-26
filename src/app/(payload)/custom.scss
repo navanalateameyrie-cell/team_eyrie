@@ -42,7 +42,9 @@
     visibility: visible !important;
     opacity: 1 !important;
     transform: translateX(0) !important;
-    position: relative !important;
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
     width: 270px;
     transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease !important;
   }
@@ -315,8 +317,12 @@
   }
 
   /* --- MAIN CONTENT AREA & TABLES --- */
+  .template-default__wrap {
+    grid-template-columns: 270px 1fr !important;
+  }
+
   .template-default__wrap, .payload-default {
-    background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%) !important;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
     min-height: 100vh !important;
   }
   
@@ -386,7 +392,7 @@
 
   .dashboard__card-list .card *,
   a.card * {
-    font-weight: 700 !important;
+    font-weight: 400 !important;
     color: var(--te-navy) !important;
     font-size: 1.02rem !important;
     transition: color 0.2s ease !important;
@@ -453,28 +459,28 @@
   /* Tables & Lists */
   .table {
     background: #ffffff !important;
-    border-radius: 8px !important;
+    border-radius: 12px !important;
     overflow: hidden !important;
-    border: 1px solid #e2e8f0 !important;
+    border: 1px solid rgba(176, 141, 87, 0.25) !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
     width: 100% !important;
-    box-shadow: 0 4px 12px rgba(11, 19, 36, 0.03) !important;
+    box-shadow: 0 10px 30px rgba(11, 19, 36, 0.08) !important;
   }
   
   .table thead tr {
-    background: #f8fafc !important;
+    background: linear-gradient(135deg, var(--te-navy) 0%, #1a2f4c 100%) !important;
   }
   
   .table th {
-    color: var(--te-navy) !important;
+    color: #ffffff !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     font-size: 0.75rem !important;
-    letter-spacing: 0.05em !important;
-    padding: 14px 20px !important;
-    border-bottom: 2px solid #e2e8f0 !important;
-    border-right: 1px solid #f1f5f9 !important;
+    letter-spacing: 0.08em !important;
+    padding: 16px 20px !important;
+    border-bottom: 4px solid var(--te-gold) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
 
   .table th:last-child {
@@ -483,26 +489,30 @@
   
   .table tbody tr {
     background: #ffffff !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.2s ease !important;
   }
 
   .table tbody tr:nth-child(even) {
-    background: #fcfcfd !important;
+    background: #f8fafc !important;
   }
   
   .table tbody tr:hover {
-    background: rgba(176, 141, 87, 0.09) !important;
-    transform: scale(1.002) translateY(-1px) !important;
-    box-shadow: 0 4px 16px rgba(11, 19, 36, 0.06) !important;
+    background: linear-gradient(90deg, rgba(176, 141, 87, 0.08) 0%, rgba(255, 255, 255, 0) 100%) !important;
+  }
+
+  .table tbody tr:hover td:first-child {
+    box-shadow: inset 4px 0 0 0 var(--te-gold) !important;
   }
   
   .table td {
-    color: var(--theme-text) !important;
-    padding: 14px 20px !important;
+    color: var(--te-navy) !important;
+    padding: 16px 20px !important;
     border-bottom: 1px solid #e2e8f0 !important;
-    border-right: 1px solid #f1f5f9 !important;
-    font-size: 14px !important;
+    border-right: 1px dashed #e2e8f0 !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
     vertical-align: middle !important;
+    transition: all 0.2s ease !important;
   }
 
   .table td:last-child {
@@ -512,32 +522,109 @@
   .table tbody tr:last-child td {
     border-bottom: none !important;
   }
+  
+  /* Buttons above table (Create New, Columns, Filters) */
+  .collection-list__header .btn--style-secondary {
+    background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.3) !important;
+    transition: all 0.25s ease !important;
+  }
+  
+  .collection-list__header .btn--style-secondary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.4) !important;
+  }
+  
+  /* Status text/badges in tables */
+  .table td .badge,
+  .table td .pill,
+  .table td .status {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+  }
 
   /* --- ADMIN PANEL FORM FIELDS --- */
+  
+  /* Fix empty space at the top of edit views */
+  .collection-edit__header, 
+  .doc-header, 
+  .doc-controls,
+  .form-controls {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ensure empty doc-controls or headers don't take up space */
+  .doc-controls:empty,
+  .collection-edit__header:empty,
+  .doc-header:empty {
+    display: none !important;
+  }
+
+  .collection-edit form,
+  .document-fields {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  /* Improve Field Labels */
+  .field-label, label {
+    color: var(--te-navy) !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 8px !important;
+    display: inline-block !important;
+  }
+
+  /* Core Input Styling */
   .field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
   .field-type textarea,
   .field-type .rs__control {
     background-color: #f8fafc !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 6px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
     color: var(--te-navy) !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    padding: 12px 16px !important;
+    width: 100% !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
+  /* Hover State */
   .field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):hover,
   .field-type textarea:hover,
   .field-type .rs__control:hover {
-    border-color: #94a3b8 !important;
+    border-color: var(--te-gold-light) !important;
     background-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.08) !important;
   }
 
+  /* Focus State - Colorful Navy & Gold */
   .field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):focus,
   .field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):focus-visible,
   .field-type textarea:focus,
   .field-type .rs__control--is-focused {
     background-color: #ffffff !important;
     border-color: var(--te-gold) !important;
-    box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.2) !important;
+    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.15) !important;
     outline: none !important;
   }
 
@@ -545,15 +632,39 @@
   .file-field .file-field__upload {
     border: 2px dashed #cbd5e1 !important;
     background-color: #f8fafc !important;
-    transition: all 0.2s ease !important;
-    border-radius: 6px !important;
+    transition: all 0.25s ease !important;
+    border-radius: 10px !important;
+    padding: 24px !important;
   }
 
   .file-field .file-field__upload:hover,
   .file-field .file-field__upload:focus-within {
     border-color: var(--te-gold) !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.1) !important;
+    background-color: #fefcf9 !important;
+    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.1) !important;
+  }
+  
+  /* Select Dropdown Enhancements */
+  .rs__menu {
+    border-radius: 8px !important;
+    border: 1px solid rgba(176, 141, 87, 0.2) !important;
+    box-shadow: 0 10px 25px rgba(11, 19, 36, 0.1) !important;
+    overflow: hidden !important;
+  }
+  
+  .rs__option {
+    transition: all 0.2s ease !important;
+  }
+  
+  .rs__option--is-focused, .rs__option:hover {
+    background: linear-gradient(90deg, rgba(176, 141, 87, 0.1) 0%, rgba(255, 255, 255, 0) 100%) !important;
+    color: var(--te-navy) !important;
+    font-weight: 600 !important;
+  }
+
+  .rs__option--is-selected {
+    background: var(--te-navy) !important;
+    color: #ffffff !important;
   }
 
   /* ============================================================

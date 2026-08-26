@@ -18,8 +18,9 @@ export default function ClientDashboard() {
   const [appointments, setAppointments] = useState<any[]>([])
   const [aptForm, setAptForm] = useState({ service: '', date: '', notes: '' })
   const [isBooking, setIsBooking] = useState(false)
-  const [calendarView, setCalendarView] = useState('list')
+  const [calendarView, setCalendarView] = useState('calendar')
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false)
 
 
   const handleLogout = async () => {
@@ -125,7 +126,7 @@ export default function ClientDashboard() {
 
     const days = [];
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} style={{ padding: '1rem', background: '#f8fafc', border: '1px solid #f1f5f9' }} />);
+      days.push(<div key={`empty-${i}`} style={{ padding: '1rem', background: 'rgba(248, 250, 252, 0.5)', border: '1px solid #f1f5f9' }} />);
     }
 
     for (let d = 1; d <= daysInMonth; d++) {
@@ -134,13 +135,16 @@ export default function ClientDashboard() {
       const dayAppointments = appointments.filter(apt => new Date(apt.appointmentDate).toDateString() === date.toDateString());
 
       days.push(
-        <div key={`day-${d}`} style={{ padding: '0.75rem', minHeight: '100px', background: isToday ? '#fffbeb' : '#fff', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'background 0.2s', cursor: 'pointer' }} onMouseOver={e => e.currentTarget.style.background = '#f1f5f9'} onMouseOut={e => e.currentTarget.style.background = isToday ? '#fffbeb' : '#fff'} onClick={() => { setAptForm(prev => ({...prev, date: `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}T09:00`})); window.scrollTo({top:0, behavior:'smooth'}); }}>
-          <div style={{ fontWeight: '700', fontSize: '0.9rem', color: isToday ? '#C09B5A' : '#334155' }}>{d}</div>
-          {dayAppointments.map(apt => (
-            <div key={apt.id} style={{ fontSize: '0.7rem', padding: '0.35rem', background: apt.status === 'confirmed' ? '#d1fae5' : '#fef3c7', color: apt.status === 'confirmed' ? '#065f46' : '#92400e', borderRadius: '4px', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {new Date(apt.appointmentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {apt.status}
-            </div>
-          ))}
+        <div key={`day-${d}`} style={{ padding: '0.85rem', minHeight: '120px', background: isToday ? '#fffbeb' : '#fff', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'all 0.2s', cursor: 'pointer', position: 'relative' }} onMouseOver={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.boxShadow = 'inset 0 0 0 1.5px #C09B5A'; e.currentTarget.style.zIndex = '10'; }} onMouseOut={e => { e.currentTarget.style.background = isToday ? '#fffbeb' : '#fff'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.zIndex = '1'; }} onClick={() => { setAptForm(prev => ({...prev, date: `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}T09:00`})); setIsAppointmentDrawerOpen(true); }}>
+          <div style={{ fontWeight: '800', fontSize: '0.95rem', color: isToday ? '#C09B5A' : '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', borderRadius: '50%', background: isToday ? 'rgba(192,155,90,0.15)' : 'transparent', alignSelf: 'flex-start' }}>{d}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1, overflowY: 'auto' }}>
+            {dayAppointments.map(apt => (
+              <div key={apt.id} style={{ fontSize: '0.7rem', padding: '0.4rem 0.5rem', background: apt.status === 'confirmed' ? 'rgba(16,185,129,0.1)' : 'rgba(192, 155, 90, 0.1)', color: apt.status === 'confirmed' ? '#10b981' : '#C09B5A', borderRadius: '6px', fontWeight: '700', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', borderLeft: `3px solid ${apt.status === 'confirmed' ? '#10b981' : '#C09B5A'}`, display: 'flex', alignItems: 'center', gap: '4px', transition: 'transform 0.2s' }} onMouseOver={e => { e.stopPropagation(); e.currentTarget.style.transform='scale(1.02)' }} onMouseOut={e => { e.stopPropagation(); e.currentTarget.style.transform='scale(1)' }}>
+                <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: apt.status === 'confirmed' ? '#10b981' : '#C09B5A', flexShrink: 0 }}></span>
+                {new Date(apt.appointmentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {apt.status}
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
@@ -167,6 +171,7 @@ export default function ClientDashboard() {
         setAppointments(prev => [data.doc, ...prev].sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime()))
         setAptForm({ service: '', date: '', notes: '' })
         alert('Appointment requested successfully! We will confirm shortly.')
+        setIsAppointmentDrawerOpen(false)
       } else {
         alert('Failed to book appointment.')
       }
@@ -229,6 +234,14 @@ export default function ClientDashboard() {
           0% { box-shadow: 0 0 0 0 rgba(192, 155, 90, 0.4); }
           70% { box-shadow: 0 0 0 10px rgba(192, 155, 90, 0); }
           100% { box-shadow: 0 0 0 0 rgba(192, 155, 90, 0); }
+        }
+        @keyframes slideInRight {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
         .royal-shine {
           position: relative;
@@ -727,91 +740,111 @@ export default function ClientDashboard() {
           )}
 
           {activeTab === 'appointments' && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
-              <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.03)' }}>
-                
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F', marginBottom: '0.5rem' }}>Schedule Appointment</h3>
-                <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '2rem' }}>Request a dedicated slot to discuss your services with our team.</p>
-                <form onSubmit={handleBookAppointment}>
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Service Context (Optional)</label>
-                    <select value={aptForm.service} onChange={e => setAptForm({...aptForm, service: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}}>
-                      <option value="">General Discussion</option>
-                      {allServices.filter(s => (user.selectedServices || []).some((us: any) => (typeof us === 'string' ? us : us.id) === s.id)).map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
-                    </select>
-                  </div>
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Preferred Date & Time</label>
-                    <input type="datetime-local" required value={aptForm.date} onChange={e => setAptForm({...aptForm, date: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', fontFamily: 'inherit', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}} />
-                  </div>
-                  <div style={{ marginBottom: '2rem' }}>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Agenda / Notes</label>
-                    <textarea rows={4} value={aptForm.notes} onChange={e => setAptForm({...aptForm, notes: e.target.value})} placeholder="What would you like to discuss?" style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', resize: 'none', fontFamily: 'inherit', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}}></textarea>
-                  </div>
-                  <button type="submit" disabled={isBooking} className="royal-shine royal-glow" style={{ background: '#0A111F', color: '#fff', padding: '1rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: isBooking ? 'not-allowed' : 'pointer', fontSize: '1rem', width: '100%', opacity: isBooking ? 0.7 : 1, transition: 'all 0.3s' }}>
-                    {isBooking ? 'Scheduling...' : 'Request Appointment'}
-                  </button>
-                </form>
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F' }}>Your Schedule</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F' }}>Your Schedule</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <div style={{ display: 'flex', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px' }}>
                     <button onClick={() => setCalendarView('list')} style={{ padding: '0.5rem 1rem', borderRadius: '6px', border: 'none', background: calendarView === 'list' ? '#fff' : 'transparent', color: calendarView === 'list' ? '#0f172a' : '#64748b', fontWeight: '600', cursor: 'pointer', boxShadow: calendarView === 'list' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}>List</button>
                     <button onClick={() => setCalendarView('calendar')} style={{ padding: '0.5rem 1rem', borderRadius: '6px', border: 'none', background: calendarView === 'calendar' ? '#fff' : 'transparent', color: calendarView === 'calendar' ? '#0f172a' : '#64748b', fontWeight: '600', cursor: 'pointer', boxShadow: calendarView === 'calendar' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}>Calendar</button>
                   </div>
+                  <button onClick={() => setIsAppointmentDrawerOpen(true)} className="royal-shine royal-glow" style={{ background: '#0A111F', color: '#fff', padding: '0.65rem 1.25rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 14px rgba(10, 17, 31, 0.3)', transition: 'all 0.3s' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Appointment
+                  </button>
                 </div>
+              </div>
 
-                {calendarView === 'list' ? (
-                  appointments.length === 0 ? (
-                    <div style={{ background: '#fff', padding: '3rem 2rem', borderRadius: '16px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                      <svg style={{ margin: '0 auto 1rem', color: '#cbd5e1' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                      <p style={{ color: '#64748b', fontSize: '0.95rem', fontWeight: '500' }}>No upcoming appointments scheduled.</p>
-                    </div>
-                  ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                      {appointments.map(apt => (
-                        <div key={apt.id} style={{ background: '#fff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e2e8f0', borderLeft: apt.status === 'confirmed' ? '4px solid #10b981' : '4px solid #C09B5A', transition: 'transform 0.2s, box-shadow 0.2s' }} onMouseOver={e => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.05)'}} onMouseOut={e => {e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'}}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-                            <div>
-                              <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '700', marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                {new Date(apt.appointmentDate).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
-                              </div>
-                              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0A111F' }}>{apt.service ? (typeof apt.service === 'string' ? 'Service Consultation' : apt.service.title) : 'General Discussion'}</div>
-                            </div>
-                            <div style={{ display: 'inline-block', padding: '0.35rem 0.85rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', background: apt.status === 'confirmed' ? 'rgba(16,185,129,0.1)' : apt.status === 'completed' ? 'rgba(59,130,246,0.1)' : apt.status === 'cancelled' ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)', color: apt.status === 'confirmed' ? '#10b981' : apt.status === 'completed' ? '#3b82f6' : apt.status === 'cancelled' ? '#ef4444' : '#f59e0b' }}>
-                              {apt.status}
-                            </div>
-                          </div>
-                          {apt.notes && <p style={{ marginTop: '1rem', color: '#475569', fontSize: '0.9rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #f1f5f9' }}>{apt.notes}</p>}
-                        </div>
-                      ))}
-                    </div>
-                  )
+              {calendarView === 'list' ? (
+                appointments.length === 0 ? (
+                  <div style={{ background: '#fff', padding: '3rem 2rem', borderRadius: '16px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
+                    <svg style={{ margin: '0 auto 1rem', color: '#cbd5e1' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <p style={{ color: '#64748b', fontSize: '0.95rem', fontWeight: '500' }}>No upcoming appointments scheduled.</p>
+                  </div>
                 ) : (
-                  <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
-                      <h4 style={{ fontWeight: '700', color: '#0f172a', margin: 0, fontSize: '1.1rem' }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h4>
-                      <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {appointments.map(apt => (
+                      <div key={apt.id} style={{ background: '#fff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e2e8f0', borderLeft: apt.status === 'confirmed' ? '4px solid #10b981' : '4px solid #C09B5A', transition: 'transform 0.2s, box-shadow 0.2s' }} onMouseOver={e => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.05)'}} onMouseOut={e => {e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'}}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                          <div>
+                            <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '700', marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                              {new Date(apt.appointmentDate).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                            </div>
+                            <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0A111F' }}>{apt.service ? (typeof apt.service === 'string' ? 'Service Consultation' : apt.service.title) : 'General Discussion'}</div>
+                          </div>
+                          <div style={{ display: 'inline-block', padding: '0.35rem 0.85rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', background: apt.status === 'confirmed' ? 'rgba(16,185,129,0.1)' : apt.status === 'completed' ? 'rgba(59,130,246,0.1)' : apt.status === 'cancelled' ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)', color: apt.status === 'confirmed' ? '#10b981' : apt.status === 'completed' ? '#3b82f6' : apt.status === 'cancelled' ? '#ef4444' : '#f59e0b' }}>
+                            {apt.status}
+                          </div>
+                        </div>
+                        {apt.notes && <p style={{ marginTop: '1rem', color: '#475569', fontSize: '0.9rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #f1f5f9' }}>{apt.notes}</p>}
                       </div>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', background: '#f8fafc', padding: '0.75rem 0', borderBottom: '1px solid #e2e8f0' }}>
-                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day} style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>{day}</div>)}
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
-                      {renderCalendar()}
+                    ))}
+                  </div>
+                )
+              ) : (
+                <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.06)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
+                    <h4 style={{ fontWeight: '700', color: '#0f172a', margin: 0, fontSize: '1.1rem' }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h4>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                      </button>
+                      <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </button>
                     </div>
                   </div>
-                )}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', background: '#f8fafc', padding: '0.75rem 0', borderBottom: '1px solid #e2e8f0' }}>
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day} style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>{day}</div>)}
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
+                    {renderCalendar()}
+                  </div>
+                </div>
+              )}
 
-              </div>
+              {/* Right Side Drawer for Add Appointment */}
+              {isAppointmentDrawerOpen && (
+                <>
+                  <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', zIndex: 10000 }} onClick={() => setIsAppointmentDrawerOpen(false)}></div>
+                  <div style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: '450px', maxWidth: '100vw', backgroundColor: '#fff', zIndex: 10001, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', animation: 'slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+                    <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0A111F', margin: 0 }}>Schedule Appointment</h3>
+                      <button onClick={() => setIsAppointmentDrawerOpen(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '50%', transition: 'all 0.2s' }} onMouseOver={e => {e.currentTarget.style.backgroundColor = '#e2e8f0'; e.currentTarget.style.color = '#0f172a'}} onMouseOut={e => {e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#64748b'}}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      </button>
+                    </div>
+                    <div style={{ padding: '2rem', flex: 1, overflowY: 'auto' }}>
+                      <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '2rem' }}>Request a dedicated slot to discuss your services with our team.</p>
+                      <form onSubmit={handleBookAppointment}>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                          <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Service Context (Optional)</label>
+                          <select value={aptForm.service} onChange={e => setAptForm({...aptForm, service: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}}>
+                            <option value="">General Discussion</option>
+                            {allServices.filter(s => (user.selectedServices || []).some((us: any) => (typeof us === 'string' ? us : us.id) === s.id)).map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                          </select>
+                        </div>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                          <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Preferred Date & Time</label>
+                          <input type="datetime-local" required value={aptForm.date} onChange={e => setAptForm({...aptForm, date: e.target.value})} style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', fontFamily: 'inherit', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}} />
+                        </div>
+                        <div style={{ marginBottom: '2rem' }}>
+                          <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '600', color: '#334155', marginBottom: '0.5rem' }}>Agenda / Notes</label>
+                          <textarea rows={5} value={aptForm.notes} onChange={e => setAptForm({...aptForm, notes: e.target.value})} placeholder="What would you like to discuss?" style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', resize: 'none', fontFamily: 'inherit', backgroundColor: '#f8fafc', transition: 'all 0.2s' }} onFocus={e => {e.currentTarget.style.borderColor='#C09B5A'; e.currentTarget.style.backgroundColor='#fff'}}></textarea>
+                        </div>
+                        <button type="submit" disabled={isBooking} className="royal-shine royal-glow" style={{ background: '#0A111F', color: '#fff', padding: '1rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: isBooking ? 'not-allowed' : 'pointer', fontSize: '1rem', width: '100%', opacity: isBooking ? 0.7 : 1, transition: 'all 0.3s', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
+                          {isBooking ? (
+                            <>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                              Scheduling...
+                            </>
+                          ) : 'Request Appointment'}
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
