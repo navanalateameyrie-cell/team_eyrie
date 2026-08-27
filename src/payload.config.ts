@@ -82,6 +82,12 @@ export default buildConfig({
         Icon: '/components/admin/Icon#Icon',
       },
       views: {
+        Dashboard: {
+          Component: '/components/admin/CustomDashboard',
+        },
+        dashboard: {
+          Component: '/components/admin/CustomDashboard',
+        },
         login: {
           Component: '/components/admin/LoginView#LoginView',
         },

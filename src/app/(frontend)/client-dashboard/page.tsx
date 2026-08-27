@@ -21,6 +21,7 @@ export default function ClientDashboard() {
   const [calendarView, setCalendarView] = useState('calendar')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
 
   const handleLogout = async () => {
@@ -126,7 +127,7 @@ export default function ClientDashboard() {
 
     const days = [];
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} style={{ padding: '1rem', background: 'rgba(248, 250, 252, 0.5)', border: '1px solid #f1f5f9' }} />);
+      days.push(<div key={`empty-${i}`} style={{ padding: '1rem', background: 'transparent', borderRadius: '12px' }} />);
     }
 
     for (let d = 1; d <= daysInMonth; d++) {
@@ -135,13 +136,53 @@ export default function ClientDashboard() {
       const dayAppointments = appointments.filter(apt => new Date(apt.appointmentDate).toDateString() === date.toDateString());
 
       days.push(
-        <div key={`day-${d}`} style={{ padding: '0.85rem', minHeight: '120px', background: isToday ? '#fffbeb' : '#fff', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'all 0.2s', cursor: 'pointer', position: 'relative' }} onMouseOver={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.boxShadow = 'inset 0 0 0 1.5px #C09B5A'; e.currentTarget.style.zIndex = '10'; }} onMouseOut={e => { e.currentTarget.style.background = isToday ? '#fffbeb' : '#fff'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.zIndex = '1'; }} onClick={() => { setAptForm(prev => ({...prev, date: `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}T09:00`})); setIsAppointmentDrawerOpen(true); }}>
-          <div style={{ fontWeight: '800', fontSize: '0.95rem', color: isToday ? '#C09B5A' : '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', borderRadius: '50%', background: isToday ? 'rgba(192,155,90,0.15)' : 'transparent', alignSelf: 'flex-start' }}>{d}</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1, overflowY: 'auto' }}>
+        <div key={`day-${d}`} style={{ 
+          padding: '0.85rem', 
+          minHeight: '120px', 
+          background: isToday ? 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)' : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)', 
+          borderRadius: '16px',
+          boxShadow: isToday ? '0 4px 15px rgba(245, 158, 11, 0.15), inset 0 2px 4px rgba(255,255,255,0.8)' : '0 4px 10px rgba(0,0,0,0.03), inset 0 2px 4px rgba(255,255,255,0.8)',
+          border: '1px solid rgba(255,255,255,0.6)',
+          display: 'flex', flexDirection: 'column', gap: '0.5rem', 
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', 
+          cursor: 'pointer', 
+          position: 'relative',
+          overflow: 'hidden'
+        }} 
+        onMouseOver={e => { 
+          e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)'; 
+          e.currentTarget.style.boxShadow = isToday ? '0 15px 30px rgba(245, 158, 11, 0.25), inset 0 2px 4px rgba(255,255,255,0.8)' : '0 15px 30px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.8)'; 
+          e.currentTarget.style.zIndex = '10'; 
+          e.currentTarget.style.borderColor = isToday ? '#fbbf24' : '#C09B5A';
+        }} 
+        onMouseOut={e => { 
+          e.currentTarget.style.transform = 'none'; 
+          e.currentTarget.style.boxShadow = isToday ? '0 4px 15px rgba(245, 158, 11, 0.15), inset 0 2px 4px rgba(255,255,255,0.8)' : '0 4px 10px rgba(0,0,0,0.03), inset 0 2px 4px rgba(255,255,255,0.8)'; 
+          e.currentTarget.style.zIndex = '1'; 
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
+        }} 
+        onClick={() => { setAptForm(prev => ({...prev, date: `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}T09:00`})); setIsAppointmentDrawerOpen(true); }}>
+          
+          <div style={{ fontWeight: '800', fontSize: '1rem', color: isToday ? '#b45309' : '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '50%', background: isToday ? 'rgba(245, 158, 11, 0.2)' : 'rgba(241, 245, 249, 0.8)', alignSelf: 'flex-start', boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.5)' }}>{d}</div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
             {dayAppointments.map(apt => (
-              <div key={apt.id} style={{ fontSize: '0.7rem', padding: '0.4rem 0.5rem', background: apt.status === 'confirmed' ? 'rgba(16,185,129,0.1)' : 'rgba(192, 155, 90, 0.1)', color: apt.status === 'confirmed' ? '#10b981' : '#C09B5A', borderRadius: '6px', fontWeight: '700', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', borderLeft: `3px solid ${apt.status === 'confirmed' ? '#10b981' : '#C09B5A'}`, display: 'flex', alignItems: 'center', gap: '4px', transition: 'transform 0.2s' }} onMouseOver={e => { e.stopPropagation(); e.currentTarget.style.transform='scale(1.02)' }} onMouseOut={e => { e.stopPropagation(); e.currentTarget.style.transform='scale(1)' }}>
-                <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: apt.status === 'confirmed' ? '#10b981' : '#C09B5A', flexShrink: 0 }}></span>
-                {new Date(apt.appointmentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {apt.status}
+              <div key={apt.id} style={{ 
+                fontSize: '0.75rem', padding: '0.4rem 0.6rem', 
+                background: apt.status === 'confirmed' ? 'linear-gradient(90deg, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.05) 100%)' : 'linear-gradient(90deg, rgba(192, 155, 90, 0.15) 0%, rgba(192, 155, 90, 0.05) 100%)', 
+                color: apt.status === 'confirmed' ? '#047857' : '#92400e', 
+                borderRadius: '8px', fontWeight: '700', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', 
+                borderLeft: `4px solid ${apt.status === 'confirmed' ? '#10b981' : '#C09B5A'}`, 
+                display: 'flex', alignItems: 'center', gap: '6px', 
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                cursor: 'pointer'
+              }} 
+              onClick={(e) => { e.stopPropagation(); setSelectedEvent(apt); }}
+              onMouseOver={e => { e.stopPropagation(); e.currentTarget.style.transform='translateX(6px)' }} 
+              onMouseOut={e => { e.stopPropagation(); e.currentTarget.style.transform='none' }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: apt.status === 'confirmed' ? '#10b981' : '#C09B5A', flexShrink: 0, boxShadow: `0 0 4px ${apt.status === 'confirmed' ? '#10b981' : '#C09B5A'}` }}></span>
+                {new Date(apt.appointmentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
               </div>
             ))}
           </div>
@@ -264,6 +305,21 @@ export default function ClientDashboard() {
         }
         .royal-glow:hover {
           animation: royalPulse 1.5s infinite;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(241, 245, 249, 0.5);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(192, 155, 90, 0.4);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(192, 155, 90, 0.7);
         }
       `}</style>
 
@@ -516,8 +572,9 @@ export default function ClientDashboard() {
       </div>
 
       {/* Main Dynamic Content Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', overflowY: 'auto' }}>
-        <header style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)', padding: '1.25rem 3rem', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 50 }}>
+      <div className="custom-scrollbar" id="main-scroll-area" style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', height: '100vh' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+          <header style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)', padding: '1.25rem 3rem', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 50 }}>
           
           {/* Left Side: Breadcrumb & Search */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flex: 1 }}>
@@ -762,8 +819,9 @@ export default function ClientDashboard() {
                     <p style={{ color: '#64748b', fontSize: '0.95rem', fontWeight: '500' }}>No upcoming appointments scheduled.</p>
                   </div>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {appointments.map(apt => (
+                  <div className="custom-scrollbar" style={{ display: 'block', overflowY: 'auto', height: '500px', overscrollBehavior: 'contain', paddingRight: '0.5rem', paddingBottom: '1rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {appointments.map(apt => (
                       <div key={apt.id} style={{ background: '#fff', padding: '1.5rem', borderRadius: '14px', border: '1px solid #e2e8f0', borderLeft: apt.status === 'confirmed' ? '4px solid #10b981' : '4px solid #C09B5A', transition: 'transform 0.2s, box-shadow 0.2s' }} onMouseOver={e => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.05)'}} onMouseOut={e => {e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'}}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
                           <div>
@@ -779,28 +837,76 @@ export default function ClientDashboard() {
                         {apt.notes && <p style={{ marginTop: '1rem', color: '#475569', fontSize: '0.9rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #f1f5f9' }}>{apt.notes}</p>}
                       </div>
                     ))}
+                    </div>
                   </div>
                 )
               ) : (
-                <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.06)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
-                    <h4 style={{ fontWeight: '700', color: '#0f172a', margin: 0, fontSize: '1.1rem' }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h4>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <div style={{ background: 'linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%)', borderRadius: '24px', padding: '1.5rem', overflow: 'hidden', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.8)', border: '1px solid rgba(255,255,255,0.5)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1rem 1.5rem 1rem', borderBottom: '2px solid rgba(0,0,0,0.03)' }}>
+                    <h4 style={{ fontWeight: '800', color: '#0f172a', margin: 0, fontSize: '1.4rem', textShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                      <span style={{ color: '#C09B5A' }}>{currentMonth.toLocaleString('default', { month: 'long' })}</span> {currentMonth.getFullYear()}
+                    </h4>
+                    <div style={{ display: 'flex', gap: '0.75rem', background: '#fff', padding: '0.35rem', borderRadius: '12px', boxShadow: '0 4px 10px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.5)' }}>
+                      <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ padding: '0.5rem', background: '#f8fafc', borderRadius: '8px', border: 'none', cursor: 'pointer', color: '#475569', transition: 'all 0.2s' }} onMouseOver={e => {e.currentTarget.style.background = '#C09B5A'; e.currentTarget.style.color = '#fff'}} onMouseOut={e => {e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#475569'}}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                       </button>
-                      <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ padding: '0.25rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ padding: '0.5rem', background: '#f8fafc', borderRadius: '8px', border: 'none', cursor: 'pointer', color: '#475569', transition: 'all 0.2s' }} onMouseOver={e => {e.currentTarget.style.background = '#C09B5A'; e.currentTarget.style.color = '#fff'}} onMouseOut={e => {e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#475569'}}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </button>
                     </div>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', background: '#f8fafc', padding: '0.75rem 0', borderBottom: '1px solid #e2e8f0' }}>
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day} style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>{day}</div>)}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '1rem', textAlign: 'center', padding: '1.5rem 0 1rem 0' }}>
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, idx) => <div key={day} style={{ fontSize: '0.85rem', fontWeight: '800', color: idx === 0 || idx === 6 ? '#C09B5A' : '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{day}</div>)}
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
-                    {renderCalendar()}
+                  <div className="custom-scrollbar" style={{ display: 'block', overflowY: 'auto', height: '500px', overscrollBehavior: 'contain', paddingRight: '0.5rem', paddingBottom: '1rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '1rem' }}>
+                      {renderCalendar()}
+                    </div>
                   </div>
                 </div>
+              )}
+
+              {/* Event Details Popup */}
+              {selectedEvent && (
+                <>
+                  <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 100002 }} onClick={() => setSelectedEvent(null)}></div>
+                  <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', borderRadius: '16px', padding: '2.5rem', zIndex: 100003, width: '450px', maxWidth: '90vw', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', animation: 'slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                      <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '800', color: '#0f172a' }}>Meeting Details</h3>
+                      <button onClick={() => setSelectedEvent(null)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b', padding: '0.5rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }} onMouseOver={e => {e.currentTarget.style.backgroundColor = '#e2e8f0'; e.currentTarget.style.color = '#0f172a'}} onMouseOut={e => {e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#64748b'}}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      </button>
+                    </div>
+                    
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', fontWeight: '700', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Date & Time</div>
+                      <div style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0f172a' }}>
+                        {new Date(selectedEvent.appointmentDate).toLocaleString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                      </div>
+                    </div>
+                    
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', fontWeight: '700', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Service / Context</div>
+                      <div style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0f172a' }}>
+                        {selectedEvent.service ? (typeof selectedEvent.service === 'string' ? 'Service Consultation' : selectedEvent.service.title) : 'General Discussion'}
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: '2rem' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', fontWeight: '700', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Status</div>
+                      <div style={{ display: 'inline-block', padding: '0.5rem 1rem', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', background: selectedEvent.status === 'confirmed' ? 'rgba(16,185,129,0.15)' : selectedEvent.status === 'completed' ? 'rgba(59,130,246,0.15)' : selectedEvent.status === 'cancelled' ? 'rgba(239,68,68,0.15)' : 'rgba(245,158,11,0.15)', color: selectedEvent.status === 'confirmed' ? '#047857' : selectedEvent.status === 'completed' ? '#1d4ed8' : selectedEvent.status === 'cancelled' ? '#b91c1c' : '#b45309' }}>
+                        {selectedEvent.status}
+                      </div>
+                    </div>
+
+                    {selectedEvent.notes && (
+                      <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '700', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>NOTES</div>
+                        <p style={{ margin: 0, color: '#334155', fontSize: '0.95rem', lineHeight: '1.5' }}>{selectedEvent.notes}</p>
+                      </div>
+                    )}
+                  </div>
+                </>
               )}
 
               {/* Right Side Drawer for Add Appointment */}
@@ -873,6 +979,7 @@ export default function ClientDashboard() {
           )}
 
         </main>
+        </div>
       </div>
     </div>
   )
