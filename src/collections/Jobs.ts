@@ -41,7 +41,13 @@ export const Jobs: CollectionConfig = {
         {
           name: 'status',
           type: 'select',
-          admin: { width: '50%', position: 'sidebar' },
+          admin: { 
+            width: '50%', 
+            position: 'sidebar',
+            components: {
+              Cell: '/components/admin/StatusCell',
+            },
+          },
           defaultValue: 'draft',
           options: [
             { label: 'Draft', value: 'draft' },

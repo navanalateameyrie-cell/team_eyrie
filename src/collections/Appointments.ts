@@ -14,7 +14,6 @@ export const Appointments: CollectionConfig = {
     update: anyone, // Usually restricted, but keeping anyone for simplicity; hooks should enforce security
     delete: isEditor,
   },
-
   hooks: {
     afterChange: [
       async ({ doc, previousDoc, req }) => {
@@ -23,7 +22,6 @@ export const Appointments: CollectionConfig = {
             const clientId = typeof doc.client === 'string' ? doc.client : doc.client?.id;
             if (!clientId) return;
             const client = await req.payload.findByID({ collection: 'users', id: clientId });
-            
             if (client && client.email) {
               const formattedDate = new Date(doc.appointmentDate).toLocaleString('en-US', {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',

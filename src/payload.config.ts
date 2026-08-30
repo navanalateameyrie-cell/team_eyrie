@@ -73,10 +73,7 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     components: {
-      beforeNavLinks: [
-        '/components/admin/BackButton#BackButton',
-        '/components/admin/SidebarBranding#SidebarBranding',
-      ],
+      Nav: '/components/admin/AdminSidebar#AdminSidebar',
       graphics: {
         Logo: '/components/admin/Logo#Logo',
         Icon: '/components/admin/Icon#Icon',
@@ -150,11 +147,11 @@ export default buildConfig({
     pool: {
       connectionString: dbUrl,
       ssl: isLocalDb ? false : { rejectUnauthorized: false },
-      connectionTimeoutMillis: 15000,
-      idleTimeoutMillis: 30000,
-      max: 10,
+      connectionTimeoutMillis: 30000,  // increased for remote Render DB latency
+      idleTimeoutMillis: 60000,
+      max: 5,
     },
-    push: true,
+    push: false,  // disabled: prevents heavy schema sync queries on every dev startup
   }),
   sharp,
   upload: {
@@ -162,4 +159,27 @@ export default buildConfig({
       fileSize: 10_000_000, // 10 MB
     },
   },
+  onInit: async (payload) => {
+    try {
+      const existingSuperAdmin = await payload.find({
+        collection: 'users',
+        where: { email: { equals: 'tedev@gmail.com' } }
+      })
+
+      if (existingSuperAdmin.totalDocs === 0) {
+        await payload.create({
+          collection: 'users',
+          data: {
+            name: 'Super Admin Developer',
+            email: 'tedev@gmail.com',
+            password: 'dev@123',
+            role: 'super_admin' as any
+          }
+        })
+        payload.logger.info('Seeded super_admin user: tedev@gmail.com')
+      }
+    } catch (err) {
+      payload.logger.error({ err }, 'Failed to seed super admin')
+    }
+  }
 })

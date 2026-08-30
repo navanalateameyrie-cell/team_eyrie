@@ -1,0 +1,201 @@
+/* =================================================================
+   _login.scss — Admin Login Page (Split-Panel Design)
+   Left: White form panel | Right: Navy branded panel
+================================================================= */
+
+/* Full-page when no sidebar exists (login/unauthenticated state) */
+html:not(:has(.te-sidebar)) body,
+body:not(:has(.te-sidebar)) {
+  min-height: 100vh !important;
+  margin: 0 !important;
+  background: #ffffff !important;
+}
+
+html:not(:has(.te-sidebar)) .template-default,
+html:not(:has(.te-sidebar)) .payload-default {
+  min-height: 100vh !important;
+  background: #ffffff !important;
+  position: relative !important;
+}
+
+/* Right-side branded panel container */
+html:not(:has(.te-sidebar)) .template-default__wrap,
+html:not(:has(.te-sidebar)) .payload-default__wrap,
+html:not(:has(.te-sidebar)) main {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+  padding: 0 !important;
+  padding-left: 0 !important;
+  background: transparent !important;
+  position: relative !important;
+  --panel-title: "Team Eyrie Admin";
+}
+
+/* Inject right navy panel via pseudo-element */
+html:not(:has(.te-sidebar)) .template-default__wrap::after,
+html:not(:has(.te-sidebar)) main::after {
+  content: '' !important;
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 50% !important;
+  height: 100vh !important;
+  background: linear-gradient(160deg, var(--te-navy) 0%, var(--te-blue) 60%, #0d2444 100%) !important;
+  z-index: 0 !important;
+}
+
+/* Decorative gold circle on right panel */
+html:not(:has(.te-sidebar)) .template-default__wrap::before,
+html:not(:has(.te-sidebar)) main::before {
+  content: '' !important;
+  display: block !important;
+  position: fixed !important;
+  top: 50% !important;
+  right: 5% !important;
+  transform: translateY(-50%) !important;
+  width: 340px !important;
+  height: 340px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(176, 141, 87, 0.18) 0%, transparent 70%) !important;
+  border: 2px solid rgba(176, 141, 87, 0.25) !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Left white form card */
+html:not(:has(.te-sidebar)) main > div:has(form),
+html:not(:has(.te-sidebar)) .template-default__wrap > div:has(form),
+.step-login {
+  position: relative !important;
+  z-index: 10 !important;
+  background: #ffffff !important;
+  border-radius: 0 !important;
+  width: 50% !important;
+  max-width: 520px !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.08) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  border: none !important;
+  border-left: 5px solid var(--te-gold) !important;
+}
+
+/* Logo area */
+html:not(:has(.te-sidebar)) .custom-logo,
+html:not(:has(.te-sidebar)) main > div:has(form) > *:first-child {
+  padding: 0 56px !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+html:not(:has(.te-sidebar)) img {
+  max-width: 160px !important;
+  height: auto !important;
+  max-height: 60px !important;
+  margin: 0 !important;
+  display: block !important;
+  object-fit: contain !important;
+  background: transparent !important;
+}
+
+/* Form padding */
+html:not(:has(.te-sidebar)) main > div:has(form) form,
+html:not(:has(.te-sidebar)) .template-default__wrap > div:has(form) form {
+  padding: 12px 56px 48px !important;
+}
+
+/* Headings */
+html:not(:has(.te-sidebar)) h1,
+html:not(:has(.te-sidebar)) h2 {
+  color: var(--te-navy) !important;
+  text-align: left !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  margin: 0 0 8px !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.3 !important;
+}
+
+html:not(:has(.te-sidebar)) p,
+html:not(:has(.te-sidebar)) .form-note {
+  color: #64748b !important;
+  text-align: left !important;
+  font-size: 14px !important;
+  margin-bottom: 28px !important;
+}
+
+/* Field Labels */
+html:not(:has(.te-sidebar)) label {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: #475569 !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+html:not(:has(.te-sidebar)) a {
+  color: var(--te-gold) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    color: var(--te-navy) !important;
+    text-decoration: underline !important;
+  }
+}
+
+/* Login Input Fields */
+html:not(:has(.nav)) input:not([type="checkbox"]) {
+  background: #ffffff !important;
+  border: 1.5px solid #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 14px 16px !important;
+  transition: all 0.2s ease !important;
+  color: var(--te-navy) !important;
+  font-size: 15px !important;
+  width: 100% !important;
+  margin-bottom: 16px !important;
+  box-sizing: border-box !important;
+
+  &::placeholder { color: #9ca3af !important; }
+  &:hover { border-color: #9ca3af !important; }
+  &:focus {
+    border-color: var(--te-gold) !important;
+    box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.15) !important;
+    background: #fffdf7 !important;
+    outline: none !important;
+  }
+}
+
+/* Login Submit Button */
+html:not(:has(.nav)) button[type="submit"] {
+  width: 100% !important;
+  padding: 14px 20px !important;
+  background: var(--te-navy) !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  border: none !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  font-size: 15px !important;
+  margin-top: 4px !important;
+  box-shadow: 0 4px 16px rgba(11, 19, 36, 0.3) !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer !important;
+
+  &:hover {
+    background: linear-gradient(135deg, var(--te-gold) 0%, #8a6530 100%) !important;
+    box-shadow: 0 6px 20px rgba(176, 141, 87, 0.4) !important;
+    transform: translateY(-1px) !important;
+  }
+}

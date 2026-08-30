@@ -1,0 +1,43 @@
+/* =================================================================
+   _variables.scss — Team Eyrie Design Tokens
+   All colors, typography, spacing, and design system values
+================================================================= */
+
+:root, html, body, [data-theme="dark"], [data-theme="light"] {
+  /* === Payload Theme Overrides (Light Mode Locked) === */
+  --theme-bg: #f5f7fa !important;
+  --theme-elevation-0: #ffffff !important;
+  --theme-elevation-50: #ffffff !important;
+  --theme-elevation-100: #f8fafc !important;
+  --theme-elevation-150: #f1f5f9 !important;
+  --theme-elevation-200: #e2e8f0 !important;
+  --theme-elevation-250: #cbd5e1 !important;
+  --theme-elevation-300: #94a3b8 !important;
+  --theme-elevation-400: #64748b !important;
+  --theme-elevation-500: #475569 !important;
+  --theme-elevation-600: #334155 !important;
+  --theme-elevation-700: #1e293b !important;
+  --theme-elevation-800: #0f172a !important;
+  --theme-text: #1f2937 !important;
+  --theme-error-400: #ef4444 !important;
+  --theme-success-400: #10b981 !important;
+
+  /* === Team Eyrie Brand Palette === */
+  --te-navy: #0b1324;
+  --te-navy-light: #16294a;
+  --te-gold: #b08d57;
+  --te-gold-light: #d8c19a;
+  --te-blue: #1f3864;
+
+  color: var(--theme-text) !important;
+  background-color: var(--theme-bg) !important;
+}
+
+/* === Global Font Size Tweaks === */
+html, body, .app-wrap, .payload,
+.template-default__content, .list-controls, .table, .form {
+  font-size: 14px !important;
+}
+h1 { font-size: 1.8rem !important; }
+h2 { font-size: 1.5rem !important; }
+h3 { font-size: 1.25rem !important; }

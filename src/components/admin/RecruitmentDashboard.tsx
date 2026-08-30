@@ -1,4 +1,5 @@
 import React from 'react'
+import './RecruitmentDashboard.scss';
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'

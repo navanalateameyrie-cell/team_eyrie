@@ -1,0 +1,57 @@
+/* =============================================================================
+   _sidebar.scss — Fixed Sidebar Layout
+   AdminSidebar has position:fixed (via inline style + CSS module).
+   We dissolve Payload's nav column using display:contents so it takes
+   no grid space while our fixed sidebar still renders above everything.
+============================================================================= */
+
+/* ─── dissolve nav container from layout (doesn't hide fixed children) ───── */
+.template-default__nav {
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  transform: none !important;
+  position: static !important;
+  border: none !important;
+}
+
+/* Hide Payload's default header (hamburger + avatar) since we built a custom one */
+.app-header,
+.nav-toggler,
+.nav__toggle,
+.close-nav,
+button[aria-label="Toggle navigation"],
+button[aria-label="Close navigation"],
+.hamburger-menu,
+.drawer__toggle {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ─── wrap as block — content flows naturally beneath the fixed sidebar ───── */
+.template-default,
+.payload-default {
+  display: block !important;
+}
+
+.template-default__wrap,
+.payload-default__wrap {
+  display: block !important;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
+  min-height: 100vh !important;
+  padding-left: 260px !important;
+  box-sizing: border-box !important;
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ─── Collapsed: 68px sidebar ────────────────────────────────────────────── */
+html[data-sidebar-collapsed="true"] {
+  .template-default__wrap,
+  .payload-default__wrap {
+    padding-left: 68px !important;
+  }
+}

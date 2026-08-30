@@ -1,0 +1,651 @@
+// =============================================================================
+//  AdminSidebar.module.scss
+//  Team Eyrie Admin Panel — Creative Sidebar Component
+//  Design: Glassmorphism + Gold Gradient + Animated Collapse + Floating Tooltips
+// =============================================================================
+
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+$navy:         #0b1324;
+$navy-light:   #111f38;
+$navy-mid:     #16294a;
+$gold:         #b08d57;
+$gold-light:   #d4b483;
+$gold-dim:     rgba(176, 141, 87, 0.18);
+$gold-glow:    rgba(176, 141, 87, 0.35);
+$white:        #ffffff;
+$text-dim:     #94a3b8;
+$text-base:    #cbd5e1;
+$text-bright:  #e2e8f0;
+
+$sidebar-w:       260px;
+$sidebar-w-mini:  68px;
+$transition:      cubic-bezier(0.4, 0, 0.2, 1);
+
+// =============================================================================
+//  SIDEBAR BASE
+// =============================================================================
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  z-index: 1001;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  // Glassmorphism base — deep navy with subtle glass sheen
+  background: linear-gradient(
+    180deg,
+    #{$navy} 0%,
+    #{$navy-light} 50%,
+    darken($navy, 2%) 100%
+  );
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    4px 0 24px rgba(0, 0, 0, 0.4),
+    inset -1px 0 0 rgba(255, 255, 255, 0.04);
+
+  // Subtle animated gradient overlay (top shimmer)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(
+      180deg,
+      rgba(176, 141, 87, 0.07) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  transition:
+    width 0.3s $transition;
+
+  // Scrollbar hidden
+  * { box-sizing: border-box; }
+}
+
+// =============================================================================
+//  COLLAPSED STATE
+// =============================================================================
+
+.sidebarCollapsed {
+  width: 68px;
+
+  .brand { overflow: hidden; }
+}
+
+// =============================================================================
+//  HEADER
+// =============================================================================
+
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 14px 16px;
+  flex-shrink: 0;
+
+  // Subtle bottom border
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, $gold-glow, transparent);
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.brandLogo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(176, 141, 87, 0.4));
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: fadeIn 0.25s $transition;
+}
+
+.brandName {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: $gold;
+  line-height: 1;
+}
+
+.brandSub {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  color: $text-dim;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.collapseBtn {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: $text-dim;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s $transition;
+  }
+
+  &:hover {
+    background: $gold-dim;
+    border-color: rgba(176, 141, 87, 0.4);
+    color: $gold-light;
+    box-shadow: 0 0 12px $gold-glow;
+  }
+}
+
+// =============================================================================
+//  DASHBOARD LINK (top quick link)
+// =============================================================================
+
+.dashboardLink {
+  position: relative;
+  z-index: 1;
+  padding: 10px 10px 4px;
+  flex-shrink: 0;
+}
+
+.dashItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: $text-base;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.22s $transition;
+  position: relative;
+  overflow: visible;
+
+  &:hover {
+    background: $gold-dim;
+    color: $white;
+    transform: translateX(3px);
+
+    .navIcon svg { stroke: $gold-light; transform: scale(1.1); }
+    .tooltip { opacity: 1; pointer-events: none; transform: translateX(0); }
+  }
+}
+
+.dashItemActive {
+  background: linear-gradient(135deg, $gold 0%, darken($gold, 12%) 100%) !important;
+  color: $white !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 16px $gold-glow !important;
+  transform: none !important;
+
+  .navIcon svg { stroke: $white !important; }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: $white;
+    border-radius: 0 2px 2px 0;
+  }
+}
+
+// =============================================================================
+//  DIVIDER
+// =============================================================================
+
+.divider {
+  height: 1px;
+  margin: 6px 14px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  flex-shrink: 0;
+}
+
+// =============================================================================
+//  NAV SCROLL CONTAINER
+// =============================================================================
+
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible;   // allow tooltips to pop outside the column
+  padding: 6px 10px 10px;
+  position: relative;
+  z-index: 1;
+
+  // Custom slim scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: rgba(176, 141, 87, 0.2) transparent;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(176, 141, 87, 0.25);
+    border-radius: 2px;
+  }
+}
+
+// =============================================================================
+//  NAV GROUP
+// =============================================================================
+
+.navGroup {
+  margin-bottom: 4px;
+}
+
+.navGroupOpen {}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: $text-dim;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  transition: all 0.2s $transition;
+  position: relative;
+  overflow: visible;
+
+  &:hover {
+    color: $gold-light;
+    background: rgba(176, 141, 87, 0.06);
+
+    .groupIcon svg { stroke: $gold; }
+    .tooltip { opacity: 1; transform: translateX(0); pointer-events: none; }
+  }
+}
+
+.groupHeaderActive {
+  color: $gold-light;
+}
+
+.groupIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: $text-dim;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    transition: stroke 0.2s ease, transform 0.2s ease;
+  }
+}
+
+.groupLabel {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: fadeIn 0.2s $transition;
+}
+
+.groupChevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.25s $transition;
+  opacity: 0.5;
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.groupChevronOpen {
+  transform: rotate(180deg);
+}
+
+// =============================================================================
+//  GROUP CONTENT (animated expand)
+// =============================================================================
+
+.groupContent {
+  overflow: hidden;
+  transition: max-height 0.3s $transition;
+  padding-left: 10px;
+}
+
+// Collapsed icon-only items shown below group header
+.collapsedItems {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 0;
+}
+
+// =============================================================================
+//  NAV ITEM
+// =============================================================================
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  margin-bottom: 2px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: $text-base;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.22s $transition;
+  position: relative;
+  overflow: visible;
+  white-space: nowrap;
+
+  // Left accent line (hidden by default)
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 55%;
+    background: $gold;
+    border-radius: 0 2px 2px 0;
+    transition: transform 0.2s $transition, opacity 0.2s ease;
+    opacity: 0;
+  }
+
+  &:hover {
+    background: linear-gradient(90deg, $gold-dim 0%, transparent 100%);
+    color: $white;
+    transform: translateX(4px);
+
+    &::before {
+      transform: translateY(-50%) scaleY(1);
+      opacity: 1;
+    }
+
+    .navIcon svg {
+      stroke: $gold;
+      transform: scale(1.15);
+    }
+
+    .tooltip {
+      opacity: 1;
+      pointer-events: none;
+      transform: translateX(0);
+    }
+  }
+}
+
+.navItemActive {
+  background: linear-gradient(135deg, $gold 0%, darken($gold, 14%) 100%) !important;
+  color: $white !important;
+  font-weight: 700 !important;
+  box-shadow: 0 3px 12px $gold-glow !important;
+
+  &::before {
+    transform: translateY(-50%) scaleY(1) !important;
+    opacity: 1 !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .navIcon svg { stroke: $white !important; }
+
+  &:hover {
+    transform: none !important;
+  }
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    stroke: $text-dim;
+    transition: stroke 0.2s ease, transform 0.2s ease;
+  }
+}
+
+.navLabel {
+  animation: fadeIn 0.2s $transition;
+}
+
+// =============================================================================
+//  FLOATING TOOLTIPS (collapsed mode only)
+// =============================================================================
+
+.tooltip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);   // start slightly left
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 99999;
+
+  background: $navy-mid;
+  color: $white;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid $gold;
+  white-space: nowrap;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(176, 141, 87, 0.15);
+
+  // Triangle pointer
+  &::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: $gold;
+  }
+}
+
+// Show tooltip — used in hover selectors above
+.navItem:hover .tooltip,
+.dashItem:hover .tooltip,
+.groupHeader:hover .tooltip,
+.footerAccount:hover .tooltip {
+  opacity: 1 !important;
+  transform: translateY(-50%) translateX(0) !important;
+}
+
+// =============================================================================
+//  FOOTER
+// =============================================================================
+
+.footer {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: 0 10px 12px;
+
+  // Glass frost effect
+  background: linear-gradient(
+    0deg,
+    rgba(11, 19, 36, 0.98) 0%,
+    transparent 100%
+  );
+}
+
+.footerAccount {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: visible;
+
+  &:hover {
+    background: $gold-dim;
+    .tooltip { opacity: 1; transform: translateX(0); }
+  }
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $gold-dim, rgba(176,141,87,0.3));
+  border: 1.5px solid rgba(176, 141, 87, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    stroke: $gold-light;
+  }
+}
+
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  animation: fadeIn 0.2s ease;
+}
+
+.accountName {
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-bright;
+  white-space: nowrap;
+}
+
+.accountRole {
+  font-size: 11px;
+  color: $text-dim;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 9px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  color: rgba(239, 68, 68, 0.7);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s ease;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+
+  span {
+    animation: fadeIn 0.2s ease;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #f87171;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+  }
+}
+
+// =============================================================================
+//  ANIMATIONS
+// =============================================================================
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

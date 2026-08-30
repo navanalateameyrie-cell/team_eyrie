@@ -22,6 +22,12 @@ export default function ClientDashboard() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null)
+
+  const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  }
 
 
   const handleLogout = async () => {
@@ -45,7 +51,10 @@ export default function ClientDashboard() {
             phone: data.user.phone || '',
             pan: data.user.pan || '',
             aadhaar: data.user.aadhaar || '',
-            selectedServices: data.user.selectedServices?.map((s: any) => typeof s === 'string' ? s : s.id) || []
+            selectedServices: data.user.clientServices?.map((cs: any) => {
+              const s = cs.service;
+              return typeof s === 'string' ? s : s?.id;
+            }).filter(Boolean) || []
           })
           fetch(`/api/appointments?where[client][equals]=${data.user.id}&sort=-appointmentDate`)
             .then(r => r.json())
@@ -86,7 +95,7 @@ export default function ClientDashboard() {
     fields.forEach(f => {
       if (user[f] && user[f].trim() !== '') filled++
     })
-    if (user.selectedServices && user.selectedServices.length > 0) filled++
+    if (user.clientServices && user.clientServices.length > 0) filled++
     const total = fields.length + 1
     return Math.round((filled / total) * 100)
   }
@@ -96,19 +105,26 @@ export default function ClientDashboard() {
     e.preventDefault()
     setIsUpdating(true)
     try {
+      const updatedClientServices = profileForm.selectedServices.map(serviceId => {
+         const existing = user.clientServices?.find((cs: any) => (typeof cs.service === 'string' ? cs.service : cs.service?.id) === serviceId);
+         return existing || { service: serviceId };
+      });
+      const patchData = { ...profileForm, clientServices: updatedClientServices };
+      delete (patchData as any).selectedServices;
+
       const res = await fetch(`/api/users/${user.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profileForm)
+        body: JSON.stringify(patchData)
       })
       const data = await res.json()
       if (data.doc) {
         setUser(data.doc)
-        alert('Profile updated successfully!')
+        showNotification('Profile updated successfully!', 'success')
       }
     } catch (err) {
       console.error(err)
-      alert('Failed to update profile')
+      showNotification('Failed to update profile', 'error')
     } finally {
       setIsUpdating(false)
     }
@@ -211,14 +227,14 @@ export default function ClientDashboard() {
       if (data.doc) {
         setAppointments(prev => [data.doc, ...prev].sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime()))
         setAptForm({ service: '', date: '', notes: '' })
-        alert('Appointment requested successfully! We will confirm shortly.')
+        showNotification('Appointment requested successfully! We will confirm shortly.', 'success')
         setIsAppointmentDrawerOpen(false)
       } else {
-        alert('Failed to book appointment.')
+        showNotification('Failed to book appointment.', 'error')
       }
     } catch (err) {
       console.error(err)
-      alert('An error occurred while booking.')
+      showNotification('An error occurred while booking.', 'error')
     } finally {
       setIsBooking(false)
     }
@@ -263,6 +279,25 @@ export default function ClientDashboard() {
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: 'flex', backgroundColor: '#f1f5f9', fontFamily: 'Inter, sans-serif' }}>
+      
+      {/* Toast Notification */}
+      {notification && (
+        <div style={{
+          position: 'fixed', top: '24px', right: '50%', transform: 'translateX(50%)', zIndex: 99999,
+          background: notification.type === 'success' ? '#10b981' : '#ef4444',
+          color: '#fff', padding: '12px 24px', borderRadius: '8px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', gap: '12px',
+          fontWeight: '600', fontSize: '0.95rem', animation: 'slideDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+        }}>
+          {notification.type === 'success' ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          )}
+          {notification.message}
+        </div>
+      )}
+
 
       <style>{`
         @keyframes goldShine {
@@ -279,6 +314,10 @@ export default function ClientDashboard() {
         @keyframes slideInRight {
           from { transform: translateX(100%); }
           to { transform: translateX(0); }
+        }
+        @keyframes slideDown {
+          from { transform: translate(50%, -100%); opacity: 0; }
+          to { transform: translate(50%, 0); opacity: 1; }
         }
         @keyframes spin {
           from { transform: rotate(0deg); }
@@ -710,7 +749,10 @@ export default function ClientDashboard() {
             </div>
           )}
 {activeTab === 'dashboard' && (() => {
-            const userServicesIds = (user.selectedServices || []).map((us: any) => typeof us === 'string' ? us : us.id);
+            const userServicesIds = (user.clientServices || []).map((cs: any) => {
+              const us = cs.service;
+              return typeof us === 'string' ? us : us?.id;
+            }).filter(Boolean);
             const userFullServices = allServices.filter(s => userServicesIds.includes(s.id));
             const totalRequiredDocs = userFullServices.reduce((sum, service) => sum + (service.requiredDocuments?.length || 0), 0);
             const uploadedDocsCount = 0; // Mocked for now until backend supports document tracking
@@ -759,10 +801,13 @@ export default function ClientDashboard() {
               {selectedServiceForDocs ? (
                 <ServiceDocumentManager serviceTitle={selectedServiceForDocs.title} documents={selectedServiceForDocs.requiredDocuments || []} onBack={() => setSelectedServiceForDocs(null)} />
               ) : (
-                user.selectedServices && user.selectedServices.length > 0 ? (
+                user.clientServices && user.clientServices.length > 0 ? (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
                     {allServices
-                      .filter(s => (user.selectedServices || []).some((us: any) => (typeof us === 'string' ? us : us.id) === s.id))
+                      .filter(s => (user.clientServices || []).some((cs: any) => {
+                         const us = cs.service;
+                         return (typeof us === 'string' ? us : us?.id) === s.id;
+                      }))
                       .filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()) || (s.summary && s.summary.toLowerCase().includes(searchQuery.toLowerCase())))
                       .map(service => (
                       <div key={service.id} style={{ background: "#fff", padding: "2.5rem 2rem", borderRadius: "16px", boxShadow: "0 10px 40px -10px rgba(0,0,0,0.06)", border: "1px solid rgba(0, 0, 0, 0.04)", display: "flex", flexDirection: "column", height: "100%", position: "relative", transition: "transform 0.2s, box-shadow 0.2s" }} onMouseOver={e => {e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 15px 50px -10px rgba(0,0,0,0.08)"}} onMouseOut={e => {e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 10px 40px -10px rgba(0,0,0,0.06)"}}>
