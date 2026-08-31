@@ -113,7 +113,42 @@ server-side proof of consent.
 > Analytics) on the stored consent so they only load when `statistics` / `marketing`
 > is granted. The widget records consent; wiring the scripts to it is the next step.
 
-## Production notes (in-house VPS)
+## Multi-language support
+The public site is available in English plus eight Indian languages (Hindi, Tamil,
+Telugu, Kannada, Malayalam, Marathi, Bengali, Gujarati).
+
+- **URLs.** The default locale is *unprefixed* — `/services` stays `/services`.
+  `src/middleware.ts` rewrites (never redirects) unprefixed requests onto the
+  `app/(frontend)/[locale]/` tree, so existing English URLs and their SEO are
+  untouched. Other locales are prefixed: `/kn/services`.
+- **Static UI strings** (nav, footer, buttons) live in `src/i18n/dictionaries/*.json`.
+  `en.json` defines the shape; every other file must have the same keys.
+- **CMS content** is translated by Payload localization on fields marked
+  `localized: true`. `fallback: true` means an untranslated field renders the
+  English value, so pages are never half-blank. Slugs are *not* localized — one
+  URL key resolves the same document in every language.
+- **Adding a language:** add it to `src/i18n/config.ts`, to
+  `localization.locales` in `payload.config.ts`, and add a dictionary file.
+  It also needs a new value in the Postgres `_locales` enum.
+- **Translating content:** open `/admin`, edit a document, switch locale in the
+  admin UI, and save. Only English rows exist today — the other locales are
+  empty and fall back until someone fills them in.
+
+## Production notes (Vercel)
+- **Localization schema change (required before deploying multi-language).**
+  Prod runs `push: false`, so the `*_locales` tables must be created explicitly.
+  Run `scripts/sql/001_add_localization.sql` — it copies existing content into
+  the `en` locale *before* dropping the old columns (Payload's own `push` does
+  not, and would silently lose it). It is idempotent and runs in one transaction.
+  Back up and dry-run against a clone first:
+  ```
+  pg_dump -Fc -d "$DATABASE_URL" -f pre_localization.dump
+  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 --single-transaction -f scripts/sql/001_add_localization.sql
+  ```
+- **Known toolchain issue:** `payload migrate:create` and `payload generate:types`
+  fail on Node 24 (`ERR_REQUIRE_ASYNC_MODULE` — tsx cannot `require`
+  `richtext-lexical`'s top-level await). Pin Node 22 to use the Payload CLI;
+  until then the SQL script above stands in for a generated migration.
 - Switch Postgres from dev `push` to **migrations**: `payload migrate:create` then `payload migrate` in the deploy pipeline.
 - **Email:** the nodemailer adapter is wired in `payload.config.ts`. Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME` (see `.env`) to send real emails (e.g. the application withdrawal link). Without `SMTP_HOST`, emails are logged to the console.
 - Move media storage to disk/object storage and put the app behind a reverse proxy (Nginx) with HTTPS.

@@ -19,9 +19,13 @@ export function generateStaticParams() {
   return localeCodes.map((locale) => ({ locale }))
 }
 
-const siteUrl =
+// Base URL for canonical + hreflang tags. Set NEXT_PUBLIC_SERVER_URL in the
+// deployment environment; the literal is only a last-resort fallback so a
+// misconfigured build still emits absolute (not relative) alternate links.
+const siteUrl = (
   process.env.NEXT_PUBLIC_SERVER_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://teameyrie.in')
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://te1-steel.vercel.app')
+).replace(/\/$/, '')
 
 export async function generateMetadata({
   params,

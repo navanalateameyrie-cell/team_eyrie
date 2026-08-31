@@ -61,6 +61,7 @@ export default buildConfig({
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
     'https://te1-topaz.vercel.app',
+    'https://te1-steel.vercel.app',
     'http://localhost:3000',
   ].filter(Boolean),
   csrf: [
@@ -68,6 +69,7 @@ export default buildConfig({
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
     'https://te1-topaz.vercel.app',
+    'https://te1-steel.vercel.app',
     'http://localhost:3000',
   ].filter(Boolean),
   admin: {
