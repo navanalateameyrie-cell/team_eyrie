@@ -41,6 +41,9 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(11, 19, 36, 0.06) !important;
   padding: 28px !important;
   margin-top: 0 !important;
+  min-height: calc(100vh - 120px) !important;
+  display: flex !important;
+  flex-direction: column !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -172,19 +175,223 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Create New button at collection header */
-.collection-list__header .btn--style-secondary {
+/* --- Collection List Header & Create New Button --- */
+.payload-default__main > header,
+.collection-list__header, 
+.view-header,
+.collection-list > div > header,
+header.collection-list__header,
+.collection-list__header-wrap,
+.view-header > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  gap: 16px !important;
+  margin-bottom: 24px !important;
+  flex-wrap: wrap !important;
+  
+  h1 {
+    font-size: 2.2rem !important;
+    background: linear-gradient(135deg, var(--te-navy) 0%, #30486b 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    position: relative !important;
+    margin: 0 !important;
+    display: inline-block !important;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 40px;
+      height: 4px;
+      background: var(--te-gold) !important;
+      border-radius: 4px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  /* Target the Create New pill/button comprehensively */
+  .btn, a.btn, .btn--style-secondary, .pill, a.pill, a {
+    background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    font-size: 12.5px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.6px !important;
+    padding: 8px 22px !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.35), 0 0 0 1px rgba(176, 141, 87, 0.1) !important;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    margin-left: auto !important; /* Force right alignment */
+    float: right !important;
+
+    /* The metallic sheen animation */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+
+    &:hover {
+      transform: translateY(-4px) scale(1.05) !important;
+      box-shadow: 0 10px 25px rgba(176, 141, 87, 0.5), 0 0 0 3px rgba(176, 141, 87, 0.2) !important;
+      background: linear-gradient(135deg, #d4b483 0%, var(--te-gold) 100%) !important;
+      color: #ffffff !important;
+      &::after { left: 150%; }
+    }
+  }
+}
+
+/* Fallback: Aggressively target ALL pills that act as links globally */
+.pill.pill--has-link {
   background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
   color: #ffffff !important;
   border: none !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 12px rgba(176, 141, 87, 0.3) !important;
-  transition: all 0.25s ease !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  font-size: 12.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  padding: 8px 22px !important;
+  box-shadow: 0 6px 16px rgba(176, 141, 87, 0.35), 0 0 0 1px rgba(176, 141, 87, 0.1) !important;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  margin-left: auto !important; /* Force right alignment */
+  float: right !important;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
 
   &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 0 10px 25px rgba(176, 141, 87, 0.5), 0 0 0 3px rgba(176, 141, 87, 0.2) !important;
+    background: linear-gradient(135deg, #d4b483 0%, var(--te-gold) 100%) !important;
+    color: #ffffff !important;
+    &::after { left: 150%; }
+  }
+}
+
+/* --- Global Search & List Controls --- */
+.list-controls {
+  margin-bottom: 24px !important;
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  background: #ffffff !important;
+  padding: 14px 20px !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 20px rgba(11, 19, 36, 0.04) !important;
+  border: 1px solid rgba(176, 141, 87, 0.15) !important;
+}
+
+.list-controls__wrap {
+  display: flex !important;
+  flex: 1 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  width: 100% !important;
+  flex-wrap: wrap !important;
+}
+
+.search-filter {
+  flex: 1 1 280px !important;
+  max-width: 450px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Ensure the search icon is placed correctly inside the search bar */
+.search-filter svg {
+  position: absolute !important;
+  left: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #64748b !important;
+  width: 18px !important;
+  height: 18px !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+}
+
+.search-filter input, .list-controls__search input, input.search-filter__input {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 30px !important; /* Professional Pill Shape */
+  padding: 10px 20px 10px 44px !important; /* Extra left padding for the icon */
+  width: 100% !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+  margin: 0 !important;
+  
+  &:hover {
+    border-color: var(--te-gold-light) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.08) !important;
+  }
+  
+  &:focus {
+    transform: translateY(-1px) !important;
+    background-color: #ffffff !important;
+    border-color: var(--te-gold) !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.15) !important;
+    outline: none !important;
+  }
+}
+
+/* Interactive Column and Filter Buttons */
+.list-controls__buttons .btn,
+.list-controls .btn--style-secondary,
+.list-controls button {
+  background: #f8fafc !important;
+  color: var(--te-navy) !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 10px 18px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 2px 6px rgba(11, 19, 36, 0.03) !important;
+
+  &:hover {
+    background: #ffffff !important;
+    border-color: var(--te-gold) !important;
+    color: var(--te-gold) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.4) !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.15) !important;
   }
 }
 
@@ -218,12 +425,22 @@ h1, h2, h3, h4, h5, h6 {
 
   tbody tr {
     background: #ffffff !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    
     &:nth-child(even) { background: #f8fafc !important; }
+    
     &:hover {
-      background: linear-gradient(90deg, rgba(176, 141, 87, 0.08) 0%, rgba(255, 255, 255, 0) 100%) !important;
-      td:first-child { box-shadow: inset 4px 0 0 0 var(--te-gold) !important; }
+      background: linear-gradient(90deg, rgba(176, 141, 87, 0.08) 0%, rgba(255, 255, 255, 1) 100%) !important;
+      transform: translateY(-3px) scale(1.01) !important;
+      box-shadow: 0 12px 24px rgba(11, 19, 36, 0.1) !important;
+      z-index: 10 !important;
+      
+      td:first-child { box-shadow: inset 4px 0 0 0 var(--te-gold) !important; border-top-left-radius: 8px !important; border-bottom-left-radius: 8px !important; }
+      td:last-child { border-top-right-radius: 8px !important; border-bottom-right-radius: 8px !important; }
+      td { border-bottom-color: transparent !important; }
     }
+    
     &:last-child td { border-bottom: none !important; }
   }
 
@@ -269,13 +486,34 @@ h1, h2, h3, h4, h5, h6 {
   min-height: 0 !important;
 }
 
-/* Hide step-nav breadcrumbs */
+/* --- Breadcrumbs / Back Navigation --- */
 .step-nav,
 .payload-default__step-nav {
-  display: none !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  padding: 16px 28px !important;
+}
+
+.step-nav a, .step-nav span, .step-nav__link {
+  color: var(--te-navy) !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.step-nav a:hover, .step-nav__link:hover {
+  color: var(--te-gold) !important;
+  background: rgba(176, 141, 87, 0.1) !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  margin: -4px -8px !important;
 }
 
 /* Empty wrappers */
@@ -362,7 +600,8 @@ main.template-default__main {
     outline: none !important;
   }
 
-  input {
+  input,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]) {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -459,13 +698,4 @@ main.template-default__main {
   align-items: center !important;
 }
 
-.step-nav {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-}
-
-/* Hide breadcrumb text, keep logo */
-.step-nav > *:not(:first-child) {
-  display: none !important;
-}
+/* Cleaned up redundant step-nav overrides */

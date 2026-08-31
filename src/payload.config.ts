@@ -79,6 +79,10 @@ export default buildConfig({
         Icon: '/components/admin/Icon#Icon',
       },
       views: {
+        ClientMapping: {
+          Component: '/components/admin/ClientMappingView',
+          path: '/client-mapping',
+        },
         Dashboard: {
           Component: '/components/admin/CustomDashboard',
         },

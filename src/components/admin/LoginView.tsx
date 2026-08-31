@@ -23,7 +23,13 @@ export const LoginView: React.FC = () => {
       })
 
       if (res.ok) {
-        window.location.href = '/admin'
+        const data = await res.json()
+        if (data?.user?.role === 'client') {
+          await fetch('/api/users/logout', { method: 'POST' });
+          setError('Clients must log in through the Client Portal.')
+        } else {
+          window.location.href = '/admin'
+        }
       } else {
         const errorData = await res.json()
         setError(errorData?.errors?.[0]?.message || 'Invalid email or password. Please try again.')

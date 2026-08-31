@@ -5,10 +5,11 @@ import React, { useState } from 'react'
 interface ServiceDocumentManagerProps {
   serviceTitle: string
   documents: { documentName: string }[]
+  assignedProfessional?: any
   onBack: () => void
 }
 
-export default function ServiceDocumentManager({ serviceTitle, documents, onBack }: ServiceDocumentManagerProps) {
+export default function ServiceDocumentManager({ serviceTitle, documents, assignedProfessional, onBack }: ServiceDocumentManagerProps) {
   const requiredDocs = documents?.map(d => d.documentName) || []
   
   const [uploadedDocs, setUploadedDocs] = useState<Record<number, boolean>>({})
@@ -43,6 +44,30 @@ export default function ServiceDocumentManager({ serviceTitle, documents, onBack
         <div>
           <h2 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#0A111F', letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>{serviceTitle}</h2>
           <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Service Engagement Details & Document Requirements</p>
+        </div>
+      </div>
+
+      {/* Assigned Professional Profile Card */}
+      <div style={{ background: 'linear-gradient(135deg, #ffffff 0%, #fcfbf9 100%)', borderRadius: '16px', padding: '1.5rem 2rem', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)', border: '1px solid rgba(192, 155, 90, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, #0A111F 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C09B5A', fontSize: '1.5rem', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(10, 17, 31, 0.2)' }}>
+            {assignedProfessional?.name ? assignedProfessional.name.charAt(0).toUpperCase() : 'T'}
+          </div>
+          <div>
+            <div style={{ fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '700', marginBottom: '0.25rem' }}>Your Assigned Professional</div>
+            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0A111F' }}>
+              {assignedProfessional?.name || 'Team Eyrie Expert'}
+            </div>
+            {assignedProfessional?.email && (
+              <div style={{ fontSize: '0.9rem', color: '#475569', marginTop: '0.25rem' }}>{assignedProfessional.email}</div>
+            )}
+          </div>
+        </div>
+        <div>
+          <button className="royal-shine royal-glow" style={{ background: '#C09B5A', color: '#fff', padding: '0.75rem 1.5rem', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 14px rgba(192, 155, 90, 0.3)' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Contact Now
+          </button>
         </div>
       </div>
 

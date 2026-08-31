@@ -46,6 +46,13 @@ export default function ClientDashboard() {
       .then(res => res.json())
       .then(data => {
         if (data.user) {
+          if (data.user.role !== 'client') {
+            // Strictly block admins/staff from the client dashboard.
+            fetch('/api/users/logout', { method: 'POST' }).then(() => {
+              window.location.href = '/login'
+            })
+            return
+          }
           setUser(data.user)
           setProfileForm({
             phone: data.user.phone || '',
@@ -799,7 +806,20 @@ export default function ClientDashboard() {
           {activeTab === 'services' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               {selectedServiceForDocs ? (
-                <ServiceDocumentManager serviceTitle={selectedServiceForDocs.title} documents={selectedServiceForDocs.requiredDocuments || []} onBack={() => setSelectedServiceForDocs(null)} />
+                (() => {
+                  const clientServiceMatch = (user.clientServices || []).find((cs: any) => {
+                    const us = cs.service;
+                    return (typeof us === 'string' ? us : us?.id) === selectedServiceForDocs.id;
+                  });
+                  return (
+                    <ServiceDocumentManager 
+                      serviceTitle={selectedServiceForDocs.title} 
+                      documents={selectedServiceForDocs.requiredDocuments || []} 
+                      assignedProfessional={clientServiceMatch?.assignedProfessional}
+                      onBack={() => setSelectedServiceForDocs(null)} 
+                    />
+                  );
+                })()
               ) : (
                 user.clientServices && user.clientServices.length > 0 ? (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>

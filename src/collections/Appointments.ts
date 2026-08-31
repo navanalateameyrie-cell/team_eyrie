@@ -9,10 +9,43 @@ export const Appointments: CollectionConfig = {
     group: 'Client Portal',
   },
   access: {
-    read: anyone, // Allow client to read their own
-    create: anyone, // Allow client to create
-    update: anyone, // Usually restricted, but keeping anyone for simplicity; hooks should enforce security
-    delete: isEditor,
+    read: async ({ req }) => {
+      const user = req.user;
+      if (!user) return false;
+      if (user.role === 'client') return { client: { equals: user.id } };
+      if (user.role === 'staff' && user.email !== 'tedev@gmail.com' && user.email !== 'admin@teameyrie.local') {
+        const assignedClients = await req.payload.find({
+          collection: 'users',
+          where: { 'clientServices.assignedProfessional': { equals: user.id } },
+          depth: 0,
+          limit: 1000
+        });
+        const clientIds = assignedClients.docs.map(c => c.id);
+        return { client: { in: clientIds } };
+      }
+      return true; // Super Admin, Admin can see all
+    },
+    create: ({ req: { user } }) => Boolean(user), // Any logged in user
+    update: async ({ req }) => {
+      const user = req.user;
+      if (!user) return false;
+      if (user.role === 'client') return { client: { equals: user.id } };
+      if (user.role === 'staff' && user.email !== 'tedev@gmail.com' && user.email !== 'admin@teameyrie.local') {
+        const assignedClients = await req.payload.find({
+          collection: 'users',
+          where: { 'clientServices.assignedProfessional': { equals: user.id } },
+          depth: 0,
+          limit: 1000
+        });
+        const clientIds = assignedClients.docs.map(c => c.id);
+        return { client: { in: clientIds } };
+      }
+      return true;
+    },
+    delete: ({ req: { user } }) => {
+      if (!user) return false;
+      return user.role === 'super_admin' || user.email === 'tedev@gmail.com' || user.email === 'admin@teameyrie.local';
+    },
   },
   hooks: {
     afterChange: [

@@ -81,6 +81,16 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   width: 68px;
 
   .brand { overflow: hidden; }
+  
+  .header {
+    flex-direction: column;
+    padding: 16px 0;
+    gap: 16px;
+  }
+
+  .collapseBtn {
+    margin: 0 auto;
+  }
 }
 
 // =============================================================================

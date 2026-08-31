@@ -2,11 +2,30 @@
 
 import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { useAuth } from '@payloadcms/ui'
 import styles from './AdminSidebar.module.scss'
 
 // ─── Navigation Config ──────────────────────────────────────────────────────
 
 const NAV_CONFIG = [
+  {
+    group: 'Master',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+    items: [
+      {
+        label: 'Add New Staff',
+        href: '/admin/collections/users/create',
+        key: 'add-staff',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`,
+      },
+      {
+        label: 'Client Mapping',
+        href: '/admin/client-mapping',
+        key: 'client-mapping',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      },
+    ],
+  },
   {
     group: 'Administration',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
@@ -297,7 +316,28 @@ const NavGroup: React.FC<NavGroupProps> = ({
 
 export const AdminSidebar: React.FC = () => {
   const pathname = usePathname()
+  const { user } = useAuth()
   const [collapsed, setCollapsed] = useState(false)
+
+  // Determine user role
+  const role = user?.role || 'editor'
+  const isSuperEmail = user?.email === 'tedev@gmail.com' || user?.email === 'admin@teameyrie.local'
+
+  // Filter navigation based on role
+  const filteredNavConfig = NAV_CONFIG.map(group => {
+    if (role === 'super_admin' || role === 'admin' || isSuperEmail) {
+      return group // Admin gets everything
+    }
+    
+    if (role === 'staff') {
+      const allowedStaffKeys = ['users', 'services', 'appointments', 'team-members', 'client-mapping']
+      const filteredItems = group.items.filter(item => allowedStaffKeys.includes(item.key))
+      return { ...group, items: filteredItems }
+    }
+    
+    // Default fallback for other roles, keep empty or minimal
+    return { ...group, items: [] }
+  }).filter(group => group.items.length > 0)
 
   // Emit collapsed state to <html> so _sidebar.scss can adjust the grid column
   useEffect(() => {
@@ -380,7 +420,7 @@ export const AdminSidebar: React.FC = () => {
 
       {/* ─── Navigation Groups ─── */}
       <nav className={styles.nav}>
-        {NAV_CONFIG.map(group => (
+        {filteredNavConfig.map(group => (
           <NavGroup
             key={group.group}
             group={group.group}
@@ -408,8 +448,13 @@ export const AdminSidebar: React.FC = () => {
           </div>
           {!collapsed && (
             <div className={styles.accountInfo}>
-              <span className={styles.accountName}>Admin</span>
-              <span className={styles.accountRole}>Super Admin</span>
+              <span className={styles.accountName}>{user?.name || 'User'}</span>
+              <span className={styles.accountRole}>
+                {user?.email === 'tedev@gmail.com' ? 'Super Admin' :
+                 user?.email === 'admin@teameyrie.local' ? 'Manager' :
+                 user?.role === 'admin' ? 'Manager' : 
+                 user?.role === 'staff' ? 'Staff' : 'User'}
+              </span>
             </div>
           )}
           {collapsed && <span className={styles.tooltip}>Account</span>}

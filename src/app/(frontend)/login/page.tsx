@@ -86,7 +86,8 @@ export default function LoginPage() {
         if (role === 'client') {
           window.location.href = '/client-dashboard'
         } else {
-          window.location.href = '/admin' // super_admin, admin, staff, editor, recruiter
+          await fetch('/api/users/logout', { method: 'POST' });
+          setError('Staff and Administrators must log in through the Admin Panel.')
         }
       } else {
         const errorData = await res.json()
