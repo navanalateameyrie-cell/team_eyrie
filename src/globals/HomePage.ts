@@ -1,6 +1,13 @@
 import type { GlobalConfig } from 'payload'
 import { anyone, isEditor } from '../access'
 
+/**
+ * Localization note: arrays here are intentionally NOT marked `localized`.
+ * Localizing the array itself would give each language its own set of rows,
+ * forcing editors to re-upload the same images per language. Instead the text
+ * fields *inside* each row are localized, so rows (and their images, links and
+ * ordering) stay shared while the copy varies per locale.
+ */
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Home Page',
@@ -11,10 +18,10 @@ export const HomePage: GlobalConfig = {
       type: 'group',
       name: 'hero',
       fields: [
-        { name: 'eyebrow', type: 'text', defaultValue: 'India’s Integrated Professional Services Network' },
-        { name: 'headline', type: 'text', defaultValue: 'Team Eyrie' },
-        { name: 'subheadline', type: 'text', defaultValue: 'Together, We Create Value. Together, We Build Trust.' },
-        { name: 'primaryCtaLabel', type: 'text', defaultValue: 'Contact Us' },
+        { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'India’s Integrated Professional Services Network' },
+        { name: 'headline', type: 'text', localized: true, defaultValue: 'Team Eyrie' },
+        { name: 'subheadline', type: 'text', localized: true, defaultValue: 'Together, We Create Value. Together, We Build Trust.' },
+        { name: 'primaryCtaLabel', type: 'text', localized: true, defaultValue: 'Contact Us' },
         { name: 'primaryCtaLink', type: 'text', defaultValue: '/contact' },
         { name: 'backgroundImage', type: 'upload', relationTo: 'media' },
         {
@@ -34,15 +41,15 @@ export const HomePage: GlobalConfig = {
             return true
           },
           fields: [
-            { name: 'badge', type: 'text', label: 'Badge / Category' },
-            { name: 'tagline', type: 'text', label: 'Tagline' },
-            { name: 'title', type: 'text', required: true, label: 'Slide Title' },
-            { name: 'description', type: 'textarea', label: 'Description' },
+            { name: 'badge', type: 'text', localized: true, label: 'Badge / Category' },
+            { name: 'tagline', type: 'text', localized: true, label: 'Tagline' },
+            { name: 'title', type: 'text', required: true, localized: true, label: 'Slide Title' },
+            { name: 'description', type: 'textarea', localized: true, label: 'Description' },
             { name: 'image', type: 'upload', relationTo: 'media', label: 'Upload Background Image' },
             { name: 'imageUrl', type: 'text', label: 'Or Image Path (e.g. /images/herosection.png)' },
-            { name: 'primaryCtaLabel', type: 'text', label: 'Primary CTA Label' },
+            { name: 'primaryCtaLabel', type: 'text', localized: true, label: 'Primary CTA Label' },
             { name: 'primaryCtaLink', type: 'text', label: 'Primary CTA Link' },
-            { name: 'secondaryCtaLabel', type: 'text', label: 'Secondary CTA Label' },
+            { name: 'secondaryCtaLabel', type: 'text', localized: true, label: 'Secondary CTA Label' },
             { name: 'secondaryCtaLink', type: 'text', label: 'Secondary CTA Link' },
           ],
         },
@@ -53,8 +60,8 @@ export const HomePage: GlobalConfig = {
       name: 'intro',
       label: 'About / Intro',
       fields: [
-        { name: 'heading', type: 'text', defaultValue: 'About Team Eyrie' },
-        { name: 'body', type: 'textarea' },
+        { name: 'heading', type: 'text', localized: true, defaultValue: 'About Team Eyrie' },
+        { name: 'body', type: 'textarea', localized: true },
       ],
     },
     {
@@ -64,7 +71,7 @@ export const HomePage: GlobalConfig = {
       admin: { description: 'Shown as a strip of highlight numbers on the homepage.' },
       fields: [
         { name: 'value', type: 'text', required: true, admin: { description: 'e.g. 20+ or 9' } },
-        { name: 'label', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true, localized: true },
       ],
     },
     {
@@ -72,13 +79,13 @@ export const HomePage: GlobalConfig = {
       name: 'process',
       label: 'How We Work',
       fields: [
-        { name: 'heading', type: 'text', defaultValue: 'How We Work' },
+        { name: 'heading', type: 'text', localized: true, defaultValue: 'How We Work' },
         {
           name: 'steps',
           type: 'array',
           fields: [
-            { name: 'title', type: 'text', required: true },
-            { name: 'description', type: 'textarea' },
+            { name: 'title', type: 'text', required: true, localized: true },
+            { name: 'description', type: 'textarea', localized: true },
           ],
         },
       ],
@@ -88,11 +95,12 @@ export const HomePage: GlobalConfig = {
       name: 'whyEyrie',
       label: 'Why Team Eyrie (Sticky Scroll Showcase)',
       fields: [
-        { name: 'tagline', type: 'text', defaultValue: 'The Team Eyrie Advantage' },
-        { name: 'heading', type: 'text', defaultValue: 'Why Team Eyrie?' },
+        { name: 'tagline', type: 'text', localized: true, defaultValue: 'The Team Eyrie Advantage' },
+        { name: 'heading', type: 'text', localized: true, defaultValue: 'Why Team Eyrie?' },
         {
           name: 'subheading',
           type: 'textarea',
+          localized: true,
           defaultValue:
             'A single umbrella combining senior leadership, multidisciplinary intelligence, and technology-assisted execution.',
         },
@@ -104,18 +112,18 @@ export const HomePage: GlobalConfig = {
             initCollapsed: true,
           },
           fields: [
-            { name: 'tag', type: 'text', label: 'Category Tag (e.g. Synergy, Coverage)' },
-            { name: 'title', type: 'text', required: true, label: 'Title' },
-            { name: 'description', type: 'textarea', required: true, label: 'Description' },
+            { name: 'tag', type: 'text', localized: true, label: 'Category Tag (e.g. Synergy, Coverage)' },
+            { name: 'title', type: 'text', required: true, localized: true, label: 'Title' },
+            { name: 'description', type: 'textarea', required: true, localized: true, label: 'Description' },
             { name: 'image', type: 'upload', relationTo: 'media', label: 'Upload Feature Image' },
             { name: 'imageUrl', type: 'text', label: 'Or Image Path (e.g. /images/Why.png)' },
             { name: 'link', type: 'text', label: 'CTA Link (e.g. /why-team-eyrie)' },
-            { name: 'linkLabel', type: 'text', label: 'CTA Label (e.g. Explore Details)' },
+            { name: 'linkLabel', type: 'text', localized: true, label: 'CTA Label (e.g. Explore Details)' },
             {
               name: 'bullets',
               type: 'array',
               label: 'Bullet Highlights',
-              fields: [{ name: 'text', type: 'text', required: true, label: 'Point' }],
+              fields: [{ name: 'text', type: 'text', required: true, localized: true, label: 'Point' }],
             },
           ],
         },

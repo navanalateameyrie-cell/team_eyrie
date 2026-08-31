@@ -112,7 +112,21 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale:
+    | 'false'
+    | 'none'
+    | 'null'
+    | false
+    | null
+    | 'en'
+    | 'hi'
+    | 'ta'
+    | 'te'
+    | 'kn'
+    | 'ml'
+    | 'mr'
+    | 'bn'
+    | 'gu';
   globals: {
     'site-settings': SiteSetting;
     'home-page': HomePage;
@@ -125,7 +139,7 @@ export interface Config {
     'consent-settings': ConsentSettingsSelect<false> | ConsentSettingsSelect<true>;
     'recruitment-overview': RecruitmentOverviewSelect<false> | RecruitmentOverviewSelect<true>;
   };
-  locale: null;
+  locale: 'en' | 'hi' | 'ta' | 'te' | 'kn' | 'ml' | 'mr' | 'bn' | 'gu';
   widgets: {
     collections: CollectionsWidget;
   };

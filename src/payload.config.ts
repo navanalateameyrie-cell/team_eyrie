@@ -26,6 +26,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
+import { locales as siteLocales, defaultLocale } from './i18n/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -125,6 +126,16 @@ export default buildConfig({
     Appointments,
   ],
   globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview],
+  // Content localization. Only fields marked `localized: true` get per-locale
+  // storage; everything else (slugs, ordering, relationships, submitted form
+  // data) stays shared across locales. `fallback: true` means an untranslated
+  // field renders the default-locale value rather than an empty string, so a
+  // page is never half-blank while translations are still being written.
+  localization: {
+    locales: siteLocales.map((l) => ({ code: l.code, label: l.label })),
+    defaultLocale,
+    fallback: true,
+  },
   editor: lexicalEditor(),
   // Real email is sent when SMTP_* env vars are present; otherwise Payload falls
   // back to its console transport (emails are logged, not delivered).

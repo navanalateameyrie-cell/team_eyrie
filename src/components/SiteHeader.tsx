@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 import TeamEyrieCaLogo from './TeamEyrieCaLogo'
+import LanguageSwitcher from './LanguageSwitcher'
+import { defaultLocale, localizePath, splitLocaleFromPath, type Locale } from '@/i18n/config'
+import { getDictionary, type Dictionary } from '@/i18n/getDictionary'
 
 type ServiceLink = { title: string; slug: string; summary?: string | null }
 type ContactInfo = { email?: string | null; phone?: string | null }
@@ -13,42 +16,52 @@ export default function SiteHeader({
   services,
   contact,
   logoUrl,
+  locale = defaultLocale,
+  dict,
 }: {
   orgName?: string
   services?: ServiceLink[]
   contact?: ContactInfo
   logoUrl?: string | null
+  locale?: Locale
+  dict?: Dictionary
 }) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const close = () => setOpen(false)
+  const t = dict || getDictionary(locale)
 
   const email = contact?.email || 'contact@balakrishnaandco.com'
   const phone = contact?.phone || '8618259712 / 9845721255'
 
+  /** Every in-site link carries the current locale prefix. */
+  const href = (path: string) => localizePath(path, locale)
+
   const topNavItems = [
-    { label: 'Our Team', href: '/people' },
-    { label: 'News and Articles', href: '/insights' },
-    { label: 'Career', href: '/careers' },
-    { label: 'LMS', href: '/services' },
+    { label: t.topbar.ourTeam, href: '/people' },
+    { label: t.topbar.news, href: '/insights' },
+    { label: t.topbar.career, href: '/careers' },
+    { label: t.topbar.lms, href: '/services' },
   ]
 
   const mainNavItems = [
-    { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Industries', href: '/industries' },
-    { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
-    { label: 'Our Presence', href: '/presence' },
-    { label: 'Contact Us', href: '/contact' },
+    { label: t.nav.home, href: '/' },
+    { label: t.nav.about, href: '/about' },
+    { label: t.nav.services, href: '/services' },
+    { label: t.nav.industries, href: '/industries' },
+    { label: t.nav.why, href: '/why-team-eyrie' },
+    { label: t.nav.presence, href: '/presence' },
+    { label: t.nav.contact, href: '/contact' },
   ]
 
-  const isLinkActive = (href: string) => {
+  const isLinkActive = (target: string) => {
     if (!pathname) return false
-    if (href === '/') {
-      return pathname === '/'
+    // Compare locale-stripped paths so /kn/services still highlights Services.
+    const { path } = splitLocaleFromPath(pathname)
+    if (target === '/') {
+      return path === '/'
     }
-    return pathname === href || pathname.startsWith(href + '/')
+    return path === target || path.startsWith(target + '/')
   }
 
   return (
@@ -57,7 +70,7 @@ export default function SiteHeader({
       <div className="site-header__top">
         <div className="container site-header__top-inner">
           <div className="top-bar__contact">
-            <a href={`mailto:${email}`} className="top-bar__link" aria-label="Email Us">
+            <a href={`mailto:${email}`} className="top-bar__link" aria-label={t.topbar.emailUs}>
               <svg
                 className="top-bar__icon"
                 width="15"
@@ -76,7 +89,7 @@ export default function SiteHeader({
               <span>{email}</span>
             </a>
 
-            <a href={`tel:${phone.split('/')[0].trim()}`} className="top-bar__link" aria-label="Call Us">
+            <a href={`tel:${phone.split('/')[0].trim()}`} className="top-bar__link" aria-label={t.topbar.callUs}>
               <svg
                 className="top-bar__icon"
                 width="15"
@@ -100,7 +113,7 @@ export default function SiteHeader({
               <React.Fragment key={item.label}>
                 {idx > 0 && <span className="top-bar__pipe">|</span>}
                 <a
-                  href={item.href}
+                  href={href(item.href)}
                   className={`top-bar__nav-link ${isLinkActive(item.href) ? 'top-bar__nav-link--active' : ''}`}
                 >
                   {item.label}
@@ -108,8 +121,9 @@ export default function SiteHeader({
               </React.Fragment>
             ))}
             <span className="top-bar__pipe">|</span>
+            <LanguageSwitcher locale={locale} label={t.common.selectLanguage} />
             <a
-              href="/login"
+              href={href('/login')}
               className="top-bar__nav-link"
               style={{
                 background: '#e66a2b',
@@ -124,7 +138,7 @@ export default function SiteHeader({
                 textDecoration: 'none'
               }}
             >
-              Login
+              {t.topbar.login}
             </a>
           </div>
         </div>
@@ -133,7 +147,7 @@ export default function SiteHeader({
       {/* Main Header Row: Logo on Left + Navigation Menu on Right */}
       <div className="site-header__brand-row">
         <div className="container site-header__brand-inner">
-          <a href="/" className="brand-logo-link" onClick={close} title="Team Eyrie - Chartered Accountants">
+          <a href={href('/')} className="brand-logo-link" onClick={close} title="Team Eyrie - Chartered Accountants">
             <TeamEyrieCaLogo height={52} customLogoUrl={logoUrl} />
           </a>
 
@@ -147,7 +161,7 @@ export default function SiteHeader({
                     {idx > 0 && <span className="main-menu__pipe">|</span>}
                     <div className="main-menu__item-wrapper">
                       <a
-                        href={item.href}
+                        href={href(item.href)}
                         onClick={close}
                         className={`main-menu__link ${active ? 'main-menu__link--active' : ''}`}
                       >
@@ -162,7 +176,7 @@ export default function SiteHeader({
 
           <button
             className="hamburger"
-            aria-label="Toggle menu"
+            aria-label={t.common.toggleMenu}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
