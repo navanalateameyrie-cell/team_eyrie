@@ -10,10 +10,10 @@ export const Appointments: CollectionConfig = {
   },
   access: {
     read: async ({ req }) => {
-      const user = req.user;
+      const user = req.user as any;
       if (!user) return false;
       if (user.role === 'client') return { client: { equals: user.id } };
-      if (user.role === 'staff' && user.email !== 'tedev@gmail.com' && user.email !== 'admin@teameyrie.local') {
+      if (user.role === 'staff') {
         const assignedClients = await req.payload.find({
           collection: 'users',
           where: { 'clientServices.assignedProfessional': { equals: user.id } },
@@ -27,10 +27,10 @@ export const Appointments: CollectionConfig = {
     },
     create: ({ req: { user } }) => Boolean(user), // Any logged in user
     update: async ({ req }) => {
-      const user = req.user;
+      const user = req.user as any;
       if (!user) return false;
       if (user.role === 'client') return { client: { equals: user.id } };
-      if (user.role === 'staff' && user.email !== 'tedev@gmail.com' && user.email !== 'admin@teameyrie.local') {
+      if (user.role === 'staff') {
         const assignedClients = await req.payload.find({
           collection: 'users',
           where: { 'clientServices.assignedProfessional': { equals: user.id } },
@@ -44,7 +44,8 @@ export const Appointments: CollectionConfig = {
     },
     delete: ({ req: { user } }) => {
       if (!user) return false;
-      return user.role === 'super_admin' || user.email === 'tedev@gmail.com' || user.email === 'admin@teameyrie.local';
+      const u = user as any;
+      return u.role === 'super_admin' || u.role === 'admin';
     },
   },
   hooks: {
