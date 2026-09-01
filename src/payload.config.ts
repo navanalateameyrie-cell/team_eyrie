@@ -185,12 +185,12 @@ export default buildConfig({
     },
   },
   onInit: async (payload) => {
+    // ── Seed: tedev@gmail.com ────────────────────────────────────────────────
     try {
       const existingSuperAdmin = await payload.find({
         collection: 'users',
-        where: { email: { equals: 'tedev@gmail.com' } }
+        where: { email: { equals: 'tedev@gmail.com' } },
       })
-
       if (existingSuperAdmin.totalDocs === 0) {
         await payload.create({
           collection: 'users',
@@ -198,13 +198,38 @@ export default buildConfig({
             name: 'Super Admin Developer',
             email: 'tedev@gmail.com',
             password: 'dev@123',
-            role: 'super_admin' as any
-          }
+            role: 'super_admin',
+          },
         })
         payload.logger.info('Seeded super_admin user: tedev@gmail.com')
       }
     } catch (err) {
       payload.logger.error({ err }, 'Failed to seed super admin')
+    }
+
+    // ── Seed: admin@teameyrie.local ──────────────────────────────────────────
+    // This account is the UAT/production manager login. Seeding it on every
+    // cold start ensures it exists in any environment (UAT, staging, prod)
+    // without needing a manual DB operation.
+    try {
+      const existingAdmin = await payload.find({
+        collection: 'users',
+        where: { email: { equals: 'admin@teameyrie.local' } },
+      })
+      if (existingAdmin.totalDocs === 0) {
+        await payload.create({
+          collection: 'users',
+          data: {
+            name: 'Admin',
+            email: 'admin@teameyrie.local',
+            password: 'Admin@12345',
+            role: 'admin',
+          },
+        })
+        payload.logger.info('Seeded admin user: admin@teameyrie.local')
+      }
+    } catch (err) {
+      payload.logger.error({ err }, 'Failed to seed admin@teameyrie.local')
     }
   }
 })

@@ -123,6 +123,7 @@ export const Users: CollectionConfig = {
       required: true,
       defaultValue: 'staff',
       options: [
+        { label: 'Super Admin', value: 'super_admin' },
         { label: 'Administrator', value: 'admin' },
         { label: 'Editor', value: 'editor' },
         { label: 'Recruiter', value: 'recruiter' },
