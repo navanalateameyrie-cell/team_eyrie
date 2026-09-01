@@ -84,6 +84,14 @@ BEGIN
       DROP COLUMN IF EXISTS seo_meta_title,
       DROP COLUMN IF EXISTS seo_meta_description;
   END IF;
+
+  -- Handle localized subServices array (Payload adds _locale to the array table directly)
+  IF to_regclass('public.services_sub_services') IS NOT NULL THEN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'services_sub_services' AND column_name = '_locale') THEN
+      ALTER TABLE services_sub_services ADD COLUMN _locale "_locales" NOT NULL DEFAULT 'en';
+    END IF;
+  END IF;
 END $$;
 
 -- ---------------------------------------------------------------------------
