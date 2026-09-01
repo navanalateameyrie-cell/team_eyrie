@@ -6,7 +6,8 @@ import CorporateIcon from '@/components/CorporateIcon'
 import IndiaNetworkMap from '@/components/IndiaNetworkMap'
 import WhyTeamEyrieScroll from '@/components/WhyTeamEyrieScroll'
 import HorizontalServicesScroll from '@/components/HorizontalServicesScroll'
-import { resolveLocale, localeQuery } from '@/lib/locale'
+import { resolveLocale, sourceQuery } from '@/lib/locale'
+import { localizeDoc, localizeDocs } from '@/lib/translation/localizeDoc'
 
 export const dynamic = 'force-dynamic'
 
@@ -292,10 +293,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     const payload = await getPayload({ config })
     const [servicesRes, homePageRes] = await Promise.all([
       payload
-        .find({ collection: 'services', limit: 50, sort: 'order', depth: 2, ...localeQuery(locale) })
+        .find({ collection: 'services', limit: 50, sort: 'order', depth: 2, ...sourceQuery() })
         .catch(() => null),
-      payload.findGlobal({ slug: 'home-page', depth: 2, ...localeQuery(locale) }).catch(() => null),
+      payload.findGlobal({ slug: 'home-page', depth: 2, ...sourceQuery() }).catch(() => null),
     ])
+
+    // Translate both from the memory. Each is a single batched lookup rather
+    // than one per section.
+    if (servicesRes?.docs) servicesRes.docs = await localizeDocs(servicesRes.docs, locale)
+    const home: any = homePageRes ? await localizeDoc(homePageRes, locale) : null
 
     if (servicesRes && servicesRes.docs && servicesRes.docs.length > 0) {
       displayServices = servicesRes.docs.map((doc: any, idx: number) => {
@@ -313,12 +319,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       })
     }
 
-    if (homePageRes?.hero) {
-      if (homePageRes.hero.eyebrow) heroEyebrow = homePageRes.hero.eyebrow
-      if (homePageRes.hero.headline) heroHeadline = homePageRes.hero.headline
-      if (homePageRes.hero.subheadline) heroSubheadline = homePageRes.hero.subheadline
-      if (Array.isArray(homePageRes.hero.slides) && homePageRes.hero.slides.length > 0) {
-        heroSlides = homePageRes.hero.slides.map((s: any, idx: number) => {
+    if (home?.hero) {
+      if (home.hero.eyebrow) heroEyebrow = home.hero.eyebrow
+      if (home.hero.headline) heroHeadline = home.hero.headline
+      if (home.hero.subheadline) heroSubheadline = home.hero.subheadline
+      if (Array.isArray(home.hero.slides) && home.hero.slides.length > 0) {
+        heroSlides = home.hero.slides.map((s: any, idx: number) => {
           let img = defaultBgImages[idx % defaultBgImages.length]
           if (s.image && typeof s.image === 'object' && s.image.url) {
             img = s.image.url
@@ -340,8 +346,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       }
     }
 
-    if (homePageRes?.whyEyrie) {
-      const we = homePageRes.whyEyrie
+    if (home?.whyEyrie) {
+      const we = home.whyEyrie
       const items =
         Array.isArray(we.items) && we.items.length > 0
           ? we.items.map((it: any, idx: number) => {

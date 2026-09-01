@@ -7,7 +7,8 @@ import PageHero from '@/components/PageHero'
 import RichText from '@/components/RichText'
 import CorporateCard from '@/components/CorporateCard'
 import CtaBanner from '@/components/CtaBanner'
-import { resolveLocale, localeQuery } from '@/lib/locale'
+import { resolveLocale, sourceQuery } from '@/lib/locale'
+import { localizeDoc } from '@/lib/translation/localizeDoc'
 import type { Locale } from '@/i18n/config'
 
 export const dynamic = 'force-dynamic'
@@ -16,14 +17,16 @@ async function getService(slug: string, locale: Locale) {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'services',
-    // The slug is not localized, so the same URL key resolves the document in
-    // every language; only the returned field values differ.
+    // The slug is the shared URL key across every language, so it resolves the
+    // same document regardless of locale.
     where: { slug: { equals: slug } },
     limit: 1,
     depth: 1,
-    ...localeQuery(locale),
+    ...sourceQuery(),
   })
-  return docs[0] as any | undefined
+  if (!docs[0]) return undefined
+  // Translates the title, summary and the whole rich-text body in one lookup.
+  return (await localizeDoc(docs[0], locale)) as any
 }
 
 export async function generateMetadata({

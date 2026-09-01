@@ -6,6 +6,8 @@ import SiteHeader from './SiteHeader'
 import TeamEyrieCaLogo from './TeamEyrieCaLogo'
 import { defaultLocale, localizePath, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/getDictionary'
+import { sourceQuery } from '@/lib/locale'
+import { localizeDoc, localizeDocs } from '@/lib/translation/localizeDoc'
 
 type Office = {
   city: string
@@ -17,26 +19,27 @@ type Office = {
 async function getChromeData(locale: Locale) {
   try {
     const payload = await getPayload({ config })
-    // `locale` selects the translated values; `fallbackLocale` fills in English
-    // wherever a translation has not been written yet.
+    // Everything is fetched in English and translated from the translation
+    // memory below — nothing is authored per language in the CMS.
     const [services, offices, settings] = await Promise.all([
-      payload.find({
-        collection: 'services',
-        limit: 12,
-        sort: 'order',
-        depth: 0,
-        locale,
-        fallbackLocale: defaultLocale,
-      }),
-      payload.find({ collection: 'offices', limit: 20, sort: 'order', depth: 0 }),
-      payload
-        .findGlobal({ slug: 'site-settings', depth: 1, locale, fallbackLocale: defaultLocale })
-        .catch(() => null),
+      payload.find({ collection: 'services', limit: 12, sort: 'order', depth: 0, ...sourceQuery() }),
+      payload.find({ collection: 'offices', limit: 20, sort: 'order', depth: 0, ...sourceQuery() }),
+      payload.findGlobal({ slug: 'site-settings', depth: 1, ...sourceQuery() }).catch(() => null),
     ])
+
+    const [localizedServices, localizedOffices, localizedSettings] = await Promise.all([
+      localizeDocs(
+        services.docs.map((s: any) => ({ title: s.title, slug: s.slug, summary: s.summary })),
+        locale,
+      ),
+      localizeDocs(offices.docs as Office[], locale),
+      settings ? localizeDoc(settings, locale) : Promise.resolve(settings),
+    ])
+
     return {
-      services: services.docs.map((s: any) => ({ title: s.title, slug: s.slug, summary: s.summary })),
-      offices: offices.docs as Office[],
-      settings,
+      services: localizedServices,
+      offices: localizedOffices,
+      settings: localizedSettings,
     }
   } catch {
     return { services: [], offices: [] as Office[], settings: null as any }

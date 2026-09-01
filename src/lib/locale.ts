@@ -14,11 +14,29 @@ export async function resolveLocale(
 }
 
 /**
- * Spread into any payload.find / findByID / findGlobal call to fetch content in
- * the active language, falling back to the default locale for fields that have
- * not been translated yet.
+ * Spread into any payload.find / findByID / findGlobal call to fetch the
+ * SOURCE (English) copy.
  *
- *   const docs = await payload.find({ collection: 'services', ...localeQuery(locale) })
+ * Translation does not happen in the CMS. Content is authored once in English
+ * and translated by the server-side layer in src/lib/translation/, so every
+ * query asks for English and the result is passed through localizeDocs():
+ *
+ *   const { docs } = await payload.find({ collection: 'services', ...sourceQuery() })
+ *   const services = await localizeDocs(docs, locale)
+ *
+ * Editors therefore never touch a locale switcher, and a collection added
+ * later is covered without changing its schema.
+ */
+export function sourceQuery() {
+  return { locale: defaultLocale, fallbackLocale: defaultLocale } as const
+}
+
+/**
+ * Fetch content in the active language using Payload's own per-locale storage.
+ *
+ * Retained for the case where a document really is authored per language in
+ * the admin. The site does not use this path — prefer sourceQuery() +
+ * localizeDocs() so translations come from the translation memory.
  */
 export function localeQuery(locale: Locale) {
   return { locale, fallbackLocale: defaultLocale } as const

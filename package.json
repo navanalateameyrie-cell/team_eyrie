@@ -10,7 +10,9 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/seed.ts",
-    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload"
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "translate:extract": "node --env-file=.env scripts/translate/extract.mjs",
+    "translate:load": "node --env-file=.env scripts/translate/load.mjs"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.87.1",
