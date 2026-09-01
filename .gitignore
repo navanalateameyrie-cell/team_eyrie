@@ -12,3 +12,6 @@ next-env.d.ts
 # committed duplicates — do not re-add
 /TEAM_EYRIE/
 *.zip
+.vercel
+.env*
+!.env.example
