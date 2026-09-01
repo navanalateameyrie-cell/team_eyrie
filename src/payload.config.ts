@@ -75,25 +75,33 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
+    // These point at SERVER shells in components/admin/shells.tsx, not at the
+    // client components directly. Payload passes each custom view its server
+    // props, and with localization enabled those include a Locale object
+    // carrying a toString method — which React cannot serialize into a Client
+    // Component, 500ing the whole admin panel after login. The shells absorb
+    // those props and render the client components with none.
     components: {
-      Nav: '/components/admin/AdminSidebar#AdminSidebar',
+      Nav: '/components/admin/shells#AdminNav',
       graphics: {
+        // Logo and Icon are Server Components already, so they are safe to
+        // reference directly.
         Logo: '/components/admin/Logo#Logo',
         Icon: '/components/admin/Icon#Icon',
       },
       views: {
         ClientMapping: {
-          Component: '/components/admin/ClientMappingView',
+          Component: '/components/admin/shells#ClientMapping',
           path: '/client-mapping',
         },
         Dashboard: {
-          Component: '/components/admin/CustomDashboard',
+          Component: '/components/admin/shells#Dashboard',
         },
         dashboard: {
-          Component: '/components/admin/CustomDashboard',
+          Component: '/components/admin/shells#Dashboard',
         },
         login: {
-          Component: '/components/admin/LoginView#LoginView',
+          Component: '/components/admin/shells#Login',
         },
       },
     },

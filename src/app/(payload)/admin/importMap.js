@@ -23,13 +23,13 @@ import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_4da1f90de99340c8531cff72a46c36b2 } from '../../../components/admin/StatusCell'
 import { RecruitmentDashboard as RecruitmentDashboard_a75cba8ab8a81d811163b0687e1d3a42 } from '../../../components/admin/RecruitmentDashboard'
-import { AdminSidebar as AdminSidebar_3e35cd81a94733d06d013f9d93e07402 } from '../../../components/admin/AdminSidebar'
+import { AdminNav as AdminNav_shell } from '../../../components/admin/shells'
 import { Icon as Icon_dfe4008080d895d460898c3a6155e9ba } from '../../../components/admin/Icon'
 import { Logo as Logo_91a09b539d3c86b0aebf520e7564ce08 } from '../../../components/admin/Logo'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
-import { default as default_72d45da8c0dcd7a3ace5f7adb1f9f497 } from '../../../components/admin/ClientMappingView'
-import { default as default_bff5a882fa66ab8185114b0a616ede47 } from '../../../components/admin/CustomDashboard'
-import { LoginView as LoginView_853b7d6ada75aa2253ade7b1d734aa13 } from '../../../components/admin/LoginView'
+import { ClientMapping as ClientMapping_shell } from '../../../components/admin/shells'
+import { Dashboard as Dashboard_shell } from '../../../components/admin/shells'
+import { Login as Login_shell } from '../../../components/admin/shells'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -59,12 +59,12 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/StatusCell#default": default_4da1f90de99340c8531cff72a46c36b2,
   "/components/admin/RecruitmentDashboard#RecruitmentDashboard": RecruitmentDashboard_a75cba8ab8a81d811163b0687e1d3a42,
-  "/components/admin/AdminSidebar#AdminSidebar": AdminSidebar_3e35cd81a94733d06d013f9d93e07402,
+  "/components/admin/shells#AdminNav": AdminNav_shell,
   "/components/admin/Icon#Icon": Icon_dfe4008080d895d460898c3a6155e9ba,
   "/components/admin/Logo#Logo": Logo_91a09b539d3c86b0aebf520e7564ce08,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,
-  "/components/admin/ClientMappingView#default": default_72d45da8c0dcd7a3ace5f7adb1f9f497,
-  "/components/admin/CustomDashboard#default": default_bff5a882fa66ab8185114b0a616ede47,
-  "/components/admin/LoginView#LoginView": LoginView_853b7d6ada75aa2253ade7b1d734aa13,
+  "/components/admin/shells#ClientMapping": ClientMapping_shell,
+  "/components/admin/shells#Dashboard": Dashboard_shell,
+  "/components/admin/shells#Login": Login_shell,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
