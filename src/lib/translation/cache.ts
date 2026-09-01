@@ -57,6 +57,17 @@ const memo = new Map<string, string>()
 const memoKey = (locale: Locale, hash: string) => `${locale}:${hash}`
 
 /**
+ * Set once the translation memory is known to be unusable — most commonly
+ * because 002_add_translation_cache.sql has not been run on this database yet.
+ *
+ * Without it, deploying this code before running the migration would log a
+ * warning and issue a doomed query on every render of every page. Instead we
+ * find out once, say so once, and serve English from then on. Deploy and
+ * migration therefore have no ordering requirement: either way round is safe.
+ */
+let disabled = false
+
+/**
  * Look up many source strings at once.
  *
  * Returns a Map keyed by the ORIGINAL source string (not its hash) so callers
@@ -68,7 +79,7 @@ export async function lookupTranslations(
   locale: Locale,
 ): Promise<Map<string, string>> {
   const out = new Map<string, string>()
-  if (locale === defaultLocale || sources.length === 0) return out
+  if (disabled || locale === defaultLocale || sources.length === 0) return out
 
   const unique = [...new Set(sources)]
   const hashBySource = new Map<string, string>()
@@ -107,12 +118,23 @@ export async function lookupTranslations(
       }
     }
   } catch (err) {
-    // A translation-memory failure must never take a page down. Log once and
-    // let every caller fall back to English.
-    console.warn(
-      '[translation] lookup failed, rendering source language:',
-      err instanceof Error ? err.message : err,
-    )
+    // A translation-memory failure must never take a page down; every caller
+    // falls back to English.
+    const code = (err as { code?: string })?.code
+    if (code === '42P01') {
+      // undefined_table — the migration has not been run on this database.
+      // Stop trying: it will not start existing mid-process.
+      disabled = true
+      console.warn(
+        '[translation] `translations` table not found — serving English. ' +
+          'Run scripts/sql/002_add_translation_cache.sql to enable translations.',
+      )
+    } else {
+      console.warn(
+        '[translation] lookup failed, rendering source language:',
+        err instanceof Error ? err.message : err,
+      )
+    }
   }
 
   return out
