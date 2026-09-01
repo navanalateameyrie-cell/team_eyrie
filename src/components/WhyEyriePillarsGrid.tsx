@@ -165,11 +165,10 @@ export default function WhyEyriePillarsGrid({
 
   return (
     <div>
-      {/* 3x2 Symmetrical Grid */}
+      {/* 3x2 Symmetrical Grid (Responsive) */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 20,
         }}
         className="why-pillars-symmetrical-grid"

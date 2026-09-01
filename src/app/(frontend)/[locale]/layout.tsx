@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import './globals.css'
 import CookieConsent from '@/components/CookieConsent'
+import AccessibilityWidget from '@/components/accessibility'
 import ScrollReveal from '@/components/ScrollReveal'
 import SmoothScroll from '@/components/SmoothScroll'
 import { SiteHeaderServer, SiteFooter } from '@/components/SiteChrome'
@@ -74,6 +75,7 @@ export default async function RootLayout({
         {children}
         <SiteFooter locale={locale} />
         <CookieConsent />
+        <AccessibilityWidget position="bottom-left" />
       </body>
     </html>
   )

@@ -141,7 +141,7 @@ export default function IndiaNetworkMap() {
     const dx = x2 - x1
     const dy = y2 - y1
     const dist = Math.hypot(dx, dy)
-    
+
     // Slight curve offset towards center
     const curvature = Math.min(dist * 0.15, 30)
     const midX = (x1 + x2) / 2 - (dy / dist) * curvature * 0.5
@@ -210,9 +210,9 @@ export default function IndiaNetworkMap() {
 
       {/* Main Grid: Dotted Map on Left, Executive City Dossier on Right */}
       <div
+        className="india-network-map-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'minmax(280px, 1.05fr) minmax(280px, 0.95fr)',
           gap: 'clamp(20px, 2.5vw, 32px)',
           alignItems: 'center',
         }}
@@ -467,8 +467,8 @@ export default function IndiaNetworkMap() {
                           filter: isHovered
                             ? 'drop-shadow(0 6px 12px rgba(176, 141, 87, 0.6))'
                             : isSelected
-                            ? 'drop-shadow(0 4px 8px rgba(31, 56, 100, 0.45))'
-                            : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
+                              ? 'drop-shadow(0 4px 8px rgba(31, 56, 100, 0.45))'
+                              : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
                         }}
                       >
                         {/* Pin body */}
@@ -482,10 +482,10 @@ export default function IndiaNetworkMap() {
                             isHub
                               ? 'url(#hubPinGrad)'
                               : isHovered
-                              ? 'url(#goldPinGrad)'
-                              : isSelected
-                              ? 'url(#navyPinGrad)'
-                              : '#1f3864'
+                                ? 'url(#goldPinGrad)'
+                                : isSelected
+                                  ? 'url(#navyPinGrad)'
+                                  : '#1f3864'
                           }
                           stroke="#ffffff"
                           strokeWidth={isHub ? 2 : 1.6}
