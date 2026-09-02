@@ -10,37 +10,45 @@ export const Appointments: CollectionConfig = {
   },
   access: {
     read: async ({ req }) => {
-      const user = req.user as any;
-      if (!user) return false;
-      if (user.role === 'client') return { client: { equals: user.id } };
-      if (user.role === 'staff') {
-        const assignedClients = await req.payload.find({
-          collection: 'users',
-          where: { 'clientServices.assignedProfessional': { equals: user.id } },
-          depth: 0,
-          limit: 1000
-        });
-        const clientIds = assignedClients.docs.map(c => c.id);
-        return { client: { in: clientIds } };
+      try {
+        const user = req.user as any;
+        if (!user) return false;
+        if (user.role === 'client') return { client: { equals: user.id } };
+        if (user.role === 'staff') {
+          const assignedClients = await req.payload.find({
+            collection: 'users',
+            where: { 'clientServices.assignedProfessional': { equals: user.id } },
+            depth: 0,
+            limit: 1000
+          });
+          const clientIds = assignedClients.docs.map(c => c.id);
+          return { client: { in: clientIds } };
+        }
+        return true; // Super Admin, Admin can see all
+      } catch {
+        return false;
       }
-      return true; // Super Admin, Admin can see all
     },
     create: ({ req: { user } }) => Boolean(user), // Any logged in user
     update: async ({ req }) => {
-      const user = req.user as any;
-      if (!user) return false;
-      if (user.role === 'client') return { client: { equals: user.id } };
-      if (user.role === 'staff') {
-        const assignedClients = await req.payload.find({
-          collection: 'users',
-          where: { 'clientServices.assignedProfessional': { equals: user.id } },
-          depth: 0,
-          limit: 1000
-        });
-        const clientIds = assignedClients.docs.map(c => c.id);
-        return { client: { in: clientIds } };
+      try {
+        const user = req.user as any;
+        if (!user) return false;
+        if (user.role === 'client') return { client: { equals: user.id } };
+        if (user.role === 'staff') {
+          const assignedClients = await req.payload.find({
+            collection: 'users',
+            where: { 'clientServices.assignedProfessional': { equals: user.id } },
+            depth: 0,
+            limit: 1000
+          });
+          const clientIds = assignedClients.docs.map(c => c.id);
+          return { client: { in: clientIds } };
+        }
+        return true;
+      } catch {
+        return false;
       }
-      return true;
     },
     delete: ({ req: { user } }) => {
       if (!user) return false;
@@ -61,7 +69,7 @@ export const Appointments: CollectionConfig = {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
                 hour: 'numeric', minute: '2-digit'
               });
-              
+
               await req.payload.sendEmail({
                 to: client.email,
                 subject: 'Your Appointment is Confirmed - Team Eyrie',

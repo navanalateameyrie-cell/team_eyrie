@@ -6,8 +6,6 @@ import CorporateIcon from '@/components/CorporateIcon'
 import IndiaNetworkMap from '@/components/IndiaNetworkMap'
 import WhyTeamEyrieScroll from '@/components/WhyTeamEyrieScroll'
 import HorizontalServicesScroll from '@/components/HorizontalServicesScroll'
-import { resolveLocale, sourceQuery } from '@/lib/locale'
-import { localizeDoc, localizeDocs } from '@/lib/translation/localizeDoc'
 
 export const dynamic = 'force-dynamic'
 
@@ -280,8 +278,7 @@ function getServiceIconName(title: string): string {
   return 'assurance'
 }
 
-export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
-  const locale = await resolveLocale(params)
+export default async function HomePage() {
   let displayServices = mainServices
   let heroSlides = undefined
   let heroEyebrow = "India's Integrated Professional Services Network"
@@ -293,15 +290,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     const payload = await getPayload({ config })
     const [servicesRes, homePageRes] = await Promise.all([
       payload
-        .find({ collection: 'services', limit: 50, sort: 'order', depth: 2, ...sourceQuery() })
+        .find({ collection: 'services', limit: 50, sort: 'order', depth: 2 })
         .catch(() => null),
-      payload.findGlobal({ slug: 'home-page', depth: 2, ...sourceQuery() }).catch(() => null),
+      payload.findGlobal({ slug: 'home-page', depth: 2 }).catch(() => null),
     ])
 
-    // Translate both from the memory. Each is a single batched lookup rather
-    // than one per section.
-    if (servicesRes?.docs) servicesRes.docs = await localizeDocs(servicesRes.docs, locale)
-    const home: any = homePageRes ? await localizeDoc(homePageRes, locale) : null
+    const home: any = homePageRes
 
     if (servicesRes && servicesRes.docs && servicesRes.docs.length > 0) {
       displayServices = servicesRes.docs.map((doc: any, idx: number) => {
@@ -351,27 +345,27 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       const items =
         Array.isArray(we.items) && we.items.length > 0
           ? we.items.map((it: any, idx: number) => {
-              let img = defaultBgImages[idx % defaultBgImages.length]
-              if (it.image && typeof it.image === 'object' && it.image.url) {
-                img = it.image.url
-              } else if (it.imageUrl) {
-                img = it.imageUrl
-              }
-              const bullets = Array.isArray(it.bullets)
-                ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
-                : undefined
-              return {
-                id: `why-item-${idx}`,
-                num: `0${idx + 1}`,
-                tag: it.tag || 'Advantage',
-                title: it.title,
-                description: it.description,
-                image: img,
-                link: it.link || '/why-team-eyrie',
-                linkLabel: it.linkLabel || 'Explore Detail',
-                bullets,
-              }
-            })
+            let img = defaultBgImages[idx % defaultBgImages.length]
+            if (it.image && typeof it.image === 'object' && it.image.url) {
+              img = it.image.url
+            } else if (it.imageUrl) {
+              img = it.imageUrl
+            }
+            const bullets = Array.isArray(it.bullets)
+              ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
+              : undefined
+            return {
+              id: `why-item-${idx}`,
+              num: `0${idx + 1}`,
+              tag: it.tag || 'Advantage',
+              title: it.title,
+              description: it.description,
+              image: img,
+              link: it.link || '/why-team-eyrie',
+              linkLabel: it.linkLabel || 'Explore Detail',
+              bullets,
+            }
+          })
           : undefined
 
       whyEyrieData = {

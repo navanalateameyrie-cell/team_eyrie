@@ -7,36 +7,27 @@ import PageHero from '@/components/PageHero'
 import RichText from '@/components/RichText'
 import CorporateCard from '@/components/CorporateCard'
 import CtaBanner from '@/components/CtaBanner'
-import { resolveLocale, sourceQuery } from '@/lib/locale'
-import { localizeDoc } from '@/lib/translation/localizeDoc'
-import type { Locale } from '@/i18n/config'
 
 export const dynamic = 'force-dynamic'
 
-async function getService(slug: string, locale: Locale) {
+async function getService(slug: string) {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'services',
-    // The slug is the shared URL key across every language, so it resolves the
-    // same document regardless of locale.
     where: { slug: { equals: slug } },
     limit: 1,
     depth: 1,
-    ...sourceQuery(),
   })
-  if (!docs[0]) return undefined
-  // Translates the title, summary and the whole rich-text body in one lookup.
-  return (await localizeDoc(docs[0], locale)) as any
+  return docs[0] as any
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string; locale: string }>
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const locale = await resolveLocale(params)
-  const service = await getService(slug, locale)
+  const service = await getService(slug)
   if (!service) return { title: 'Service — Team Eyrie' }
   return {
     title: `${service.seo?.metaTitle || service.title} — Team Eyrie`,
@@ -47,11 +38,10 @@ export async function generateMetadata({
 export default async function ServiceDetail({
   params,
 }: {
-  params: Promise<{ slug: string; locale: string }>
+  params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const locale = await resolveLocale(params)
-  const service = await getService(slug, locale)
+  const service = await getService(slug)
   if (!service) notFound()
 
   const industries = Array.isArray(service.relatedIndustries)

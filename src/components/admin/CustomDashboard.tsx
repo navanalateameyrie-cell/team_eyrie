@@ -19,34 +19,20 @@ const CustomDashboard: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [usersRes, jobsRes, appsRes, teamRes, enqRes, aptRes] = await Promise.all([
-          fetch('/api/users?limit=1'),
-          fetch('/api/jobs?limit=1'),
-          fetch('/api/job-applications?limit=1'),
-          fetch('/api/team-members?limit=1'),
-          fetch('/api/contact-leads?limit=1'),
-          fetch('/api/appointments?limit=1'),
-        ]);
-
-        const [users, jobs, apps, team, enq, apt] = await Promise.all([
-          usersRes.json(),
-          jobsRes.json(),
-          appsRes.json(),
-          teamRes.json(),
-          enqRes.json(),
-          aptRes.json(),
-        ]);
-
-        setStats({
-          users: users.totalDocs || 0,
-          jobs: jobs.totalDocs || 0,
-          applications: apps.totalDocs || 0,
-          teamMembers: team.totalDocs || 0,
-          enquiries: enq.totalDocs || 0,
-          appointments: apt.totalDocs || 0,
-        });
+        const res = await fetch('/api/admin-stats');
+        if (res.ok) {
+          const data = await res.json();
+          setStats({
+            users: data.users || 0,
+            jobs: data.jobs || 0,
+            applications: data.applications || 0,
+            teamMembers: data.teamMembers || 0,
+            enquiries: data.enquiries || 0,
+            appointments: data.appointments || 0,
+          });
+        }
       } catch (err) {
-        console.error('Error fetching dashboard stats:', err);
+        console.warn('Dashboard stats notice:', err);
       } finally {
         setLoading(false);
       }

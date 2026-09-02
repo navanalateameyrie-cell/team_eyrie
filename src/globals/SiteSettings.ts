@@ -6,8 +6,8 @@ export const SiteSettings: GlobalConfig = {
   admin: { group: 'Administration' },
   access: { read: anyone, update: isAdmin },
   fields: [
-    { name: 'organizationName', type: 'text', localized: true, defaultValue: 'Team Eyrie' },
-    { name: 'tagline', type: 'text', localized: true, defaultValue: 'Together, We Create Value. Together, We Build Trust.' },
+    { name: 'organizationName', type: 'text', defaultValue: 'Team Eyrie' },
+    { name: 'tagline', type: 'text', defaultValue: 'Together, We Create Value. Together, We Build Trust.' },
     { name: 'logo', type: 'upload', relationTo: 'media' },
     {
       type: 'group',

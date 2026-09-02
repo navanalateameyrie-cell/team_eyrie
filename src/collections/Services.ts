@@ -11,16 +11,12 @@ export const Services: CollectionConfig = {
   },
   access: { read: anyone, create: isEditor, update: isEditor, delete: isEditor },
   fields: [
-    { name: 'title', type: 'text', required: true, localized: true },
-    // Deliberately NOT localized: the slug is the URL key and must stay
-    // identical across locales so /services/foo and /kn/services/foo resolve
-    // to the same document.
+    { name: 'title', type: 'text', required: true },
     slugField('title'),
     {
       name: 'summary',
       type: 'textarea',
       required: true,
-      localized: true,
       admin: { description: 'Short description shown on cards and listings.' },
     },
     { name: 'icon', type: 'upload', relationTo: 'media' },
@@ -28,14 +24,12 @@ export const Services: CollectionConfig = {
     {
       name: 'body',
       type: 'richText',
-      localized: true,
       admin: { description: 'Full page content for the service detail page.' },
     },
     {
       name: 'subServices',
       type: 'array',
       label: 'Sub-services',
-      localized: true,
       labels: { singular: 'Sub-service', plural: 'Sub-services' },
       fields: [
         { name: 'name', type: 'text', required: true },
@@ -70,8 +64,8 @@ export const Services: CollectionConfig = {
       label: 'SEO',
       admin: { position: 'sidebar' },
       fields: [
-        { name: 'metaTitle', type: 'text', localized: true },
-        { name: 'metaDescription', type: 'textarea', localized: true },
+        { name: 'metaTitle', type: 'text' },
+        { name: 'metaDescription', type: 'textarea' },
       ],
     },
   ],

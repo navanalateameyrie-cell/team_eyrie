@@ -157,24 +157,16 @@ const serviceConfigMap: Record<string, { theme: ServiceThemeColor; iconName: str
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { resolveLocale, sourceQuery } from '@/lib/locale'
-import { localizeDocs } from '@/lib/translation/localizeDoc'
 
-// Content is translated per request from the translation memory, so this page
-// must not be frozen at build time.
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
-export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {
-  const locale = await resolveLocale(params)
+export default async function ServicesPage() {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
+  const { docs: services } = await payload.find({
     collection: 'services',
     limit: 100,
     sort: 'order',
-    ...sourceQuery(),
   })
-  // One batched lookup for the whole listing, not one per card.
-  const services = await localizeDocs(docs, locale)
 
   const fallbackConfig = { theme: 'navy' as ServiceThemeColor, iconName: 'corporate' }
 

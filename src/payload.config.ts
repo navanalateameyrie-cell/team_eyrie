@@ -26,7 +26,6 @@ import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
-import { locales as siteLocales, defaultLocale } from './i18n/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -136,33 +135,23 @@ export default buildConfig({
     Appointments,
   ],
   globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview],
-  // Content localization. Only fields marked `localized: true` get per-locale
-  // storage; everything else (slugs, ordering, relationships, submitted form
-  // data) stays shared across locales. `fallback: true` means an untranslated
-  // field renders the default-locale value rather than an empty string, so a
-  // page is never half-blank while translations are still being written.
-  localization: {
-    locales: siteLocales.map((l) => ({ code: l.code, label: l.label })),
-    defaultLocale,
-    fallback: true,
-  },
   editor: lexicalEditor(),
   // Real email is sent when SMTP_* env vars are present; otherwise Payload falls
   // back to its console transport (emails are logged, not delivered).
   email: process.env.SMTP_HOST
     ? nodemailerAdapter({
-        defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'no-reply@teameyrie.in',
-        defaultFromName: process.env.EMAIL_FROM_NAME || 'Team Eyrie',
-        transportOptions: {
-          host: process.env.SMTP_HOST,
-          port: Number(process.env.SMTP_PORT || 587),
-          secure: process.env.SMTP_SECURE === 'true',
-          auth:
-            process.env.SMTP_USER && process.env.SMTP_PASS
-              ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-              : undefined,
-        },
-      })
+      defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'no-reply@teameyrie.in',
+      defaultFromName: process.env.EMAIL_FROM_NAME || 'Team Eyrie',
+      transportOptions: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT || 587),
+        secure: process.env.SMTP_SECURE === 'true',
+        auth:
+          process.env.SMTP_USER && process.env.SMTP_PASS
+            ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+            : undefined,
+      },
+    })
     : undefined,
   secret: process.env.PAYLOAD_SECRET || 'team-eyrie-payload-secret-key-prod-2026-safe',
   typescript: {
