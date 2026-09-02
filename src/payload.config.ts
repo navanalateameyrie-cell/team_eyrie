@@ -198,7 +198,7 @@ export default buildConfig({
             name: 'Super Admin Developer',
             email: 'tedev@gmail.com',
             password: 'dev@123',
-            role: 'super_admin',
+            role: 'super_admin' as any,
           },
         })
         payload.logger.info('Seeded super_admin user: tedev@gmail.com')
@@ -223,7 +223,7 @@ export default buildConfig({
             name: 'Admin',
             email: 'admin@teameyrie.local',
             password: 'Admin@12345',
-            role: 'admin',
+            role: 'admin' as any,
           },
         })
         payload.logger.info('Seeded admin user: admin@teameyrie.local')
