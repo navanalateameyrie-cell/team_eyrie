@@ -142,7 +142,7 @@ export default buildConfig({
   // field renders the default-locale value rather than an empty string, so a
   // page is never half-blank while translations are still being written.
   localization: {
-    locales: siteLocales.map((l) => ({ code: l.code, label: l.label })),
+    locales: siteLocales.map((l) => l.code),
     defaultLocale,
     fallback: true,
   },
