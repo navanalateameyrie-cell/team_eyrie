@@ -59,6 +59,13 @@ export const Services: CollectionConfig = {
       admin: { position: 'sidebar', description: 'Controls display order (ascending).' },
     },
     {
+      name: 'showOnHome',
+      type: 'checkbox',
+      label: 'Show on Home Page',
+      defaultValue: false,
+      admin: { position: 'sidebar', description: 'Check this box to display this service on the main home page.' },
+    },
+    {
       type: 'group',
       name: 'seo',
       label: 'SEO',

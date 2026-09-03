@@ -290,7 +290,13 @@ export default async function HomePage() {
     const payload = await getPayload({ config })
     const [servicesRes, homePageRes] = await Promise.all([
       payload
-        .find({ collection: 'services', limit: 50, sort: 'order', depth: 2 })
+        .find({ 
+          collection: 'services', 
+          limit: 50, 
+          sort: 'order', 
+          depth: 2,
+          where: { showOnHome: { equals: true } }
+        })
         .catch(() => null),
       payload.findGlobal({ slug: 'home-page', depth: 2 }).catch(() => null),
     ])
@@ -344,7 +350,9 @@ export default async function HomePage() {
       const we = home.whyEyrie
       const items =
         Array.isArray(we.items) && we.items.length > 0
-          ? we.items.map((it: any, idx: number) => {
+          ? we.items
+              .filter((it: any) => it.showOnHome !== false)
+              .map((it: any, idx: number) => {
             let img = defaultBgImages[idx % defaultBgImages.length]
             if (it.image && typeof it.image === 'object' && it.image.url) {
               img = it.image.url

@@ -111,6 +111,13 @@ export const HomePage: GlobalConfig = {
             initCollapsed: true,
           },
           fields: [
+            {
+              name: 'showOnHome',
+              type: 'checkbox',
+              label: 'Show on Home Page',
+              defaultValue: true,
+              admin: { description: 'Check this box to display this feature on the home page.' },
+            },
             { name: 'tag', type: 'text', label: 'Category Tag (e.g. Synergy, Coverage)' },
             { name: 'title', type: 'text', required: true, label: 'Title' },
             { name: 'description', type: 'textarea', required: true, label: 'Description' },

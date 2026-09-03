@@ -6,6 +6,7 @@ import AccessibilityWidget from '@/components/accessibility'
 import ScrollReveal from '@/components/ScrollReveal'
 import SmoothScroll from '@/components/SmoothScroll'
 import { SiteHeaderServer, SiteFooter } from '@/components/SiteChrome'
+import Chatbot from '@/components/Chatbot'
 
 const siteUrl = (
   process.env.NEXT_PUBLIC_SERVER_URL ||
@@ -37,6 +38,7 @@ export default function RootLayout({
         <SiteFooter />
         <CookieConsent />
         <AccessibilityWidget position="bottom-left" />
+        <Chatbot />
       </body>
     </html>
   )

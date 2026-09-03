@@ -165,7 +165,7 @@ export default buildConfig({
       idleTimeoutMillis: 60000,
       max: 5,
     },
-    push: false,  // disabled: prevents heavy schema sync queries on every dev startup
+    push: true,  // enabled temporarily to sync database schema and fix the query error
   }),
   sharp,
   upload: {
