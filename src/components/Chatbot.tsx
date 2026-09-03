@@ -21,15 +21,47 @@ export default function Chatbot() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (isOpen) {
+      // Prevent background scrolling
+      document.body.style.overflow = 'hidden'
+      // Focus input field
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 50)
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  // Maintain focus on the input box after sending a message
+  useEffect(() => {
+    if (isOpen && !isLoading && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 10)
+    }
+  }, [isOpen, isLoading])
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+      scrollToBottom()
     }, 100)
     return () => clearTimeout(timer)
   }, [messages, isLoading, isOpen])
@@ -103,7 +135,7 @@ export default function Chatbot() {
   return (
     <div className={styles.chatbotContainer}>
       {isOpen && (
-        <div className={styles.chatWindow}>
+        <div className={styles.chatWindow} data-lenis-prevent="true">
           <div className={styles.chatHeader}>
             <div>
               <h3>Team Eyrie Support</h3>
@@ -117,7 +149,7 @@ export default function Chatbot() {
             </button>
           </div>
           
-          <div className={styles.chatMessages}>
+          <div className={styles.chatMessages} ref={messagesContainerRef} data-lenis-prevent="true">
             {messages.map((msg) => (
               <div key={msg.id} className={`${styles.message} ${styles[msg.role]}`}>
                 {msg.content}
@@ -130,12 +162,12 @@ export default function Chatbot() {
                 <span></span>
               </div>
             )}
-            <div ref={messagesEndRef} />
           </div>
 
           <div className={styles.chatInputContainer}>
             <form onSubmit={handleSubmit} className={styles.chatForm}>
               <input
+                ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
