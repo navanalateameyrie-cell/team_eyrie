@@ -1,0 +1,212 @@
+/* =================================================================
+   _header.scss — Page Headers, App Header, and Breadcrumbs
+================================================================= */
+
+/* --- Sticky App Header --- */
+.app-header {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border-bottom: 1px solid rgba(176, 141, 87, 0.2) !important;
+  box-shadow: 0 4px 25px rgba(11, 19, 36, 0.04), inset 0 -2px 0 rgba(255, 255, 255, 0.6) !important;
+  color: var(--theme-text) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  padding: 12px 32px !important;
+}
+
+/* Flex layout to properly align logo and avatar inside the inner wrapper */
+.app-header > div, .app-header__wrapper, .app-header__content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  max-width: none !important; /* Override Payload's default max-width container if present */
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* --- Header Internal Wrappers --- */
+.step-nav__wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* --- Restore Logo Styles --- */
+.app-header .step-nav a,
+.app-header .step-nav__link,
+.app-header .step-nav__brand,
+.app-header .icon,
+.step-nav a:first-child,
+.app-header picture {
+  width: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Ensure the logo SVG/img itself is perfectly sized */
+.app-header picture img, .app-header .icon svg, .app-header .icon img {
+  height: 38px !important; /* Professional height for the header */
+  width: auto !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+}
+
+/* --- Header Profile Avatar --- */
+.app-header .avatar {
+  width: 40px !important;
+  height: 40px !important;
+  background: linear-gradient(135deg, var(--te-navy) 0%, #1a2f4c 100%) !important;
+  border: 2px solid var(--te-gold) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 12px rgba(176, 141, 87, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  margin-left: auto !important; /* Force to right side just in case */
+
+  &:hover {
+    transform: scale(1.1) rotate(5deg) !important;
+    box-shadow: 0 6px 18px rgba(176, 141, 87, 0.45) !important;
+  }
+
+  svg {
+    fill: #ffffff !important;
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  img {
+    border-radius: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Ensure any right-side header controls wrap nicely */
+.app-header > div:last-child {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-left: auto !important;
+}
+
+/* --- Collection List Header & View Header --- */
+.payload-default__main > header,
+.collection-list__header, 
+.view-header,
+.collection-list > div > header,
+header.collection-list__header,
+.collection-list__header-wrap,
+.view-header > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  gap: 16px !important;
+  margin-bottom: 24px !important;
+  flex-wrap: wrap !important;
+}
+
+/* Ensure inner wrappers containing the h1 and tabs vertically align */
+.view-header > div > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+
+  
+  h1 {
+    font-size: 2.2rem !important;
+    background: linear-gradient(135deg, var(--te-navy) 0%, #30486b 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    position: relative !important;
+    margin: 0 !important;
+    display: inline-block !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 40px;
+      height: 5px;
+      background: linear-gradient(90deg, var(--te-gold) 0%, #d8c19a 100%) !important;
+      border-radius: 4px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+/* Ensure Tabs are vertically centered with the title */
+.doc-tabs, .nav-tabs, .doc-header__tabs, .tabs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* --- Breadcrumbs / Step Navigation --- */
+.step-nav,
+.payload-default__step-nav {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  padding: 16px 32px 0 32px !important; /* Above the main card */
+}
+
+/* Reset step-nav padding when it's inside the header (like the logo) */
+.app-header .step-nav, .app-header .payload-default__step-nav {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 16px !important;
+}
+
+.step-nav a, .step-nav span, .step-nav__link {
+  color: var(--te-navy) !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.step-nav a:hover, .step-nav__link:hover {
+  color: var(--te-gold) !important;
+  background: rgba(176, 141, 87, 0.1) !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  margin: -6px -12px !important; /* Offset padding */
+}
+
+/* Document Save/Status Header overrides */
+.doc-header {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}

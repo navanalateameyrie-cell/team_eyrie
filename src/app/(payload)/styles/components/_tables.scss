@@ -1,0 +1,173 @@
+/* =================================================================
+   _tables.scss — Data Tables and List Controls
+================================================================= */
+
+/* --- Global Search & List Controls --- */
+.list-controls {
+  margin-bottom: 24px !important;
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  background: #ffffff !important;
+  padding: 16px 24px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(11, 19, 36, 0.04), inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(176, 141, 87, 0.15) !important;
+}
+
+.list-controls__wrap {
+  display: flex !important;
+  flex: 1 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  width: 100% !important;
+  flex-wrap: wrap !important;
+}
+
+.search-filter {
+  flex: 1 1 280px !important;
+  max-width: 450px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Ensure the search icon is placed correctly inside the search bar */
+.search-filter svg {
+  position: absolute !important;
+  left: 18px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #64748b !important;
+  width: 18px !important;
+  height: 18px !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+}
+
+/* Extreme specificity to ensure input padding is applied */
+body .payload-default .search-filter input, 
+body .payload-default .list-controls__search input, 
+body .payload-default input.search-filter__input,
+.search-filter input,
+.list-controls__search input,
+input.search-filter__input,
+input[placeholder*="Search" i] {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 30px !important; /* Professional Pill Shape */
+  padding: 12px 24px 12px 46px !important; /* Extra left padding for the icon */
+  width: 100% !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+  margin: 0 !important;
+  
+  &:hover {
+    border-color: var(--te-gold-light) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.08) !important;
+  }
+  
+  &:focus, &:focus-within, &:focus-visible {
+    transform: translateY(-1px) !important;
+    background-color: #ffffff !important;
+    border-color: var(--te-gold) !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.15) !important;
+    outline: none !important;
+  }
+}
+
+/* --- Data Tables --- */
+.table {
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(176, 141, 87, 0.25) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+  box-shadow: 0 10px 30px rgba(11, 19, 36, 0.08) !important;
+
+  thead tr {
+    background: linear-gradient(135deg, var(--te-navy) 0%, #1a2f4c 100%) !important;
+  }
+
+  th {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.1em !important;
+    padding: 18px 24px !important;
+    border-bottom: 4px solid var(--te-gold) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    white-space: nowrap !important;
+    &:last-child { border-right: none !important; }
+    *, button, .sort-column__button { color: #ffffff !important; }
+    
+    .sort-column__button {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+  }
+
+  tbody tr {
+    background: #ffffff !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    
+    &:nth-child(even) { background: #f8fafc !important; }
+    
+    &:hover {
+      background: linear-gradient(90deg, rgba(176, 141, 87, 0.08) 0%, rgba(255, 255, 255, 1) 100%) !important;
+      transform: translateY(-3px) scale(1.005) !important;
+      box-shadow: 0 12px 24px rgba(11, 19, 36, 0.1) !important;
+      z-index: 10 !important;
+      
+      td:first-child { 
+        box-shadow: inset 4px 0 0 0 var(--te-gold) !important; 
+        border-top-left-radius: 8px !important; 
+        border-bottom-left-radius: 8px !important; 
+      }
+      td:last-child { 
+        border-top-right-radius: 8px !important; 
+        border-bottom-right-radius: 8px !important; 
+      }
+      td { border-bottom-color: transparent !important; }
+    }
+    
+    &:last-child td { border-bottom: none !important; }
+  }
+
+  td {
+    color: var(--te-navy) !important;
+    padding: 18px 24px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-right: 1px dashed #e2e8f0 !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+    transition: all 0.2s ease !important;
+    &:last-child { border-right: none !important; }
+  }
+
+  /* Status Badges */
+  .badge, .pill, .status {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+    display: inline-block !important;
+  }
+}

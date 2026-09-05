@@ -1,0 +1,171 @@
+/* =================================================================
+   _cards.scss — Content Cards, Dashboards, and Layout Containers
+================================================================= */
+
+/* --- Content Cards (Edit, List, Global) --- */
+/* The background and shadow is now applied to .template-default__content in _layout.scss */
+.collection-edit, .collection-list, .dashboard__wrap, .global-edit {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  min-height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+}
+
+/* --- Edit View Header Area --- */
+.collection-edit__header,
+.global-edit__header {
+  border-bottom: 1px solid rgba(11, 19, 36, 0.06) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+}
+
+/* --- Right Sidebar (Status, Publish etc in Edit View) --- */
+.collection-edit__sidebar,
+.global-edit__sidebar {
+  background: #f8fafc !important;
+  border-radius: 14px !important;
+  padding: 24px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 15px rgba(11, 19, 36, 0.02) !important;
+  position: sticky !important;
+  top: 100px !important;
+}
+
+.document-controls {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* In Global views, position the save button top-right in the main white card */
+.global-edit > .document-controls, 
+.global-edit__header > .document-controls,
+.global-edit form > .document-controls,
+.global-edit .form-submit {
+  position: absolute !important;
+  top: 32px !important; /* Top padding of .template-default__content */
+  right: 32px !important; /* Right padding of .template-default__content */
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  z-index: 50 !important;
+  width: auto !important; /* Prevent 100% width from squishing the button */
+}
+
+/* Adjust Main/Sidebar Grid in Edit View (Only for Collection Edit, Globals often don't have a sidebar) */
+.collection-edit__document {
+  display: grid !important;
+  grid-template-columns: 1fr 320px !important;
+  gap: 32px !important;
+  align-items: start !important;
+}
+
+.global-edit__document {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+@media (max-width: 1024px) {
+  .collection-edit__document {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- Dashboard Card Grid --- */
+.dashboard__card-list, ul.dashboard__card-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 24px !important;
+  margin-bottom: 36px !important;
+  padding: 0 !important;
+}
+
+/* --- Dashboard Collection Cards --- */
+.dashboard__card-list .card,
+.dashboard__group .card,
+.card {
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(11, 19, 36, 0.06) !important;
+  border-left: 5px solid var(--te-navy) !important;
+  padding: 24px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+  }
+
+  &:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 0 15px 35px rgba(11, 19, 36, 0.12), 0 5px 20px rgba(176, 141, 87, 0.2) !important;
+    border-left: 5px solid var(--te-gold) !important;
+    border-color: rgba(176, 141, 87, 0.3) !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fcfbf9 100%) !important;
+    &::before { left: 150%; }
+    
+    .card__title, h2, h3, h4, .title { color: var(--te-gold) !important; }
+  }
+
+  .card__title, h2, h3, h4, .title {
+    font-weight: 700 !important;
+    color: var(--te-navy) !important;
+    font-size: 1.15rem !important;
+    transition: color 0.3s ease !important;
+    margin: 0 !important;
+  }
+
+  .card__actions button, .card__actions a {
+    background: linear-gradient(135deg, rgba(11, 19, 36, 0.04) 0%, rgba(176, 141, 87, 0.08) 100%) !important;
+    color: var(--te-navy) !important;
+    border-radius: 12px !important;
+    width: 42px !important;
+    height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    border: 1px solid rgba(176, 141, 87, 0.2) !important;
+    z-index: 10 !important;
+
+    &:hover {
+      background: linear-gradient(135deg, var(--te-gold) 0%, #8a6530 100%) !important;
+      color: #ffffff !important;
+      border-color: var(--te-gold) !important;
+      transform: scale(1.15) rotate(90deg) !important;
+      box-shadow: 0 6px 18px rgba(176, 141, 87, 0.45) !important;
+    }
+  }
+}

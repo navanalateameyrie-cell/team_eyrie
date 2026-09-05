@@ -15,8 +15,15 @@
 // 3. Navigation / Sidebar
 @import "./styles/sidebar";
 
-// 4. Main Layout, Tables, Forms, Cards, Buttons, Header
+// 4. Base Layout and Utilities
 @import "./styles/layout";
 
-// 5. Login Page (split-panel design)
+// 5. Modular Components
+@import "./styles/components/header";
+@import "./styles/components/cards";
+@import "./styles/components/buttons";
+@import "./styles/components/forms";
+@import "./styles/components/tables";
+
+// 6. Login Page (split-panel design)
 @import "./styles/login";

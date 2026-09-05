@@ -1,0 +1,215 @@
+/* =================================================================
+   _forms.scss — Modern Forms and Inputs
+================================================================= */
+
+/* --- Document Fields Container --- */
+.document-fields {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+/* --- Field Wrapper --- */
+.field-type {
+  position: relative !important;
+  margin-bottom: 0 !important;
+}
+
+/* --- Field Labels --- */
+.field-type > label, 
+.field-type .field-label {
+  color: var(--te-navy) !important;
+  font-weight: 700 !important;
+  font-size: 11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+
+  /* Stylish required asterisk */
+  .required {
+    color: var(--theme-error-400) !important;
+    font-size: 14px !important;
+  }
+}
+
+/* --- Standard Inputs (Text, Email, Number, Textarea) --- */
+.field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+.field-type textarea {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  color: var(--te-navy) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 14px 18px !important;
+  width: 100% !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+
+  /* Placeholder Styling */
+  &::placeholder {
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+  }
+
+  &:hover {
+    border-color: var(--te-gold-light) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+  }
+
+  &:focus, &:focus-visible, &:focus-within {
+    background-color: #ffffff !important;
+    border-color: var(--te-gold) !important;
+    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.15), 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+    outline: none !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* --- Textarea specific tweaks --- */
+.field-type textarea {
+  min-height: 120px !important;
+  resize: vertical !important;
+  line-height: 1.6 !important;
+}
+
+/* --- React-Select Control (Dropdowns / Relationships) --- */
+.field-type .rs__control {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  min-height: 52px !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  cursor: pointer !important;
+
+  &:hover {
+    border-color: var(--te-gold-light) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+  }
+
+  &.rs__control--is-focused, &.rs__control--menu-is-open {
+    background-color: #ffffff !important;
+    border-color: var(--te-gold) !important;
+    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.15), 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+    outline: none !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Reset inner inputs to prevent double styling */
+  input {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
+
+/* React Select Value */
+.field-type .rs__value-container { 
+  padding: 0 18px !important; 
+}
+.field-type .rs__single-value { 
+  color: var(--te-navy) !important; 
+  font-size: 15px !important; 
+  font-weight: 500 !important; 
+}
+
+/* React Select Dropdown Menu */
+.rs__menu {
+  border-radius: 12px !important;
+  border: 1px solid rgba(176, 141, 87, 0.2) !important;
+  box-shadow: 0 15px 35px rgba(11, 19, 36, 0.12) !important;
+  overflow: hidden !important;
+  margin-top: 8px !important;
+  animation: slideDown 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  z-index: 100 !important;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rs__option {
+  padding: 12px 18px !important;
+  font-size: 14.5px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  
+  &--is-focused, &:hover {
+    background: linear-gradient(90deg, rgba(176, 141, 87, 0.1) 0%, rgba(255, 255, 255, 0) 100%) !important;
+    color: var(--te-navy) !important;
+    font-weight: 600 !important;
+    padding-left: 22px !important; /* Nice hover slide effect */
+  }
+  
+  &--is-selected {
+    background: linear-gradient(135deg, var(--te-navy) 0%, #1a2f4c 100%) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* --- Checkboxes & Radios --- */
+.field-type input[type="checkbox"], 
+.field-type input[type="radio"] {
+  width: 20px !important;
+  height: 20px !important;
+  accent-color: var(--te-gold) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  
+  &:hover {
+    transform: scale(1.1) !important;
+  }
+}
+
+/* --- File Upload Area --- */
+.file-field .file-field__upload {
+  border: 2px dashed #cbd5e1 !important;
+  background-color: #f8fafc !important;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  border-radius: 12px !important;
+  padding: 32px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+
+  &:hover, &:focus-within {
+    border-color: var(--te-gold) !important;
+    background-color: #fefcf9 !important;
+    box-shadow: 0 0 0 6px rgba(176, 141, 87, 0.08) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+/* --- Array/Block Field Wrappers --- */
+.array-field__wrap, .blocks-field__wrap {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(11, 19, 36, 0.02) !important;
+}
+
+/* Collapsible Row Header */
+.array-field__row-header, .blocks-field__row-header {
+  background: #f8fafc !important;
+  border-radius: 8px !important;
+  padding: 12px 18px !important;
+  border: 1px solid #e2e8f0 !important;
+  transition: all 0.2s ease !important;
+  
+  &:hover {
+    background: #ffffff !important;
+    border-color: var(--te-gold-light) !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.08) !important;
+  }
+}

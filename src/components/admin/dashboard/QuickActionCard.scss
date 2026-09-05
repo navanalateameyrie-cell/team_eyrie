@@ -1,45 +1,78 @@
 .qa-card {
+  position: relative;
   background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 18px;
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   text-decoration: none;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-  border: 1px solid #f1f5f9;
-  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(11, 19, 36, 0.04), 0 1px 3px rgba(0,0,0,0.02);
+  border: 1px solid rgba(11, 19, 36, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+  }
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.06);
-    border-color: #e2e8f0;
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(11, 19, 36, 0.1), 0 5px 20px rgba(176, 141, 87, 0.2);
+    border-color: rgba(176, 141, 87, 0.3);
+    background: linear-gradient(135deg, #ffffff 0%, #fefcf9 100%);
+    
+    &::before {
+      left: 150%;
+    }
 
     .qa-icon {
-      transform: scale(1.1);
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 12px 24px rgba(176, 141, 87, 0.2);
+    }
+
+    span {
+      color: var(--te-gold);
     }
   }
 
   span {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: #334155;
+    color: var(--te-navy);
+    transition: color 0.3s ease;
+    letter-spacing: -0.01em;
   }
 }
 
 .qa-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  transition: transform 0.3s ease;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(11, 19, 36, 0.04) 0%, rgba(176, 141, 87, 0.08) 100%);
+  border: 1px solid rgba(176, 141, 87, 0.1);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
+    color: var(--te-navy);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
   }
 }

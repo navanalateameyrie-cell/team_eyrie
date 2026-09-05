@@ -17,7 +17,7 @@
   h1 {
     font-size: 2.2rem;
     font-weight: 800;
-    color: #0A111F;
+    color: var(--te-navy);
     margin: 0 0 8px 0;
     letter-spacing: -0.02em;
   }
@@ -40,10 +40,10 @@
   h2 {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #0A111F;
+    color: var(--te-navy);
     margin: 0 0 24px 0;
     padding-bottom: 12px;
-    border-bottom: 2px solid #f1f5f9;
+    border-bottom: 2px solid rgba(176, 141, 87, 0.15); /* Subtle gold border */
   }
 }
 

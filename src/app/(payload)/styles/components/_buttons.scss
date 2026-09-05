@@ -1,0 +1,169 @@
+/* =================================================================
+   _buttons.scss — Modern buttons for Admin Panel
+================================================================= */
+
+/* --- Base Button Resets --- */
+.btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: inherit !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+  white-space: nowrap !important; /* Prevent text wrapping like in ADD SLIDE */
+  gap: 8px !important; /* Space between icon and text */
+}
+
+/* --- Primary Buttons (Save, Create, etc.) --- */
+.btn--style-primary, .btn--icon-style-with-border, #action-save, #action-publish {
+  background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  border: none !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  padding: 10px 24px !important;
+  box-shadow: 0 4px 12px rgba(176, 141, 87, 0.25), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  min-height: 42px !important;
+  
+  /* Metallic Sheen Effect */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 20px rgba(176, 141, 87, 0.4), 0 0 0 2px rgba(176, 141, 87, 0.2) !important;
+    background: linear-gradient(135deg, #be9c66 0%, #a4804d 100%) !important;
+    color: #ffffff !important;
+    &::before { left: 150%; }
+  }
+  
+  &:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 2px 5px rgba(176, 141, 87, 0.3) !important;
+  }
+}
+
+/* --- Secondary Buttons (Edit, API, Cancel) --- */
+.btn--style-secondary, .btn--style-secondaryTransparent, .pill {
+  background: #ffffff !important;
+  color: var(--te-navy) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  padding: 10px 20px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  box-shadow: 0 2px 5px rgba(11, 19, 36, 0.02) !important;
+  min-height: 42px !important;
+
+  &:hover {
+    background: #f8fafc !important;
+    border-color: var(--te-gold) !important;
+    color: var(--te-gold) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.15) !important;
+  }
+}
+
+/* Override Pills specifically if they act as links (like Create New) */
+.pill.pill--has-link {
+  background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 6px 16px rgba(176, 141, 87, 0.35) !important;
+  
+  &:hover {
+    background: linear-gradient(135deg, #d4b483 0%, var(--te-gold) 100%) !important;
+    color: #ffffff !important;
+    transform: translateY(-4px) scale(1.05) !important;
+  }
+}
+
+/* --- Document Tabs (Edit, API, Versions) --- */
+.doc-tab, .doc-tabs a, .doc-header__tabs a, .nav-tabs a, .tabs a, .tab, .tabs__tab, button.doc-tab {
+  background: linear-gradient(135deg, rgba(176, 141, 87, 0.1) 0%, rgba(176, 141, 87, 0.15) 100%) !important;
+  color: var(--te-gold) !important;
+  border: 1px solid rgba(176, 141, 87, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 6px 16px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition: all 0.3s ease !important;
+  margin-right: 8px !important;
+
+  &:hover, &.active, &.doc-tab--active {
+    background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.25) !important;
+    border-color: transparent !important;
+  }
+}
+
+/* --- Save/Publish Buttons Container --- */
+.form-submit, .collection-edit__sidebar .document-controls {
+  display: flex !important;
+  gap: 12px !important;
+  width: auto !important;
+  flex-wrap: wrap !important;
+  
+  .btn {
+    flex: 0 0 auto !important; /* Do not stretch or shrink the save button */
+    justify-content: center !important;
+  }
+}
+
+/* --- Icon Buttons (like Ellipsis, Close, Trash, Add) --- */
+.btn--icon-style-without-border, .btn--icon, .popup-button {
+  background: transparent !important;
+  color: var(--te-navy) !important;
+  border-radius: 8px !important;
+  min-width: 42px !important;
+  width: auto !important; /* Allow width to expand if it contains text like ADD SLIDE */
+  height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1.5px solid transparent !important;
+  transition: all 0.3s ease !important;
+  padding: 0 12px !important; /* Add horizontal padding so text doesn't touch edges */
+
+  &:hover {
+    background: rgba(176, 141, 87, 0.08) !important; /* Subtle gold background instead of aggressive border box */
+    color: var(--te-gold) !important;
+    transform: translateY(-1px) !important;
+  }
+  
+  &:active {
+    transform: translateY(0) !important;
+  }
+  
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+    /* Do not force fill: currentColor, it breaks stroke-based icons */
+    transition: all 0.3s ease !important;
+  }
+}
+
+/* Fix for popup button inside save/actions area */
+.document-controls__popup {
+  display: flex !important;
+  align-items: center !important;
+}
