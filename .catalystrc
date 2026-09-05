@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "17679000000023001",
+      "name": "teamEyrie",
+      "domain": {
+        "id": "50045610011",
+        "name": "teameyrie-60040346129.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60040346129",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}

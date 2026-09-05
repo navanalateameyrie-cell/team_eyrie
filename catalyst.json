@@ -1,0 +1,13 @@
+{
+  "appsail": [
+    {
+      "name": "team-eyrie",
+      "source": ".",
+      "build": "npm run build",
+      "run": "npm start",
+      "env_variables": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
