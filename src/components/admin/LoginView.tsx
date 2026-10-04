@@ -222,10 +222,10 @@ export const LoginView: React.FC = () => {
 }
 
 // ─── Color Tokens ─────────────────────────────────────────────────────────
-const NAVY = '#0b1324'
-const BLUE = '#1f3864'
-const GOLD = '#b08d57'
-const GOLD_LT = '#d8c19a'
+const NAVY = '#071A3A'
+const BLUE = '#123B6D'
+const GOLD = '#F0C04A'
+const GOLD_LT = '#F7F7F2'
 const WHITE = '#ffffff'
 
 // ─── Styles ───────────────────────────────────────────────────────────────

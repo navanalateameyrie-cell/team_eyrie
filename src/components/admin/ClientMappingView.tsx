@@ -77,7 +77,7 @@ export default function ClientMappingView() {
                           <td style={{ padding: '16px' }}>{serviceTitle}</td>
                           <td style={{ padding: '16px' }}>
                             {cs.assignedProfessional ? (
-                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#f8fafc', padding: '6px 12px', borderRadius: '20px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 600, color: '#b08d57' }}>
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#F7F7F2', padding: '6px 12px', borderRadius: '20px', border: '1px solid #98A2B3', fontSize: '13px', fontWeight: 600, color: '#123B6D' }}>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                                 {staffName}
                               </span>

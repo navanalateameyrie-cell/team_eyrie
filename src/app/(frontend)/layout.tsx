@@ -1,12 +1,12 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import './globals.css'
-import CookieConsent from '@/components/CookieConsent'
+import CookieConsent from '@/components/ui/CookieConsent'
 import AccessibilityWidget from '@/components/accessibility'
-import ScrollReveal from '@/components/ScrollReveal'
-import SmoothScroll from '@/components/SmoothScroll'
-import { SiteHeaderServer, SiteFooter } from '@/components/SiteChrome'
-import Chatbot from '@/components/Chatbot'
+import ScrollReveal from '@/components/ui/ScrollReveal'
+import SmoothScroll from '@/components/ui/SmoothScroll'
+import { SiteHeaderServer, SiteFooter } from '@/components/layout/SiteChrome'
+import Chatbot from '@/components/chatbot/Chatbot'
 
 const siteUrl = (
   process.env.NEXT_PUBLIC_SERVER_URL ||

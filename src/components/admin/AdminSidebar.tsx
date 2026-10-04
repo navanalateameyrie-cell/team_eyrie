@@ -318,6 +318,32 @@ export const AdminSidebar: React.FC = () => {
   const pathname = usePathname()
   const { user } = useAuth()
   const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Listen to viewport width
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768
+      const tablet = window.innerWidth <= 1024 && window.innerWidth > 768
+      setIsMobile(mobile)
+      if (tablet) {
+        setCollapsed(true)
+      }
+      if (!mobile) {
+        setMobileOpen(false)
+      }
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Auto-close mobile drawer on route change
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
   // Determine user role
   const role = user?.role || 'editor'
@@ -328,13 +354,13 @@ export const AdminSidebar: React.FC = () => {
     if (role === 'super_admin' || role === 'admin' || isSuperEmail) {
       return group // Admin gets everything
     }
-    
+
     if (role === 'staff') {
       const allowedStaffKeys = ['users', 'services', 'appointments', 'team-members', 'client-mapping']
       const filteredItems = group.items.filter(item => allowedStaffKeys.includes(item.key))
       return { ...group, items: filteredItems }
     }
-    
+
     // Default fallback for other roles, keep empty or minimal
     return { ...group, items: [] }
   }).filter(group => group.items.length > 0)
@@ -345,92 +371,147 @@ export const AdminSidebar: React.FC = () => {
       'data-sidebar-collapsed',
       collapsed ? 'true' : 'false'
     )
-  }, [collapsed])
+    document.documentElement.setAttribute(
+      'data-sidebar-mobile-open',
+      mobileOpen ? 'true' : 'false'
+    )
+  }, [collapsed, mobileOpen])
 
   const isDashboard = pathname === '/admin' || pathname === '/admin/'
 
   return (
-    <aside
-      className={`te-sidebar ${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ''}`}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        width: collapsed ? '68px' : '260px',
-        zIndex: 1001,
-        transition: 'width 0.3s cubic-bezier(0.4,0,0.2,1)',
-      }}
-    >
-      {/* ─── Header ─── */}
-      <div className={styles.header}>
-        <div className={styles.brand}>
-          <div className={styles.brandLogo}>
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 2L3 9v8c0 6.627 5.373 13 13 13s13-6.373 13-13V9L16 2z" fill="url(#brandGrad)" opacity="0.9" />
-              <path d="M16 7l-8 4.5v5C8 20.5 11.582 24 16 24s8-3.5 8-7.5v-5L16 7z" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1" />
-              <text x="16" y="21" textAnchor="middle" fontSize="11" fontWeight="800" fill="white" fontFamily="Arial">TE</text>
-              <defs>
-                <linearGradient id="brandGrad" x1="3" y1="2" x2="29" y2="30">
-                  <stop offset="0%" stopColor="#b08d57" />
-                  <stop offset="100%" stopColor="#6b5a38" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          {!collapsed && (
-            <div className={styles.brandText}>
-              <span className={styles.brandName}>TEAM EYRIE</span>
-              <span className={styles.brandSub}>Admin Panel</span>
-            </div>
-          )}
-        </div>
-        <button
-          className={styles.collapseBtn}
-          onClick={() => setCollapsed(prev => !prev)}
-          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          aria-label="Toggle sidebar"
-        >
+    <>
+      {/* Mobile Floating Toggle Button */}
+      <button
+        type="button"
+        className={styles.mobileToggleBtn}
+        onClick={() => setMobileOpen(prev => !prev)}
+        title={mobileOpen ? 'Close navigation' : 'Open navigation'}
+        aria-label="Toggle navigation menu"
+      >
+        {mobileOpen ? (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            {collapsed
-              ? <><polyline points="9 18 15 12 9 6" /></>
-              : <><polyline points="15 18 9 12 15 6" /></>
-            }
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
-        </button>
-      </div>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        )}
+      </button>
 
-      {/* ─── Dashboard Link ─── */}
-      <div className={styles.dashboardLink}>
-        <a
-          href="/admin"
-          className={`${styles.dashItem} ${isDashboard ? styles.dashItemActive : ''}`}
-          title={collapsed ? 'Dashboard' : undefined}
-        >
-          <span className={styles.navIcon} dangerouslySetInnerHTML={{
-            __html: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`
-          }} />
-          {!collapsed && <span className={styles.navLabel}>Dashboard</span>}
-          {collapsed && <span className={styles.tooltip}>Dashboard</span>}
-        </a>
-      </div>
+      {/* Backdrop for Mobile Drawer */}
+      {mobileOpen && (
+        <div
+          className={styles.backdrop}
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* ─── Divider ─── */}
-      <div className={styles.divider} />
+      <aside
+        className={`te-sidebar ${styles.sidebar} ${collapsed && !isMobile ? styles.sidebarCollapsed : ''} ${mobileOpen ? styles.sidebarMobileOpen : ''}`}
+        style={
+          isMobile
+            ? undefined
+            : {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                height: '100vh',
+                width: collapsed ? '68px' : '260px',
+                zIndex: 1001,
+                transition: 'width 0.3s cubic-bezier(0.4,0,0.2,1)',
+              }
+        }
+      >
+        {/* ─── Header ─── */}
+        <div className={styles.header}>
+          <div className={styles.brand}>
+            <div className={styles.brandLogo}>
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 2L3 9v8c0 6.627 5.373 13 13 13s13-6.373 13-13V9L16 2z" fill="url(#brandGrad)" opacity="0.9" />
+                <path d="M16 7l-8 4.5v5C8 20.5 11.582 24 16 24s8-3.5 8-7.5v-5L16 7z" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1" />
+                <text x="16" y="21" textAnchor="middle" fontSize="11" fontWeight="800" fill="white" fontFamily="Arial">TE</text>
+                <defs>
+                  <linearGradient id="brandGrad" x1="3" y1="2" x2="29" y2="30">
+                    <stop offset="0%" stopColor="#F0C04A" />
+                    <stop offset="100%" stopColor="#123B6D" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            {(!collapsed || isMobile) && (
+              <div className={styles.brandText}>
+                <span className={styles.brandName}>TEAM EYRIE</span>
+                <span className={styles.brandSub}>Admin Panel</span>
+              </div>
+            )}
+          </div>
+          <button
+            className={styles.collapseBtn}
+            onClick={() => {
+              if (isMobile) {
+                setMobileOpen(false)
+              } else {
+                setCollapsed(prev => !prev)
+              }
+            }}
+            title={isMobile ? 'Close navigation' : collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-label="Toggle sidebar"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              {isMobile ? (
+                <>
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </>
+              ) : collapsed ? (
+                <polyline points="9 18 15 12 9 6" />
+              ) : (
+                <polyline points="15 18 9 12 15 6" />
+              )}
+            </svg>
+          </button>
+        </div>
 
-      {/* ─── Navigation Groups ─── */}
-      <nav className={styles.nav}>
-        {filteredNavConfig.map(group => (
-          <NavGroup
-            key={group.group}
-            group={group.group}
-            icon={group.icon}
-            items={group.items}
-            collapsed={collapsed}
-            pathname={pathname}
-          />
-        ))}
-      </nav>
+        {/* ─── Dashboard Link ─── */}
+        <div className={styles.dashboardLink}>
+          <a
+            href="/admin"
+            className={`${styles.dashItem} ${isDashboard ? styles.dashItemActive : ''}`}
+            title={collapsed && !isMobile ? 'Dashboard' : undefined}
+            onClick={() => {
+              if (isMobile) setMobileOpen(false)
+            }}
+          >
+            <span className={styles.navIcon} dangerouslySetInnerHTML={{
+              __html: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`
+            }} />
+            {(!collapsed || isMobile) && <span className={styles.navLabel}>Dashboard</span>}
+            {collapsed && !isMobile && <span className={styles.tooltip}>Dashboard</span>}
+          </a>
+        </div>
+
+        {/* ─── Divider ─── */}
+        <div className={styles.divider} />
+
+        {/* ─── Navigation Groups ─── */}
+        <nav className={styles.nav}>
+          {filteredNavConfig.map(group => (
+            <NavGroup
+              key={group.group}
+              group={group.group}
+              icon={group.icon}
+              items={group.items}
+              collapsed={collapsed && !isMobile}
+              pathname={pathname}
+            />
+          ))}
+        </nav>
 
       {/* ─── Footer ─── */}
       <div className={styles.footer}>
@@ -451,9 +532,9 @@ export const AdminSidebar: React.FC = () => {
               <span className={styles.accountName}>{user?.name || 'User'}</span>
               <span className={styles.accountRole}>
                 {user?.email === 'tedev@gmail.com' ? 'Super Admin' :
-                 user?.email === 'admin@teameyrie.local' ? 'Manager' :
-                 user?.role === 'admin' ? 'Manager' : 
-                 user?.role === 'staff' ? 'Staff' : 'User'}
+                  user?.email === 'admin@teameyrie.local' ? 'Manager' :
+                    user?.role === 'admin' ? 'Manager' :
+                      user?.role === 'staff' ? 'Staff' : 'User'}
               </span>
             </div>
           )}
@@ -469,6 +550,7 @@ export const AdminSidebar: React.FC = () => {
         </a>
       </div>
     </aside>
+    </>
   )
 }
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import PageHero from '@/components/PageHero'
-import SectionHeader from '@/components/SectionHeader'
-import CtaBanner from '@/components/CtaBanner'
-import CorporateIcon from '@/components/CorporateIcon'
+import PageHero from '@/components/layout/PageHero'
+import SectionHeader from '@/components/layout/SectionHeader'
+import CtaBanner from '@/components/layout/CtaBanner'
+import CorporateIcon from '@/components/ui/CorporateIcon'
 
 export const metadata: Metadata = {
   title: 'Services — Team Eyrie',
@@ -45,18 +45,18 @@ const serviceThemePresets: Record<
     linkColor: '#1f3864',
   },
   gold: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #fdfaf4 100%)',
-    borderColor: '#eee3d2',
-    hoverBorder: '#b08d57',
-    hoverShadow: '0 16px 36px rgba(176, 141, 87, 0.14)',
-    topBar: 'linear-gradient(90deg, #b08d57 0%, #e0b469 100%)',
-    iconGradient: 'linear-gradient(135deg, #e5b358 0%, #b08d57 100%)',
-    iconShadow: '0 6px 16px rgba(176, 141, 87, 0.32)',
-    tagBg: '#fdfbf6',
-    tagBorder: '#f2e8d9',
-    tagHoverBorder: '#b08d57',
-    checkColor: '#b08d57',
-    linkColor: '#967341',
+    cardBg: 'linear-gradient(155deg, #ffffff 40%, #F7F7F2 100%)',
+    borderColor: '#98A2B3',
+    hoverBorder: '#F0C04A',
+    hoverShadow: '0 16px 36px rgba(7, 26, 58, 0.12)',
+    topBar: 'linear-gradient(90deg, #123B6D 0%, #F0C04A 100%)',
+    iconGradient: 'linear-gradient(135deg, #F0C04A 0%, #d4a332 100%)',
+    iconShadow: '0 6px 16px rgba(240, 192, 74, 0.35)',
+    tagBg: '#F7F7F2',
+    tagBorder: '#98A2B3',
+    tagHoverBorder: '#F0C04A',
+    checkColor: '#F0C04A',
+    linkColor: '#123B6D',
   },
   teal: {
     cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0fdf9 100%)',

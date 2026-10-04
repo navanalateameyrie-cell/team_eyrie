@@ -69,10 +69,56 @@
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 
-  svg {
-    width: 26px;
-    height: 26px;
-    color: var(--te-navy);
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    svg {
+      width: 26px;
+      height: 26px;
+      color: var(--te-navy);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+  }
+
+@media (max-width: 1024px) {
+  .qa-card {
+    padding: 24px 18px;
+    border-radius: 16px;
+
+    span {
+      font-size: 0.95rem;
+    }
+  }
+
+  .qa-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .qa-card {
+    padding: 16px 10px;
+    border-radius: 14px;
+
+    span {
+      font-size: 0.82rem;
+    }
+  }
+
+  .qa-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

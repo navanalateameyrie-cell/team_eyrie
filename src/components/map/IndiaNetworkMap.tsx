@@ -182,7 +182,7 @@ export default function IndiaNetworkMap() {
               gap: 8,
               fontSize: 12.5,
               fontWeight: 700,
-              color: '#b08d57',
+              color: '#123B6D',
               textTransform: 'uppercase',
               letterSpacing: 2,
               marginBottom: 4,
@@ -254,8 +254,8 @@ export default function IndiaNetworkMap() {
 
               {/* Pin Gradients */}
               <linearGradient id="goldPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#c5a059" />
-                <stop offset="100%" stopColor="#9a7432" />
+                <stop offset="0%" stopColor="#F0C04A" />
+                <stop offset="100%" stopColor="#d4a332" />
               </linearGradient>
 
               <linearGradient id="hubPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -264,8 +264,8 @@ export default function IndiaNetworkMap() {
               </linearGradient>
 
               <linearGradient id="navyPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#2563eb" />
-                <stop offset="100%" stopColor="#1f3864" />
+                <stop offset="0%" stopColor="#123B6D" />
+                <stop offset="100%" stopColor="#071A3A" />
               </linearGradient>
 
               {/* Keyframe Animations */}
@@ -388,7 +388,7 @@ export default function IndiaNetworkMap() {
                 cy={salemHub.y}
                 r="6"
                 fill="none"
-                stroke="#b08d57"
+                stroke="#F0C04A"
                 className="hub-radar-circle"
                 style={{ animationDelay: '1.2s' }}
               />
@@ -446,7 +446,7 @@ export default function IndiaNetworkMap() {
                         cy={c.y}
                         r="5"
                         fill="none"
-                        stroke={isHub ? '#10b981' : isHovered ? '#b08d57' : '#1f3864'}
+                        stroke={isHub ? '#10b981' : isHovered ? '#F0C04A' : '#123B6D'}
                         className="node-pulse-active"
                       />
                     )}
@@ -465,9 +465,9 @@ export default function IndiaNetworkMap() {
                           transformOrigin: '0px 0px',
                           transition: 'transform 0.22s cubic-bezier(0.2, 0.8, 0.4, 1), filter 0.2s ease',
                           filter: isHovered
-                            ? 'drop-shadow(0 6px 12px rgba(176, 141, 87, 0.6))'
+                            ? 'drop-shadow(0 6px 12px rgba(240, 192, 74, 0.45))'
                             : isSelected
-                              ? 'drop-shadow(0 4px 8px rgba(31, 56, 100, 0.45))'
+                              ? 'drop-shadow(0 4px 8px rgba(7, 26, 58, 0.45))'
                               : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
                         }}
                       >
@@ -485,7 +485,7 @@ export default function IndiaNetworkMap() {
                                 ? 'url(#goldPinGrad)'
                                 : isSelected
                                   ? 'url(#navyPinGrad)'
-                                  : '#1f3864'
+                                  : '#071A3A'
                           }
                           stroke="#ffffff"
                           strokeWidth={isHub ? 2 : 1.6}
@@ -502,7 +502,7 @@ export default function IndiaNetworkMap() {
                           cx={0}
                           cy={isHub ? -18 : -15.5}
                           r={isHub ? 2 : 1.4}
-                          fill={isHub ? '#10b981' : isHovered ? '#b08d57' : '#1f3864'}
+                          fill={isHub ? '#10b981' : isHovered ? '#F0C04A' : '#123B6D'}
                         />
                       </g>
                     </g>
@@ -512,7 +512,7 @@ export default function IndiaNetworkMap() {
                       x={labelX}
                       y={labelY}
                       textAnchor={isLeftLabel ? 'end' : 'start'}
-                      fill={isHighlighted ? (isHub ? '#047857' : isHovered ? '#b08d57' : '#1f3864') : '#1e293b'}
+                      fill={isHighlighted ? (isHub ? '#047857' : isHovered ? '#123B6D' : '#071A3A') : '#1e293b'}
                       fontSize={isHub ? '16' : isHighlighted ? '15' : '13.5'}
                       fontWeight={isHighlighted || isHub ? '800' : '700'}
                       letterSpacing="0.2px"
@@ -616,7 +616,7 @@ export default function IndiaNetworkMap() {
                         fontWeight: 600,
                       }}
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={currentCity.isHub ? '#10b981' : '#b08d57'} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={currentCity.isHub ? '#10b981' : '#123B6D'} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                       <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{spec}</span>

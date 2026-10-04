@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import CorporateIcon from './CorporateIcon'
+import CorporateIcon from '@/components/ui/CorporateIcon'
 
 export interface ValuePillarItem {
   id: string
@@ -205,11 +205,11 @@ export default function WhyEyriePillarsGrid({
                     width: 44,
                     height: 44,
                     borderRadius: 10,
-                    background: 'linear-gradient(135deg, #c5a059 0%, #9a7432 100%)',
+                    background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(176, 141, 87, 0.3)',
+                    boxShadow: '0 4px 12px rgba(7, 26, 58, 0.25)',
                   }}
                 >
                   <CorporateIcon name={pil.iconName} size={22} color="#ffffff" strokeWidth={2.4} />
@@ -220,8 +220,8 @@ export default function WhyEyriePillarsGrid({
                     fontWeight: 800,
                     letterSpacing: 0.8,
                     textTransform: 'uppercase',
-                    color: '#b08d57',
-                    background: 'rgba(176, 141, 87, 0.12)',
+                    color: '#123B6D',
+                    background: 'rgba(18, 59, 109, 0.1)',
                     padding: '3px 9px',
                     borderRadius: 4,
                   }}
@@ -235,7 +235,7 @@ export default function WhyEyriePillarsGrid({
                 style={{
                   fontSize: 19,
                   fontWeight: 800,
-                  color: '#1f3864',
+                  color: '#071A3A',
                   margin: '0 0 6px',
                   letterSpacing: '-0.01em',
                 }}
@@ -246,7 +246,7 @@ export default function WhyEyriePillarsGrid({
                 style={{
                   fontSize: 12.5,
                   fontWeight: 700,
-                  color: '#b08d57',
+                  color: '#123B6D',
                   marginBottom: 10,
                   lineHeight: 1.4,
                 }}
@@ -284,7 +284,7 @@ export default function WhyEyriePillarsGrid({
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  color: '#1f3864',
+                  color: '#123B6D',
                   fontSize: 13.5,
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -293,8 +293,8 @@ export default function WhyEyriePillarsGrid({
                   gap: 6,
                   transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#b08d57')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#1f3864')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#F0C04A')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#123B6D')}
               >
                 <span>Read More</span>
                 <span style={{ transition: 'transform 0.2s ease' }}>→</span>
@@ -336,9 +336,9 @@ export default function WhyEyriePillarsGrid({
               width: '100%',
               maxHeight: '90vh',
               overflowY: 'auto',
-              border: '1.5px solid #e2e8f0',
-              borderTop: '5px solid #b08d57',
-              boxShadow: '0 25px 60px rgba(15, 28, 51, 0.22), 0 4px 16px rgba(0, 0, 0, 0.04)',
+              border: '1.5px solid #98A2B3',
+              borderTop: '5px solid #F0C04A',
+              boxShadow: '0 25px 60px rgba(7, 26, 58, 0.22), 0 4px 16px rgba(0, 0, 0, 0.04)',
               padding: 'clamp(24px, 4vw, 36px)',
               position: 'relative',
               animation: 'scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -386,12 +386,12 @@ export default function WhyEyriePillarsGrid({
                   width: 52,
                   height: 52,
                   borderRadius: 12,
-                  background: 'linear-gradient(135deg, #c5a059 0%, #9a7432 100%)',
+                  background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
-                  boxShadow: '0 6px 16px rgba(176, 141, 87, 0.35)',
+                  boxShadow: '0 6px 16px rgba(7, 26, 58, 0.25)',
                 }}
               >
                 <CorporateIcon name={selectedPillar.iconName} size={26} color="#ffffff" strokeWidth={2.4} />
@@ -402,8 +402,8 @@ export default function WhyEyriePillarsGrid({
                     style={{
                       fontSize: 11,
                       fontWeight: 800,
-                      color: '#b08d57',
-                      background: 'rgba(176, 141, 87, 0.12)',
+                      color: '#123B6D',
+                      background: 'rgba(18, 59, 109, 0.1)',
                       padding: '2.5px 8px',
                       borderRadius: 4,
                       letterSpacing: 0.8,
@@ -416,7 +416,7 @@ export default function WhyEyriePillarsGrid({
                 <h3
                   style={{
                     fontSize: 24,
-                    color: '#1f3864',
+                    color: '#071A3A',
                     fontWeight: 800,
                     margin: 0,
                     letterSpacing: '-0.01em',
@@ -431,10 +431,10 @@ export default function WhyEyriePillarsGrid({
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: '#b08d57',
+                color: '#123B6D',
                 marginBottom: 16,
                 paddingBottom: 14,
-                borderBottom: '1px solid #e2e8f0',
+                borderBottom: '1px solid #98A2B3',
               }}
             >
               {selectedPillar.subtitle}
@@ -470,12 +470,12 @@ export default function WhyEyriePillarsGrid({
                       display: 'flex',
                       alignItems: 'center',
                       gap: 10,
-                      background: '#f8fafc',
-                      border: '1px solid #e2e8f0',
+                      background: '#F7F7F2',
+                      border: '1px solid #98A2B3',
                       borderRadius: 8,
                       padding: '10px 14px',
                       fontSize: 13.5,
-                      color: '#1f3864',
+                      color: '#071A3A',
                       fontWeight: 600,
                     }}
                   >
@@ -484,7 +484,7 @@ export default function WhyEyriePillarsGrid({
                         width: 20,
                         height: 20,
                         borderRadius: '50%',
-                        background: '#10b981',
+                        background: '#123B6D',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -503,18 +503,18 @@ export default function WhyEyriePillarsGrid({
             {selectedPillar.leadershipNote && (
               <div
                 style={{
-                  background: 'linear-gradient(135deg, #fdfaf4 0%, #f7f2ea 100%)',
-                  border: '1px solid #eee3d2',
-                  borderLeft: '4px solid #b08d57',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #F7F7F2 100%)',
+                  border: '1px solid #98A2B3',
+                  borderLeft: '4px solid #F0C04A',
                   borderRadius: 8,
                   padding: '12px 16px',
                   marginBottom: 24,
                   fontSize: 13,
-                  color: '#785b2e',
+                  color: '#071A3A',
                   lineHeight: 1.5,
                 }}
               >
-                <strong>Team Eyrie Advantage:</strong> {selectedPillar.leadershipNote}
+                <strong style={{ color: '#123B6D' }}>Team Eyrie Advantage:</strong> {selectedPillar.leadershipNote}
               </div>
             )}
 
@@ -548,8 +548,8 @@ export default function WhyEyriePillarsGrid({
               <a
                 href={`/contact?pillar=${encodeURIComponent(selectedPillar.title)}`}
                 style={{
-                  background: '#1f3864',
-                  color: '#ffffff',
+                  background: '#F0C04A',
+                  color: '#071A3A',
                   textDecoration: 'none',
                   padding: '10px 22px',
                   borderRadius: 8,
@@ -558,7 +558,7 @@ export default function WhyEyriePillarsGrid({
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
-                  boxShadow: '0 4px 14px rgba(31, 56, 100, 0.25)',
+                  boxShadow: '0 4px 14px rgba(240, 192, 74, 0.35)',
                 }}
               >
                 <span>Consult Senior Partner</span>

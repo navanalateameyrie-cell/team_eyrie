@@ -1,9 +1,18 @@
 .custom-dashboard-wrapper {
-  padding: 40px;
+  padding: 32px 28px;
   max-width: 100%;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
   animation: fadeIn 0.4s ease-out forwards;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    padding: 20px 14px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 4px;
+  }
 }
 
 @keyframes fadeIn {
@@ -12,18 +21,22 @@
 }
 
 .custom-dashboard-header {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 
   h1 {
-    font-size: 2.2rem;
+    font-size: clamp(1.5rem, 3.2vw, 2.2rem);
     font-weight: 800;
     color: var(--te-navy);
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     letter-spacing: -0.02em;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
     color: #64748b;
     margin: 0;
   }
@@ -31,26 +44,52 @@
 
 .custom-dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-bottom: 48px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+
+  @media (max-width: 1024px) {
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
 }
 
 .custom-dashboard-quick-actions {
   h2 {
-    font-size: 1.4rem;
+    font-size: clamp(1.15rem, 2.5vw, 1.4rem);
     font-weight: 700;
     color: var(--te-navy);
-    margin: 0 0 24px 0;
-    padding-bottom: 12px;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
     border-bottom: 2px solid rgba(176, 141, 87, 0.15); /* Subtle gold border */
+
+    @media (max-width: 768px) {
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+    }
   }
 }
 
 .quick-actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
 }
 
 

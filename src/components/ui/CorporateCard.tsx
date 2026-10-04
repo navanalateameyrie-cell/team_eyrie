@@ -21,7 +21,7 @@ export interface CorporateCardProps {
 export default function CorporateCard({
   variant = 'light',
   iconName,
-  iconColor = '#b08d57',
+  iconColor = '#123B6D',
   badge,
   number,
   title,
@@ -48,12 +48,12 @@ export default function CorporateCard({
                 width: 48,
                 height: 48,
                 borderRadius: 12,
-                background: 'linear-gradient(135deg, #e5b358 0%, #b08d57 100%)',
+                background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)',
                 border: '1.5px solid rgba(255, 255, 255, 0.6)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 6px 16px rgba(176, 141, 87, 0.35)',
+                boxShadow: '0 6px 16px rgba(7, 26, 58, 0.25)',
               }}
             >
               <CorporateIcon name={iconName} size={24} color="#ffffff" strokeWidth={2.4} />
@@ -70,9 +70,9 @@ export default function CorporateCard({
                 letterSpacing: 1.2,
                 padding: '4px 10px',
                 borderRadius: 20,
-                background: isDark ? 'rgba(176, 141, 87, 0.2)' : 'rgba(31, 56, 100, 0.08)',
-                color: isDark ? '#f1dfc3' : '#1f3864',
-                border: `1px solid ${isDark ? 'rgba(216, 193, 154, 0.35)' : 'rgba(31, 56, 100, 0.12)'}`,
+                background: isDark ? 'rgba(240, 192, 74, 0.15)' : 'rgba(18, 59, 109, 0.08)',
+                color: isDark ? '#F0C04A' : '#123B6D',
+                border: `1px solid ${isDark ? 'rgba(240, 192, 74, 0.35)' : 'rgba(18, 59, 109, 0.2)'}`,
               }}
             >
               {badge}
@@ -85,7 +85,7 @@ export default function CorporateCard({
               style={{
                 fontSize: 13,
                 fontWeight: 800,
-                color: '#b08d57',
+                color: '#123B6D',
                 letterSpacing: 0.5,
                 marginLeft: 'auto',
               }}
@@ -103,7 +103,7 @@ export default function CorporateCard({
           style={{
             fontSize: 'clamp(19px, 1.35vw, 22px)',
             fontWeight: 700,
-            color: isDark ? '#ffffff' : '#1f3864',
+            color: isDark ? '#ffffff' : '#071A3A',
             margin: '0 0 6px',
             lineHeight: 1.3,
           }}
@@ -115,7 +115,7 @@ export default function CorporateCard({
           <div
             className="corporate-card__subtitle"
             style={{
-              color: '#b08d57',
+              color: '#123B6D',
               fontSize: 13.5,
               fontWeight: 700,
               letterSpacing: 0.3,
@@ -150,7 +150,7 @@ export default function CorporateCard({
               gap: 10,
               marginTop: 16,
               paddingTop: 16,
-              borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #e2e8f0',
+              borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #98A2B3',
             }}
           >
             {items.map((item, idx) => (
@@ -165,7 +165,7 @@ export default function CorporateCard({
                   fontWeight: 500,
                 }}
               >
-                <CorporateIcon name="check" size={15} color="#b08d57" strokeWidth={2.5} />
+                <CorporateIcon name="check" size={15} color="#123B6D" strokeWidth={2.5} />
                 <span>{item}</span>
               </div>
             ))}
@@ -184,7 +184,7 @@ export default function CorporateCard({
               display: 'flex',
               alignItems: 'center',
               gap: 6,
-              color: '#b08d57',
+              color: '#123B6D',
               fontWeight: 700,
               fontSize: 14,
             }}

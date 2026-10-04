@@ -14,6 +14,10 @@
   top: 0 !important;
   z-index: 100 !important;
   padding: 12px 32px !important;
+
+  @media (max-width: 768px) {
+    padding: 10px 16px 10px 60px !important;
+  }
 }
 
 /* Flex layout to properly align logo and avatar inside the inner wrapper */
@@ -143,7 +147,7 @@ header.collection-list__header,
       left: 0;
       width: 40px;
       height: 5px;
-      background: linear-gradient(90deg, var(--te-gold) 0%, #d8c19a 100%) !important;
+      background: linear-gradient(90deg, var(--te-gold) 0%, #123B6D 100%) !important;
       border-radius: 4px;
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }

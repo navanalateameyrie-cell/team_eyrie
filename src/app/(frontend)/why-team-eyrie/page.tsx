@@ -1,9 +1,9 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import PageHero from '@/components/PageHero'
-import SectionHeader from '@/components/SectionHeader'
-import WhyEyriePillarsGrid from '@/components/WhyEyriePillarsGrid'
-import CtaBanner from '@/components/CtaBanner'
+import PageHero from '@/components/layout/PageHero'
+import SectionHeader from '@/components/layout/SectionHeader'
+import WhyEyriePillarsGrid from '@/components/sections/WhyEyriePillarsGrid'
+import CtaBanner from '@/components/layout/CtaBanner'
 
 export const metadata: Metadata = {
   title: 'Why Team Eyrie — Team Eyrie',

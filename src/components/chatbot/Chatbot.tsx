@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import styles from './Chatbot.module.css'
-import chatbotIcon from '../../image/chatbot.png'
+import chatbotIcon from '../../../image/chatbot.png'
 
 interface Message {
   id: string

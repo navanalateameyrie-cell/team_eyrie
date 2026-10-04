@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { cache } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import SiteHeader from './SiteHeader'
-import TeamEyrieCaLogo from './TeamEyrieCaLogo'
+import TeamEyrieCaLogo from '@/components/ui/TeamEyrieCaLogo'
 
 type Office = {
   city: string
@@ -11,24 +11,24 @@ type Office = {
   email?: string | null
 }
 
-async function getChromeData() {
+const getChromeData = cache(async () => {
   try {
     const payload = await getPayload({ config })
     const [services, offices, settings] = await Promise.all([
-      payload.find({ collection: 'services', limit: 12, sort: 'order', depth: 0 }),
-      payload.find({ collection: 'offices', limit: 20, sort: 'order', depth: 0 }),
+      payload.find({ collection: 'services', limit: 12, sort: 'order', depth: 0 }).catch(() => ({ docs: [] })),
+      payload.find({ collection: 'offices', limit: 20, sort: 'order', depth: 0 }).catch(() => ({ docs: [] })),
       payload.findGlobal({ slug: 'site-settings', depth: 1 }).catch(() => null),
     ])
 
     return {
-      services: services.docs.map((s: any) => ({ title: s.title, slug: s.slug, summary: s.summary })),
-      offices: offices.docs as Office[],
-      settings,
+      services: (services?.docs || []).map((s: any) => ({ title: s.title, slug: s.slug, summary: s.summary })),
+      offices: (offices?.docs || []) as Office[],
+      settings: settings || null,
     }
   } catch {
-    return { services: [], offices: [] as Office[], settings: null as any }
+    return { services: [], offices: [] as Office[], settings: null }
   }
-}
+})
 
 export async function SiteHeaderServer() {
   const { services, settings } = await getChromeData()

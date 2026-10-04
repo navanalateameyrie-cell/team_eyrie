@@ -65,7 +65,7 @@ export interface AccessibilityWidgetProps {
   offsetTop?: number
   /** Primary brand color for the accessibility badge/headers (default: '#1f3864') */
   primaryColor?: string
-  /** Accent color for highlights/active states (default: '#b08d57') */
+  /** Accent color for highlights/active states (default: '#123B6D') */
   accentColor?: string
   /** CSS z-index for the widget and overlay tools (default: 99999) */
   zIndex?: number

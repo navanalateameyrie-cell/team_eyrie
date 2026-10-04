@@ -3,10 +3,10 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import RichText from '@/components/RichText'
-import CorporateCard from '@/components/CorporateCard'
-import CtaBanner from '@/components/CtaBanner'
+import PageHero from '@/components/layout/PageHero'
+import RichText from '@/components/ui/RichText'
+import CorporateCard from '@/components/ui/CorporateCard'
+import CtaBanner from '@/components/layout/CtaBanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -107,8 +107,8 @@ export default async function ServiceDetail({
               </a>
 
               {industries.length > 0 && (
-                <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid #e2e8f0' }}>
-                  <h4 style={{ fontSize: 12.5, textTransform: 'uppercase', letterSpacing: 1, color: '#b08d57', fontWeight: 700, margin: '0 0 12px' }}>
+                <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid #98A2B3' }}>
+                  <h4 style={{ fontSize: 12.5, textTransform: 'uppercase', letterSpacing: 1, color: '#123B6D', fontWeight: 700, margin: '0 0 12px' }}>
                     Related Sectors
                   </h4>
                   <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>

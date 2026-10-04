@@ -56,3 +56,23 @@ html[data-sidebar-collapsed="true"] {
     padding-left: 68px !important;
   }
 }
+
+/* ─── Tablet View (<= 1024px): Compact sidebar padding ───────────────────── */
+@media (max-width: 1024px) {
+  .template-default__wrap,
+  .payload-default__wrap {
+    padding-left: 68px !important;
+  }
+}
+
+/* ─── Mobile View (<= 768px): Full-width content, drawer off-canvas ──────── */
+@media (max-width: 768px) {
+  .template-default__wrap,
+  .payload-default__wrap {
+    padding-left: 0 !important;
+  }
+
+  html[data-sidebar-mobile-open="true"] {
+    overflow: hidden;
+  }
+}

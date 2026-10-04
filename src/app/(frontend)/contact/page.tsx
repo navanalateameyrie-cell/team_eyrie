@@ -2,8 +2,8 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import ContactForm from '@/components/ContactForm'
+import PageHero from '@/components/layout/PageHero'
+import ContactForm from '@/components/forms/ContactForm'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
@@ -35,15 +35,15 @@ export default async function ContactPage() {
         <div className="container layout-contact-grid">
           <div>
             <div style={{ marginBottom: 20 }}>
-              <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#b08d57', boxShadow: '0 0 6px rgba(176, 141, 87, 0.6)' }} />
+              <span style={{ color: '#1a4b8c', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1a4b8c', boxShadow: '0 0 6px rgba(26, 75, 140, 0.6)' }} />
                 Get In Touch
               </span>
-              <h2 style={{ fontSize: 'clamp(24px, 2.2vw, 32px)', color: '#1f3864', fontWeight: 800, margin: '0 0 8px' }}>
+              <h2 style={{ fontSize: 'clamp(24px, 2.2vw, 32px)', color: '#0f274a', fontWeight: 800, margin: '0 0 8px' }}>
                 Send Us an Enquiry
               </h2>
               <p style={{ color: '#64748b', fontSize: 15, lineHeight: 1.55, margin: 0 }}>
-                Fill in the form below and our designated partner will respond promptly to schedule an introductory consultation.
+                Select your preferred office and practice area below. Our designated senior partner will respond promptly to schedule an introductory consultation.
               </p>
             </div>
 
@@ -58,18 +58,19 @@ export default async function ContactPage() {
               className="corporate-card corporate-card--partner"
               style={{
                 padding: '24px 22px',
+                borderTop: '4px solid #1a4b8c',
               }}
             >
-              <h3 style={{ fontSize: 20, color: '#1f3864', fontWeight: 700, margin: '0 0 14px' }}>Direct Communication</h3>
-              
+              <h3 style={{ fontSize: 20, color: '#0f274a', fontWeight: 700, margin: '0 0 14px' }}>Direct Communication</h3>
+
               {contact.phone && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: 8, background: 'rgba(176, 141, 87, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 38, height: 38, borderRadius: 8, background: 'rgba(26, 75, 140, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     📞
                   </div>
                   <div>
                     <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Phone</div>
-                    <a href={`tel:${contact.phone}`} style={{ color: '#1f3864', fontWeight: 700, fontSize: 15.5, textDecoration: 'none' }}>
+                    <a href={`tel:${contact.phone}`} style={{ color: '#0f274a', fontWeight: 700, fontSize: 15.5, textDecoration: 'none' }}>
                       {contact.phone}
                     </a>
                   </div>
@@ -78,12 +79,12 @@ export default async function ContactPage() {
 
               {contact.email && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: 8, background: 'rgba(176, 141, 87, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 38, height: 38, borderRadius: 8, background: 'rgba(26, 75, 140, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     ✉️
                   </div>
                   <div>
                     <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Email</div>
-                    <a href={`mailto:${contact.email}`} style={{ color: '#1f3864', fontWeight: 700, fontSize: 15.5, textDecoration: 'none' }}>
+                    <a href={`mailto:${contact.email}`} style={{ color: '#0f274a', fontWeight: 700, fontSize: 15.5, textDecoration: 'none' }}>
                       {contact.email}
                     </a>
                   </div>
@@ -95,7 +96,7 @@ export default async function ContactPage() {
               <p style={{ margin: '0 0 12px', color: '#64748b', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8 }}>
                 Network Presence Across India:
               </p>
-              
+
               <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {offices.map((o: any) => (
                   <span
@@ -123,7 +124,7 @@ export default async function ContactPage() {
                   gap: 6,
                   marginTop: 24,
                   fontWeight: 700,
-                  color: '#b08d57',
+                  color: '#1a4b8c',
                   fontSize: 14.5,
                   textDecoration: 'none',
                 }}

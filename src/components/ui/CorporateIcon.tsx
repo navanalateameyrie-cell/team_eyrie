@@ -11,7 +11,7 @@ interface IconProps {
 export default function CorporateIcon({
   name,
   size = 22,
-  color = '#b08d57',
+  color = '#123B6D',
   strokeWidth = 2.2,
   className = '',
 }: IconProps) {

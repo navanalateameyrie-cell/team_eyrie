@@ -53,10 +53,166 @@ const industries = [
   'Trusts & Non-Profit Organisations',
 ]
 
-const offices: { city: string; isHeadOffice?: boolean }[] = [
-  { city: 'Chennai', isHeadOffice: true },
-  { city: 'Bengaluru' }, { city: 'Mumbai' }, { city: 'New Delhi' }, { city: 'Goa' },
-  { city: 'Salem' }, { city: 'Madurai' }, { city: 'Namakkal' }, { city: 'Mysuru' },
+const offices: {
+  city: string
+  isHeadOffice?: boolean
+  addressLine1?: string
+  addressLine2?: string
+  state?: string
+  pincode?: string
+  phone?: string
+  email?: string
+}[] = [
+    {
+      city: 'Chennai',
+      isHeadOffice: true,
+      addressLine1: 'No. 14, Cathedral Road, Gopalapuram',
+      addressLine2: 'Near US Consulate',
+      state: 'Tamil Nadu',
+      pincode: '600086',
+      phone: '+91 44 2811 0000',
+      email: 'chennai@teameyrie.in',
+    },
+    {
+      city: 'Bengaluru',
+      addressLine1: 'Prestige Meridian, 8th Floor, M.G. Road',
+      addressLine2: 'Shivajinagar',
+      state: 'Karnataka',
+      pincode: '560001',
+      phone: '+91 80 4123 0000',
+      email: 'bengaluru@teameyrie.in',
+    },
+    {
+      city: 'Mumbai',
+      addressLine1: 'Maker Chambers V, Nariman Point',
+      addressLine2: 'Financial District',
+      state: 'Maharashtra',
+      pincode: '400021',
+      phone: '+91 22 6600 0000',
+      email: 'mumbai@teameyrie.in',
+    },
+    {
+      city: 'Delhi (NCR)',
+      addressLine1: 'Barakhamba Road, Connaught Place',
+      addressLine2: 'Central Business District',
+      state: 'New Delhi',
+      pincode: '110001',
+      phone: '+91 11 2341 0000',
+      email: 'delhi@teameyrie.in',
+    },
+    {
+      city: 'Hyderabad',
+      addressLine1: 'Road No. 36, Jubilee Hills',
+      addressLine2: 'Near Metro Station',
+      state: 'Telangana',
+      pincode: '500033',
+      phone: '+91 40 4010 0000',
+      email: 'hyderabad@teameyrie.in',
+    },
+    {
+      city: 'Kochi',
+      addressLine1: 'Panampilly Nagar Main Avenue',
+      addressLine2: 'Near South Overbridge',
+      state: 'Kerala',
+      pincode: '682036',
+      phone: '+91 484 231 0000',
+      email: 'kochi@teameyrie.in',
+    },
+    {
+      city: 'Pune',
+      addressLine1: 'Senapati Bapat Road, Shivajinagar',
+      addressLine2: 'Opposite ICC Trade Tower',
+      state: 'Maharashtra',
+      pincode: '411016',
+      phone: '+91 20 2567 0000',
+      email: 'pune@teameyrie.in',
+    },
+    { city: 'Goa', state: 'Goa', email: 'goa@teameyrie.in' },
+    { city: 'Salem', state: 'Tamil Nadu', email: 'salem@teameyrie.in' },
+    { city: 'Madurai', state: 'Tamil Nadu', email: 'madurai@teameyrie.in' },
+    { city: 'Namakkal', state: 'Tamil Nadu', email: 'namakkal@teameyrie.in' },
+    { city: 'Mysuru', state: 'Karnataka', email: 'mysuru@teameyrie.in' },
+  ]
+
+export const sampleTeamMembersData = [
+  {
+    name: 'CA V. Venkatesh',
+    slug: 'ca-v-venkatesh',
+    designation: 'Senior Partner — Direct Taxation & Restructuring',
+    qualifications: 'B.Com, FCA, DISA (ICAI)',
+    order: 1,
+    featured: true,
+    contact: {
+      email: 'v.venkatesh@teameyrie.in',
+      phone: '+91 86182 59712',
+      linkedin: 'https://linkedin.com',
+    },
+    serviceTitle: 'Tax Advisory',
+    officeCity: 'Bengaluru',
+    bioText:
+      'Senior Partner with over 28 years of distinguished standing in corporate taxation, high-stakes tax litigation, transfer pricing, and cross-border restructuring. Managing Partner at V V & Associates.',
+  },
+  {
+    name: 'CA S. Shankaranarayanan',
+    slug: 'ca-s-shankaranarayanan',
+    designation: 'Senior Partner — Corporate Assurance & Governance',
+    qualifications: 'B.Sc, FCA',
+    order: 2,
+    featured: true,
+    contact: {
+      email: 's.shankar@teameyrie.in',
+      phone: '+91 86182 59712',
+      linkedin: 'https://linkedin.com',
+    },
+    serviceTitle: 'Assurance & Audit',
+    officeCity: 'Chennai',
+    bioText:
+      'Senior Partner specializing in statutory audit, internal financial controls (IFC), bank assurance, and board-level corporate governance for over 25 years. Managing Partner at Shankaranarayanan & Co.',
+  },
+  {
+    name: 'CA R. Srinivas',
+    slug: 'ca-r-srinivas',
+    designation: 'Senior Partner — Indirect Tax & GST Litigation',
+    qualifications: 'B.Com, FCA',
+    order: 3,
+    featured: true,
+    contact: {
+      email: 'r.srinivas@teameyrie.in',
+      phone: '+91 86182 59712',
+      linkedin: 'https://linkedin.com',
+    },
+    serviceTitle: 'GST & Indirect Taxes',
+    officeCity: 'Mumbai',
+    bioText:
+      'Senior Partner spearheading GST advisory, indirect tax dispute resolution, customs, foreign trade policy, and commercial contracts with over 22 years of practice. Managing Partner at Srinivas & Associates.',
+  },
+]
+
+export const sampleAnnouncementsData = [
+  {
+    title: 'Statutory Due Dates Roadmap: GST, Income Tax & MCA Compliances',
+    category: 'regulatory' as const,
+    excerpt:
+      'Official statutory calendar outlining monthly GSTR-1, GSTR-3B, TDS/TCS payments (Challan 281), Advance Tax installments, and annual ROC filings.',
+    status: 'published' as const,
+    publishedDate: new Date().toISOString(),
+  },
+  {
+    title: 'Advisory on Mandatory Dematerialization of Shares for Private Limited Entities',
+    category: 'regulatory' as const,
+    excerpt:
+      'Guidelines and procedural requirements under MCA Rule 9B for conversion of physical securities into dematerialized form.',
+    status: 'published' as const,
+    publishedDate: new Date().toISOString(),
+  },
+  {
+    title: 'Quarterly TDS Return & Form 16/16A Issuance Directives',
+    category: 'regulatory' as const,
+    excerpt:
+      'Compliance checklist for corporate deductors regarding Forms 24Q, 26Q, and 27Q along with TRACES portal processing guidelines.',
+    status: 'published' as const,
+    publishedDate: new Date().toISOString(),
+  },
 ]
 
 export const sampleJobsData = [
@@ -245,7 +401,31 @@ export async function runSeed(payload: Payload) {
     }
     log.push(`Seeded ${offices.length} offices`)
   } else {
-    log.push('Offices already exist — skipped')
+    for (let i = 0; i < offices.length; i++) {
+      const off = offices[i]
+      const existing = await payload.find({
+        collection: 'offices',
+        where: { city: { equals: off.city } },
+        limit: 1,
+      })
+      if (existing.totalDocs === 0) {
+        await payload.create({ collection: 'offices', data: { ...off, order: i } })
+      } else if (off.addressLine1 && !existing.docs[0].addressLine1) {
+        await payload.update({
+          collection: 'offices',
+          id: existing.docs[0].id,
+          data: {
+            addressLine1: off.addressLine1,
+            addressLine2: off.addressLine2,
+            state: off.state,
+            pincode: off.pincode,
+            phone: off.phone,
+            email: off.email,
+          },
+        })
+      }
+    }
+    log.push('Offices verified and upgraded with complete address details')
   }
 
   await payload.updateGlobal({
@@ -409,7 +589,115 @@ export async function runSeed(payload: Payload) {
       },
     },
   })
-  log.push('Updated consent settings')
+  // Seed Team Members (Senior Partners & Leadership)
+  const tmCount = await payload.count({ collection: 'team-members' })
+  if (tmCount.totalDocs === 0) {
+    const allServices = await payload.find({ collection: 'services', limit: 50, depth: 0 })
+    const allOffices = await payload.find({ collection: 'offices', limit: 50, depth: 0 })
+    const svcTitleMap = new Map(allServices.docs.map((s: any) => [s.title, s.id]))
+    const offCityMap = new Map(allOffices.docs.map((o: any) => [o.city, o.id]))
+
+    for (const tm of sampleTeamMembersData) {
+      const serviceId = svcTitleMap.get(tm.serviceTitle)
+      const officeId = offCityMap.get(tm.officeCity)
+
+      await payload.create({
+        collection: 'team-members',
+        data: {
+          name: tm.name,
+          slug: tm.slug,
+          designation: tm.designation,
+          qualifications: tm.qualifications,
+          order: tm.order,
+          featured: tm.featured,
+          contact: tm.contact,
+          expertise: serviceId ? [serviceId] : undefined,
+          offices: officeId ? [officeId] : undefined,
+          bio: {
+            root: {
+              type: 'root',
+              format: '' as const,
+              indent: 0,
+              version: 1,
+              direction: 'ltr' as const,
+              children: [
+                {
+                  type: 'paragraph',
+                  format: '' as const,
+                  indent: 0,
+                  version: 1,
+                  direction: 'ltr' as const,
+                  children: [
+                    {
+                      type: 'text',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: tm.bioText,
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      })
+    }
+    log.push(`Seeded ${sampleTeamMembersData.length} team members (Senior Partners)`)
+  } else {
+    log.push('Team members already exist — skipped')
+  }
+
+  // Seed Announcements & Regulatory Circulars
+  const annCount = await payload.count({ collection: 'announcements' })
+  if (annCount.totalDocs === 0) {
+    for (const ann of sampleAnnouncementsData) {
+      await payload.create({
+        collection: 'announcements',
+        data: {
+          title: ann.title,
+          category: ann.category,
+          excerpt: ann.excerpt,
+          status: ann.status,
+          publishedDate: ann.publishedDate,
+          body: {
+            root: {
+              type: 'root',
+              format: '' as const,
+              indent: 0,
+              version: 1,
+              direction: 'ltr' as const,
+              children: [
+                {
+                  type: 'paragraph',
+                  format: '' as const,
+                  indent: 0,
+                  version: 1,
+                  direction: 'ltr' as const,
+                  children: [
+                    {
+                      type: 'text',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: ann.excerpt,
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      })
+    }
+    log.push(`Seeded ${sampleAnnouncementsData.length} regulatory announcements`)
+  } else {
+    log.push('Announcements already exist — skipped')
+  }
 
   return log
 }

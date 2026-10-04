@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import RichText from '@/components/RichText'
-import CtaBanner from '@/components/CtaBanner'
+import PageHero from '@/components/layout/PageHero'
+import RichText from '@/components/ui/RichText'
+import CtaBanner from '@/components/layout/CtaBanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -70,7 +70,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               {contact.email && (
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Email</div>
-                  <a href={`mailto:${contact.email}`} style={{ color: '#b08d57', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
+                  <a href={`mailto:${contact.email}`} style={{ color: '#123B6D', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
                     {contact.email}
                   </a>
                 </div>
@@ -78,14 +78,14 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               {contact.phone && (
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Phone</div>
-                  <a href={`tel:${contact.phone}`} style={{ color: '#1f3864', fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}>
+                  <a href={`tel:${contact.phone}`} style={{ color: '#071A3A', fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}>
                     {contact.phone}
                   </a>
                 </div>
               )}
               {contact.linkedin && (
-                <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #e2e8f0' }}>
-                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#b08d57', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+                <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #98A2B3' }}>
+                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#123B6D', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
                     Connect on LinkedIn →
                   </a>
                 </div>

@@ -39,7 +39,7 @@ export default function SectionHeader({
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            color: isDark ? '#d8c19a' : '#b08d57',
+            color: isDark ? '#F0C04A' : '#123B6D',
             fontSize: 13.5,
             fontWeight: 700,
             textTransform: 'uppercase',
@@ -53,8 +53,8 @@ export default function SectionHeader({
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                backgroundColor: isDark ? '#d8c19a' : '#b08d57',
-                boxShadow: isDark ? '0 0 8px #d8c19a' : '0 0 6px rgba(176, 141, 87, 0.6)',
+                backgroundColor: '#F0C04A',
+                boxShadow: '0 0 6px #F0C04A',
               }}
             />
           )}
@@ -66,7 +66,7 @@ export default function SectionHeader({
         style={{
           fontSize: 'clamp(28px, 2.8vw, 38px)',
           fontWeight: 800,
-          color: isDark ? '#ffffff' : '#1f3864',
+          color: isDark ? '#ffffff' : '#071A3A',
           margin: '0 0 10px',
           lineHeight: 1.22,
           letterSpacing: '-0.2px',

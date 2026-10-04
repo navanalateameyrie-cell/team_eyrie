@@ -1,11 +1,11 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import HeroSection from '@/components/HeroSection'
-import CorporateIcon from '@/components/CorporateIcon'
-import IndiaNetworkMap from '@/components/IndiaNetworkMap'
-import WhyTeamEyrieScroll from '@/components/WhyTeamEyrieScroll'
-import HorizontalServicesScroll from '@/components/HorizontalServicesScroll'
+import HeroSection from '@/components/sections/HeroSection'
+import CorporateIcon from '@/components/ui/CorporateIcon'
+import IndiaNetworkMap from '@/components/map/IndiaNetworkMap'
+import WhyTeamEyrieScroll from '@/components/sections/WhyTeamEyrieScroll'
+import HorizontalServicesScroll from '@/components/sections/HorizontalServicesScroll'
 
 export const dynamic = 'force-dynamic'
 
@@ -290,10 +290,10 @@ export default async function HomePage() {
     const payload = await getPayload({ config })
     const [servicesRes, homePageRes] = await Promise.all([
       payload
-        .find({ 
-          collection: 'services', 
-          limit: 50, 
-          sort: 'order', 
+        .find({
+          collection: 'services',
+          limit: 50,
+          sort: 'order',
           depth: 2,
           where: { showOnHome: { equals: true } }
         })
@@ -351,29 +351,29 @@ export default async function HomePage() {
       const items =
         Array.isArray(we.items) && we.items.length > 0
           ? we.items
-              .filter((it: any) => it.showOnHome !== false)
-              .map((it: any, idx: number) => {
-            let img = defaultBgImages[idx % defaultBgImages.length]
-            if (it.image && typeof it.image === 'object' && it.image.url) {
-              img = it.image.url
-            } else if (it.imageUrl) {
-              img = it.imageUrl
-            }
-            const bullets = Array.isArray(it.bullets)
-              ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
-              : undefined
-            return {
-              id: `why-item-${idx}`,
-              num: `0${idx + 1}`,
-              tag: it.tag || 'Advantage',
-              title: it.title,
-              description: it.description,
-              image: img,
-              link: it.link || '/why-team-eyrie',
-              linkLabel: it.linkLabel || 'Explore Detail',
-              bullets,
-            }
-          })
+            .filter((it: any) => it.showOnHome !== false)
+            .map((it: any, idx: number) => {
+              let img = defaultBgImages[idx % defaultBgImages.length]
+              if (it.image && typeof it.image === 'object' && it.image.url) {
+                img = it.image.url
+              } else if (it.imageUrl) {
+                img = it.imageUrl
+              }
+              const bullets = Array.isArray(it.bullets)
+                ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
+                : undefined
+              return {
+                id: `why-item-${idx}`,
+                num: `0${idx + 1}`,
+                tag: it.tag || 'Advantage',
+                title: it.title,
+                description: it.description,
+                image: img,
+                link: it.link || '/why-team-eyrie',
+                linkLabel: it.linkLabel || 'Explore Detail',
+                bullets,
+              }
+            })
           : undefined
 
       whyEyrieData = {
@@ -431,101 +431,124 @@ export default async function HomePage() {
       </section>
 
       {/* 2.5 Quick Feature Cards with Background Images */}
-      <section style={{ padding: '36px 0 16px', background: '#ffffff' }}>
+      <section style={{ padding: '48px 0 24px', background: '#F7F7F2' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto 24px' }}>
-            <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
+          <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto 32px' }}>
+            <span style={{ color: '#123B6D', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
               Explore Our Network
             </span>
-            <h2 style={{ fontSize: 'clamp(24px, 2.2vw, 32px)', color: '#1f3864', margin: '4px 0 0', fontWeight: 800 }}>
+            <h2 style={{ fontSize: 'clamp(24px, 2.2vw, 32px)', color: '#071A3A', margin: '6px 0 8px', fontWeight: 800 }}>
               Key Pillar Overview
             </h2>
+            <p style={{ color: '#475569', fontSize: 14.5, margin: 0, lineHeight: 1.55 }}>
+              Strategic foundations delivering institutional precision, multi-disciplinary counsel, and pan-India agility.
+            </p>
           </div>
 
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: 16,
+              gap: 20,
             }}
           >
             {/* Card 1: About */}
-            <a
-              href="/about"
-              className="pillar-hover-card"
-              style={{ backgroundImage: "url('/images/Aboutus.png')" }}
-            >
-              <div>
-                <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
-                  Network Profile
-                </h3>
-                <p style={{ color: '#f8fafc', fontSize: 13.5, margin: 0, lineHeight: 1.55, fontWeight: 500, textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
-                  Alliance of 3 reputed CA firms with 20+ senior professionals across India.
-                </p>
+            <a href="/about" className="pillar-overview-card">
+              <div className="pillar-overview-card__img-box">
+                <span className="pillar-overview-card__badge">ALLIANCE NETWORK</span>
+                <img
+                  src="/images/Aboutus.png"
+                  alt="Network Profile - Team Eyrie Alliance"
+                  className="pillar-overview-card__img"
+                  loading="lazy"
+                />
               </div>
-              <div style={{ color: '#ffffff', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, background: 'rgba(176, 141, 87, 0.3)', border: '1px solid rgba(216, 193, 154, 0.55)', padding: '6px 14px', borderRadius: 6, width: 'fit-content' }}>
-                <span>Learn About Us</span>
-                <span>→</span>
+              <div className="pillar-overview-card__body">
+                <div>
+                  <h3 className="pillar-overview-card__title">Network Profile</h3>
+                  <p className="pillar-overview-card__desc">
+                    Alliance of 3 reputed CA firms with 20+ senior professionals across India.
+                  </p>
+                </div>
+                <div className="pillar-overview-card__btn">
+                  <span>Learn About Us</span>
+                  <span className="pillar-overview-card__btn-arrow">→</span>
+                </div>
               </div>
             </a>
 
             {/* Card 2: Services */}
-            <a
-              href="/services"
-              className="pillar-hover-card"
-              style={{ backgroundImage: "url('/images/services.png')" }}
-            >
-              <div>
-                <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
-                  Practice Areas
-                </h3>
-                <p style={{ color: '#f8fafc', fontSize: 13.5, margin: 0, lineHeight: 1.55, fontWeight: 500, textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
-                  Assurance, Tax, GST, Corporate Compliance, M&A & Global Advisory.
-                </p>
+            <a href="/services" className="pillar-overview-card">
+              <div className="pillar-overview-card__img-box">
+                <span className="pillar-overview-card__badge">PRACTICE DOMAINS</span>
+                <img
+                  src="/images/services.png"
+                  alt="Practice Areas - Team Eyrie Services"
+                  className="pillar-overview-card__img"
+                  loading="lazy"
+                />
               </div>
-              <div style={{ color: '#ffffff', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, background: 'rgba(176, 141, 87, 0.3)', border: '1px solid rgba(216, 193, 154, 0.55)', padding: '6px 14px', borderRadius: 6, width: 'fit-content' }}>
-                <span>View All Practice Areas</span>
-                <span>→</span>
+              <div className="pillar-overview-card__body">
+                <div>
+                  <h3 className="pillar-overview-card__title">Practice Areas</h3>
+                  <p className="pillar-overview-card__desc">
+                    Assurance, Tax, GST, Corporate Compliance, M&A & Global Advisory.
+                  </p>
+                </div>
+                <div className="pillar-overview-card__btn">
+                  <span>View All Practice Areas</span>
+                  <span className="pillar-overview-card__btn-arrow">→</span>
+                </div>
               </div>
             </a>
 
             {/* Card 3: Why Team Eyrie */}
-            <a
-              href="/why-team-eyrie"
-              className="pillar-hover-card"
-              style={{ backgroundImage: "url('/images/Why.png')" }}
-            >
-              <div>
-                <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
-                  The Eyrie Advantage
-                </h3>
-                <p style={{ color: '#f8fafc', fontSize: 13.5, margin: 0, lineHeight: 1.55, fontWeight: 500, textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
-                  6 core pillars of multidisciplinary expertise, national reach & technology.
-                </p>
+            <a href="/why-team-eyrie" className="pillar-overview-card">
+              <div className="pillar-overview-card__img-box">
+                <span className="pillar-overview-card__badge">CORE ADVANTAGES</span>
+                <img
+                  src="/images/Why.png"
+                  alt="The Eyrie Advantage"
+                  className="pillar-overview-card__img"
+                  loading="lazy"
+                />
               </div>
-              <div style={{ color: '#ffffff', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, background: 'rgba(176, 141, 87, 0.3)', border: '1px solid rgba(216, 193, 154, 0.55)', padding: '6px 14px', borderRadius: 6, width: 'fit-content' }}>
-                <span>Explore Advantages</span>
-                <span>→</span>
+              <div className="pillar-overview-card__body">
+                <div>
+                  <h3 className="pillar-overview-card__title">The Eyrie Advantage</h3>
+                  <p className="pillar-overview-card__desc">
+                    6 core pillars of multidisciplinary expertise, national reach & technology.
+                  </p>
+                </div>
+                <div className="pillar-overview-card__btn">
+                  <span>Explore Advantages</span>
+                  <span className="pillar-overview-card__btn-arrow">→</span>
+                </div>
               </div>
             </a>
 
             {/* Card 4: Industry Sectors */}
-            <a
-              href="/industries"
-              className="pillar-hover-card"
-              style={{ backgroundImage: "url('/images/industries.png')" }}
-            >
-              <div>
-                <h3 style={{ fontSize: 21, color: '#ffffff', margin: '0 0 8px', fontWeight: 800, letterSpacing: '-0.01em', textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}>
-                  17 Sectors We Serve
-                </h3>
-                <p style={{ color: '#f8fafc', fontSize: 13.5, margin: 0, lineHeight: 1.55, fontWeight: 500, textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
-                  Manufacturing, BFSI, Healthcare, IT, Real Estate, Startups & MSMEs.
-                </p>
+            <a href="/industries" className="pillar-overview-card">
+              <div className="pillar-overview-card__img-box">
+                <span className="pillar-overview-card__badge">INDUSTRY COVERAGE</span>
+                <img
+                  src="/images/industries.png"
+                  alt="17 Sectors We Serve"
+                  className="pillar-overview-card__img"
+                  loading="lazy"
+                />
               </div>
-              <div style={{ color: '#ffffff', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, background: 'rgba(176, 141, 87, 0.3)', border: '1px solid rgba(216, 193, 154, 0.55)', padding: '6px 14px', borderRadius: 6, width: 'fit-content' }}>
-                <span>View All Sectors</span>
-                <span>→</span>
+              <div className="pillar-overview-card__body">
+                <div>
+                  <h3 className="pillar-overview-card__title">17 Sectors We Serve</h3>
+                  <p className="pillar-overview-card__desc">
+                    Manufacturing, BFSI, Healthcare, IT, Real Estate, Startups & MSMEs.
+                  </p>
+                </div>
+                <div className="pillar-overview-card__btn">
+                  <span>View All Sectors</span>
+                  <span className="pillar-overview-card__btn-arrow">→</span>
+                </div>
               </div>
             </a>
           </div>
@@ -533,14 +556,14 @@ export default async function HomePage() {
       </section>
 
       {/* 3. Executive About & Multidisciplinary Capability */}
-      <section className="section-mobile-compact" style={{ padding: '48px 0', background: '#f8fafc' }}>
+      <section className="section-mobile-compact" style={{ padding: '48px 0', background: '#F7F7F2' }}>
         <div className="container">
           <div className="layout-split-weighted">
             <div>
-              <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
+              <span style={{ color: '#123B6D', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
                 About Team Eyrie
               </span>
-              <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#1f3864', margin: '6px 0 14px', fontWeight: 800 }}>
+              <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#071A3A', margin: '6px 0 14px', fontWeight: 800 }}>
                 Integrated Expertise Across Advisory, Audit & Governance
               </h2>
               <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 12 }}>
@@ -554,7 +577,7 @@ export default async function HomePage() {
                 <a href="/about" className="hero-btn hero-btn--gold" style={{ padding: '10px 24px', fontSize: 14.5 }}>
                   Read Network Profile
                 </a>
-                <a href="/why-team-eyrie" className="hero-btn hero-btn--outline" style={{ background: '#ffffff', color: '#1f3864', borderColor: '#cbd5e1', padding: '10px 24px', fontSize: 14.5 }}>
+                <a href="/why-team-eyrie" className="hero-btn hero-btn--outline" style={{ background: '#ffffff', color: '#071A3A', borderColor: '#98A2B3', padding: '10px 24px', fontSize: 14.5 }}>
                   Why Choose Us
                 </a>
               </div>
@@ -563,43 +586,43 @@ export default async function HomePage() {
             <div
               style={{
                 background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderLeft: '5px solid #b08d57',
+                border: '1px solid #98A2B3',
+                borderLeft: '5px solid #F0C04A',
                 borderRadius: 12,
                 padding: '24px 24px',
-                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.03)',
+                boxShadow: '0 4px 16px rgba(7, 26, 58, 0.04)',
               }}
             >
-              <h3 style={{ fontSize: 20, color: '#1f3864', margin: '0 0 16px', fontWeight: 700 }}>
+              <h3 style={{ fontSize: 20, color: '#071A3A', margin: '0 0 16px', fontWeight: 700 }}>
                 Our Core Pillars
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: 'rgba(176, 141, 87, 0.12)', padding: 10, borderRadius: 8 }}>
-                    <CorporateIcon name="consulting" size={20} color="#b08d57" />
+                  <div style={{ background: 'rgba(18, 59, 109, 0.08)', padding: 10, borderRadius: 8 }}>
+                    <CorporateIcon name="consulting" size={20} color="#123B6D" />
                   </div>
                   <div>
-                    <strong style={{ color: '#1f3864', fontSize: 15.5, display: 'block', marginBottom: 2 }}>Knowledge</strong>
+                    <strong style={{ color: '#071A3A', fontSize: 15.5, display: 'block', marginBottom: 2 }}>Knowledge</strong>
                     <p style={{ margin: 0, fontSize: 13.5, color: '#64748b', lineHeight: 1.5 }}>Technical precision and continuous learning across complex domains.</p>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: 'rgba(176, 141, 87, 0.12)', padding: 10, borderRadius: 8 }}>
-                    <CorporateIcon name="assurance" size={20} color="#b08d57" />
+                  <div style={{ background: 'rgba(18, 59, 109, 0.08)', padding: 10, borderRadius: 8 }}>
+                    <CorporateIcon name="assurance" size={20} color="#123B6D" />
                   </div>
                   <div>
-                    <strong style={{ color: '#1f3864', fontSize: 15.5, display: 'block', marginBottom: 2 }}>Integrity</strong>
+                    <strong style={{ color: '#071A3A', fontSize: 15.5, display: 'block', marginBottom: 2 }}>Integrity</strong>
                     <p style={{ margin: 0, fontSize: 13.5, color: '#64748b', lineHeight: 1.5 }}>Uncompromising professional ethics, transparency, and trust.</p>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: 'rgba(176, 141, 87, 0.12)', padding: 10, borderRadius: 8 }}>
-                    <CorporateIcon name="gst" size={20} color="#b08d57" />
+                  <div style={{ background: 'rgba(18, 59, 109, 0.08)', padding: 10, borderRadius: 8 }}>
+                    <CorporateIcon name="gst" size={20} color="#123B6D" />
                   </div>
                   <div>
-                    <strong style={{ color: '#1f3864', fontSize: 15.5, display: 'block', marginBottom: 2 }}>Innovation</strong>
+                    <strong style={{ color: '#071A3A', fontSize: 15.5, display: 'block', marginBottom: 2 }}>Innovation</strong>
                     <p style={{ margin: 0, fontSize: 13.5, color: '#64748b', lineHeight: 1.5 }}>Technology-driven workflows, data analytics, and modern solutions.</p>
                   </div>
                 </div>
@@ -620,18 +643,18 @@ export default async function HomePage() {
         items={whyEyrieData?.items}
       />
 
-      {/* 6. Industries We Serve (Luxury Dark Theme + Related Icons + Horizontal Moving Marquee) */}
+      {/* 6. Industries We Serve (Horizontal Moving Marquee) */}
       <section className="sectors-marquee-section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 8 }}>
-            <span style={{ color: '#d8c19a', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#b08d57', boxShadow: '0 0 8px #b08d57' }} />
+            <span style={{ color: '#123B6D', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#F0C04A', boxShadow: '0 0 8px #F0C04A' }} />
               Industry Expertise
             </span>
-            <h2 style={{ color: '#ffffff', fontSize: 'clamp(24px, 2.2vw, 32px)', margin: '6px 0 0', fontWeight: 800 }}>
+            <h2 style={{ color: '#071A3A', fontSize: 'clamp(24px, 2.2vw, 32px)', margin: '6px 0 0', fontWeight: 800 }}>
               Sectors We Serve
             </h2>
-            <p style={{ color: '#cbd5e1', fontSize: 14.5, margin: '6px auto 0', maxWidth: 640 }}>
+            <p style={{ color: '#475569', fontSize: 14.5, margin: '6px auto 0', maxWidth: 640 }}>
               Specialised advisory across 17+ core industries and complex regulatory frameworks
             </p>
           </div>
@@ -665,7 +688,7 @@ export default async function HomePage() {
           <a
             href="/industries"
             style={{
-              color: '#d8c19a',
+              color: '#123B6D',
               textDecoration: 'none',
               fontSize: 13.5,
               fontWeight: 700,
@@ -685,10 +708,10 @@ export default async function HomePage() {
       <section style={{ padding: '48px 0', background: '#ffffff' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: 840, margin: '0 auto 28px' }}>
-            <span style={{ color: '#b08d57', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
+            <span style={{ color: '#1a4b8c', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
               National Network Hub
             </span>
-            <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#1f3864', margin: '6px 0 10px', fontWeight: 800 }}>
+            <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#0f274a', margin: '6px 0 10px', fontWeight: 800 }}>
               Our PAN-India Presence
             </h2>
             <p style={{ color: '#64748b', fontSize: 15.5, lineHeight: 1.55 }}>
@@ -702,12 +725,12 @@ export default async function HomePage() {
       </section>
 
       {/* 8. Call to Action */}
-      <section style={{ padding: '44px 0', background: 'linear-gradient(135deg, #f8fafc 0%, #eef2f6 100%)', borderTop: '1px solid #e2e8f0', borderBottom: '3px solid #b08d57', textAlign: 'center' }}>
+      <section style={{ padding: '44px 0', background: 'linear-gradient(135deg, #f8fafc 0%, #edf4fc 100%)', borderTop: '1px solid #e2e8f0', borderBottom: '3px solid #1a4b8c', textAlign: 'center' }}>
         <div className="container" style={{ maxWidth: 940 }}>
-          <span style={{ color: '#967341', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-block', marginBottom: 8 }}>
+          <span style={{ color: '#1a4b8c', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-block', marginBottom: 8 }}>
             Get Started With Team Eyrie
           </span>
-          <h2 style={{ color: '#1f3864', fontSize: 'clamp(24px, 2.6vw, 32px)', margin: '0 0 12px', fontWeight: 800 }}>
+          <h2 style={{ color: '#0f274a', fontSize: 'clamp(24px, 2.6vw, 32px)', margin: '0 0 12px', fontWeight: 800 }}>
             Trusted Advice. Practical Solutions. Sustainable Growth.
           </h2>
           <p style={{ color: '#475569', fontSize: 16, lineHeight: 1.55, margin: '0 0 20px' }}>

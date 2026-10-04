@@ -2,9 +2,9 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import SectionHeader from '@/components/SectionHeader'
-import CtaBanner from '@/components/CtaBanner'
+import PageHero from '@/components/layout/PageHero'
+import SectionHeader from '@/components/layout/SectionHeader'
+import CtaBanner from '@/components/layout/CtaBanner'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
@@ -85,7 +85,7 @@ export default async function InsightsPage() {
                       {p.category && (
                         <span
                           style={{
-                            color: '#b08d57',
+                            color: '#123B6D',
                             fontWeight: 700,
                             fontSize: 12,
                             textTransform: 'uppercase',
@@ -96,7 +96,7 @@ export default async function InsightsPage() {
                           {CAT_LABEL[p.category] || p.category}
                         </span>
                       )}
-                      <h3 style={{ fontSize: 19, color: '#1f3864', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.35 }}>
+                      <h3 style={{ fontSize: 19, color: '#071A3A', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.35 }}>
                         {p.title}
                       </h3>
                       {p.excerpt && (
@@ -104,13 +104,13 @@ export default async function InsightsPage() {
                           {p.excerpt}
                         </p>
                       )}
-                      <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid #f1f5f9' }}>
+                      <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid #98A2B3' }}>
                         {p.publishedDate && (
                           <span style={{ fontSize: 12.5, color: '#94a3b8', fontWeight: 500 }}>
                             {new Date(p.publishedDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                           </span>
                         )}
-                        <span style={{ fontSize: 13.5, color: '#b08d57', fontWeight: 700 }}>
+                        <span style={{ fontSize: 13.5, color: '#123B6D', fontWeight: 700 }}>
                           Read Article →
                         </span>
                       </div>

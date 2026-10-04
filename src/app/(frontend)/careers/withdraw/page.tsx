@@ -2,8 +2,8 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import WithdrawConsent from '@/components/WithdrawConsent'
+import PageHero from '@/components/layout/PageHero'
+import WithdrawConsent from '@/components/forms/WithdrawConsent'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {

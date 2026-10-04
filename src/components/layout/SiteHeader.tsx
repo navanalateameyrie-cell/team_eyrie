@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { usePathname } from 'next/navigation'
 
-import TeamEyrieCaLogo from './TeamEyrieCaLogo'
+import TeamEyrieCaLogo from '@/components/ui/TeamEyrieCaLogo'
 
 type ServiceLink = { title: string; slug: string; summary?: string | null }
 type ContactInfo = { email?: string | null; phone?: string | null }
@@ -11,8 +11,9 @@ type ContactInfo = { email?: string | null; phone?: string | null }
 const topNavItems = [
   { label: 'Our Team', href: '/people' },
   { label: 'News and Articles', href: '/insights' },
+  { label: 'Documentation Suite', href: '/documentation-suite' },
   { label: 'Career', href: '/careers' },
-  { label: 'LMS', href: '/services' },
+  { label: 'LMS Login', href: 'https://web.classplusapp.com/login', external: true },
 ]
 
 const mainNavItems = [
@@ -64,7 +65,7 @@ export default function SiteHeader({
                 height="15"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#e66a2b"
+                stroke="#123B6D"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -83,7 +84,7 @@ export default function SiteHeader({
                 height="15"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#e66a2b"
+                stroke="#123B6D"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -101,9 +102,12 @@ export default function SiteHeader({
                 {idx > 0 && <span className="top-bar__pipe">|</span>}
                 <a
                   href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
                   className={`top-bar__nav-link ${isLinkActive(item.href) ? 'top-bar__nav-link--active' : ''}`}
                 >
                   {item.label}
+                  {item.external && <span style={{ fontSize: 11, marginLeft: 3 }}>↗</span>}
                 </a>
               </React.Fragment>
             ))}
@@ -111,7 +115,7 @@ export default function SiteHeader({
               href="/login"
               className="top-bar__nav-link"
               style={{
-                background: '#e66a2b',
+                background: '#123B6D',
                 color: '#fff',
                 padding: '4px 12px',
                 borderRadius: '4px',
@@ -184,24 +188,27 @@ export default function SiteHeader({
                     <a
                       key={item.label}
                       href={item.href}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener noreferrer' : undefined}
                       onClick={close}
                       className="main-menu__mobile-sublink"
                     >
                       {item.label}
+                      {item.external && ' ↗'}
                     </a>
                   ))}
                 </div>
 
                 <div className="main-menu__mobile-contact-box">
                   <a href={`mailto:${email}`} className="main-menu__mobile-contact-btn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e66a2b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123B6D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                       <polyline points="22,6 12,13 2,6" />
                     </svg>
                     <span>{email}</span>
                   </a>
                   <a href={`tel:${phone.split('/')[0].trim()}`} className="main-menu__mobile-contact-btn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e66a2b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123B6D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                     </svg>
                     <span>{phone}</span>

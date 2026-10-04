@@ -123,6 +123,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid #e2e8f0;
+  flex-shrink: 0;
 
   .dashboard-stat-card:hover & {
     background: rgba(176, 141, 87, 0.1);
@@ -132,5 +133,90 @@
   svg {
     width: 20px;
     height: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-stat-card {
+    padding: 22px 18px;
+    border-radius: 16px;
+  }
+
+  .stat-card-content {
+    gap: 16px;
+  }
+
+  .stat-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .stat-card-info {
+    h3 {
+      font-size: 0.82rem;
+    }
+
+    h2 {
+      font-size: 1.85rem;
+    }
+  }
+
+  .stat-card-arrow {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-stat-card {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+
+  .stat-card-content {
+    gap: 12px;
+  }
+
+  .stat-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .stat-card-info {
+    h3 {
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+    }
+  }
+
+  .stat-card-arrow {
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
   }
 }

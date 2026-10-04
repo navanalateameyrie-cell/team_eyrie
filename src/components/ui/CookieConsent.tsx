@@ -28,8 +28,8 @@ type Consent = {
   categories: Categories
 }
 
-const BRAND = '#1f3864'
-const ACCENT = '#b08d57'
+const BRAND = '#0f274a'
+const ACCENT = '#1a4b8c'
 
 function readConsent(): Consent | null {
   if (typeof document === 'undefined') return null

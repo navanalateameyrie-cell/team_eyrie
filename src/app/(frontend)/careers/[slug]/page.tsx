@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import RichText from '@/components/RichText'
-import JobApplicationForm from '@/components/JobApplicationForm'
+import PageHero from '@/components/layout/PageHero'
+import RichText from '@/components/ui/RichText'
+import JobApplicationForm from '@/components/forms/JobApplicationForm'
 import { getConsentNotice } from '@/lib/consent'
 
 export const dynamic = 'force-dynamic'
@@ -60,7 +60,7 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
         <div className="container layout-sidebar-right">
           <div>
             <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
-              <span style={{ fontSize: 13, fontWeight: 700, background: 'rgba(176, 141, 87, 0.12)', color: '#b08d57', padding: '5px 12px', borderRadius: 6 }}>
+              <span style={{ fontSize: 13, fontWeight: 700, background: 'rgba(26, 75, 140, 0.08)', color: '#1a4b8c', padding: '5px 12px', borderRadius: 6 }}>
                 {TYPE_LABEL[job.employmentType] || job.employmentType}
               </span>
               {locations.length > 0 && (
@@ -88,7 +88,7 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
 
             {Array.isArray(job.responsibilities) && job.responsibilities.length > 0 && (
               <div style={{ marginTop: 36 }}>
-                <h3 style={{ fontSize: 22, color: '#1f3864', fontWeight: 800, marginBottom: 14 }}>Key Responsibilities</h3>
+                <h3 style={{ fontSize: 22, color: '#0f274a', fontWeight: 800, marginBottom: 14 }}>Key Responsibilities</h3>
                 <ul style={{ paddingLeft: 20, color: '#475569', fontSize: 15.5, lineHeight: 1.8 }}>
                   {job.responsibilities.map((r: any, i: number) => (
                     <li key={i}>{r.item}</li>
@@ -99,7 +99,7 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
 
             {Array.isArray(job.requirements) && job.requirements.length > 0 && (
               <div style={{ marginTop: 28 }}>
-                <h3 style={{ fontSize: 22, color: '#1f3864', fontWeight: 800, marginBottom: 14 }}>Requirements &amp; Qualifications</h3>
+                <h3 style={{ fontSize: 22, color: '#0f274a', fontWeight: 800, marginBottom: 14 }}>Requirements &amp; Qualifications</h3>
                 <ul style={{ paddingLeft: 20, color: '#475569', fontSize: 15.5, lineHeight: 1.8 }}>
                   {job.requirements.map((r: any, i: number) => (
                     <li key={i}>{r.item}</li>
@@ -116,9 +116,10 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
                 position: 'sticky',
                 top: 100,
                 padding: '36px 30px',
+                borderTop: '4px solid #1a4b8c',
               }}
             >
-              <h3 style={{ fontSize: 20, color: '#1f3864', fontWeight: 800, margin: '0 0 12px' }}>
+              <h3 style={{ fontSize: 20, color: '#0f274a', fontWeight: 800, margin: '0 0 12px' }}>
                 Apply for this Position
               </h3>
               {isOpen ? (

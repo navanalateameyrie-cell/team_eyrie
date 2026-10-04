@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import RichText from '@/components/RichText'
-import CtaBanner from '@/components/CtaBanner'
+import PageHero from '@/components/layout/PageHero'
+import RichText from '@/components/ui/RichText'
+import CtaBanner from '@/components/layout/CtaBanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,11 +46,11 @@ export default async function InsightDetail({ params }: { params: Promise<{ slug
         <div className="container" style={{ maxWidth: 860 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
             {post.publishedDate && (
-              <span style={{ color: '#b08d57', fontSize: 14, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
+              <span style={{ color: '#123B6D', fontSize: 14, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
                 Published: {new Date(post.publishedDate).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
             )}
-            <a href="/insights" style={{ color: '#1f3864', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
+            <a href="/insights" style={{ color: '#123B6D', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
               ← Back to all Insights
             </a>
           </div>

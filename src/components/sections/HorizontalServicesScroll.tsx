@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import CorporateIcon from './CorporateIcon'
+import CorporateIcon from '@/components/ui/CorporateIcon'
 
 export interface ServiceItem {
   title: string
@@ -225,7 +225,7 @@ export default function HorizontalServicesScroll({
                     <div>
                       <div className="hz-slide-top-meta">
                         <div className="hz-slide-icon-box">
-                          <CorporateIcon name={srv.iconName} size={28} color="#b08d57" />
+                          <CorporateIcon name={srv.iconName} size={28} color="#123B6D" />
                         </div>
                       </div>
 

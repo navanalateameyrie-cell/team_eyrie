@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 | `offsetRight` | `number` | `24` | Horizontal offset from screen right (px) |
 | `offsetTop` | `number` | `24` | Vertical offset from screen top (px) |
 | `primaryColor` | `string` | `'#1f3864'` | Primary brand color for badge and headers |
-| `accentColor` | `string` | `'#b08d57'` | Accent color for badges and focus states |
+| `accentColor` | `string` | `'#123B6D'` | Accent color for badges and focus states |
 | `zIndex` | `number` | `99999` | Z-index for overlay and floating elements |
 | `defaultOpen` | `boolean` | `false` | Initial open state of modal panel |
 | `className` | `string` | `''` | Optional custom CSS class name |

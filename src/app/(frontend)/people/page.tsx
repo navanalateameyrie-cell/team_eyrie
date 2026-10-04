@@ -2,9 +2,9 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import PageHero from '@/components/PageHero'
-import SectionHeader from '@/components/SectionHeader'
-import CtaBanner from '@/components/CtaBanner'
+import PageHero from '@/components/layout/PageHero'
+import SectionHeader from '@/components/layout/SectionHeader'
+import CtaBanner from '@/components/layout/CtaBanner'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
@@ -32,15 +32,15 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
         width: '100%',
         height: 240,
         borderRadius: 10,
-        background: 'linear-gradient(135deg, #1f3864 0%, #16294a 100%)',
-        color: '#d8c19a',
+        background: 'linear-gradient(135deg, #071A3A 0%, #123B6D 100%)',
+        color: '#F0C04A',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: 44,
         fontWeight: 800,
         marginBottom: 14,
-        border: '1px solid rgba(216, 193, 154, 0.3)',
+        border: '1px solid #98A2B3',
       }}
     >
       {initials}
@@ -99,10 +99,10 @@ export default async function PeoplePage() {
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <Avatar photo={p.photo} name={p.name} />
-                  <h3 style={{ fontSize: 20, color: '#1f3864', fontWeight: 800, margin: '0 0 4px' }}>
+                  <h3 style={{ fontSize: 20, color: '#071A3A', fontWeight: 800, margin: '0 0 4px' }}>
                     {p.name}
                   </h3>
-                  <div style={{ color: '#b08d57', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
+                  <div style={{ color: '#123B6D', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
                     {p.designation}
                   </div>
                   {p.qualifications && (

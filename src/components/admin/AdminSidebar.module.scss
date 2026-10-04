@@ -5,15 +5,15 @@
 // =============================================================================
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
-$navy:         #0b1324;
-$navy-light:   #111f38;
-$navy-mid:     #16294a;
-$gold:         #b08d57;
-$gold-light:   #d4b483;
-$gold-dim:     rgba(176, 141, 87, 0.18);
-$gold-glow:    rgba(176, 141, 87, 0.35);
+$navy:         #071A3A;
+$navy-light:   #0f2854;
+$navy-mid:     #123B6D;
+$gold:         #F0C04A;
+$gold-light:   #f7d77e;
+$gold-dim:     rgba(240, 192, 74, 0.18);
+$gold-glow:    rgba(240, 192, 74, 0.35);
 $white:        #ffffff;
-$text-dim:     #94a3b8;
+$text-dim:     #98A2B3;
 $text-base:    #cbd5e1;
 $text-bright:  #e2e8f0;
 
@@ -90,6 +90,69 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
 
   .collapseBtn {
     margin: 0 auto;
+  }
+}
+
+// ─── Mobile drawer & overlay ───────────────────────────────────────────────────
+.mobileToggleBtn {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 10px;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #071A3A;
+    border: 1.5px solid #F0C04A;
+    color: #F0C04A;
+    box-shadow: 0 4px 16px rgba(7, 26, 58, 0.35);
+    z-index: 1002;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      background: #123B6D;
+      transform: scale(1.05);
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.backdrop {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 26, 58, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1000;
+    animation: fadeIn 0.2s ease forwards;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px !important;
+    max-width: 85vw;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 8px 0 36px rgba(0, 0, 0, 0.5);
+
+    &.sidebarMobileOpen {
+      transform: translateX(0) !important;
+    }
   }
 }
 

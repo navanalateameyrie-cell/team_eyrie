@@ -127,7 +127,7 @@ html[data-a11y-highlight-titles="true"] h4:not(.a11y-widget-root *),
 html[data-a11y-highlight-titles="true"] h5:not(.a11y-widget-root *),
 html[data-a11y-highlight-titles="true"] h6:not(.a11y-widget-root *) {
   background-color: rgba(254, 240, 138, 0.35) !important;
-  border-left: 4px solid #b08d57 !important;
+  border-left: 4px solid #F0C04A !important;
   padding-left: 10px !important;
   border-radius: 0 4px 4px 0 !important;
 }
@@ -241,8 +241,8 @@ html[data-a11y-cursor="black"] * {
   left: 0;
   right: 0;
   height: 3px;
-  background: #b08d57;
-  box-shadow: 0 0 14px rgba(176, 141, 87, 0.85);
+  background: #F0C04A;
+  box-shadow: 0 0 14px rgba(240, 192, 74, 0.85);
   pointer-events: none;
   z-index: 99998;
   will-change: top;
@@ -264,7 +264,7 @@ html[data-a11y-cursor="black"] * {
   max-width: 480px;
   pointer-events: none;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
-  border: 1.5px solid #b08d57;
+  border: 1.5px solid #F0C04A;
   z-index: 99998;
   will-change: transform;
   transition: none !important;
@@ -320,7 +320,7 @@ html[data-a11y-cursor="black"] * {
 }
 
 .a11y-trigger-btn:focus-visible {
-  outline: 3px solid #b08d57;
+  outline: 3px solid #F0C04A;
   outline-offset: 3px;
 }
 
@@ -889,7 +889,7 @@ html[data-a11y-cursor="black"] * {
 
 .a11y-theme-preview--invert {
   background: linear-gradient(135deg, #090d16 50%, #ffffff 50%);
-  color: #b08d57;
+  color: #F0C04A;
 }
 
 .a11y-theme-preview--mono {

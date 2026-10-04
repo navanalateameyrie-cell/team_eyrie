@@ -26,6 +26,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
+import { runSeed } from './seed/seedData'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -165,7 +166,7 @@ export default buildConfig({
       idleTimeoutMillis: 60000,
       max: 5,
     },
-    push: true,  // enabled temporarily to sync database schema and fix the query error
+    push: false,
   }),
   sharp,
   upload: {
@@ -220,5 +221,13 @@ export default buildConfig({
     } catch (err) {
       payload.logger.error({ err }, 'Failed to seed admin@teameyrie.local')
     }
-  }
+
+    // ── Seed: Initial Data (Services, Offices, Team Members, Jobs, etc.) ───
+    try {
+      const log = await runSeed(payload)
+      payload.logger.info(`[Database Seed] ${log.join(' | ')}`)
+    } catch (err) {
+      payload.logger.warn({ err }, 'Seed initialization warning')
+    }
+  },
 })

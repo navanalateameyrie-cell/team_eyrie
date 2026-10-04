@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import TeamEyrieCaLogo from '@/components/TeamEyrieCaLogo'
-import ServiceDocumentManager from '@/components/ServiceDocumentManager'
+import TeamEyrieCaLogo from '@/components/ui/TeamEyrieCaLogo'
+import ServiceDocumentManager from '@/components/sections/ServiceDocumentManager'
 
 export default function ClientDashboard() {
   const [user, setUser] = useState<any>(null)
@@ -428,10 +428,10 @@ export default function ClientDashboard() {
             <div 
               style={{
                 width: '42px', height: '42px', borderRadius: '50%',
-                background: 'linear-gradient(135deg, #C09B5A 0%, #b08d57 100%)',
+                background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontWeight: 'bold', fontSize: '1.1rem', color: '#fff',
-                boxShadow: '0 4px 12px rgba(230, 106, 43, 0.3)'
+                boxShadow: '0 4px 12px rgba(7, 26, 58, 0.3)'
               }}
               title={user.name || 'Client'}
             >
@@ -659,7 +659,7 @@ export default function ClientDashboard() {
               title="Click to view/edit profile"
             >
               <div>Welcome back, <strong style={{ color: '#0f172a' }}>{user.name || 'Client'}</strong></div>
-              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #C09B5A 0%, #b08d57 100%)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1rem', boxShadow: '0 2px 8px rgba(230,106,43,0.3)' }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1rem', boxShadow: '0 2px 8px rgba(7, 26, 58, 0.3)' }}>
                 {user.name ? user.name.charAt(0).toUpperCase() : 'C'}
               </div>
             </div>
