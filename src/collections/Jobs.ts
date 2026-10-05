@@ -22,7 +22,7 @@ export const Jobs: CollectionConfig = {
   },
   fields: [
     { name: 'title', type: 'text', required: true },
-    slugField('title'),
+    slugField('title', { admin: { position: undefined } }),
     {
       type: 'row',
       fields: [
@@ -41,9 +41,8 @@ export const Jobs: CollectionConfig = {
         {
           name: 'status',
           type: 'select',
-          admin: { 
-            width: '50%', 
-            position: 'sidebar',
+          admin: {
+            width: '50%',
             components: {
               Cell: '/components/admin/StatusCell',
             },
@@ -57,13 +56,54 @@ export const Jobs: CollectionConfig = {
         },
       ],
     },
-    { name: 'location', type: 'relationship', relationTo: 'offices', hasMany: true },
-    { name: 'department', type: 'text' },
     {
       type: 'row',
       fields: [
-        { name: 'experienceMin', type: 'number', label: 'Min experience (yrs)', admin: { width: '50%' } },
-        { name: 'experienceMax', type: 'number', label: 'Max experience (yrs)', admin: { width: '50%' } },
+        {
+          name: 'department',
+          type: 'text',
+          admin: { width: '50%' },
+        },
+        {
+          name: 'location',
+          type: 'relationship',
+          relationTo: 'offices',
+          hasMany: true,
+          admin: { width: '50%' },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'experienceMin',
+          type: 'number',
+          label: 'Min experience (yrs)',
+          admin: { width: '50%' },
+        },
+        {
+          name: 'experienceMax',
+          type: 'number',
+          label: 'Max experience (yrs)',
+          admin: { width: '50%' },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'openings',
+          type: 'number',
+          defaultValue: 1,
+          admin: { width: '50%' },
+        },
+        {
+          name: 'closingDate',
+          type: 'date',
+          admin: { width: '50%' },
+        },
       ],
     },
     { name: 'summary', type: 'textarea', required: true },
@@ -78,7 +118,5 @@ export const Jobs: CollectionConfig = {
       type: 'array',
       fields: [{ name: 'item', type: 'text', required: true }],
     },
-    { name: 'openings', type: 'number', defaultValue: 1, admin: { position: 'sidebar' } },
-    { name: 'closingDate', type: 'date', admin: { position: 'sidebar' } },
   ],
 }

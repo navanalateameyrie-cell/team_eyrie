@@ -139,64 +139,64 @@ export default async function AboutPage() {
   const displayMetrics =
     homePage?.stats && homePage.stats.length > 0
       ? homePage.stats.map((s) => ({
-          value: s.value,
-          label: s.label,
-          subtext: 'Institutional capability metric',
-        }))
+        value: s.value,
+        label: s.label,
+        subtext: 'Institutional capability metric',
+      }))
       : keyMetrics
 
   const partnerCards =
     teamMembers.length > 0
       ? teamMembers.map((tm: any) => {
-          const initials = tm.name
-            ? tm.name
-                .replace(/CA\s+/i, '')
-                .trim()
-                .split(/\s+/)
-                .map((n: string) => n[0])
-                .join('')
-                .slice(0, 2)
-                .toUpperCase()
-            : 'CA'
+        const initials = tm.name
+          ? tm.name
+            .replace(/CA\s+/i, '')
+            .trim()
+            .split(/\s+/)
+            .map((n: string) => n[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase()
+          : 'CA'
 
-          let bioSnippet = ''
-          if (typeof tm.bio === 'string') {
-            bioSnippet = tm.bio
-          } else if (tm.bio?.root?.children) {
-            bioSnippet = tm.bio.root.children
-              .map((c: any) => c.children?.map((ch: any) => ch.text || '').join('') || '')
-              .join(' ')
-          }
+        let bioSnippet = ''
+        if (typeof tm.bio === 'string') {
+          bioSnippet = tm.bio
+        } else if (tm.bio?.root?.children) {
+          bioSnippet = tm.bio.root.children
+            .map((c: any) => c.children?.map((ch: any) => ch.text || '').join('') || '')
+            .join(' ')
+        }
 
-          const rawDesignation = tm.designation || 'Senior Partner'
-          const parts = rawDesignation.split(/—|-/).map((s: string) => s.trim())
-          const badgeLevel = parts[0] || 'Senior Partner'
-          const practiceDomain =
-            parts.length > 1
-              ? parts.slice(1).join(' — ')
-              : tm.serviceTitle || 'Tax & Advisory Practice'
+        const rawDesignation = tm.designation || 'Senior Partner'
+        const parts = rawDesignation.split(/—|-/).map((s: string) => s.trim())
+        const badgeLevel = parts[0] || 'Senior Partner'
+        const practiceDomain =
+          parts.length > 1
+            ? parts.slice(1).join(' — ')
+            : tm.serviceTitle || 'Tax & Advisory Practice'
 
-          const focusAreas =
-            Array.isArray(tm.expertise) && tm.expertise.length > 0
-              ? tm.expertise.map((e: any) => (typeof e === 'object' ? e.title : 'Advisory Practice'))
-              : tm.serviceTitle
+        const focusAreas =
+          Array.isArray(tm.expertise) && tm.expertise.length > 0
+            ? tm.expertise.map((e: any) => (typeof e === 'object' ? e.title : 'Advisory Practice'))
+            : tm.serviceTitle
               ? [tm.serviceTitle]
               : ['Corporate Assurance', 'Taxation & Regulatory']
 
-          return {
-            initials,
-            name: tm.name,
-            role: tm.qualifications || 'Chartered Accountant',
-            badgeLevel,
-            practiceDomain,
-            heritage: tm.officeCity ? `${tm.officeCity} Hub` : 'Partner Leadership',
-            description:
-              bioSnippet ||
-              'Senior Partner spearheading multidisciplinary corporate advisory, compliance and regulatory representation.',
-            focusAreas,
-            linkHref: tm.slug ? `/people/${tm.slug}` : '/contact',
-          }
-        })
+        return {
+          initials,
+          name: tm.name,
+          role: tm.qualifications || 'Chartered Accountant',
+          badgeLevel,
+          practiceDomain,
+          heritage: tm.officeCity ? `${tm.officeCity} Hub` : 'Partner Leadership',
+          description:
+            bioSnippet ||
+            'Senior Partner spearheading multidisciplinary corporate advisory, compliance and regulatory representation.',
+          focusAreas,
+          linkHref: tm.slug ? `/people/${tm.slug}` : '/contact',
+        }
+      })
       : allianceFirms
 
   return (

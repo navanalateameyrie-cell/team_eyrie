@@ -1,4 +1,4 @@
-import type { Field } from 'payload'
+import type { Field, TextField } from 'payload'
 
 const slugify = (val: string) =>
   val
@@ -9,22 +9,31 @@ const slugify = (val: string) =>
     .replace(/^-|-$/g, '')
 
 /** A slug field that auto-fills from `sourceField` when left blank. */
-export const slugField = (sourceField = 'title'): Field => ({
-  name: 'slug',
-  type: 'text',
-  index: true,
-  unique: true,
-  admin: {
-    position: 'sidebar',
-    description: 'URL path segment. Auto-generated from the title if left blank.',
-  },
-  hooks: {
-    beforeValidate: [
-      ({ value, data }) => {
-        if (value) return slugify(value)
-        const source = (data?.[sourceField] as string) || ''
-        return source ? slugify(source) : value
-      },
-    ],
-  },
-})
+export const slugField = (
+  sourceField = 'title',
+  overrides?: Partial<TextField>,
+): Field => {
+  const { admin, ...restOverrides } = overrides || {}
+  return {
+    name: 'slug',
+    type: 'text',
+    index: true,
+    unique: true,
+    ...restOverrides,
+    admin: {
+      position: 'sidebar',
+      description: 'URL path segment. Auto-generated from the title if left blank.',
+      ...admin,
+    },
+    hooks: {
+      beforeValidate: [
+        ({ value, data }) => {
+          if (value) return slugify(value)
+          const source = (data?.[sourceField] as string) || ''
+          return source ? slugify(source) : value
+        },
+      ],
+      ...(restOverrides.hooks || {}),
+    },
+  } as Field
+}

@@ -302,24 +302,24 @@ const industries: Array<{
   icon: string
   theme: IndustryThemeColor
 }> = [
-  { code: 'SEC-01', name: 'Manufacturing', desc: 'Costing, GST compliance, internal financial controls, inventory audit, and tax structuring.', icon: 'factory', theme: 'navy' },
-  { code: 'SEC-02', name: 'Banking & Financial Services', desc: 'Statutory bank audit, concurrent audit, regulatory compliance, and risk management.', icon: 'landmark', theme: 'gold' },
-  { code: 'SEC-03', name: 'NBFCs', desc: 'RBI regulatory compliance, statutory audit, asset classification, and corporate governance.', icon: 'trending', theme: 'teal' },
-  { code: 'SEC-04', name: 'Information Technology', desc: 'SEZ compliance, international taxation, transfer pricing, and IP structuring.', icon: 'cpu', theme: 'indigo' },
-  { code: 'SEC-05', name: 'Healthcare & Pharma', desc: 'Hospital accounting, regulatory compliance, GST advisory, and M&A due diligence.', icon: 'heart', theme: 'sky' },
-  { code: 'SEC-06', name: 'Infrastructure & Engineering', desc: 'Project financing, joint venture structuring, EPC taxation, and forensic reviews.', icon: 'building', theme: 'teal' },
-  { code: 'SEC-07', name: 'Real Estate & Construction', desc: 'RERA compliance, capital gains tax advisory, joint development agreement (JDA) tax.', icon: 'building', theme: 'bronze' },
-  { code: 'SEC-08', name: 'Hospitality & Tourism', desc: 'Operational audits, revenue assurance, lease transaction structuring, and tax filing.', icon: 'users', theme: 'amber' },
-  { code: 'SEC-09', name: 'Retail & Consumer Goods', desc: 'Supply chain GST, inventory audit, franchise structuring, and POS financial control.', icon: 'shopping', theme: 'azure' },
-  { code: 'SEC-10', name: 'E-Commerce & Digital Business', desc: 'TDS/TCS marketplace compliance, cross-border payments, and startup valuation.', icon: 'rocket', theme: 'purple' },
-  { code: 'SEC-11', name: 'Logistics & Transportation', desc: 'Fleet GST compliance, vehicle lease taxation, and multi-state tax structuring.', icon: 'truck', theme: 'sky' },
-  { code: 'SEC-12', name: 'Renewable Energy', desc: 'ESG reporting, subsidy compliance, project finance due diligence, and direct tax.', icon: 'leaf', theme: 'green' },
-  { code: 'SEC-13', name: 'Education & Academics', desc: 'University trust audits, FCRA compliance, exemption advisory, and internal control.', icon: 'landmark', theme: 'royal' },
-  { code: 'SEC-14', name: 'Start-ups & Scale-ups', desc: 'VC/PE fundraising advisory, investor due diligence, cap table, and ESOP structuring.', icon: 'rocket', theme: 'gold' },
-  { code: 'SEC-15', name: 'MSMEs & Enterprise', desc: 'Subsidies, bank loan syndication, virtual CFO, tax planning, and statutory audit.', icon: 'briefcase', theme: 'navy' },
-  { code: 'SEC-16', name: 'Family-Owned Businesses', desc: 'Family constitution, succession planning, trust settlement, and wealth preservation.', icon: 'users', theme: 'bronze' },
-  { code: 'SEC-17', name: 'Trusts & Non-Profit Organisations', desc: '12A/80G tax exemptions, FCRA filings, statutory trust audits, and governance.', icon: 'heart', theme: 'green' },
-]
+    { code: 'SEC-01', name: 'Manufacturing', desc: 'Costing, GST compliance, internal financial controls, inventory audit, and tax structuring.', icon: 'factory', theme: 'navy' },
+    { code: 'SEC-02', name: 'Banking & Financial Services', desc: 'Statutory bank audit, concurrent audit, regulatory compliance, and risk management.', icon: 'landmark', theme: 'gold' },
+    { code: 'SEC-03', name: 'NBFCs', desc: 'RBI regulatory compliance, statutory audit, asset classification, and corporate governance.', icon: 'trending', theme: 'teal' },
+    { code: 'SEC-04', name: 'Information Technology', desc: 'SEZ compliance, international taxation, transfer pricing, and IP structuring.', icon: 'cpu', theme: 'indigo' },
+    { code: 'SEC-05', name: 'Healthcare & Pharma', desc: 'Hospital accounting, regulatory compliance, GST advisory, and M&A due diligence.', icon: 'heart', theme: 'sky' },
+    { code: 'SEC-06', name: 'Infrastructure & Engineering', desc: 'Project financing, joint venture structuring, EPC taxation, and forensic reviews.', icon: 'building', theme: 'teal' },
+    { code: 'SEC-07', name: 'Real Estate & Construction', desc: 'RERA compliance, capital gains tax advisory, joint development agreement (JDA) tax.', icon: 'building', theme: 'bronze' },
+    { code: 'SEC-08', name: 'Hospitality & Tourism', desc: 'Operational audits, revenue assurance, lease transaction structuring, and tax filing.', icon: 'users', theme: 'amber' },
+    { code: 'SEC-09', name: 'Retail & Consumer Goods', desc: 'Supply chain GST, inventory audit, franchise structuring, and POS financial control.', icon: 'shopping', theme: 'azure' },
+    { code: 'SEC-10', name: 'E-Commerce & Digital Business', desc: 'TDS/TCS marketplace compliance, cross-border payments, and startup valuation.', icon: 'rocket', theme: 'purple' },
+    { code: 'SEC-11', name: 'Logistics & Transportation', desc: 'Fleet GST compliance, vehicle lease taxation, and multi-state tax structuring.', icon: 'truck', theme: 'sky' },
+    { code: 'SEC-12', name: 'Renewable Energy', desc: 'ESG reporting, subsidy compliance, project finance due diligence, and direct tax.', icon: 'leaf', theme: 'green' },
+    { code: 'SEC-13', name: 'Education & Academics', desc: 'University trust audits, FCRA compliance, exemption advisory, and internal control.', icon: 'landmark', theme: 'royal' },
+    { code: 'SEC-14', name: 'Start-ups & Scale-ups', desc: 'VC/PE fundraising advisory, investor due diligence, cap table, and ESOP structuring.', icon: 'rocket', theme: 'gold' },
+    { code: 'SEC-15', name: 'MSMEs & Enterprise', desc: 'Subsidies, bank loan syndication, virtual CFO, tax planning, and statutory audit.', icon: 'briefcase', theme: 'navy' },
+    { code: 'SEC-16', name: 'Family-Owned Businesses', desc: 'Family constitution, succession planning, trust settlement, and wealth preservation.', icon: 'users', theme: 'bronze' },
+    { code: 'SEC-17', name: 'Trusts & Non-Profit Organisations', desc: '12A/80G tax exemptions, FCRA filings, statutory trust audits, and governance.', icon: 'heart', theme: 'green' },
+  ]
 
 export default function IndustriesPage() {
   return (

@@ -66,8 +66,8 @@ html:not(:has(.te-sidebar)) main::before {
 }
 
 /* Left white form card */
-html:not(:has(.te-sidebar)) main > div:has(form),
-html:not(:has(.te-sidebar)) .template-default__wrap > div:has(form),
+html:not(:has(.te-sidebar)) main>div:has(form),
+html:not(:has(.te-sidebar)) .template-default__wrap>div:has(form),
 .step-login {
   position: relative !important;
   z-index: 10 !important;
@@ -88,7 +88,7 @@ html:not(:has(.te-sidebar)) .template-default__wrap > div:has(form),
 
 /* Logo area */
 html:not(:has(.te-sidebar)) .custom-logo,
-html:not(:has(.te-sidebar)) main > div:has(form) > *:first-child {
+html:not(:has(.te-sidebar)) main>div:has(form)>*:first-child {
   padding: 0 56px !important;
   margin-bottom: 8px !important;
   display: flex !important;
@@ -106,8 +106,8 @@ html:not(:has(.te-sidebar)) img {
 }
 
 /* Form padding */
-html:not(:has(.te-sidebar)) main > div:has(form) form,
-html:not(:has(.te-sidebar)) .template-default__wrap > div:has(form) form {
+html:not(:has(.te-sidebar)) main>div:has(form) form,
+html:not(:has(.te-sidebar)) .template-default__wrap>div:has(form) form {
   padding: 12px 56px 48px !important;
 }
 
@@ -154,8 +154,11 @@ html:not(:has(.te-sidebar)) a {
   }
 }
 
-/* Login Input Fields */
-html:not(:has(.nav)) input:not([type="checkbox"]) {
+/* Login Input Fields (strictly scoped to login views) */
+html:not(:has(.te-sidebar)) .template-minimal input:not([type="checkbox"]),
+html:not(:has(.te-sidebar)) .login__form input:not([type="checkbox"]),
+html:not(:has(.te-sidebar)) .login input:not([type="checkbox"]),
+html:not(:has(.te-sidebar)) main>div:has(form) input:not([type="checkbox"]) {
   background: #ffffff !important;
   border: 1.5px solid #d1d5db !important;
   border-radius: 8px !important;
@@ -167,8 +170,14 @@ html:not(:has(.nav)) input:not([type="checkbox"]) {
   margin-bottom: 16px !important;
   box-sizing: border-box !important;
 
-  &::placeholder { color: #9ca3af !important; }
-  &:hover { border-color: #9ca3af !important; }
+  &::placeholder {
+    color: #9ca3af !important;
+  }
+
+  &:hover {
+    border-color: #9ca3af !important;
+  }
+
   &:focus {
     border-color: var(--te-gold) !important;
     box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.15) !important;
@@ -177,8 +186,11 @@ html:not(:has(.nav)) input:not([type="checkbox"]) {
   }
 }
 
-/* Login Submit Button */
-html:not(:has(.nav)) button[type="submit"] {
+/* Login Submit Button (strictly scoped to login views) */
+html:not(:has(.te-sidebar)) .template-minimal button[type="submit"],
+html:not(:has(.te-sidebar)) .login__form button[type="submit"],
+html:not(:has(.te-sidebar)) .login button[type="submit"],
+html:not(:has(.te-sidebar)) main>div:has(form) button[type="submit"] {
   width: 100% !important;
   padding: 14px 20px !important;
   background: var(--te-navy) !important;

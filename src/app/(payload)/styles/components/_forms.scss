@@ -1,53 +1,178 @@
 /* =================================================================
-   _forms.scss — Modern Forms and Inputs
+   _forms.scss — Modern Forms and Inputs (Team Eyrie Prestige Theme)
 ================================================================= */
 
-/* --- Document Fields Container --- */
+/* --- Main Content & Document Form Containers --- */
+.collection-edit,
+.collection-edit__main-wrapper,
+.collection-edit__main,
+.collection-edit__form {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 .document-fields {
   display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  gap: 28px !important;
+  box-sizing: border-box !important;
+}
+
+.document-fields__main,
+.document-fields__fields {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.document-fields--has-sidebar {
+  --main-width: auto !important;
+
+  .document-fields__main {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    width: auto !important;
+  }
+
+  .document-fields__sidebar-wrap {
+    width: 350px !important;
+    min-width: 330px !important;
+    max-width: 380px !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .document-fields__sidebar {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .document-fields__sidebar-fields {
+    padding: 24px 20px !important;
+    gap: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+.document-fields:not(.document-fields--has-sidebar) .document-fields__main,
+.document-fields:has(.document-fields__sidebar-wrap .document-fields__sidebar-fields > .render-fields:empty) .document-fields__main {
+  width: 100% !important;
+  flex: 1 1 100% !important;
+}
+
+/* --- Group Fields & Collapsibles (Sidebar & Main Form) --- */
+.group-field,
+.group-field--top-level,
+.document-fields__sidebar-fields .group-field,
+.document-fields__sidebar-fields .group-field--top-level {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.group-field__wrap {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  >.render-fields {
+    width: 100% !important;
+    gap: 18px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+.group-field__header {
+  margin-bottom: 12px !important;
+  padding: 0 !important;
+
+  .group-field__title,
+  header {
+    color: #071A3A !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    margin: 0 !important;
+  }
+}
+
+/* --- Render Fields Container (Vertical Rhythm: 20px-24px between fields) --- */
+.render-fields {
+  display: flex !important;
   flex-direction: column !important;
-  gap: 16px !important;
+  gap: 24px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+
+  >.field-type {
+    margin-bottom: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* --- Field Wrapper --- */
 .field-type {
   position: relative !important;
   margin-bottom: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* --- Field Labels --- */
-.field-type > label, 
-.field-type .field-label {
-  color: var(--te-navy) !important;
+/* --- Field Labels (8px gap to input) --- */
+.field-type>label,
+.field-type .field-label,
+label.field-label {
+  color: #071A3A !important;
   font-weight: 700 !important;
   font-size: 11.5px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.8px !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
   display: flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 4px !important;
+  white-space: nowrap !important;
 
-  /* Stylish required asterisk */
+  /* Stylish required red * */
   .required {
-    color: var(--theme-error-400) !important;
+    color: #ef4444 !important;
     font-size: 14px !important;
+    font-weight: 800 !important;
+    margin-left: 2px !important;
   }
 }
 
-/* --- Standard Inputs (Text, Email, Number, Textarea) --- */
-.field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
-.field-type textarea {
-  background-color: #f8fafc !important;
+/* --- Standard Inputs (Text, Email, Password, Number, Textarea) --- */
+.field-type input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([class*="rs__"]):not(.rs__control input):not(.react-select input):not(.value-container input),
+.field-type textarea,
+.field-type select:not([class*="rs__"]) {
+  background-color: #ffffff !important;
   border: 1.5px solid #cbd5e1 !important;
-  border-radius: 10px !important;
-  color: var(--te-navy) !important;
-  font-size: 15px !important;
+  border-radius: 8px !important;
+  color: #071A3A !important;
+  font-size: 14.5px !important;
   font-weight: 500 !important;
-  padding: 14px 18px !important;
+  padding: 11px 14px !important;
   width: 100% !important;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02) !important;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  min-height: 44px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
 
   /* Placeholder Styling */
   &::placeholder {
@@ -56,160 +181,645 @@
   }
 
   &:hover {
-    border-color: var(--te-gold-light) !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+    border-color: #123B6D !important;
+    box-shadow: 0 2px 6px rgba(18, 59, 109, 0.06) !important;
   }
 
-  &:focus, &:focus-visible, &:focus-within {
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
     background-color: #ffffff !important;
-    border-color: var(--te-gold) !important;
-    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.15), 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+    border-color: #123B6D !important;
+    box-shadow: 0 0 0 3px rgba(18, 59, 109, 0.12), 0 1px 2px rgba(15, 23, 42, 0.04) !important;
     outline: none !important;
-    transform: translateY(-1px) !important;
+  }
+
+  &:disabled,
+  &[disabled] {
+    background-color: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
   }
 }
 
 /* --- Textarea specific tweaks --- */
 .field-type textarea {
-  min-height: 120px !important;
-  resize: vertical !important;
+  min-height: 110px !important;
+  padding: 12px 14px !important;
   line-height: 1.6 !important;
+  resize: vertical !important;
 }
 
-/* --- React-Select Control (Dropdowns / Relationships) --- */
-.field-type .rs__control {
-  background-color: #f8fafc !important;
+/* =================================================================
+   REACT-SELECT FIXES (STATUS, SELECT, RELATIONSHIP FIELDS)
+================================================================= */
+
+/* 1. Neutralization of Internal Search Input */
+.rs__input,
+.rs__input input,
+.rs__input-container,
+.rs__input-container input,
+.field-type .rs__control input,
+.field-type .react-select input,
+.field-type .value-container input,
+.field-type .rs__input input,
+.field-type .rs__input-container input,
+.rs__control input,
+.rs__value-container input,
+.value-container input {
+  all: unset !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* 2. Outer Select Box Controller (Single 44px Row, Never Wraps) */
+.react-select .rs__control,
+.field-type .rs__control,
+.rs__control {
+  background-color: #ffffff !important;
   border: 1.5px solid #cbd5e1 !important;
-  border-radius: 10px !important;
-  min-height: 52px !important;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02) !important;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  border-radius: 8px !important;
+  min-height: 44px !important;
+  height: 44px !important;
+  width: 100% !important;
+  padding: 0 12px 0 14px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
   cursor: pointer !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
 
   &:hover {
-    border-color: var(--te-gold-light) !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+    border-color: #123B6D !important;
+    box-shadow: 0 2px 6px rgba(18, 59, 109, 0.06) !important;
   }
 
-  &.rs__control--is-focused, &.rs__control--menu-is-open {
+  &.rs__control--is-focused,
+  &.rs__control--menu-is-open {
     background-color: #ffffff !important;
-    border-color: var(--te-gold) !important;
-    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.15), 0 4px 15px rgba(176, 141, 87, 0.08) !important;
+    border-color: #123B6D !important;
+    box-shadow: 0 0 0 3px rgba(18, 59, 109, 0.12), 0 1px 2px rgba(15, 23, 42, 0.04) !important;
     outline: none !important;
-    transform: translateY(-1px) !important;
-  }
-
-  /* Reset inner inputs to prevent double styling */
-  input {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    transform: none !important;
   }
 }
 
-/* React Select Value */
-.field-type .rs__value-container { 
-  padding: 0 18px !important; 
-}
-.field-type .rs__single-value { 
-  color: var(--te-navy) !important; 
-  font-size: 15px !important; 
-  font-weight: 500 !important; 
+/* Allow multi-select with multiple tags to expand vertically if needed */
+.field-type .rs__control:has(.rs__multi-value) {
+  height: auto !important;
+  min-height: 44px !important;
+  padding: 3px 12px 3px 14px !important;
 }
 
-/* React Select Dropdown Menu */
-.rs__menu {
-  border-radius: 12px !important;
-  border: 1px solid rgba(176, 141, 87, 0.2) !important;
-  box-shadow: 0 15px 35px rgba(11, 19, 36, 0.12) !important;
+/* 3. Value Container & Selected Text (Full Word Display — Never Truncated) */
+.react-select .value-container,
+.field-type .value-container,
+.value-container,
+.react-select .rs__value-container,
+.field-type .rs__value-container,
+.rs__value-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* Multi-value tags can wrap inside multi-select */
+.field-type .rs__value-container:has(.rs__multi-value) {
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  padding: 2px 0 !important;
+}
+
+/* Full Text Display for Single-Value (No Truncation or Ellipsis) */
+.field-type .rs__single-value,
+.react-select--single-value,
+.rs__single-value {
+  color: #071A3A !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  line-height: normal !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: fit-content !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.field-type .rs__placeholder,
+.rs__placeholder {
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Prevent dummy search input container from stealing space or squeezing the word */
+.field-type .rs__input-container,
+.rs__input-container,
+.field-type .rs__input,
+.rs__input {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: inherit !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: 20px !important;
+}
+
+/* When a value is present, minimize search input container so full word shines */
+.rs__value-container:has(.rs__single-value) .rs__input-container {
+  width: 0 !important;
+  min-width: 0 !important;
+  flex: 0 0 0px !important;
   overflow: hidden !important;
-  margin-top: 8px !important;
-  animation: slideDown 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-  z-index: 100 !important;
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* 4. Indicators (Clear cross + Dropdown chevron right-aligned) */
+.react-select .rs__indicators,
+.field-type .rs__indicators,
+.rs__indicators {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+  padding: 0 !important;
+  gap: 4px !important;
+}
+
+.field-type .rs__indicator-separator,
+.rs__indicator-separator {
+  display: none !important;
+}
+
+.field-type .rs__dropdown-indicator,
+.field-type .rs__clear-indicator,
+.rs__dropdown-indicator,
+.rs__clear-indicator {
+  color: #64748b !important;
+  padding: 2px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: color 0.2s ease !important;
+  line-height: 1 !important;
+
+  &:hover {
+    color: #123B6D !important;
+  }
+
+  svg {
+    width: 16px !important;
+    height: 16px !important;
+    display: block !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease !important;
+  }
+}
+
+.rs__control--menu-is-open .rs__dropdown-indicator svg {
+  transform: rotate(180deg) !important;
+}
+
+/* 5. Dropdown Menu & Options */
+.rs__menu-portal {
+  z-index: 99999 !important;
+}
+
+.rs__menu {
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(18, 59, 109, 0.16) !important;
+  box-shadow: 0 10px 30px -4px rgba(7, 26, 58, 0.16), 0 4px 12px -2px rgba(7, 26, 58, 0.08) !important;
+  overflow: hidden !important;
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  z-index: 99999 !important;
+  animation: rsMenuSlide 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes rsMenuSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.rs__menu-list {
+  padding: 6px !important;
+  max-height: 280px !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(18, 59, 109, 0.2) transparent !important;
+
+  &::-webkit-scrollbar {
+    width: 5px !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(18, 59, 109, 0.2) !important;
+    border-radius: 10px !important;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(18, 59, 109, 0.35) !important;
+  }
 }
 
 .rs__option {
-  padding: 12px 18px !important;
-  font-size: 14.5px !important;
-  transition: all 0.2s ease !important;
+  padding: 10px 14px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: #071A3A !important;
+  border-radius: 7px !important;
+  margin-bottom: 2px !important;
+  transition: all 0.15s ease !important;
   cursor: pointer !important;
-  
-  &--is-focused, &:hover {
-    background: linear-gradient(90deg, rgba(176, 141, 87, 0.1) 0%, rgba(255, 255, 255, 0) 100%) !important;
-    color: var(--te-navy) !important;
+
+  &--is-focused,
+  &:hover {
+    background: rgba(18, 59, 109, 0.06) !important;
+    color: #123B6D !important;
     font-weight: 600 !important;
-    padding-left: 22px !important; /* Nice hover slide effect */
   }
-  
+
   &--is-selected {
-    background: linear-gradient(135deg, var(--te-navy) 0%, #1a2f4c 100%) !important;
+    background: #123B6D !important;
     color: #ffffff !important;
     font-weight: 600 !important;
+    box-shadow: 0 2px 6px rgba(18, 59, 109, 0.22) !important;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+/* 6. Multi-Value Pills (Relationship / Multi-select) */
+.rs__multi-value {
+  background: rgba(18, 59, 109, 0.08) !important;
+  border: 1px solid rgba(18, 59, 109, 0.2) !important;
+  border-radius: 6px !important;
+  padding: 2px 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.rs__multi-value__label {
+  color: #071A3A !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 0 4px !important;
+}
+
+.rs__multi-value__remove {
+  color: #64748b !important;
+  cursor: pointer !important;
+  padding: 0 2px !important;
+  border-radius: 3px !important;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
   }
 }
 
 /* --- Checkboxes & Radios --- */
-.field-type input[type="checkbox"], 
+.field-type input[type="checkbox"],
 .field-type input[type="radio"] {
-  width: 20px !important;
-  height: 20px !important;
-  accent-color: var(--te-gold) !important;
+  width: 18px !important;
+  height: 18px !important;
+  accent-color: #123B6D !important;
   cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  
+  transition: transform 0.2s ease !important;
+  margin: 0 !important;
+
   &:hover {
     transform: scale(1.1) !important;
   }
 }
 
+/* --- Field Descriptions and Error Messages --- */
+.field-description {
+  color: #64748b !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  margin-top: 5px !important;
+}
+
+.field-error {
+  color: #ef4444 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  margin-top: 5px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
 /* --- File Upload Area --- */
 .file-field .file-field__upload {
   border: 2px dashed #cbd5e1 !important;
-  background-color: #f8fafc !important;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-  border-radius: 12px !important;
-  padding: 32px !important;
+  background-color: #F7F7F2 !important;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  border-radius: 10px !important;
+  padding: 28px !important;
   text-align: center !important;
   cursor: pointer !important;
 
-  &:hover, &:focus-within {
-    border-color: var(--te-gold) !important;
-    background-color: #fefcf9 !important;
-    box-shadow: 0 0 0 6px rgba(176, 141, 87, 0.08) !important;
+  &:hover,
+  &:focus-within {
+    border-color: #123B6D !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(18, 59, 109, 0.08) !important;
     transform: translateY(-2px) !important;
   }
 }
 
 /* --- Array/Block Field Wrappers --- */
-.array-field__wrap, .blocks-field__wrap {
-  border: 1px solid #e2e8f0 !important;
+.array-field__wrap,
+.blocks-field__wrap {
+  border: 1px solid rgba(152, 162, 179, 0.35) !important;
   border-radius: 12px !important;
-  padding: 24px !important;
+  padding: 20px !important;
   background: #ffffff !important;
-  box-shadow: 0 4px 15px rgba(11, 19, 36, 0.02) !important;
+  box-shadow: 0 2px 8px rgba(7, 26, 58, 0.03) !important;
 }
 
 /* Collapsible Row Header */
-.array-field__row-header, .blocks-field__row-header {
-  background: #f8fafc !important;
+.array-field__row-header,
+.blocks-field__row-header {
+  background: #F7F7F2 !important;
   border-radius: 8px !important;
-  padding: 12px 18px !important;
-  border: 1px solid #e2e8f0 !important;
+  padding: 10px 16px !important;
+  border: 1px solid rgba(152, 162, 179, 0.35) !important;
   transition: all 0.2s ease !important;
-  
+
   &:hover {
     background: #ffffff !important;
-    border-color: var(--te-gold-light) !important;
-    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.08) !important;
+    border-color: #123B6D !important;
+    box-shadow: 0 2px 8px rgba(18, 59, 109, 0.06) !important;
+  }
+}
+
+/* =================================================================
+   ENTERPRISE CA 12-COLUMN FORM GRID & SECTION LAYOUT
+================================================================= */
+
+/* 12-Column Responsive Row System */
+.field-type.row {
+  width: 100% !important;
+  margin: 0 !important;
+
+  .row__fields {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 20px !important;
+    /* Consistent 16px–24px horizontal gap */
+    row-gap: 24px !important;
+    /* Consistent 20px–24px vertical field gap */
+    margin: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    >.field-type,
+    >* {
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      box-sizing: border-box !important;
+
+      /* Full-Width (12 Columns) */
+      &[style*="width: 100%"],
+      &[style*="--field-width: 100%"],
+      &[style*="--field-width:100%"] {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      /* Half-Width (6 Columns = 6 + 6) */
+      &[style*="width: 50%"],
+      &[style*="--field-width: 50%"],
+      &[style*="--field-width:50%"] {
+        flex: 1 1 calc(50% - 10px) !important;
+        width: calc(50% - 10px) !important;
+        max-width: calc(50% - 10px) !important;
+      }
+
+      /* One-Third (4 Columns = 4 + 4 + 4) */
+      &[style*="width: 33.33%"],
+      &[style*="--field-width: 33.33%"],
+      &[style*="--field-width:33.33%"] {
+        flex: 1 1 calc(33.333% - 13.34px) !important;
+        width: calc(33.333% - 13.34px) !important;
+        max-width: calc(33.333% - 13.34px) !important;
+      }
+
+      /* Two-Thirds (8 Columns) */
+      &[style*="width: 66.66%"],
+      &[style*="--field-width: 66.66%"],
+      &[style*="--field-width:66.66%"] {
+        flex: 1 1 calc(66.666% - 6.67px) !important;
+        width: calc(66.666% - 6.67px) !important;
+        max-width: calc(66.666% - 6.67px) !important;
+      }
+
+      /* Quarter-Width (3 Columns) */
+      &[style*="width: 25%"],
+      &[style*="--field-width: 25%"],
+      &[style*="--field-width:25%"] {
+        flex: 1 1 calc(25% - 15px) !important;
+        width: calc(25% - 15px) !important;
+        max-width: calc(25% - 15px) !important;
+      }
+    }
+
+    /* Fallback: Automatically format rows with exactly 2 fields into 6 + 6 */
+    &:has(> :nth-child(2):last-child)> :not([style*="width"]):not([style*="--field-width"]) {
+      flex: 1 1 calc(50% - 10px) !important;
+      width: calc(50% - 10px) !important;
+      max-width: calc(50% - 10px) !important;
+    }
+
+    /* Fallback: Automatically format rows with exactly 3 fields into 4 + 4 + 4 */
+    &:has(> :nth-child(3):last-child)> :not([style*="width"]):not([style*="--field-width"]) {
+      flex: 1 1 calc(33.333% - 13.34px) !important;
+      width: calc(33.333% - 13.34px) !important;
+      max-width: calc(33.333% - 13.34px) !important;
+    }
+  }
+}
+
+/* CA Form Section Header & Subtle Dividers (28px-36px between major sections) */
+.ca-form-section,
+.field-type.ui:has(.ca-form-section),
+.render-fields>.field-type.ui {
+  width: 100% !important;
+  margin-top: 32px !important;
+  margin-bottom: 20px !important;
+
+  &:first-child,
+  &:first-of-type {
+    margin-top: 4px !important;
+  }
+}
+
+.ca-form-section__header {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  margin-bottom: 10px !important;
+}
+
+.ca-form-section__title {
+  color: #071A3A !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+}
+
+.ca-form-section__subtitle {
+  color: #64748b !important;
+  font-size: 13px !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.ca-form-section__divider {
+  width: 100% !important;
+  height: 1px !important;
+  background-color: rgba(152, 162, 179, 0.22) !important;
+  margin: 0 !important;
+}
+
+/* Action Buttons — Bottom Right Alignment */
+.collection-edit .form-submit,
+.collection-edit__form .form-submit,
+.collection-edit__main .form-submit,
+.ca-form-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 14px !important;
+  margin-top: 32px !important;
+  padding-top: 24px !important;
+  border-top: 1px solid rgba(152, 162, 179, 0.22) !important;
+  width: 100% !important;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 992px) {
+  .field-type.row .row__fields {
+    column-gap: 16px !important;
+    row-gap: 16px !important;
+
+    >.field-type,
+    >* {
+
+      &[style*="width: 33.33%"],
+      &[style*="--field-width: 33.33%"],
+      &[style*="--field-width:33.33%"] {
+        flex: 1 1 calc(50% - 8px) !important;
+        width: calc(50% - 8px) !important;
+        max-width: calc(50% - 8px) !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .field-type.row .row__fields {
+    flex-direction: column !important;
+    gap: 16px !important;
+
+    >.field-type,
+    >* {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
+  .document-fields {
+    flex-direction: column !important;
+  }
+
+  .document-fields--has-sidebar .document-fields__sidebar-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .collection-edit .form-submit,
+  .ca-form-actions {
+    flex-direction: column-reverse !important;
+    gap: 10px !important;
+
+    button,
+    .btn {
+      width: 100% !important;
+    }
   }
 }

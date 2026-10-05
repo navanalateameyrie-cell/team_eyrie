@@ -76,7 +76,7 @@ export default function Chatbot() {
 
     const userMessage = input.trim()
     setInput('')
-    
+
     // Add user message to UI
     const newMessage: Message = { id: Date.now().toString(), role: 'user', content: userMessage }
     setMessages((prev) => [...prev, newMessage])
@@ -96,10 +96,10 @@ export default function Chatbot() {
         try {
           const errData = await response.json()
           errorDetails = errData.error || errorDetails
-        } catch (e) {}
+        } catch (e) { }
 
         console.log('Chat API Error:', errorDetails)
-        
+
         setMessages((prev) => [
           ...prev,
           {
@@ -112,7 +112,7 @@ export default function Chatbot() {
       }
 
       const data = await response.json()
-      
+
       setMessages((prev) => [
         ...prev,
         { id: Date.now().toString(), role: 'bot', content: data.reply },
@@ -148,7 +148,7 @@ export default function Chatbot() {
               </svg>
             </button>
           </div>
-          
+
           <div className={styles.chatMessages} ref={messagesContainerRef} data-lenis-prevent="true">
             {messages.map((msg) => (
               <div key={msg.id} className={`${styles.message} ${styles[msg.role]}`}>

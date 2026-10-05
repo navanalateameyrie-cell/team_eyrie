@@ -385,10 +385,6 @@ export default async function DocumentationSuitePage() {
                 </tbody>
               </table>
             </div>
-
-            <div style={{ padding: '14px 20px', background: '#f1f5f9', borderTop: '1px solid #e2e8f0', fontSize: 12.5, color: '#64748b' }}>
-              ℹ️ <em>Statutory dates are subject to notifications and circular extensions issued by the Ministry of Finance / MCA / CBIC / CBDT from time to time.</em>
-            </div>
           </div>
 
           {/* ── SECTION 2: OFFICIAL GOVERNMENT PORTAL HUB (BENCHMARK: G.K. KEDIA) ── */}

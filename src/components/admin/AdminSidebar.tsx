@@ -418,14 +418,14 @@ export const AdminSidebar: React.FC = () => {
           isMobile
             ? undefined
             : {
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                height: '100vh',
-                width: collapsed ? '68px' : '260px',
-                zIndex: 1001,
-                transition: 'width 0.3s cubic-bezier(0.4,0,0.2,1)',
-              }
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              height: '100vh',
+              width: collapsed ? '68px' : '260px',
+              zIndex: 1001,
+              transition: 'width 0.3s cubic-bezier(0.4,0,0.2,1)',
+            }
         }
       >
         {/* ─── Header ─── */}
@@ -513,43 +513,43 @@ export const AdminSidebar: React.FC = () => {
           ))}
         </nav>
 
-      {/* ─── Footer ─── */}
-      <div className={styles.footer}>
-        <div className={styles.divider} />
-        <a
-          href="/admin/account"
-          className={styles.footerAccount}
-          title={collapsed ? 'Account Settings' : undefined}
-        >
-          <div className={styles.avatar}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </div>
-          {!collapsed && (
-            <div className={styles.accountInfo}>
-              <span className={styles.accountName}>{user?.name || 'User'}</span>
-              <span className={styles.accountRole}>
-                {user?.email === 'tedev@gmail.com' ? 'Super Admin' :
-                  user?.email === 'admin@teameyrie.local' ? 'Manager' :
-                    user?.role === 'admin' ? 'Manager' :
-                      user?.role === 'staff' ? 'Staff' : 'User'}
-              </span>
+        {/* ─── Footer ─── */}
+        <div className={styles.footer}>
+          <div className={styles.divider} />
+          <a
+            href="/admin/account"
+            className={styles.footerAccount}
+            title={collapsed ? 'Account Settings' : undefined}
+          >
+            <div className={styles.avatar}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
             </div>
-          )}
-          {collapsed && <span className={styles.tooltip}>Account</span>}
-        </a>
-        <a href="/admin/logout" className={styles.logoutBtn} title="Logout">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" />
-            <line x1="21" y1="12" x2="9" y2="12" />
-          </svg>
-          {!collapsed && <span>Logout</span>}
-        </a>
-      </div>
-    </aside>
+            {!collapsed && (
+              <div className={styles.accountInfo}>
+                <span className={styles.accountName}>{user?.name || 'User'}</span>
+                <span className={styles.accountRole}>
+                  {user?.email === 'tedev@gmail.com' ? 'Super Admin' :
+                    user?.email === 'admin@teameyrie.local' ? 'Manager' :
+                      user?.role === 'admin' ? 'Manager' :
+                        user?.role === 'staff' ? 'Staff' : 'User'}
+                </span>
+              </div>
+            )}
+            {collapsed && <span className={styles.tooltip}>Account</span>}
+          </a>
+          <a href="/admin/logout" className={styles.logoutBtn} title="Logout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            {!collapsed && <span>Logout</span>}
+          </a>
+        </div>
+      </aside>
     </>
   )
 }
