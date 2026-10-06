@@ -166,7 +166,7 @@ export default buildConfig({
       idleTimeoutMillis: 60000,
       max: 5,
     },
-    push: false,
+    push: process.env.PAYLOAD_DB_PUSH === 'true',
   }),
   sharp,
   upload: {
