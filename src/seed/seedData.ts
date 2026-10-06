@@ -370,26 +370,43 @@ export async function runSeed(payload: Payload) {
     log.push('Users already exist — skipped admin creation')
   }
 
-  const svcCount = await payload.count({ collection: 'services' })
-  if (svcCount.totalDocs === 0) {
-    for (let i = 0; i < services.length; i++) {
-      const s = services[i]
+  let seededSvcCount = 0
+  for (let i = 0; i < services.length; i++) {
+    const s = services[i]
+    const existing = await payload.find({
+      collection: 'services',
+      where: { title: { equals: s.title } },
+      limit: 1,
+    })
+    if (existing.totalDocs === 0) {
       await payload.create({
         collection: 'services',
         data: { title: s.title, summary: s.summary, order: i, subServices: s.subServices.map((name) => ({ name })) },
       })
+      seededSvcCount++
     }
-    log.push(`Seeded ${services.length} services`)
+  }
+  if (seededSvcCount > 0) {
+    log.push(`Seeded ${seededSvcCount} services`)
   } else {
     log.push('Services already exist — skipped')
   }
 
-  const indCount = await payload.count({ collection: 'industries' })
-  if (indCount.totalDocs === 0) {
-    for (let i = 0; i < industries.length; i++) {
-      await payload.create({ collection: 'industries', data: { name: industries[i], order: i } })
+  let seededIndCount = 0
+  for (let i = 0; i < industries.length; i++) {
+    const indName = industries[i]
+    const existing = await payload.find({
+      collection: 'industries',
+      where: { name: { equals: indName } },
+      limit: 1,
+    })
+    if (existing.totalDocs === 0) {
+      await payload.create({ collection: 'industries', data: { name: indName, order: i } })
+      seededIndCount++
     }
-    log.push(`Seeded ${industries.length} industries`)
+  }
+  if (seededIndCount > 0) {
+    log.push(`Seeded ${seededIndCount} industries`)
   } else {
     log.push('Industries already exist — skipped')
   }
@@ -442,6 +459,10 @@ export async function runSeed(payload: Payload) {
         linkedin: 'https://linkedin.com/company/team-eyrie',
         twitter: 'https://twitter.com/teameyrie',
         facebook: 'https://facebook.com/teameyrie',
+      },
+      features: {
+        enableAccessibilityWidget: true,
+        enableChatbot: true,
       },
       enquiryEmail: 'contact@teameyrie.in',
       recruitmentEmail: 'careers@teameyrie.in',

@@ -11,6 +11,34 @@ export const SiteSettings: GlobalConfig = {
     { name: 'logo', type: 'upload', relationTo: 'media' },
     {
       type: 'group',
+      name: 'features',
+      label: 'Interactive Widgets & Features',
+      admin: {
+        description: 'Toggle floating widgets on or off across the website.',
+      },
+      fields: [
+        {
+          name: 'enableAccessibilityWidget',
+          type: 'checkbox',
+          label: 'Enable Accessibility Widget',
+          defaultValue: true,
+          admin: {
+            description: 'Controls the floating accessibility toolbar toggle on the website.',
+          },
+        },
+        {
+          name: 'enableChatbot',
+          type: 'checkbox',
+          label: 'Enable AI Chatbot',
+          defaultValue: true,
+          admin: {
+            description: 'Controls the floating interactive chatbot assistant on the website.',
+          },
+        },
+      ],
+    },
+    {
+      type: 'group',
       name: 'contact',
       fields: [
         { name: 'email', type: 'email' },

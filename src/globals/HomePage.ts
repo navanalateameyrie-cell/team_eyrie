@@ -47,6 +47,7 @@ export const HomePage: GlobalConfig = {
             { name: 'description', type: 'textarea', label: 'Description' },
             { name: 'image', type: 'upload', relationTo: 'media', label: 'Upload Background Image' },
             { name: 'imageUrl', type: 'text', label: 'Or Image Path (e.g. /images/herosection.png)' },
+            { name: 'videoUrl', type: 'text', label: 'Or Video Path (e.g. /videos/ca2.mp4)' },
             { name: 'primaryCtaLabel', type: 'text', label: 'Primary CTA Label' },
             { name: 'primaryCtaLink', type: 'text', label: 'Primary CTA Link' },
             { name: 'secondaryCtaLabel', type: 'text', label: 'Secondary CTA Label' },

@@ -49,7 +49,7 @@ export default function TeamEyrieCaLogo({
   return (
     <div
       className={`brand-logo-wrapper ${className}`}
-      style={{ display: 'inline-flex', alignItems: 'center' }}
+      style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 0 }}
     >
       <img
         src={logoSrc}

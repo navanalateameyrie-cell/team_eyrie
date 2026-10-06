@@ -113,18 +113,20 @@ export default function SiteHeader({
             ))}
             <a
               href="/login"
-              className="top-bar__nav-link"
+              className="top-bar__login-btn"
               style={{
-                background: '#123B6D',
-                color: '#fff',
-                padding: '4px 12px',
+                background: '#F0C04A',
+                color: '#071A3A',
+                padding: '4px 14px',
                 borderRadius: '4px',
-                fontWeight: '600',
-                marginLeft: '8px',
+                fontWeight: '700',
+                fontSize: '12.5px',
+                marginLeft: '10px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(240, 192, 74, 0.3)',
               }}
             >
               Login
@@ -137,7 +139,7 @@ export default function SiteHeader({
       <div className="site-header__brand-row">
         <div className="container site-header__brand-inner">
           <a href="/" className="brand-logo-link" onClick={close} title="Team Eyrie - Chartered Accountants">
-            <TeamEyrieCaLogo height={48} customLogoUrl={logoUrl} />
+            <TeamEyrieCaLogo height={34} customLogoUrl={logoUrl} />
           </a>
 
           {/* Mobile Right Controls: Login + Hamburger */}

@@ -392,14 +392,18 @@ a.card:hover {
   margin-bottom: 0.4em;
 }
 
-/* ---- header ---- */
+/* ---- header (Placed directly OVER the hero section) ---- */
 .site-header {
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
-  background: #ffffff;
-  border-bottom: 1px solid var(--line);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+  pointer-events: auto;
 }
 
 .site-header .container,
@@ -408,12 +412,15 @@ a.card:hover {
   padding: 0 clamp(14px, 1.5vw, 24px);
 }
 
-/* Top Strip Header */
+/* Top Strip Header — Over Hero Canvas */
 .site-header__top {
-  background: #ffffff;
-  border-bottom: 1px solid #edf2f7;
-  padding: 9px 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 0;
   font-size: 13px;
+  color: #e2e8f0;
 }
 
 .site-header__top-inner {
@@ -434,7 +441,7 @@ a.card:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #526071;
+  color: #cbd5e1;
   font-size: 13.5px;
   font-weight: 500;
   text-decoration: none;
@@ -442,7 +449,7 @@ a.card:hover {
 }
 
 .top-bar__link:hover {
-  color: #123B6D;
+  color: #38bdf8;
   text-decoration: none;
 }
 
@@ -451,8 +458,8 @@ a.card:hover {
   height: 15px !important;
   max-width: 15px !important;
   max-height: 15px !important;
-  color: #123B6D !important;
-  stroke: #123B6D !important;
+  color: #38bdf8 !important;
+  stroke: #38bdf8 !important;
   flex-shrink: 0 !important;
   display: inline-block;
   vertical-align: middle;
@@ -466,7 +473,7 @@ a.card:hover {
 }
 
 .top-bar__pipe {
-  color: #cbd5e1;
+  color: rgba(255, 255, 255, 0.22);
   font-size: 12px;
   font-weight: 300;
   margin: 0 10px;
@@ -474,7 +481,7 @@ a.card:hover {
 }
 
 .top-bar__nav-link {
-  color: #526071;
+  color: #cbd5e1;
   font-size: 13.5px;
   font-weight: 500;
   text-decoration: none;
@@ -482,12 +489,12 @@ a.card:hover {
 }
 
 .top-bar__nav-link:hover {
-  color: #123B6D;
+  color: #38bdf8;
   text-decoration: none;
 }
 
 .top-bar__nav-link--active {
-  color: #123B6D;
+  color: #F0C04A;
   font-weight: 600;
 }
 
@@ -504,30 +511,36 @@ a.card:hover {
   border: 0;
 }
 
-/* Brand Row & Inline Navigation */
+/* Brand Row & Inline Navigation — Placed directly over Hero Canvas (Image 3) */
 .site-header__brand-row {
-  padding: 14px 0;
-  background: #ffffff;
-  border-bottom: 2px solid #e2e8f0;
+  padding: 8px 0;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .site-header__brand-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 28px;
+  gap: 24px;
 }
 
 .brand-logo-link {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  background: #ffffff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  transition: opacity 0.2s ease, transform 0.2s ease;
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .brand-logo-link:hover {
-  opacity: 0.94;
+  opacity: 0.95;
+  transform: translateY(-1px);
 }
 
 /* Main Navigation Menu Bar */
@@ -546,7 +559,7 @@ a.card:hover {
 }
 
 .main-menu__pipe {
-  color: #cbd5e1;
+  color: rgba(255, 255, 255, 0.25);
   font-weight: 300;
   font-size: 14px;
   margin: 0 12px;
@@ -561,7 +574,7 @@ a.card:hover {
 
 .main-menu__link {
   font-family: var(--font-heading);
-  color: #071A3A;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 600;
   padding: 6px 2px;
@@ -588,7 +601,7 @@ a.card:hover {
 }
 
 .main-menu__link:hover {
-  color: #123B6D;
+  color: #F0C04A;
   text-decoration: none;
 }
 
@@ -598,7 +611,7 @@ a.card:hover {
 }
 
 .main-menu__link--active {
-  color: #123B6D !important;
+  color: #F0C04A !important;
   font-weight: 700;
 }
 
@@ -710,16 +723,37 @@ a.card:hover {
 
 /* ---- responsive ---- */
 @media (max-width: 860px) {
+  .site-header {
+    position: relative;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+  }
+
   .site-header__top {
     display: none !important;
   }
 
   .site-header__brand-row {
     padding: 10px 0;
+    background: #ffffff;
+    border-bottom: none;
   }
 
   .site-header__brand-inner {
     position: relative;
+  }
+
+  .brand-logo-link {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .brand-logo-link img {
+    height: 32px !important;
   }
 
   .site-header__mobile-controls {
@@ -729,20 +763,45 @@ a.card:hover {
   }
 
   .site-header__mobile-login {
-    background: #123B6D;
-    color: #ffffff !important;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12.5px;
+    background: #F0C04A;
+    color: #071A3A !important;
+    padding: 0 14px;
+    height: 34px;
+    border-radius: 4px;
+    font-size: 11.5px;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 6px rgba(240, 192, 74, 0.25);
+    transition: all 0.2s ease;
+  }
+
+  .site-header__mobile-login:hover {
+    background: #e5b338;
   }
 
   .hamburger {
     display: inline-flex;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+    color: #071A3A;
+    box-shadow: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .hamburger:hover {
+    background: #e2e8f0;
   }
 
   .brand-tagline {
@@ -904,6 +963,503 @@ a.card:hover {
   }
 }
 
+/* ==========================================================================
+   HERO CREATIVE FULL-BACKGROUND LAYOUT (Header Overlaid, Natural Colors)
+   ========================================================================== */
+
+.hero-creative-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0b0f19;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: clamp(118px, 10vw, 145px);
+  padding-bottom: 60px;
+  box-sizing: border-box;
+}
+
+/* Full-bleed background image & video */
+.hero-creative-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-creative-bg__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1), transform 6s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  filter: brightness(1.18) contrast(1.04) saturate(1.06);
+}
+
+.hero-creative-bg__slide--active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.hero-creative-bg__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(1.18) contrast(1.04) saturate(1.06);
+}
+
+/* Light, luminous soft overlays for high brightness and clear text legibility */
+.hero-creative-bg__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      rgba(7, 16, 32, 0.46) 0%,
+      rgba(7, 16, 32, 0.32) 36%,
+      rgba(7, 16, 32, 0.1) 60%,
+      transparent 82%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hero-creative-bg__overlay-radial {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(7, 16, 32, 0.28) 0%,
+      rgba(7, 16, 32, 0.1) 16%,
+      transparent 32%,
+      transparent 100%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Left Overlaid Content Container (No Cards) */
+.hero-creative-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.hero-creative-content {
+  max-width: 660px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: heroFadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Eyebrow Header */
+.hero-creative-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #F0C04A;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.hero-creative-eyebrow__line {
+  display: inline-block;
+  width: 36px;
+  height: 2px;
+  border-radius: 2px;
+  background: #F0C04A;
+}
+
+/* Main Headline */
+.hero-creative-title {
+  font-family: var(--font-heading, "Montserrat", sans-serif);
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 600;
+  line-height: 1.18;
+  color: #ffffff;
+  margin: 0 0 20px;
+  letter-spacing: -0.3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.hero-creative-title__main {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.hero-creative-title__accent {
+  color: #F0C04A;
+  font-weight: 600;
+  display: block;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* Description */
+.hero-creative-desc {
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 400;
+  margin: 0 0 32px;
+  max-width: 580px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+
+/* Action Buttons */
+.hero-creative-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.hero-creative-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.hero-creative-btn--primary {
+  background-color: #F0C04A;
+  color: #071A3A;
+  border: 1.5px solid #F0C04A;
+  box-shadow: 0 4px 14px rgba(240, 192, 74, 0.4);
+}
+
+.hero-creative-btn--primary:hover {
+  background-color: #e5b338;
+  border-color: #e5b338;
+  color: #071A3A;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(240, 192, 74, 0.55);
+}
+
+.hero-creative-btn--secondary {
+  background-color: rgba(7, 26, 58, 0.52);
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.hero-creative-btn--secondary:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #071A3A;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Slide Indicators / Numbers (Nangia & Co Style) */
+.hero-creative-indicators {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.hero-creative-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: var(--font-heading, "Montserrat", sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.25s ease;
+}
+
+.hero-creative-indicator__line {
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+  transition: all 0.25s ease;
+}
+
+.hero-creative-indicator--active {
+  color: #F0C04A;
+}
+
+.hero-creative-indicator--active .hero-creative-indicator__line {
+  width: 36px;
+  background: #F0C04A;
+}
+
+@media (max-width: 900px) {
+  .hero-creative-section {
+    min-height: calc(100svh - 58px);
+    min-height: calc(100vh - 58px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 36px;
+    padding-bottom: 48px;
+    box-sizing: border-box;
+  }
+
+  .hero-creative-container {
+    width: 100%;
+  }
+
+  .hero-creative-curves {
+    display: none;
+  }
+
+  /* Full uniform dark tint across portrait viewport for consistent readability */
+  .hero-creative-bg__overlay {
+    background: linear-gradient(180deg,
+        rgba(5, 12, 26, 0.76) 0%,
+        rgba(7, 16, 32, 0.54) 32%,
+        rgba(7, 16, 32, 0.8) 100%);
+  }
+
+  .hero-creative-bg__overlay-radial {
+    background: linear-gradient(180deg,
+        rgba(7, 16, 32, 0.35) 0%,
+        transparent 28%,
+        transparent 100%);
+  }
+
+  .hero-creative-content {
+    max-width: 100%;
+  }
+
+  /* Nangia & Co clean uppercase unboxed eyebrow */
+  .hero-creative-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #F0C04A;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    margin-bottom: 14px;
+    line-height: 1.35;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-creative-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 2px;
+    background: #F0C04A;
+    margin-right: 8px;
+  }
+
+  .hero-creative-eyebrow__line {
+    display: none !important;
+  }
+
+  .hero-creative-title {
+    font-size: clamp(25px, 6.2vw, 36px);
+    font-weight: 700;
+    line-height: 1.22;
+    margin-bottom: 14px;
+    letter-spacing: -0.3px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-creative-title__main {
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .hero-creative-title__accent {
+    display: block;
+    color: #F0C04A;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-creative-desc {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 520px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Nangia & Co clean executive action buttons */
+  .hero-creative-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hero-creative-btn {
+    height: 42px;
+    padding: 0 20px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    width: fit-content;
+    gap: 8px;
+  }
+
+  .hero-creative-btn--secondary {
+    background: rgba(7, 26, 58, 0.45);
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-creative-section {
+    padding-top: 28px;
+    padding-bottom: 40px;
+  }
+
+  .hero-creative-eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 1.3px;
+    margin-bottom: 12px;
+  }
+
+  .hero-creative-title {
+    font-size: clamp(23px, 6.6vw, 29px);
+    line-height: 1.22;
+    margin-bottom: 12px;
+  }
+
+  .hero-creative-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-bottom: 22px;
+  }
+
+  .hero-creative-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .hero-creative-btn {
+    width: auto;
+    height: 40px;
+    padding: 0 18px;
+    font-size: 12px;
+    border-radius: 4px;
+    letter-spacing: 0.4px;
+  }
+
+  .hero-creative-btn--primary {
+    background-color: #F0C04A;
+    color: #071A3A;
+    border: 1px solid #F0C04A;
+    box-shadow: 0 3px 12px rgba(240, 192, 74, 0.35);
+  }
+
+  .hero-creative-btn--secondary {
+    background: rgba(7, 26, 58, 0.45);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-creative-indicators {
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .hero-creative-indicator {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .hero-creative-indicator__line {
+    width: 16px;
+  }
+
+  .hero-creative-indicator--active .hero-creative-indicator__line {
+    width: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header__brand-row {
+    padding: 8px 0;
+  }
+
+  .brand-logo-link {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .brand-logo-link img {
+    height: 30px !important;
+  }
+
+  .site-header__mobile-login {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .hamburger {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+  }
+}
+
+
 /* ---- Hero Banner with Image Backgrounds & Half-Dark to Light Transition ---- */
 .hero-section {
   position: relative;
@@ -944,6 +1500,17 @@ a.card:hover {
   opacity: 1;
   transform: scale(1);
   z-index: 2;
+}
+
+.hero-section__bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
 }
 
 @keyframes heroFadeUp {
@@ -2288,7 +2855,7 @@ a.card:hover {
   align-items: center;
   overflow: hidden;
   background: #0d1e38;
-  padding: 120px 0 100px;
+  padding: 150px 0 90px;
 }
 
 .page-hero-bg {

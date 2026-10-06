@@ -200,6 +200,11 @@ export function AccessibilityWidget({
   useEffect(() => {
     setIsMounted(true)
     try {
+      if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+        // Keep docked to bottom-left on mobile screens
+        setBtnPos(null)
+        return
+      }
       const saved = localStorage.getItem('a11y-btn-pos')
       if (saved && typeof window !== 'undefined') {
         const parsed = JSON.parse(saved)
@@ -395,16 +400,17 @@ export function AccessibilityWidget({
   }, [state.readingMask, state.readingGuide, state.textMagnifier])
 
   // Compute inline position styles for launcher button (with free drag coordinates)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
   const triggerStyle: React.CSSProperties = {
     zIndex: 99999,
     backgroundColor: primaryColor,
     color: '#ffffff',
-    ...(btnPos
+    ...(btnPos && !isMobile
       ? { left: `${btnPos.x}px`, top: `${btnPos.y}px`, bottom: 'auto', right: 'auto' }
       : {
-        bottom: position.includes('bottom') ? `${offsetBottom}px` : undefined,
+        bottom: position.includes('bottom') ? `${isMobile ? 20 : offsetBottom}px` : undefined,
         top: position.includes('top') ? `${offsetTop}px` : undefined,
-        left: position.includes('left') ? `${offsetLeft}px` : undefined,
+        left: position.includes('left') ? `${isMobile ? 16 : offsetLeft}px` : undefined,
         right: position.includes('right') ? `${offsetRight}px` : undefined,
       }),
   }

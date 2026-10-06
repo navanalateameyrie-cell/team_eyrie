@@ -339,6 +339,7 @@ export default async function HomePage() {
             title: s.title || '',
             description: s.description || '',
             image: img,
+            video: s.videoUrl || (img && (img.endsWith('.mp4') || img.endsWith('.mov') || img.endsWith('.webm')) ? img : undefined),
             primaryCta: { label: s.primaryCtaLabel || 'Explore Advisory', href: s.primaryCtaLink || '/services' },
             secondaryCta: { label: s.secondaryCtaLabel || 'Contact Us', href: s.secondaryCtaLink || '/contact' },
           }

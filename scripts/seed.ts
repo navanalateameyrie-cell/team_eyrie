@@ -1,5 +1,5 @@
 import { getPayload } from 'payload'
-import config from '../src/payload.config'
+import config from '@payload-config'
 import { runSeed } from '../src/seed/seedData'
 
 const run = async () => {

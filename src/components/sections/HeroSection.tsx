@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export interface HeroSlide {
   id: string
@@ -10,6 +10,7 @@ export interface HeroSlide {
   title: string
   description: string
   image: string
+  video?: string
   primaryCta: { label: string; href: string }
   secondaryCta: { label: string; href: string }
 }
@@ -18,50 +19,51 @@ export const defaultHeroSlides: HeroSlide[] = [
   {
     id: 'slide-1',
     num: '01',
-    badge: 'Integrated Network',
-    tagline: 'Strategic Guidance & Cross-Border Advisory',
-    title: 'Professional Corporate Advisory',
-    description:
-      'End-to-end counsel for corporate restructuring, international joint ventures, market entry strategies, direct taxation, and regulatory representation across India.',
-    image: '/images/herosection.png',
-    primaryCta: { label: 'Explore Advisory', href: '/services' },
-    secondaryCta: { label: 'Contact Us', href: '/contact' },
-  },
-  {
-    id: 'slide-2',
-    num: '02',
-    badge: 'National Alliance',
-    tagline: 'Strategic Alliance of Three Reputed CA Partnerships',
-    title: 'Together, We Create Value. Together, We Build Trust.',
-    description:
-      'A united national network of Chartered Accountants, Company Secretaries, Legal Counsel, and Valuation Specialists delivering institutional excellence.',
-    image: '/images/Aboutus.png',
-    primaryCta: { label: 'About Team Eyrie', href: '/about' },
-    secondaryCta: { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
-  },
-  {
-    id: 'slide-3',
-    num: '03',
-    badge: 'The Eyrie Advantage',
-    tagline: 'Precision Assurance & Multi-Disciplinary Practice',
-    title: 'Integrated Multi-Disciplinary Excellence',
-    description:
-      'Seamless coordination across direct tax litigation, high-volume statutory audits, transfer pricing, and corporate governance for high-growth enterprises.',
-    image: '/images/Why.png',
-    primaryCta: { label: 'Our Capabilities', href: '/why-team-eyrie' },
-    secondaryCta: { label: 'PAN-India Reach', href: '/presence' },
-  },
-  {
-    id: 'slide-4',
-    num: '04',
     badge: 'Industry Practice',
     tagline: 'Sector-Specific Advisory & Enterprise Growth',
     title: 'Tailored Solutions for 17+ Core Sectors',
     description:
       'Specialized advisory tailored for Manufacturing, BFSI, Healthcare, Technology, Logistics, Startups, MSMEs, and Large Commercial Conglomerates.',
+    image: '/images/herosection.png',
+    video: '/videos/ca2.mp4',
+    primaryCta: { label: 'Schedule Consultation', href: '/contact' },
+    secondaryCta: { label: 'Explore Services', href: '/services' },
+  },
+  {
+    id: 'slide-2',
+    num: '02',
+    badge: 'Integrated Network',
+    tagline: 'Strategic Guidance & Cross-Border Advisory',
+    title: 'Professional Corporate Strategic Advisory',
+    description:
+      'End-to-end counsel for corporate restructuring, international joint ventures, market entry strategies, direct taxation, and regulatory representation across India.',
+    image: '/images/Aboutus.png',
+    primaryCta: { label: 'Explore Advisory', href: '/services' },
+    secondaryCta: { label: 'Contact Us', href: '/contact' },
+  },
+  {
+    id: 'slide-3',
+    num: '03',
+    badge: 'National Alliance',
+    tagline: 'Strategic Alliance of Three Reputed CA Partnerships',
+    title: 'Together, We Create Value. Together, We Build Trust.',
+    description:
+      'A united national network of Chartered Accountants, Company Secretaries, Legal Counsel, and Valuation Specialists delivering institutional excellence.',
+    image: '/images/Why.png',
+    primaryCta: { label: 'About Team Eyrie', href: '/about' },
+    secondaryCta: { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
+  },
+  {
+    id: 'slide-4',
+    num: '04',
+    badge: 'The Eyrie Advantage',
+    tagline: 'Precision Assurance & Multi-Disciplinary Practice',
+    title: 'Integrated Multi-Disciplinary Assurance Excellence',
+    description:
+      'Seamless coordination across direct tax litigation, high-volume statutory audits, transfer pricing, and corporate governance for high-growth enterprises.',
     image: '/images/industries.png',
-    primaryCta: { label: 'Industry Sectors', href: '/industries' },
-    secondaryCta: { label: 'Consult Our Team', href: '/contact' },
+    primaryCta: { label: 'Our Capabilities', href: '/why-team-eyrie' },
+    secondaryCta: { label: 'PAN-India Reach', href: '/presence' },
   },
 ]
 
@@ -105,8 +107,49 @@ interface HeroProps {
   allianceFirms?: AllianceFirm[]
 }
 
+function renderHeadline(title: string) {
+  if (!title) return null
+
+  // If title has "for ", split there
+  if (title.includes(' for ')) {
+    const [before, after] = title.split(' for ')
+    return (
+      <>
+        <span className="hero-creative-title__main">{before} for </span>
+        <span className="hero-creative-title__accent">{after}</span>
+      </>
+    )
+  }
+
+  // If title has a period, split there
+  if (title.includes('.')) {
+    const parts = title.split('.')
+    return (
+      <>
+        <span className="hero-creative-title__main">{parts[0]}. </span>
+        <span className="hero-creative-title__accent">{parts.slice(1).join('.').trim()}</span>
+      </>
+    )
+  }
+
+  // If title has 3+ words, highlight the last 2 words
+  const words = title.trim().split(' ')
+  if (words.length > 2) {
+    const main = words.slice(0, words.length - 2).join(' ')
+    const accent = words.slice(words.length - 2).join(' ')
+    return (
+      <>
+        <span className="hero-creative-title__main">{main} </span>
+        <span className="hero-creative-title__accent">{accent}</span>
+      </>
+    )
+  }
+
+  return <>{title}</>
+}
+
 export default function HeroSection({
-  eyebrow = "India's Integrated Professional Services Network",
+  eyebrow = 'TRUSTED CHARTERED ACCOUNTANTS',
   headline = 'TEAM EYRIE',
   subheadline = 'Together, We Create Value. Together, We Build Trust.',
   primaryCtaLabel,
@@ -114,7 +157,6 @@ export default function HeroSection({
   slides = defaultHeroSlides,
   allianceFirms = defaultAllianceFirms,
 }: HeroProps) {
-  // Enforce max 4 slides rule: exactly / up to 4 slides allowed
   const activeSlides = (slides && slides.length > 0 ? slides : defaultHeroSlides).slice(0, MAX_HERO_SLIDES)
   const [activeIndex, setActiveIndex] = useState(0)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
@@ -133,7 +175,7 @@ export default function HeroSection({
     setActiveIndex(idx)
   }
 
-  // Automatic continuous background image rotation based on timer (does not stop on hover)
+  // Auto rotate every 6s
   useEffect(() => {
     if (slideCount <= 1) return
     const timer = setInterval(() => {
@@ -163,90 +205,116 @@ export default function HeroSection({
 
   return (
     <section
-      className="hero-section"
+      className="hero-creative-section"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      aria-label="Featured Capabilities Carousel"
+      aria-label="Hero Section"
     >
-      {/* Background Image Carousel Track with Smooth Fade & Subtle Zoom */}
-      <div className="hero-section__bg-wrapper">
+      {/* Full-bleed background image & video carousel */}
+      <div className="hero-creative-bg">
         {activeSlides.map((slide, idx) => {
           const isActive = idx === activeIndex
+          const isVideo = Boolean(
+            slide.video ||
+            slide.image?.endsWith('.mp4') ||
+            slide.image?.endsWith('.mov') ||
+            slide.image?.endsWith('.webm')
+          )
+          const videoSrc = slide.video || (isVideo ? slide.image : undefined)
+
           return (
             <div
               key={slide.id}
-              className={`hero-section__bg-slide ${isActive ? 'hero-section__bg-slide--active' : ''}`}
-              style={{ backgroundImage: `url(${slide.image})` }}
+              className={`hero-creative-bg__slide ${isActive ? 'hero-creative-bg__slide--active' : ''}`}
+              style={isVideo ? undefined : { backgroundImage: `url(${slide.image})` }}
               aria-hidden={!isActive}
-            />
+            >
+              {isVideo && videoSrc && (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  poster={slide.image && !slide.image.endsWith('.mp4') && !slide.image.endsWith('.mov') ? slide.image : undefined}
+                  className="hero-creative-bg__video"
+                >
+                  <source src={videoSrc} type={videoSrc.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
+                  {videoSrc.endsWith('.mov') && <source src="/videos/ca2.mp4" type="video/mp4" />}
+                </video>
+              )}
+            </div>
           )
         })}
-        {/* Transparent Gradient Overlays for High Legibility and Rich Contrast */}
-        <div className="hero-section__overlay" />
-        <div className="hero-section__overlay-radial" />
+
+        {/* Clean Natural Dark Overlay for High Text Legibility */}
+        <div className="hero-creative-bg__overlay" />
+        <div className="hero-creative-bg__overlay-radial" />
       </div>
 
-      {/* Main Content Layout Container */}
-      <div className="container hero-section__container">
-        {/* Main Content Row: Indicators + Hero Information Card */}
-        <div className="hero-section__main-row">
-          {/* VERTICAL SLIDE PROGRESS INDICATORS (Left Side) */}
-          <div className="hero-vertical-indicators" aria-label="Slide Selection">
-            {activeSlides.map((slide, idx) => {
-              const isActive = idx === activeIndex
-              return (
-                <button
-                  key={slide.id}
-                  type="button"
-                  onClick={() => goToSlide(idx)}
-                  className={`hero-vertical-indicator ${isActive ? 'hero-vertical-indicator--active' : ''}`}
-                  aria-label={`Go to slide ${idx + 1}: ${slide.title}`}
-                >
-                  <span className="hero-vertical-indicator__line" />
-                </button>
-              )
-            })}
+      {/* Main Content Layout Container: Overlaid Text on Left Side (No Cards) */}
+      <div className="container hero-creative-container">
+        <div className="hero-creative-content" key={activeSlide.id}>
+          {/* Eyebrow */}
+          <div className="hero-creative-eyebrow">
+            <span>{eyebrow}</span>
           </div>
 
-          {/* LEFT CORNER: Translucent / Transparent Frosted-Glass Hero Information Card */}
-          <div className="hero-section__left-col">
-            <div className="hero-glass-card" key={activeSlide.id}>
-              {/* Animated Headline & Subtitle */}
-              <h1 className="hero-glass-card__title">{activeSlide.title}</h1>
-              <p className="hero-glass-card__tagline">{activeSlide.tagline}</p>
-              <p className="hero-glass-card__desc">{activeSlide.description}</p>
+          {/* Prominent White Headline with Accent Highlight */}
+          <h1 className="hero-creative-title">
+            {renderHeadline(activeSlide.title)}
+          </h1>
 
-              {/* Action Buttons */}
-              <div className="hero-glass-card__actions">
-                <a
-                  href={primaryCtaLink || activeSlide.primaryCta.href}
-                  className="hero-btn hero-btn--gold"
-                >
-                  <span>{primaryCtaLabel || activeSlide.primaryCta.label}</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="hero-btn__icon"
+          {/* High Contrast Clean Description */}
+          <p className="hero-creative-desc">
+            {activeSlide.description}
+          </p>
+
+          {/* Action Buttons */}
+          <div className="hero-creative-actions">
+            <a
+              href={primaryCtaLink || activeSlide.primaryCta.href}
+              className="hero-creative-btn hero-creative-btn--primary"
+            >
+              <span>{primaryCtaLabel || activeSlide.primaryCta.label || 'Schedule Consultation'}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+
+            <a
+              href={activeSlide.secondaryCta.href || '/services'}
+              className="hero-creative-btn hero-creative-btn--secondary"
+            >
+              <span>{activeSlide.secondaryCta.label || 'Explore Services'}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Slide Indicators / Numbers (Nangia & Co Style) */}
+          {activeSlides.length > 1 && (
+            <div className="hero-creative-indicators" aria-label="Slide Selection">
+              {activeSlides.map((slide, idx) => {
+                const isActive = idx === activeIndex
+                return (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    onClick={() => goToSlide(idx)}
+                    className={`hero-creative-indicator ${isActive ? 'hero-creative-indicator--active' : ''}`}
+                    aria-label={`Go to slide ${idx + 1}`}
                   >
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </a>
-                <a
-                  href={activeSlide.secondaryCta.href}
-                  className="hero-btn hero-btn--outline"
-                >
-                  {activeSlide.secondaryCta.label}
-                </a>
-              </div>
+                    <span className="hero-creative-indicator__num">{String(idx + 1).padStart(2, '0')}</span>
+                    <span className="hero-creative-indicator__line" />
+                  </button>
+                )
+              })}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

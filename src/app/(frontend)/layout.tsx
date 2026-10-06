@@ -2,11 +2,9 @@ import React from 'react'
 import type { Metadata } from 'next'
 import './globals.css'
 import CookieConsent from '@/components/ui/CookieConsent'
-import AccessibilityWidget from '@/components/accessibility'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import SmoothScroll from '@/components/ui/SmoothScroll'
-import { SiteHeaderServer, SiteFooter } from '@/components/layout/SiteChrome'
-import Chatbot from '@/components/chatbot/Chatbot'
+import { SiteHeaderServer, SiteFooter, SiteWidgetsServer } from '@/components/layout/SiteChrome'
 
 const siteUrl = (
   process.env.NEXT_PUBLIC_SERVER_URL ||
@@ -37,8 +35,7 @@ export default function RootLayout({
         {children}
         <SiteFooter />
         <CookieConsent />
-        <AccessibilityWidget position="bottom-left" />
-        <Chatbot />
+        <SiteWidgetsServer />
       </body>
     </html>
   )

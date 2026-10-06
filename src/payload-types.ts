@@ -1208,6 +1208,10 @@ export interface SiteSetting {
   organizationName?: string | null;
   tagline?: string | null;
   logo?: (number | null) | Media;
+  features?: {
+    enableAccessibilityWidget?: boolean | null;
+    enableChatbot?: boolean | null;
+  };
   contact?: {
     email?: string | null;
     phone?: string | null;
@@ -1375,6 +1379,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   organizationName?: T;
   tagline?: T;
   logo?: T;
+  features?:
+    | T
+    | {
+        enableAccessibilityWidget?: T;
+        enableChatbot?: T;
+      };
   contact?:
     | T
     | {

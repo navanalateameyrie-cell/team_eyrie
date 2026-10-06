@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import SiteHeader from './SiteHeader'
 import TeamEyrieCaLogo from '@/components/ui/TeamEyrieCaLogo'
+import AccessibilityWidget from '@/components/accessibility'
+import Chatbot from '@/components/chatbot/Chatbot'
 
 type Office = {
   city: string
@@ -29,6 +31,19 @@ const getChromeData = cache(async () => {
     return { services: [], offices: [] as Office[], settings: null }
   }
 })
+
+export async function SiteWidgetsServer() {
+  const { settings } = await getChromeData()
+  const showAccessibility = (settings as any)?.features?.enableAccessibilityWidget ?? true
+  const showChatbot = (settings as any)?.features?.enableChatbot ?? true
+
+  return (
+    <>
+      {showAccessibility && <AccessibilityWidget position="bottom-left" />}
+      {showChatbot && <Chatbot />}
+    </>
+  )
+}
 
 export async function SiteHeaderServer() {
   const { services, settings } = await getChromeData()
