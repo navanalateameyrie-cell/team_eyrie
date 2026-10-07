@@ -295,7 +295,7 @@ export default function HeroSection({
             </a>
           </div>
 
-          {/* Slide Indicators / Numbers (Nangia & Co Style) */}
+          {/* Slide Indicators / Lines */}
           {activeSlides.length > 1 && (
             <div className="hero-creative-indicators" aria-label="Slide Selection">
               {activeSlides.map((slide, idx) => {
@@ -308,7 +308,6 @@ export default function HeroSection({
                     className={`hero-creative-indicator ${isActive ? 'hero-creative-indicator--active' : ''}`}
                     aria-label={`Go to slide ${idx + 1}`}
                   >
-                    <span className="hero-creative-indicator__num">{String(idx + 1).padStart(2, '0')}</span>
                     <span className="hero-creative-indicator__line" />
                   </button>
                 )

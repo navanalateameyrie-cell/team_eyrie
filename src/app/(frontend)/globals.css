@@ -649,14 +649,14 @@ a.card:hover {
 /* ---- footer ---- */
 .site-footer {
   position: relative;
-  background-color: #0b1324;
+  background-color: #16243d;
   background-image:
-    linear-gradient(135deg, rgba(11, 19, 36, 0.93) 0%, rgba(15, 23, 42, 0.84) 50%, rgba(11, 19, 36, 0.94) 100%),
+    linear-gradient(135deg, rgba(18, 32, 58, 0.82) 0%, rgba(24, 42, 74, 0.74) 50%, rgba(18, 32, 58, 0.84) 100%),
     url('/images/footer.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   padding: 48px 0 24px;
   font-size: 14px;
   border-top: 3px solid #F0C04A;
@@ -1178,46 +1178,42 @@ a.card:hover {
   box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Slide Indicators / Numbers (Nangia & Co Style) */
+/* Slide Indicators / Lines */
 .hero-creative-indicators {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: 6px;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .hero-creative-indicator {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
   background: transparent;
   border: none;
-  padding: 6px 0;
+  padding: 8px 0;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.55);
-  font-family: var(--font-heading, "Montserrat", sans-serif);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
   transition: all 0.25s ease;
 }
 
 .hero-creative-indicator__line {
   display: inline-block;
-  width: 20px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 1px;
-  transition: all 0.25s ease;
+  width: 32px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hero-creative-indicator--active {
-  color: #F0C04A;
+.hero-creative-indicator:hover .hero-creative-indicator__line {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .hero-creative-indicator--active .hero-creative-indicator__line {
-  width: 36px;
+  width: 52px;
   background: #F0C04A;
+  box-shadow: 0 0 10px rgba(240, 192, 74, 0.55);
 }
 
 @media (max-width: 900px) {
@@ -1412,21 +1408,21 @@ a.card:hover {
   }
 
   .hero-creative-indicators {
-    gap: 10px;
-    margin-top: 6px;
+    gap: 8px;
+    margin-top: 8px;
   }
 
   .hero-creative-indicator {
-    font-size: 11px;
-    gap: 6px;
+    padding: 6px 0;
   }
 
   .hero-creative-indicator__line {
-    width: 16px;
+    width: 24px;
+    height: 3px;
   }
 
   .hero-creative-indicator--active .hero-creative-indicator__line {
-    width: 28px;
+    width: 38px;
   }
 }
 
