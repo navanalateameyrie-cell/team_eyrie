@@ -1298,6 +1298,7 @@ export interface HomePage {
     subheading?: string | null;
     items?:
       | {
+          showOnHome?: boolean | null;
           tag?: string | null;
           title: string;
           description: string;
@@ -1469,6 +1470,7 @@ export interface HomePageSelect<T extends boolean = true> {
         items?:
           | T
           | {
+              showOnHome?: T;
               tag?: T;
               title?: T;
               description?: T;

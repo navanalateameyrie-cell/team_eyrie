@@ -500,6 +500,104 @@ export async function runSeed(payload: Payload) {
           { title: 'Sustain', description: 'We stay engaged to support growth and ongoing compliance.' },
         ],
       },
+      whyEyrie: {
+        tagline: 'The Team Eyrie Advantage',
+        heading: 'Why Team Eyrie?',
+        subheading:
+          'A single umbrella combining senior leadership, multidisciplinary intelligence, and technology-assisted execution.',
+        items: [
+          {
+            showOnHome: true,
+            tag: 'Synergy',
+            title: 'Collective Intelligence',
+            description:
+              'A powerful alliance of senior Chartered Accountants and multidisciplinary specialists delivering unified, high-impact solutions across all financial and regulatory domains.',
+            imageUrl: '/images/indian-ca-boardroom.png',
+            link: '/why-team-eyrie',
+            linkLabel: 'Explore Network Advantage',
+            bullets: [
+              { text: 'Multi-firm advisory integration under one umbrella' },
+              { text: '20+ senior partners with decades of combined practice' },
+              { text: 'Cross-disciplinary counsel spanning tax, audit & legal' },
+            ],
+          },
+          {
+            showOnHome: true,
+            tag: 'National Reach',
+            title: 'Strong PAN-India Presence',
+            description:
+              'Strategically positioned across India’s premier financial and industrial corridors, offering clients seamless local accessibility backed by national institutional scale.',
+            imageUrl: '/images/indian-business-bkc.png',
+            link: '/presence',
+            linkLabel: 'View Our Pan-India Offices',
+            bullets: [
+              { text: 'Hub offices in New Delhi, Chennai, Bengaluru & Salem' },
+              { text: 'Pan-India execution across major metro & tier-2 circuits' },
+              { text: 'Unified service quality standards nationwide' },
+            ],
+          },
+          {
+            showOnHome: true,
+            tag: 'Domain Depth',
+            title: 'Specialised Sector Expertise',
+            description:
+              'Deep technical knowledge and hands-on advisory tailored across 17+ core industries, navigating complex regulatory shifts and industry-specific mandates.',
+            imageUrl: '/images/industries.png',
+            link: '/industries',
+            linkLabel: 'Discover 17+ Sectors',
+            bullets: [
+              { text: 'Dedicated vertical practice heads for each sector' },
+              { text: 'Established regulatory precedent and NCLT/ITAT insights' },
+              { text: 'Customized enterprise frameworks for MSMEs to conglomerates' },
+            ],
+          },
+          {
+            showOnHome: true,
+            tag: 'Innovation',
+            title: 'Technology-Driven Delivery',
+            description:
+              'Harnessing digital audit platforms, secure client collaboration portals, AI-assisted data analytics, and automated tax compliance for precision and speed.',
+            imageUrl: '/images/services.png',
+            link: '/services',
+            linkLabel: 'Explore Tech-Enabled Services',
+            bullets: [
+              { text: 'Automated compliance tracking and audit trail verifications' },
+              { text: 'Secure, encrypted document exchange & client portals' },
+              { text: 'Data-driven financial modelling & Virtual CFO systems' },
+            ],
+          },
+          {
+            showOnHome: true,
+            tag: 'Integrity & Trust',
+            title: 'Client-Centric Philosophy',
+            description:
+              'Built upon an uncompromising foundation of professional ethics, direct partner involvement, transparency, and long-term partnership with every client.',
+            imageUrl: '/images/indian-advisory-team.png',
+            link: '/about',
+            linkLabel: 'Read Our Governance Principles',
+            bullets: [
+              { text: 'Direct, hands-on involvement of senior founding partners' },
+              { text: 'Proactive risk mitigation and compliance foresight' },
+              { text: 'Clear, transparent communication with measurable results' },
+            ],
+          },
+          {
+            showOnHome: true,
+            tag: 'Global Reach',
+            title: 'Global Business Perspective',
+            description:
+              'Guiding enterprises, startups, and NRI investors through cross-border structuring, foreign direct investments (FDI), transfer pricing, and overseas expansion.',
+            imageUrl: '/images/Why.png',
+            link: '/services#global-business',
+            linkLabel: 'Explore Cross-Border Advisory',
+            bullets: [
+              { text: 'Cross-border M&A, JV structuring, and FDI compliance' },
+              { text: 'Comprehensive FEMA, RBI, and international tax planning' },
+              { text: 'Dedicated NRI taxation, repatriation, and estate governance' },
+            ],
+          },
+        ],
+      },
     },
   })
   log.push('Updated home page content')
