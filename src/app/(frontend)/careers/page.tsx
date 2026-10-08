@@ -221,7 +221,7 @@ export default async function CareersPage() {
                       transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
                     }}
                   >
-                    <div style={{ flex: '1 1 500px' }}>
+                    <div style={{ flex: '1 1 500px', minWidth: 'min(100%, 260px)' }}>
                       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                         <span
                           style={{
@@ -276,7 +276,7 @@ export default async function CareersPage() {
                       )}
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
                       <a
                         href={`/careers/${j.slug}`}
                         style={{
@@ -291,9 +291,11 @@ export default async function CareersPage() {
                           alignItems: 'center',
                           gap: 6,
                           boxShadow: '0 4px 12px rgba(26, 75, 140, 0.25)',
+                          whiteSpace: 'nowrap',
+                          transition: 'all 0.2s ease',
                         }}
                       >
-                        <span>Apply Online</span>
+                        <span>View</span>
                         <span>→</span>
                       </a>
                     </div>
@@ -356,9 +358,9 @@ export default async function CareersPage() {
           <CtaBanner
             eyebrow="Direct Application"
             title="Looking for an Articleship or Lateral Position?"
-            description="We welcome applications from motivated CA Students, Qualified Chartered Accountants, and Company Secretaries across India."
-            primaryLabel="Send CV / Apply Online"
-            primaryHref="/contact?subject=Career%20Application"
+            description="We welcome applications from motivated CA Students, Qualified Chartered Accountants, and Company Secretaries. Email your CV directly to our talent acquisition team."
+            primaryLabel="Email Your CV to HR"
+            primaryHref="mailto:careers@teameyrie.in?subject=Application%20for%20Articleship%20%2F%20Lateral%20Position&body=Dear%20Team%20Eyrie%20Talent%20Team%2C%0D%0A%0D%0APlease%20find%20attached%20my%20CV%20for%20consideration.%0D%0A%0D%0AFull%20Name%3A%20%0D%0AContact%20Number%3A%20%0D%0APreferred%20City%20(Bengaluru%20%2F%20Mumbai%20%2F%20Delhi%20%2F%20Chennai%20%2F%20Other)%3A%20%0D%0AQualification%20%2F%20Role%20Interest%3A%20%0D%0A%0D%0AThank%20you."
             secondaryLabel="About Our Network"
             secondaryHref="/about"
           />
