@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
@@ -238,6 +239,7 @@ const utilities = [
 ]
 
 export default async function DocumentationSuitePage() {
+  redirect('https://apps.teameyrie.com/')
   const payload = await getPayload({ config })
   const [{ docs: regulatoryUpdates }, { docs: dbServices }] = await Promise.all([
     payload

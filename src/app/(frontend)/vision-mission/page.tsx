@@ -239,15 +239,17 @@ export default async function VisionMissionPage() {
             subtitle="The ethical compass and operational discipline that guide our partner council, professionals, and daily client interactions."
           />
 
-          <div className="grid--cards-3" style={{ marginBottom: 56 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 56 }}>
             {coreValues.map((val) => (
-              <CorporateCard
-                key={val.number}
-                variant="light"
-                number={val.number}
-                title={val.title}
-                description={val.description}
-              />
+              <div key={val.number} style={{ flex: '1 1 320px', maxWidth: 380, minWidth: 280, display: 'flex' }}>
+                <CorporateCard
+                  variant="light"
+                  number={val.number}
+                  title={val.title}
+                  description={val.description}
+                  style={{ width: '100%' }}
+                />
+              </div>
             ))}
           </div>
 
@@ -258,11 +260,14 @@ export default async function VisionMissionPage() {
             subtitle="Professional services are an act of public and corporate trust. Here is how we honor our obligations across our ecosystem."
           />
 
-          <div className="grid--cards-3" style={{ marginBottom: 56 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 56 }}>
             {stakeholderCommitments.map((sc) => (
               <div
                 key={sc.title}
                 style={{
+                  flex: '1 1 320px',
+                  maxWidth: 380,
+                  minWidth: 280,
                   background: '#ffffff',
                   border: '1.5px solid #e2e8f0',
                   borderRadius: 14,

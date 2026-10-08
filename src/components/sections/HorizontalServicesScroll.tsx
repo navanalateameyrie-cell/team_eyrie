@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import CorporateIcon from '@/components/ui/CorporateIcon'
 
 export interface ServiceItem {
@@ -68,243 +68,249 @@ export default function HorizontalServicesScroll({
   heading = 'What We Do',
   subheading = 'Delivering end-to-end solutions from assurance and taxation to transaction advisory and international expansion.',
 }: HorizontalServicesScrollProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const containerRef = useRef<HTMLElement>(null)
   const [activeIdx, setActiveIdx] = useState(0)
-  const [maxScrollWidth, setMaxScrollWidth] = useState(0)
 
-  // Measure horizontal track scroll distance
-  useEffect(() => {
-    const updateMetrics = () => {
-      if (trackRef.current) {
-        const totalW = trackRef.current.scrollWidth
-        const viewW = window.innerWidth
-        // calculate horizontal travel needed to reach the end card comfortably
-        const maxScroll = Math.max(0, totalW - viewW + 160)
-        setMaxScrollWidth(maxScroll)
-      }
-    }
-
-    updateMetrics()
-    window.addEventListener('resize', updateMetrics)
-    return () => window.removeEventListener('resize', updateMetrics)
-  }, [services.length])
-
-  // Vertical scroll event to drive horizontal translation
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return
+      if (window.innerWidth <= 900) return
+
       const rect = containerRef.current.getBoundingClientRect()
-      const scrollableHeight = rect.height - window.innerHeight
-      if (scrollableHeight <= 0) return
+      const scrollableDistance = rect.height - window.innerHeight
+      if (scrollableDistance <= 0) return
 
       const scrolled = -rect.top
-      const progress = Math.max(0, Math.min(1, scrolled / scrollableHeight))
-      setScrollProgress(progress)
+      const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
 
       const active = Math.min(
         services.length - 1,
-        Math.floor(progress * services.length + 0.05)
+        Math.floor(progress * services.length)
       )
       setActiveIdx(active)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [services.length])
 
-  // Scroll to a specific card smoothly
-  const scrollToService = (idx: number) => {
-    if (!containerRef.current) return
-    const container = containerRef.current
-    const scrollableHeight = container.offsetHeight - window.innerHeight
-    const targetScrollY =
-      container.offsetTop + (idx / Math.max(1, services.length - 1)) * scrollableHeight
+  if (!services || services.length === 0) return null
+  const currentService = services[activeIdx] || services[0]
 
+  const bullets =
+    currentService.bullets ||
+    serviceCapabilities[currentService.title] || [
+      'End-to-end strategic advisory and regulatory compliance',
+      'Senior partner leadership and direct engagement',
+      'Technology-enabled workflows and measurable client outcomes',
+    ]
+
+  const scrollToService = (idx: number) => {
+    setActiveIdx(idx)
+    if (!containerRef.current || window.innerWidth <= 900) return
+    const container = containerRef.current
+    const scrollableDistance = container.offsetHeight - window.innerHeight
+    if (scrollableDistance <= 0) return
+    const targetScrollY =
+      window.scrollY + container.getBoundingClientRect().top + (idx / Math.max(1, services.length - 1)) * scrollableDistance
     window.scrollTo({
       top: targetScrollY,
       behavior: 'smooth',
     })
   }
 
-  const handleNext = () => {
-    const nextIdx = Math.min(services.length - 1, activeIdx + 1)
-    scrollToService(nextIdx)
-  }
-
   const handlePrev = () => {
-    const prevIdx = Math.max(0, activeIdx - 1)
+    const prevIdx = activeIdx === 0 ? services.length - 1 : activeIdx - 1
     scrollToService(prevIdx)
   }
 
-  const currentTranslateX = scrollProgress * maxScrollWidth
+  const handleNext = () => {
+    const nextIdx = activeIdx === services.length - 1 ? 0 : activeIdx + 1
+    scrollToService(nextIdx)
+  }
 
   return (
     <section
       ref={containerRef}
-      className="hz-scroll-container"
+      className="services-console-section"
       id="services-showcase"
       style={{
-        height: `calc(100vh + ${(services.length - 1) * 65}vh)`,
+        height: `calc(100vh + ${(services.length - 1) * 60}vh)`,
       }}
     >
-      {/* Sticky Full-Viewport View */}
-      <div className="hz-scroll-sticky">
-        {/* Section Header (Centered) */}
-        <div className="hz-scroll-header-bar">
-          <div className="container hz-scroll-header-inner">
-            <span className="hz-services-tag">
-              <span className="hz-services-tag-dot" />
+      <div className="services-console-sticky">
+        <div className="container">
+          {/* Section Header */}
+          <div className="services-console-header">
+            <span className="services-console-eyebrow">
+              <span className="services-console-dot" />
               {eyebrow}
             </span>
-            <h2 className="hz-scroll-heading">{heading}</h2>
-            <p className="hz-scroll-subheading-text">{subheading}</p>
+            <h2 className="services-console-title">{heading}</h2>
+            <p className="services-console-subheading">{subheading}</p>
+          </div>
 
-            {/* Clean Quick Nav Buttons */}
-            <div className="hz-scroll-nav-btns-fixed">
-              <button
-                type="button"
-                onClick={handlePrev}
-                disabled={activeIdx === 0}
-                className="hz-scroll-arrow-btn"
-                aria-label="Previous service"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                disabled={activeIdx === services.length - 1}
-                className="hz-scroll-arrow-btn"
-                aria-label="Next service"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
+          {/* Horizontal Interactive Category Tabs */}
+          <div className="services-console-nav-wrapper">
+            <div className="services-console-nav-track">
+              {services.map((srv, idx) => {
+                const isActive = idx === activeIdx
+                return (
+                  <button
+                    key={srv.title}
+                    type="button"
+                    onClick={() => scrollToService(idx)}
+                    className={`services-console-tab-btn ${
+                      isActive ? 'services-console-tab-btn--active' : ''
+                    }`}
+                  >
+                    <span className="services-console-tab-num">0{idx + 1}</span>
+                    <span className="services-console-tab-label">{srv.title}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
-        </div>
 
-        {/* Horizontal Moving Cards Viewport */}
-        <div className="hz-scroll-cards-viewport">
-          <div
-            ref={trackRef}
-            className="hz-scroll-cards-track"
-            style={{
-              transform: `translateX(-${currentTranslateX}px)`,
-            }}
-          >
-            {services.map((srv, idx) => {
-              const bullets =
-                srv.bullets ||
-                serviceCapabilities[srv.title] || [
-                  'End-to-end strategic advisory and regulatory compliance',
-                  'Senior partner leadership and direct engagement',
-                  'Technology-enabled workflows and measurable client outcomes',
-                ]
-              const isActive = idx === activeIdx
+        {/* Active Capability Stage (Split View: Details on Left, Sliding Images on Right) */}
+        <div className="services-console-stage">
+          {/* Left Column: Narrative & Scope */}
+          <div className="services-console-details" key={`details-${activeIdx}`}>
+            <div className="services-console-details-top">
+              <div className="services-console-badge-row">
+                <div className="services-console-icon-pill">
+                  <CorporateIcon name={currentService.iconName} size={22} color="#E87722" />
+                  <span>Practice Discipline 0{activeIdx + 1}</span>
+                </div>
 
-              return (
-                <div
-                  key={srv.title}
-                  className={`hz-service-slide-card ${
-                    isActive ? 'hz-service-slide-card--active' : ''
-                  }`}
-                  onClick={() => scrollToService(idx)}
-                >
-                  {/* LEFT SIDE: Content */}
-                  <div className="hz-slide-content">
-                    <div>
-                      <div className="hz-slide-top-meta">
-                        <div className="hz-slide-icon-box">
-                          <CorporateIcon name={srv.iconName} size={28} color="#123B6D" />
-                        </div>
-                      </div>
+                <div className="services-console-arrows">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="services-console-arrow-btn"
+                    aria-label="Previous service"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="services-console-arrow-btn"
+                    aria-label="Next service"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
 
-                      <h3 className="hz-slide-title">{srv.title}</h3>
-                      <p className="hz-slide-desc">{srv.desc}</p>
+              <h3 className="services-console-active-title">{currentService.title}</h3>
+              <p className="services-console-active-desc">{currentService.desc}</p>
 
-                      <div className="hz-slide-scope-box">
-                        <span className="hz-slide-scope-title">Key Practice Scope:</span>
-                        <ul className="hz-slide-bullets">
-                          {bullets.map((bullet, bIdx) => (
-                            <li key={bIdx} className="hz-slide-bullet-item">
-                              <svg
-                                className="hz-slide-check"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <polyline points="20 6 9 17 4 12" />
-                              </svg>
-                              <span>{bullet}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
+              {/* Scope Checklist */}
+              <div className="services-console-scope-list">
+                <span className="services-console-scope-label">Core Practice Scope:</span>
+                <ul>
+                  {bullets.map((bullet, bIdx) => (
+                    <li key={bIdx}>
+                      <svg
+                        className="services-console-check-icon"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#E87722"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
 
-                    <div className="hz-slide-action-row">
-                      <a href={srv.href} className="hz-slide-cta-btn" onClick={(e) => e.stopPropagation()}>
-                        <span>Explore {srv.title}</span>
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <line x1="5" y1="12" x2="19" y2="12" />
-                          <polyline points="12 5 19 12 12 19" />
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
+            {/* Action Row */}
+            <div className="services-console-action-row">
+              <a href={currentService.href} className="hero-btn hero-btn--gold" style={{ padding: '12px 28px', fontSize: 14.5 }}>
+                <span>Explore {currentService.title}</span>
+                <span style={{ marginLeft: 6 }}>→</span>
+              </a>
+              <a href="/contact" className="services-console-consult-link">
+                <span>Book Practice Consultation</span>
+              </a>
+            </div>
+          </div>
 
-                  {/* RIGHT SIDE: High-Res Image Frame */}
-                  <div className="hz-slide-image-frame">
+          {/* Right Column: Sliding Image Carousel */}
+          <div className="services-console-visual">
+            <div className="services-console-visual-frame">
+              <div
+                className="services-console-slider-track"
+                style={{
+                  display: 'flex',
+                  height: '100%',
+                  width: `${services.length * 100}%`,
+                  transform: `translateX(-${(activeIdx * 100) / services.length}%)`,
+                  transition: 'transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1)',
+                }}
+              >
+                {services.map((srv) => (
+                  <div
+                    key={srv.title}
+                    style={{
+                      width: `${100 / services.length}%`,
+                      height: '100%',
+                      position: 'relative',
+                      flexShrink: 0,
+                    }}
+                  >
                     <img
                       src={srv.bgImage}
                       alt={srv.title}
-                      className="hz-slide-image"
+                      className="services-console-visual-img"
                       onError={(e) => {
                         ;(e.target as HTMLImageElement).src = '/images/services.png'
                       }}
                     />
-                    <div className="hz-slide-image-overlay" />
-                    <div className="hz-slide-image-tag">
+                    <div className="services-console-visual-overlay" />
+                    <div className="services-console-visual-pill">
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
                       <span>{srv.title}</span>
                     </div>
                   </div>
-                </div>
-              )
-            })}
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Catalog Link */}
-        <div className="hz-scroll-bottom-bar">
-          <a href="/services" className="hero-btn hero-btn--gold" style={{ padding: '10px 28px', fontSize: 14 }}>
-            View Complete Service Catalog →
+        {/* Catalog Button */}
+        <div style={{ textAlign: 'center', marginTop: 28 }}>
+          <a
+            href="/services"
+            className="hero-btn hero-btn--outline"
+            style={{
+              background: '#ffffff',
+              color: '#0F2A4A',
+              borderColor: '#cbd5e1',
+              padding: '10px 26px',
+              fontSize: 13.5,
+              fontWeight: 700,
+            }}
+          >
+            Explore Complete Service Catalog →
           </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   )
 }

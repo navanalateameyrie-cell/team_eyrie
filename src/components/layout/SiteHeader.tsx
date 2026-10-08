@@ -11,7 +11,7 @@ type ContactInfo = { email?: string | null; phone?: string | null }
 const topNavItems = [
   { label: 'Our Team', href: '/people' },
   { label: 'News and Articles', href: '/insights' },
-  { label: 'Documentation Suite', href: '/documentation-suite' },
+  { label: 'Documentation Suite', href: 'https://apps.teameyrie.com/', external: true },
   { label: 'Career', href: '/careers' },
   { label: 'LMS Login', href: 'https://web.classplusapp.com/login', external: true },
 ]
@@ -115,8 +115,8 @@ export default function SiteHeader({
               href="/login"
               className="top-bar__login-btn"
               style={{
-                background: '#F0C04A',
-                color: '#071A3A',
+                background: '#E87722',
+                color: '#ffffff',
                 padding: '4px 14px',
                 borderRadius: '4px',
                 fontWeight: '700',
@@ -126,7 +126,7 @@ export default function SiteHeader({
                 alignItems: 'center',
                 justifyContent: 'center',
                 textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(240, 192, 74, 0.3)',
+                boxShadow: '0 2px 8px rgba(232, 119, 34, 0.35)',
               }}
             >
               Login

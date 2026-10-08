@@ -28,13 +28,13 @@ export default function CtaBanner({
       className={`cta-banner ${className}`}
       style={{
         marginTop: 32,
-        background: 'linear-gradient(135deg, #ffffff 0%, #F7F7F2 100%)',
-        border: '1.5px solid #98A2B3',
-        borderLeft: '5px solid #F0C04A',
+        background: 'linear-gradient(135deg, #ffffff 0%, #F8FAFC 100%)',
+        border: '1.5px solid #94A3B8',
+        borderLeft: '5px solid #E87722',
         borderRadius: 14,
         padding: '28px 24px',
         textAlign: 'center',
-        boxShadow: '0 8px 28px rgba(7, 26, 58, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02)',
+        boxShadow: '0 8px 28px rgba(15, 42, 74, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02)',
         position: 'relative',
         overflow: 'hidden',
         ...style,
@@ -49,7 +49,7 @@ export default function CtaBanner({
           transform: 'translateX(-50%)',
           width: '80%',
           height: '100%',
-          background: 'radial-gradient(ellipse at center, rgba(18, 59, 109, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse at center, rgba(30, 58, 138, 0.1) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />
@@ -61,7 +61,7 @@ export default function CtaBanner({
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              color: '#123B6D',
+              color: '#1E3A8A',
               fontSize: 12,
               fontWeight: 700,
               textTransform: 'uppercase',
@@ -74,8 +74,8 @@ export default function CtaBanner({
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                backgroundColor: '#F0C04A',
-                boxShadow: '0 0 8px #F0C04A',
+                backgroundColor: '#E87722',
+                boxShadow: '0 0 8px #E87722',
               }}
             />
             {eyebrow}
@@ -83,7 +83,7 @@ export default function CtaBanner({
         )}
         <h3
           style={{
-            color: '#071A3A',
+            color: '#0F2A4A',
             fontSize: 'clamp(22px, 2vw, 28px)',
             fontWeight: 800,
             margin: '0 0 8px',

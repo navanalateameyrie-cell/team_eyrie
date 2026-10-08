@@ -293,8 +293,8 @@ export default function WhyEyriePillarsGrid({
                   gap: 6,
                   transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#F0C04A')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#123B6D')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#E87722')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#1E3A8A')}
               >
                 <span>Read More</span>
                 <span style={{ transition: 'transform 0.2s ease' }}>→</span>
@@ -336,9 +336,9 @@ export default function WhyEyriePillarsGrid({
               width: '100%',
               maxHeight: '90vh',
               overflowY: 'auto',
-              border: '1.5px solid #98A2B3',
-              borderTop: '5px solid #F0C04A',
-              boxShadow: '0 25px 60px rgba(7, 26, 58, 0.22), 0 4px 16px rgba(0, 0, 0, 0.04)',
+              border: '1.5px solid #94A3B8',
+              borderTop: '5px solid #E87722',
+              boxShadow: '0 25px 60px rgba(15, 42, 74, 0.22), 0 4px 16px rgba(0, 0, 0, 0.04)',
               padding: 'clamp(24px, 4vw, 36px)',
               position: 'relative',
               animation: 'scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -503,18 +503,18 @@ export default function WhyEyriePillarsGrid({
             {selectedPillar.leadershipNote && (
               <div
                 style={{
-                  background: 'linear-gradient(135deg, #ffffff 0%, #F7F7F2 100%)',
-                  border: '1px solid #98A2B3',
-                  borderLeft: '4px solid #F0C04A',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #FFF7ED 100%)',
+                  border: '1px solid #94A3B8',
+                  borderLeft: '4px solid #E87722',
                   borderRadius: 8,
                   padding: '12px 16px',
                   marginBottom: 24,
                   fontSize: 13,
-                  color: '#071A3A',
+                  color: '#0F2A4A',
                   lineHeight: 1.5,
                 }}
               >
-                <strong style={{ color: '#123B6D' }}>Team Eyrie Advantage:</strong> {selectedPillar.leadershipNote}
+                <strong style={{ color: '#1E3A8A' }}>Team Eyrie Advantage:</strong> {selectedPillar.leadershipNote}
               </div>
             )}
 
@@ -548,8 +548,8 @@ export default function WhyEyriePillarsGrid({
               <a
                 href={`/contact?pillar=${encodeURIComponent(selectedPillar.title)}`}
                 style={{
-                  background: '#F0C04A',
-                  color: '#071A3A',
+                  background: '#E87722',
+                  color: '#ffffff',
                   textDecoration: 'none',
                   padding: '10px 22px',
                   borderRadius: 8,

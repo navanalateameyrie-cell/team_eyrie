@@ -101,76 +101,6 @@ export default function ContactForm({
         </div>
       )}
 
-      {/* ── OFFICE SELECTION SECTION (SHANKAR SIR REQ #4) ── */}
-      <div style={{ marginBottom: 22, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '16px 18px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <label style={{ fontSize: 13, fontWeight: 700, color: '#0f274a', textTransform: 'uppercase', letterSpacing: 0.8, display: 'block' }}>
-            Select Office / Practice Branch *
-          </label>
-          <span style={{ fontSize: 12, color: '#1a4b8c', fontWeight: 600 }}>
-            {officeList.length} Network Locations
-          </span>
-        </div>
-
-        {/* Quick Clickable Office Chips */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
-          {officeList.map((o) => {
-            const isSelected = String(selectedOffice) === String(o.id)
-            return (
-              <button
-                key={o.id}
-                type="button"
-                onClick={() => setSelectedOffice(o.id)}
-                style={{
-                  border: isSelected ? '1.5px solid #1a4b8c' : '1px solid #cbd5e1',
-                  background: isSelected ? '#1a4b8c' : '#ffffff',
-                  color: isSelected ? '#ffffff' : '#334155',
-                  padding: '6px 12px',
-                  borderRadius: 20,
-                  fontSize: 12.5,
-                  fontWeight: isSelected ? 700 : 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-              >
-                <span>📍 {o.label.split('(')[0].trim()}</span>
-                {isSelected && <span style={{ fontSize: 11 }}>✓</span>}
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Dropdown for explicit submission binding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 12, color: '#64748b' }}>Or select from list:</span>
-          <select
-            id="office"
-            name="office"
-            value={selectedOffice}
-            onChange={(e) => setSelectedOffice(e.target.value)}
-            style={{
-              flex: 1,
-              padding: '6px 10px',
-              fontSize: 13,
-              borderRadius: 6,
-              border: '1px solid #cbd5e1',
-              background: '#ffffff',
-              color: '#0f274a',
-              fontWeight: 600,
-            }}
-          >
-            {officeList.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
       <div className="grid grid--2" style={{ gap: 0, columnGap: 20 }}>
         <div className="field">
           <label htmlFor="name" style={{ fontWeight: 600, color: '#0f274a', fontSize: 13.5 }}>
@@ -196,7 +126,26 @@ export default function ContactForm({
           </label>
           <input id="company" name="company" placeholder="e.g. ABC Enterprises Pvt Ltd" />
         </div>
-        <div className="field" style={{ gridColumn: 'span 2' }}>
+        <div className="field">
+          <label htmlFor="office" style={{ fontWeight: 600, color: '#0f274a', fontSize: 13.5 }}>
+            Select Office / Practice Branch *
+          </label>
+          <select
+            id="office"
+            name="office"
+            required
+            value={selectedOffice}
+            onChange={(e) => setSelectedOffice(e.target.value)}
+          >
+            <option value="">— Select Office Location —</option>
+            {officeList.map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
           <label htmlFor="service" style={{ fontWeight: 600, color: '#0f274a', fontSize: 13.5 }}>
             Practice Area / Service of Interest
           </label>

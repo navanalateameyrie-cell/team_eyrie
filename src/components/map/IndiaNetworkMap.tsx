@@ -254,8 +254,8 @@ export default function IndiaNetworkMap() {
 
               {/* Pin Gradients */}
               <linearGradient id="goldPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#F0C04A" />
-                <stop offset="100%" stopColor="#d4a332" />
+                <stop offset="0%" stopColor="#E87722" />
+                <stop offset="100%" stopColor="#D06312" />
               </linearGradient>
 
               <linearGradient id="hubPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -388,7 +388,7 @@ export default function IndiaNetworkMap() {
                 cy={salemHub.y}
                 r="6"
                 fill="none"
-                stroke="#F0C04A"
+                stroke="#E87722"
                 className="hub-radar-circle"
                 style={{ animationDelay: '1.2s' }}
               />
@@ -446,7 +446,7 @@ export default function IndiaNetworkMap() {
                         cy={c.y}
                         r="5"
                         fill="none"
-                        stroke={isHub ? '#10b981' : isHovered ? '#F0C04A' : '#123B6D'}
+                        stroke={isHub ? '#10b981' : isHovered ? '#E87722' : '#1E3A8A'}
                         className="node-pulse-active"
                       />
                     )}
@@ -465,9 +465,9 @@ export default function IndiaNetworkMap() {
                           transformOrigin: '0px 0px',
                           transition: 'transform 0.22s cubic-bezier(0.2, 0.8, 0.4, 1), filter 0.2s ease',
                           filter: isHovered
-                            ? 'drop-shadow(0 6px 12px rgba(240, 192, 74, 0.45))'
+                            ? 'drop-shadow(0 6px 12px rgba(232, 119, 34, 0.45))'
                             : isSelected
-                              ? 'drop-shadow(0 4px 8px rgba(7, 26, 58, 0.45))'
+                              ? 'drop-shadow(0 4px 8px rgba(15, 42, 74, 0.45))'
                               : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
                         }}
                       >
@@ -485,7 +485,7 @@ export default function IndiaNetworkMap() {
                                 ? 'url(#goldPinGrad)'
                                 : isSelected
                                   ? 'url(#navyPinGrad)'
-                                  : '#071A3A'
+                                  : '#0F2A4A'
                           }
                           stroke="#ffffff"
                           strokeWidth={isHub ? 2 : 1.6}
@@ -502,7 +502,7 @@ export default function IndiaNetworkMap() {
                           cx={0}
                           cy={isHub ? -18 : -15.5}
                           r={isHub ? 2 : 1.4}
-                          fill={isHub ? '#10b981' : isHovered ? '#F0C04A' : '#123B6D'}
+                          fill={isHub ? '#10b981' : isHovered ? '#E87722' : '#1E3A8A'}
                         />
                       </g>
                     </g>
@@ -512,7 +512,7 @@ export default function IndiaNetworkMap() {
                       x={labelX}
                       y={labelY}
                       textAnchor={isLeftLabel ? 'end' : 'start'}
-                      fill={isHighlighted ? (isHub ? '#047857' : isHovered ? '#123B6D' : '#071A3A') : '#1e293b'}
+                      fill={isHighlighted ? (isHub ? '#047857' : isHovered ? '#1E3A8A' : '#0F2A4A') : '#1e293b'}
                       fontSize={isHub ? '16' : isHighlighted ? '15' : '13.5'}
                       fontWeight={isHighlighted || isHub ? '800' : '700'}
                       letterSpacing="0.2px"

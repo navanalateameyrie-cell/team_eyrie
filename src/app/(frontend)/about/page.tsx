@@ -183,6 +183,32 @@ export default async function AboutPage() {
               ? [tm.serviceTitle]
               : ['Corporate Assurance', 'Taxation & Regulatory']
 
+        const personSlug =
+          tm.slug ||
+          (tm.name
+            ? tm.name
+              .toLowerCase()
+              .replace(/[^\w\s-]/g, '')
+              .replace(/\s+/g, '-')
+              .replace(/-+/g, '-')
+              .replace(/^-|-$/g, '')
+            : '')
+        const linkHref = personSlug ? `/people/${personSlug}` : (tm.id ? `/people/${tm.id}` : '/contact')
+
+        const fullDescription =
+          bioSnippet ||
+          'Senior Partner spearheading multidisciplinary corporate advisory, compliance and regulatory representation.'
+
+        // Compact summary (max ~90 chars for clean 2-line height)
+        const MAX_DESC = 90
+        const isLong = fullDescription.length > MAX_DESC
+        let shortDescription = fullDescription
+        if (isLong) {
+          const cut = fullDescription.slice(0, MAX_DESC)
+          const lastSpace = cut.lastIndexOf(' ')
+          shortDescription = (lastSpace > 60 ? cut.slice(0, lastSpace) : cut).trim() + '...'
+        }
+
         return {
           initials,
           name: tm.name,
@@ -190,14 +216,20 @@ export default async function AboutPage() {
           badgeLevel,
           practiceDomain,
           heritage: tm.officeCity ? `${tm.officeCity} Hub` : 'Partner Leadership',
-          description:
-            bioSnippet ||
-            'Senior Partner spearheading multidisciplinary corporate advisory, compliance and regulatory representation.',
+          description: fullDescription,
+          shortDescription,
+          isLong,
           focusAreas,
-          linkHref: tm.slug ? `/people/${tm.slug}` : '/contact',
+          linkHref,
+          isPerson: true,
         }
       })
-      : allianceFirms
+      : allianceFirms.map((f) => ({
+        ...f,
+        shortDescription: f.description,
+        isLong: false,
+        isPerson: false,
+      }))
 
   return (
     <main>
@@ -235,10 +267,10 @@ export default async function AboutPage() {
                   marginBottom: 10,
                 }}
               >
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#F0C04A' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#E87722' }} />
                 Who We Are
               </span>
-              <h2 style={{ fontSize: 'clamp(28px, 2.6vw, 38px)', color: '#071A3A', fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(28px, 2.6vw, 38px)', color: '#0F2A4A', fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25 }}>
                 Redefining Professional Services for the Modern Enterprise
               </h2>
               <p style={{ fontSize: 16, color: '#475569', lineHeight: 1.7, margin: '0 0 16px' }}>
@@ -251,22 +283,22 @@ export default async function AboutPage() {
 
             <div
               style={{
-                background: 'linear-gradient(145deg, #071A3A 0%, #123B6D 100%)',
+                background: 'linear-gradient(145deg, #0F2A4A 0%, #1E3A8A 100%)',
                 color: '#ffffff',
                 borderRadius: 16,
                 padding: '36px 30px',
-                boxShadow: '0 16px 36px rgba(7, 26, 58, 0.16)',
-                border: '1px solid rgba(240, 192, 74, 0.25)',
+                boxShadow: '0 16px 36px rgba(15, 42, 74, 0.16)',
+                border: '1px solid rgba(232, 119, 34, 0.25)',
               }}
             >
-              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 2, color: '#F0C04A', fontWeight: 700, marginBottom: 12 }}>
+              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 2, color: '#E87722', fontWeight: 700, marginBottom: 12 }}>
                 Our Core Philosophy
               </div>
-              <blockquote style={{ margin: '0 0 20px', fontSize: 19, fontWeight: 600, lineHeight: 1.45, fontStyle: 'italic', borderLeft: '3px solid #F0C04A', paddingLeft: 16 }}>
+              <blockquote style={{ margin: '0 0 20px', fontSize: 19, fontWeight: 600, lineHeight: 1.45, fontStyle: 'italic', borderLeft: '3px solid #E87722', paddingLeft: 16 }}>
                 “Together, We Create Value. Together, We Build Trust. Our responsibility is not merely compliance; it is providing the intellectual clarity and regulatory safety for businesses to scale with absolute confidence.”
               </blockquote>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#F0C04A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#071A3A', fontWeight: 800, fontSize: 18 }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#E87722', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 800, fontSize: 18 }}>
                   TE
                 </div>
                 <div>
@@ -312,144 +344,176 @@ export default async function AboutPage() {
             subtitle="Each alliance firm brings specialized industry credentials, deep regulatory relationships, and decades of client trust."
           />
 
-          <div className="grid--cards-3" style={{ marginBottom: 48, gap: 20 }}>
+          {/* Centered Floating Partner Cards Container (Compact Height) */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              alignItems: 'stretch',
+              gap: 16,
+              marginBottom: 48,
+              maxWidth: 1280,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
             {partnerCards.map((f) => (
               <div
                 key={f.name}
                 className="partner-showcase-card"
                 style={{
+                  flex: '1 1 250px',
+                  width: '100%',
+                  maxWidth: 285,
+                  minWidth: 230,
                   background: '#ffffff',
-                  border: '1px solid rgba(152, 162, 179, 0.45)',
-                  borderTop: '4px solid #123B6D',
+                  border: '1px solid rgba(152, 162, 179, 0.4)',
+                  borderTop: '3.5px solid #1E3A8A',
                   borderRadius: 14,
-                  padding: '24px 22px 20px',
+                  padding: '18px 16px 14px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 4px 18px rgba(7, 26, 58, 0.05)',
-                  transition: 'all 0.25s ease',
+                  textAlign: 'center',
+                  boxShadow: '0 6px 20px rgba(15, 42, 74, 0.06)',
+                  transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
                 <div>
-                  {/* Top Bar: Clean Status Badge + Heritage / Alliance Indicator */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
+                  {/* Top Bar: Compact Single Badge */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 10 }}>
                     <span
                       style={{
-                        fontSize: 11,
+                        fontSize: 10.5,
                         fontWeight: 700,
                         textTransform: 'uppercase',
-                        letterSpacing: 1.2,
-                        padding: '4px 10px',
-                        borderRadius: 16,
-                        background: 'rgba(18, 59, 109, 0.06)',
-                        color: '#123B6D',
-                        border: '1px solid rgba(18, 59, 109, 0.2)',
+                        letterSpacing: 0.8,
+                        padding: '3px 9px',
+                        borderRadius: 12,
+                        background: 'rgba(30, 58, 138, 0.08)',
+                        color: '#1E3A8A',
+                        border: '1px solid rgba(30, 58, 138, 0.2)',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: 6,
+                        gap: 5,
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#F0C04A', flexShrink: 0 }} />
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#E87722', flexShrink: 0 }} />
                       {f.badgeLevel}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: 11.5,
-                        fontWeight: 600,
-                        color: '#98A2B3',
-                        textTransform: 'uppercase',
-                        letterSpacing: 0.8,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
-                    >
-                      {f.heritage}
                     </span>
                   </div>
 
-                  {/* Profile Identity: Icon Box (Name Short Form) + Partner Name & Domain */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
+                  {/* Profile Identity: Compact Monogram & Names */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
                     {/* Prestigious Monogram Icon Box */}
-                    <div
+                    <a
+                      href={f.linkHref}
                       style={{
-                        width: 48,
-                        height: 48,
-                        minWidth: 48,
+                        width: 44,
+                        height: 44,
                         borderRadius: 12,
-                        background: 'linear-gradient(135deg, #071A3A 0%, #123B6D 100%)',
-                        border: '1.5px solid rgba(240, 192, 74, 0.45)',
-                        color: '#F0C04A',
-                        fontSize: 16,
+                        background: 'linear-gradient(135deg, #0F2A4A 0%, #1E3A8A 100%)',
+                        border: '1.5px solid rgba(232, 119, 34, 0.5)',
+                        color: '#E87722',
+                        fontSize: 15,
                         fontWeight: 800,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        letterSpacing: 1,
-                        boxShadow: '0 4px 12px rgba(7, 26, 58, 0.12)',
-                        flexShrink: 0,
+                        letterSpacing: 0.5,
+                        boxShadow: '0 4px 12px rgba(15, 42, 74, 0.12)',
+                        textDecoration: 'none',
+                        marginBottom: 8,
+                        transition: 'transform 0.2s ease',
                       }}
+                      title={`View ${f.name} Profile`}
                     >
                       {f.initials}
-                    </div>
+                    </a>
 
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <h3 style={{ fontSize: 19.5, color: '#071A3A', fontWeight: 800, margin: '0 0 2px', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
-                        {f.name}
+                    <div style={{ textAlign: 'center', width: '100%' }}>
+                      <h3 style={{ fontSize: 17, color: '#071A3A', fontWeight: 800, margin: '0 0 2px', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                        <a
+                          href={f.linkHref}
+                          style={{ color: '#071A3A', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                        >
+                          {f.name}
+                        </a>
                       </h3>
-                      <div style={{ fontSize: 13, color: '#123B6D', fontWeight: 700, margin: '2px 0 3px', lineHeight: 1.35 }}>
+                      <div style={{ fontSize: 12, color: '#1E3A8A', fontWeight: 700, margin: '1px 0 2px', lineHeight: 1.3 }}>
                         {f.practiceDomain}
                       </div>
-                      <div style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>
+                      <div style={{ fontSize: 11, color: '#64748b', fontWeight: 500 }}>
                         {f.role}
                       </div>
                     </div>
                   </div>
 
-                  {/* Concise Description */}
-                  <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.6, margin: '0 0 16px' }}>
-                    {f.description}
+                  {/* Concise Description with Read More */}
+                  <p style={{ fontSize: 12, color: '#475569', lineHeight: 1.5, textAlign: 'center', margin: '0 0 10px' }}>
+                    {f.shortDescription}
+                    {f.isLong && (
+                      <a
+                        href={f.linkHref}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 2,
+                          color: '#E87722',
+                          fontWeight: 700,
+                          fontSize: 12,
+                          marginLeft: 4,
+                          textDecoration: 'none',
+                          whiteSpace: 'nowrap',
+                          transition: 'color 0.2s ease',
+                        }}
+                      >
+                        Read More →
+                      </a>
+                    )}
                   </p>
 
-                  {/* Domain Focus Chips */}
-                  <div style={{ marginBottom: 16 }}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {f.focusAreas.map((area: string) => (
-                        <span
-                          key={area}
-                          style={{
-                            fontSize: 11.5,
-                            fontWeight: 600,
-                            background: '#F7F7F2',
-                            color: '#071A3A',
-                            border: '1px solid rgba(152, 162, 179, 0.4)',
-                            padding: '3px 8px',
-                            borderRadius: 6,
-                          }}
-                        >
-                          {area}
-                        </span>
-                      ))}
-                    </div>
+                  {/* Domain Focus Chip */}
+                  <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'center' }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 600,
+                        background: '#F7F7F2',
+                        color: '#071A3A',
+                        border: '1px solid rgba(152, 162, 179, 0.4)',
+                        padding: '2px 8px',
+                        borderRadius: 5,
+                        maxWidth: '90%',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {f.focusAreas[0] || 'Tax Advisory'}
+                    </span>
                   </div>
                 </div>
 
                 {/* Footer Link */}
-                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 14 }}>
+                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 10, display: 'flex', justifyContent: 'center' }}>
                   <a
                     href={f.linkHref}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: 6,
-                      color: '#123B6D',
+                      justifyContent: 'center',
+                      gap: 4,
+                      color: '#1E3A8A',
                       fontWeight: 700,
-                      fontSize: 13.5,
+                      fontSize: 12.5,
                       textDecoration: 'none',
+                      transition: 'color 0.2s ease',
                     }}
                   >
-                    <span>Connect with Practice</span>
+                    <span>View Profile</span>
                     <span>→</span>
                   </a>
                 </div>
@@ -463,7 +527,7 @@ export default async function AboutPage() {
               background: '#F7F7F2',
               borderRadius: 16,
               border: '1.5px solid rgba(152, 162, 179, 0.45)',
-              borderLeft: '6px solid #123B6D',
+              borderLeft: '6px solid #1E3A8A',
               padding: '40px 32px',
               marginBottom: 56,
               boxShadow: '0 4px 18px rgba(7, 26, 58, 0.04)',
@@ -513,17 +577,19 @@ export default async function AboutPage() {
             subtitle="Full-spectrum corporate, tax, assurance, and financial advisory services executed to international standards."
           />
 
-          <div className="grid--cards-3" style={{ marginBottom: 56 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 56 }}>
             {practiceDisciplines.map((d) => (
-              <CorporateCard
-                key={d.title}
-                variant="light"
-                iconName={d.iconName}
-                title={d.title}
-                description={d.description}
-                linkHref="/services"
-                linkLabel="Explore Practice →"
-              />
+              <div key={d.title} style={{ flex: '1 1 320px', maxWidth: 380, minWidth: 280, display: 'flex' }}>
+                <CorporateCard
+                  variant="light"
+                  iconName={d.iconName}
+                  title={d.title}
+                  description={d.description}
+                  linkHref="/services"
+                  linkLabel="Explore Practice →"
+                  style={{ width: '100%' }}
+                />
+              </div>
             ))}
           </div>
 
@@ -534,15 +600,17 @@ export default async function AboutPage() {
             subtitle="How we consistently deliver higher quality, faster turnaround, and measurable peace of mind to our clients."
           />
 
-          <div className="grid--cards-2" style={{ marginBottom: 48 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 48 }}>
             {operatingPillars.map((p) => (
-              <CorporateCard
-                key={p.number}
-                variant="light"
-                number={p.number}
-                title={p.title}
-                description={p.description}
-              />
+              <div key={p.number} style={{ flex: '1 1 450px', maxWidth: 560, minWidth: 320, display: 'flex' }}>
+                <CorporateCard
+                  variant="light"
+                  number={p.number}
+                  title={p.title}
+                  description={p.description}
+                  style={{ width: '100%' }}
+                />
+              </div>
             ))}
           </div>
 
@@ -575,19 +643,19 @@ export default async function AboutPage() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#F0C04A', marginBottom: 4 }}>SQC-1</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>SQC-1</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Quality Control Framework</div>
               </div>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#F0C04A', marginBottom: 4 }}>100%</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>100%</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Peer Review Compliance</div>
               </div>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#F0C04A', marginBottom: 4 }}>ISO/IEC</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>ISO/IEC</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Data Confidentiality</div>
               </div>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#F0C04A', marginBottom: 4 }}>Pan-India</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>Pan-India</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Statutory Authority</div>
               </div>
             </div>

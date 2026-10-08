@@ -32,8 +32,8 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
         width: '100%',
         height: 240,
         borderRadius: 10,
-        background: 'linear-gradient(135deg, #071A3A 0%, #123B6D 100%)',
-        color: '#F0C04A',
+        background: 'linear-gradient(135deg, #0F2A4A 0%, #1E3A8A 100%)',
+        color: '#E87722',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -91,30 +91,71 @@ export default async function PeoplePage() {
             </div>
           ) : (
             <div className="grid--cards-3">
-              {people.map((p: any) => (
-                <a
-                  key={p.id}
-                  href={`/people/${p.slug}`}
-                  className="corporate-card corporate-card--light corporate-card--clickable"
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  <Avatar photo={p.photo} name={p.name} />
-                  <h3 style={{ fontSize: 20, color: '#071A3A', fontWeight: 800, margin: '0 0 4px' }}>
-                    {p.name}
-                  </h3>
-                  <div style={{ color: '#123B6D', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
-                    {p.designation}
-                  </div>
-                  {p.qualifications && (
-                    <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500 }}>
-                      {p.qualifications}
+              {people.map((p: any) => {
+                const personSlug =
+                  p.slug ||
+                  (p.name
+                    ? p.name
+                      .toLowerCase()
+                      .replace(/[^\w\s-]/g, '')
+                      .replace(/\s+/g, '-')
+                      .replace(/-+/g, '-')
+                      .replace(/^-|-$/g, '')
+                    : p.id)
+
+                let bioSnippet = ''
+                if (typeof p.bio === 'string') {
+                  bioSnippet = p.bio
+                } else if (p.bio?.root?.children) {
+                  bioSnippet = p.bio.root.children
+                    .map((c: any) => c.children?.map((ch: any) => ch.text || '').join('') || '')
+                    .join(' ')
+                }
+
+                const MAX_DESC = 140
+                const isLong = bioSnippet.length > MAX_DESC
+                let shortBio = bioSnippet
+                if (isLong) {
+                  const cut = bioSnippet.slice(0, MAX_DESC)
+                  const lastSpace = cut.lastIndexOf(' ')
+                  shortBio = (lastSpace > 90 ? cut.slice(0, lastSpace) : cut).trim() + '...'
+                }
+
+                return (
+                  <a
+                    key={p.id}
+                    href={`/people/${personSlug}`}
+                    className="corporate-card corporate-card--light corporate-card--clickable"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <Avatar photo={p.photo} name={p.name} />
+                    <h3 style={{ fontSize: 20, color: '#0F2A4A', fontWeight: 800, margin: '0 0 4px' }}>
+                      {p.name}
+                    </h3>
+                    <div style={{ color: '#1E3A8A', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
+                      {p.designation}
                     </div>
-                  )}
-                  <div className="corporate-card__footer" style={{ marginTop: 'auto', paddingTop: 14 }}>
-                    <span>View Profile →</span>
-                  </div>
-                </a>
-              ))}
+                    {p.qualifications && (
+                      <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500, marginBottom: 6 }}>
+                        {p.qualifications}
+                      </div>
+                    )}
+                    {shortBio && (
+                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.55, margin: '8px 0 10px' }}>
+                        {shortBio}
+                        {isLong && (
+                          <span style={{ color: '#E87722', fontWeight: 700, marginLeft: 6 }}>
+                            Read More →
+                          </span>
+                        )}
+                      </p>
+                    )}
+                    <div className="corporate-card__footer" style={{ marginTop: 'auto', paddingTop: 14 }}>
+                      <span style={{ color: '#1E3A8A', fontWeight: 700 }}>View Profile →</span>
+                    </div>
+                  </a>
+                )
+              })}
             </div>
           )}
 

@@ -127,203 +127,175 @@ export default function WhyTeamEyrieScroll({
   items,
 }: WhyTeamEyrieScrollProps) {
   const displayItems = items && items.length > 0 ? items : defaultItems
+  const containerRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState<number>(0)
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const handleScroll = () => {
-      const viewportCenter = window.innerHeight * 0.45
-      let closestIdx = 0
-      let minDistance = Infinity
+      if (!containerRef.current) return
+      if (window.innerWidth <= 900) return
 
-      itemRefs.current.forEach((el, idx) => {
-        if (!el) return
-        const rect = el.getBoundingClientRect()
-        const elementCenter = rect.top + rect.height / 2
-        const distance = Math.abs(elementCenter - viewportCenter)
+      const rect = containerRef.current.getBoundingClientRect()
+      const scrollableDistance = rect.height - window.innerHeight
+      if (scrollableDistance <= 0) return
 
-        if (distance < minDistance) {
-          minDistance = distance
-          closestIdx = idx
-        }
-      })
+      const scrolled = -rect.top
+      const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
 
-      setActiveIndex(closestIdx)
+      const active = Math.min(
+        displayItems.length - 1,
+        Math.floor(progress * displayItems.length)
+      )
+      setActiveIndex(active)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [displayItems.length])
 
-  const scrollToItem = (idx: number) => {
-    const el = itemRefs.current[idx]
-    if (el) {
-      const yOffset = -140
-      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset
-      window.scrollTo({ top: y, behavior: 'smooth' })
-      setActiveIndex(idx)
-    }
+  const scrollToAdvantage = (idx: number) => {
+    setActiveIndex(idx)
+    if (!containerRef.current || window.innerWidth <= 900) return
+    const container = containerRef.current
+    const scrollableDistance = container.offsetHeight - window.innerHeight
+    if (scrollableDistance <= 0) return
+    const targetScrollY =
+      window.scrollY + container.getBoundingClientRect().top + (idx / Math.max(1, displayItems.length - 1)) * scrollableDistance
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: 'smooth',
+    })
   }
 
   const activeItem = displayItems[activeIndex] || displayItems[0]
 
   return (
-    <section className="why-scroll-section" id="why-team-eyrie">
-      <div className="container">
-        {/* Section Header */}
-        <div className="why-scroll-header">
-          <span className="why-scroll-tag">
-            <span className="why-scroll-tag-dot" />
-            {tagline}
-          </span>
-          <h2 className="why-scroll-title">{heading}</h2>
-          <p className="why-scroll-subheading">{subheading}</p>
-        </div>
+    <section
+      ref={containerRef}
+      className="why-editorial-section"
+      id="why-team-eyrie"
+      style={{
+        height: `calc(100vh + ${(displayItems.length - 1) * 65}vh)`,
+      }}
+    >
+      <div className="why-editorial-sticky">
+        <div className="container">
+          {/* Section Header */}
+          <div className="why-editorial-header">
+            <span className="why-editorial-tag">
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722' }} />
+              {tagline}
+            </span>
+            <h2 className="why-editorial-heading">{heading}</h2>
+            <p className="why-editorial-subheading">{subheading}</p>
+          </div>
 
-        {/* Sticky Scroll Container */}
-        <div className="why-scroll-layout">
-          {/* LEFT: Sticky Image Visual Showcase */}
-          <div className="why-scroll-sticky-col">
-            <div className="why-scroll-visual-card">
-              {/* Image Stack with Crossfade */}
-              <div className="why-scroll-image-container">
+          {/* Seamless 2-Column Split Stage */}
+          <div className="why-editorial-stage">
+            {/* LEFT: Synchronized Visual Stage */}
+            <div className="why-editorial-visual-col">
+              <div className="why-editorial-img-frame">
                 {displayItems.map((item, idx) => {
                   const isActive = idx === activeIndex
                   return (
                     <div
                       key={item.id || idx}
-                      className={`why-scroll-image-layer ${
-                        isActive ? 'why-scroll-image-layer--active' : ''
-                      }`}
+                      className={`why-editorial-img-layer ${isActive ? 'why-editorial-img-layer--active' : ''
+                        }`}
                     >
                       <img
                         src={item.image || '/images/Why.png'}
                         alt={item.title}
-                        className="why-scroll-image"
+                        className="why-editorial-img"
                         onError={(e) => {
-                          // Graceful fallback to default curated image
-                          ;(e.target as HTMLImageElement).src = '/images/Why.png'
+                          ; (e.target as HTMLImageElement).src = '/images/Why.png'
                         }}
                       />
-                      <div className="why-scroll-image-overlay" />
+                      <div className="why-editorial-img-overlay" />
                     </div>
                   )
                 })}
+                <div className="why-editorial-badge-pill">
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
+                  <span>{activeItem.tag}</span>
+                </div>
               </div>
 
-              {/* Floating Tag Badge */}
-              <div className="why-scroll-badge-bar">
-                <div className="why-scroll-tag-pill">{activeItem.tag}</div>
-              </div>
-
-              {/* Interactive Navigation Dots */}
-              <div className="why-scroll-dots">
+              {/* Navigation Dash Indicators */}
+              <div className="why-editorial-dots">
                 {displayItems.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => scrollToItem(idx)}
-                    className={`why-scroll-dot ${
-                      idx === activeIndex ? 'why-scroll-dot--active' : ''
-                    }`}
-                    aria-label={`Jump to ${displayItems[idx]?.title}`}
+                    onClick={() => scrollToAdvantage(idx)}
+                    className={`why-editorial-dot ${idx === activeIndex ? 'why-editorial-dot--active' : ''
+                      }`}
+                    aria-label={`Select advantage ${idx + 1}`}
                   />
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* RIGHT: Scrolling Content Cards */}
-          <div className="why-scroll-content-col">
-            {displayItems.map((item, idx) => {
-              const isActive = idx === activeIndex
-              return (
-                <div
-                  key={item.id || idx}
-                  ref={(el) => {
-                    itemRefs.current[idx] = el
-                  }}
-                  onClick={() => scrollToItem(idx)}
-                  className={`why-scroll-item-card ${
-                    isActive ? 'why-scroll-item-card--active' : ''
-                  }`}
-                >
-                  {/* Item Header */}
-                  <div className="why-scroll-item-top">
-                    <span className="why-scroll-item-num">{item.num}</span>
-                    <span className="why-scroll-item-tag">{item.tag}</span>
+            {/* RIGHT: Seamless Editorial Narrative Stream (6 Items) */}
+            <div className="why-editorial-stream-col">
+              {displayItems.map((item, idx) => {
+                const isActive = idx === activeIndex
+                return (
+                  <div
+                    key={item.id || idx}
+                    onClick={() => scrollToAdvantage(idx)}
+                    className={`why-editorial-row ${isActive ? 'why-editorial-row--active' : ''
+                      }`}
+                  >
+                    {/* Row Header */}
+                    <div className="why-editorial-row-header">
+                      <span className="why-editorial-row-num">{item.num}</span>
+                      <span className="why-editorial-row-tag">{item.tag}</span>
+                      <h3 className="why-editorial-row-title">{item.title}</h3>
+                    </div>
+
+                    {/* Expanded Content Area (Active Item Details) */}
+                    <div className="why-editorial-row-body">
+                      <p className="why-editorial-row-desc">{item.description}</p>
+
+                      {item.bullets && item.bullets.length > 0 && (
+                        <ul className="why-editorial-row-bullets">
+                          {item.bullets.map((b, bIdx) => (
+                            <li key={bIdx}>
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="#E87722"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      <div className="why-editorial-row-action">
+                        <a
+                          href={item.link || '/why-team-eyrie'}
+                          className="why-editorial-action-link"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span>{item.linkLabel || 'Explore Advantage'}</span>
+                          <span style={{ marginLeft: 6 }}>→</span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Mobile-Only Image Preview */}
-                  <div className="why-scroll-item-mobile-img">
-                    <img
-                      src={item.image || '/images/Why.png'}
-                      alt={item.title}
-                      onError={(e) => {
-                        ;(e.target as HTMLImageElement).src = '/images/Why.png'
-                      }}
-                    />
-                  </div>
-
-                  {/* Title & Description */}
-                  <h3 className="why-scroll-item-title">{item.title}</h3>
-                  <p className="why-scroll-item-desc">{item.description}</p>
-
-                  {/* Key Highlights / Bullets */}
-                  {item.bullets && item.bullets.length > 0 && (
-                    <ul className="why-scroll-bullets">
-                      {item.bullets.map((b, bIdx) => (
-                        <li key={bIdx} className="why-scroll-bullet-item">
-                          <svg
-                            className="why-scroll-check-icon"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {/* Action Link Button */}
-                  <div className="why-scroll-item-action">
-                    <a
-                      href={item.link || '/why-team-eyrie'}
-                      className="why-scroll-btn"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span>{item.linkLabel || 'Explore Detail'}</span>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="why-scroll-btn-arrow"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

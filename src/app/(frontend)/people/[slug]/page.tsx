@@ -11,13 +11,51 @@ export const dynamic = 'force-dynamic'
 
 async function getPerson(slug: string) {
   const payload = await getPayload({ config })
+
+  // 1. Exact slug match
   const { docs } = await payload.find({
     collection: 'team-members',
     where: { slug: { equals: slug } },
     limit: 1,
     depth: 1,
   })
-  return docs[0] as any | undefined
+  if (docs.length > 0) return docs[0] as any | undefined
+
+  // 2. Direct ID match if numeric
+  if (!isNaN(Number(slug))) {
+    try {
+      const byId = await payload.findByID({
+        collection: 'team-members',
+        id: Number(slug),
+        depth: 1,
+      })
+      if (byId) return byId as any
+    } catch {
+      // ignore
+    }
+  }
+
+  // 3. Fallback: match by slugified name
+  const all = await payload.find({
+    collection: 'team-members',
+    limit: 100,
+    depth: 1,
+  })
+  const normalizedSearch = decodeURIComponent(slug).toLowerCase()
+  const matched = all.docs.find((p: any) => {
+    if (p.slug && p.slug.toLowerCase() === normalizedSearch) return true
+    if (p.name) {
+      const s = p.name
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+      if (s === normalizedSearch) return true
+    }
+    return false
+  })
+  return (matched as any) || undefined
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -35,13 +73,24 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
   const expertise = Array.isArray(p.expertise) ? p.expertise.filter((e: any) => typeof e === 'object') : []
   const contact = p.contact || {}
 
+  const initials = p.name
+    ? p.name
+      .replace(/CA\s+/i, '')
+      .trim()
+      .split(/\s+/)
+      .map((n: string) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase()
+    : 'CA'
+
   return (
     <main>
       <PageHero
         title={p.name}
         subtitle={p.designation}
         eyebrow="Practice Partner Profile"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Our People', href: '/people' }, { label: p.name }]}
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Our People', href: '/people' }, { label: p.name }]}
         bgImage="/hero/hero-3.png"
       />
       <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
@@ -55,7 +104,27 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
                 loading="lazy"
                 style={{ width: '100%', borderRadius: 14, objectFit: 'cover', border: '1px solid #e2e8f0', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
               />
-            ) : null}
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  height: 240,
+                  borderRadius: 14,
+                  background: 'linear-gradient(135deg, #0F2A4A 0%, #1E3A8A 100%)',
+                  color: '#E87722',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 54,
+                  fontWeight: 800,
+                  letterSpacing: 2,
+                  boxShadow: '0 8px 24px rgba(15, 42, 74, 0.12)',
+                  border: '1.5px solid rgba(232, 119, 34, 0.45)',
+                }}
+              >
+                {initials}
+              </div>
+            )}
 
             <div
               className="corporate-card corporate-card--partner"
@@ -64,13 +133,13 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               {p.qualifications && (
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Qualifications</div>
-                  <div style={{ color: '#1f3864', fontWeight: 700, fontSize: 14.5 }}>{p.qualifications}</div>
+                  <div style={{ color: '#0F2A4A', fontWeight: 700, fontSize: 14.5 }}>{p.qualifications}</div>
                 </div>
               )}
               {contact.email && (
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Email</div>
-                  <a href={`mailto:${contact.email}`} style={{ color: '#123B6D', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
+                  <a href={`mailto:${contact.email}`} style={{ color: '#1E3A8A', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
                     {contact.email}
                   </a>
                 </div>
@@ -78,14 +147,14 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               {contact.phone && (
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Phone</div>
-                  <a href={`tel:${contact.phone}`} style={{ color: '#071A3A', fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}>
+                  <a href={`tel:${contact.phone}`} style={{ color: '#0F2A4A', fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}>
                     {contact.phone}
                   </a>
                 </div>
               )}
               {contact.linkedin && (
                 <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #98A2B3' }}>
-                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#123B6D', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#E87722', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
                     Connect on LinkedIn →
                   </a>
                 </div>
@@ -94,7 +163,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
           </aside>
 
           <div>
-            <h2 style={{ fontSize: 'clamp(26px, 2.2vw, 34px)', color: '#1f3864', fontWeight: 800, margin: '0 0 16px' }}>
+            <h2 style={{ fontSize: 'clamp(26px, 2.2vw, 34px)', color: '#0F2A4A', fontWeight: 800, margin: '0 0 16px' }}>
               Professional Background
             </h2>
             {p.bio ? (
@@ -109,7 +178,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
 
             {expertise.length > 0 && (
               <div style={{ marginTop: 40, paddingTop: 28, borderTop: '1px solid #e2e8f0' }}>
-                <h3 style={{ fontSize: 20, color: '#1f3864', fontWeight: 800, marginBottom: 14 }}>
+                <h3 style={{ fontSize: 20, color: '#0F2A4A', fontWeight: 800, marginBottom: 14 }}>
                   Areas of Practice &amp; Expertise
                 </h3>
                 <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -122,7 +191,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
                         border: '1px solid #cbd5e1',
                         padding: '7px 14px',
                         borderRadius: 8,
-                        color: '#1f3864',
+                        color: '#1E3A8A',
                         fontWeight: 600,
                         fontSize: 14,
                         textDecoration: 'none',

@@ -62,7 +62,15 @@ export default async function InsightsPage() {
               </p>
             </div>
           ) : (
-            <div className="grid--cards-3">
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                gap: 24,
+                marginBottom: 48,
+              }}
+            >
               {posts.map((p: any) => {
                 const img = typeof p.coverImage === 'object' && p.coverImage?.url ? p.coverImage.url : null
                 return (
@@ -70,7 +78,15 @@ export default async function InsightsPage() {
                     key={p.id}
                     href={`/insights/${p.slug}`}
                     className="corporate-card corporate-card--light corporate-card--clickable"
-                    style={{ padding: 0, overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}
+                    style={{
+                      flex: '1 1 320px',
+                      maxWidth: 380,
+                      minWidth: 280,
+                      padding: 0,
+                      overflow: 'hidden',
+                      textDecoration: 'none',
+                      color: 'inherit',
+                    }}
                   >
                     {img && (
                       // eslint-disable-next-line @next/next/no-img-element
