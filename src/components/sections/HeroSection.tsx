@@ -49,7 +49,8 @@ export const defaultHeroSlides: HeroSlide[] = [
     title: 'Together, We Create Value. Together, We Build Trust.',
     description:
       'A united national network of Chartered Accountants, Company Secretaries, Legal Counsel, and Valuation Specialists delivering institutional excellence.',
-    image: '/images/Why.png',
+    image: '/images/finalslide3-poster.png',
+    video: '/media/finalslide3.mp4',
     primaryCta: { label: 'About Team Eyrie', href: '/about' },
     secondaryCta: { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
   },
@@ -148,6 +149,63 @@ function renderHeadline(title: string) {
   return <>{title}</>
 }
 
+function SlideVideo({
+  src,
+  poster,
+  isActive,
+}: {
+  src: string
+  poster?: string
+  isActive: boolean
+}) {
+  const videoRef = React.useRef<HTMLVideoElement>(null)
+
+  React.useEffect(() => {
+    if (isActive && videoRef.current) {
+      const playPromise = videoRef.current.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Ignore autoplay restriction errors
+        })
+      }
+    }
+  }, [isActive])
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      poster={poster}
+      className="hero-creative-bg__video"
+    >
+      <source src={src} type={src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
+      {src.endsWith('.mov') && <source src="/videos/ca2.mp4" type="video/mp4" />}
+      {src.includes('finalslide3') && (
+        <>
+          <source src="/media/finalslide3.mp4" type="video/mp4" />
+          <source src="/videos/finalslide3.mp4" type="video/mp4" />
+        </>
+      )}
+      {src.includes('newweb') && (
+        <>
+          <source src="/media/newweb.mp4" type="video/mp4" />
+          <source src="/videos/newweb.mp4" type="video/mp4" />
+        </>
+      )}
+      {src.includes('gstheader') && (
+        <>
+          <source src="/media/gstheader.mp4" type="video/mp4" />
+          <source src="/videos/gstheader.mp4" type="video/mp4" />
+        </>
+      )}
+    </video>
+  )
+}
+
 export default function HeroSection({
   eyebrow = 'TRUSTED CHARTERED ACCOUNTANTS',
   headline = 'TEAM EYRIE',
@@ -230,18 +288,11 @@ export default function HeroSection({
               aria-hidden={!isActive}
             >
               {isVideo && videoSrc && (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
+                <SlideVideo
+                  src={videoSrc}
                   poster={slide.image && !slide.image.endsWith('.mp4') && !slide.image.endsWith('.mov') ? slide.image : undefined}
-                  className="hero-creative-bg__video"
-                >
-                  <source src={videoSrc} type={videoSrc.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
-                  {videoSrc.endsWith('.mov') && <source src="/videos/ca2.mp4" type="video/mp4" />}
-                </video>
+                  isActive={isActive}
+                />
               )}
             </div>
           )

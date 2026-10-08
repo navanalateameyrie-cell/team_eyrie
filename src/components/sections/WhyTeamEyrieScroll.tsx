@@ -131,22 +131,27 @@ export default function WhyTeamEyrieScroll({
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      if (!containerRef.current) return
-      if (window.innerWidth <= 900) return
-
-      const rect = containerRef.current.getBoundingClientRect()
-      const scrollableDistance = rect.height - window.innerHeight
-      if (scrollableDistance <= 0) return
-
-      const scrolled = -rect.top
-      const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
-
-      const active = Math.min(
-        displayItems.length - 1,
-        Math.floor(progress * displayItems.length)
-      )
-      setActiveIndex(active)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (containerRef.current && window.innerWidth > 900) {
+            const rect = containerRef.current.getBoundingClientRect()
+            const scrollableDistance = rect.height - window.innerHeight
+            if (scrollableDistance > 0) {
+              const scrolled = -rect.top
+              const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
+              const active = Math.min(
+                displayItems.length - 1,
+                Math.floor(progress * displayItems.length)
+              )
+              setActiveIndex(active)
+            }
+          }
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -264,8 +269,8 @@ export default function WhyTeamEyrieScroll({
                           {item.bullets.map((b, bIdx) => (
                             <li key={bIdx}>
                               <svg
-                                width="16"
-                                height="16"
+                                width="20"
+                                height="20"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="#E87722"

@@ -72,22 +72,27 @@ export default function HorizontalServicesScroll({
   const [activeIdx, setActiveIdx] = useState(0)
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      if (!containerRef.current) return
-      if (window.innerWidth <= 900) return
-
-      const rect = containerRef.current.getBoundingClientRect()
-      const scrollableDistance = rect.height - window.innerHeight
-      if (scrollableDistance <= 0) return
-
-      const scrolled = -rect.top
-      const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
-
-      const active = Math.min(
-        services.length - 1,
-        Math.floor(progress * services.length)
-      )
-      setActiveIdx(active)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (containerRef.current && window.innerWidth > 900) {
+            const rect = containerRef.current.getBoundingClientRect()
+            const scrollableDistance = rect.height - window.innerHeight
+            if (scrollableDistance > 0) {
+              const scrolled = -rect.top
+              const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
+              const active = Math.min(
+                services.length - 1,
+                Math.floor(progress * services.length)
+              )
+              setActiveIdx(active)
+            }
+          }
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -180,7 +185,7 @@ export default function HorizontalServicesScroll({
             <div className="services-console-details-top">
               <div className="services-console-badge-row">
                 <div className="services-console-icon-pill">
-                  <CorporateIcon name={currentService.iconName} size={22} color="#E87722" />
+                  <CorporateIcon name={currentService.iconName} size={24} color="#E87722" />
                   <span>Practice Discipline 0{activeIdx + 1}</span>
                 </div>
 
@@ -191,7 +196,7 @@ export default function HorizontalServicesScroll({
                     className="services-console-arrow-btn"
                     aria-label="Previous service"
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <polyline points="15 18 9 12 15 6" />
                     </svg>
                   </button>
@@ -201,7 +206,7 @@ export default function HorizontalServicesScroll({
                     className="services-console-arrow-btn"
                     aria-label="Next service"
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </button>
@@ -219,8 +224,8 @@ export default function HorizontalServicesScroll({
                     <li key={bIdx}>
                       <svg
                         className="services-console-check-icon"
-                        width="18"
-                        height="18"
+                        width="22"
+                        height="22"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="#E87722"
@@ -239,7 +244,7 @@ export default function HorizontalServicesScroll({
 
             {/* Action Row */}
             <div className="services-console-action-row">
-              <a href={currentService.href} className="hero-btn hero-btn--gold" style={{ padding: '12px 28px', fontSize: 14.5 }}>
+              <a href={currentService.href} className="hero-btn hero-btn--gold" style={{ padding: '14px 32px', fontSize: 15.5 }}>
                 <span>Explore {currentService.title}</span>
                 <span style={{ marginLeft: 6 }}>→</span>
               </a>

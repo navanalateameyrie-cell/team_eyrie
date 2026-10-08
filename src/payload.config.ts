@@ -51,6 +51,15 @@ if (dbUrl) {
   console.warn('[Payload DB] ⚠️ WARNING: No DATABASE_URL found in environment variables! Falling back to localhost:5432.')
 }
 
+if (typeof process !== 'undefined' && process.on) {
+  process.on('unhandledRejection', (reason) => {
+    if (!reason) {
+      // Suppress unhandled undefined rejection from DB reconnect
+      return
+    }
+  })
+}
+
 export default buildConfig({
   serverURL:
     process.env.NEXT_PUBLIC_SERVER_URL ||

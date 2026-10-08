@@ -23,7 +23,7 @@ export default function ContactForm({
 }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
   const [error, setError] = useState('')
-  
+
   // Use passed offices or fallback to standard network offices
   const officeList = offices.length > 0 ? offices : DEFAULT_OFFICES
   const [selectedOffice, setSelectedOffice] = useState<string | number>(officeList[0]?.id || '')
@@ -54,7 +54,7 @@ export default function ContactForm({
       })
       if (!res.ok) throw new Error('Request failed')
       setStatus('ok')
-      ;(e.target as HTMLFormElement).reset()
+        ; (e.target as HTMLFormElement).reset()
     } catch {
       setStatus('error')
       setError('Something went wrong. Please try again or email us directly at contact@balakrishnaandco.com.')
