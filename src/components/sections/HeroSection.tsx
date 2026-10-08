@@ -233,12 +233,12 @@ export default function HeroSection({
     setActiveIndex(idx)
   }
 
-  // Auto rotate every 6s
+  // Auto rotate every 4s
   useEffect(() => {
     if (slideCount <= 1) return
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slideCount)
-    }, 6000)
+    }, 4000)
     return () => clearInterval(timer)
   }, [activeIndex, slideCount])
 
