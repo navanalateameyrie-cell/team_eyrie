@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 import TeamEyrieCaLogo from '@/components/ui/TeamEyrieCaLogo'
@@ -38,8 +38,18 @@ export default function SiteHeader({
   logoUrl?: string | null
 }) {
   const [open, setOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
   const close = () => setOpen(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const email = contact?.email || 'contact@balakrishnaandco.com'
   const phone = contact?.phone || '8618259712 / 9845721255'
@@ -53,7 +63,7 @@ export default function SiteHeader({
   }
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''}`}>
       {/* Top Contact & Quick Nav Bar */}
       <div className="site-header__top">
         <div className="container site-header__top-inner">

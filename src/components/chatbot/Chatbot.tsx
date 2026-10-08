@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import styles from './Chatbot.module.css'
-import chatbotIcon from '../../../image/chatbot.png'
 
 interface Message {
   id: string
@@ -12,6 +11,7 @@ interface Message {
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
+  const [iconError, setIconError] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -192,7 +192,18 @@ export default function Chatbot() {
         aria-label="Toggle chat"
         style={{ transform: isOpen ? 'scale(0)' : 'scale(1)', opacity: isOpen ? 0 : 1, pointerEvents: isOpen ? 'none' : 'auto' }}
       >
-        <img src={chatbotIcon.src} alt="Chat" style={{ width: '35px', height: '35px', objectFit: 'contain' }} />
+        {!iconError ? (
+          <img
+            src="/images/chatbot.png"
+            alt="Chat"
+            onError={() => setIconError(true)}
+            style={{ width: '34px', height: '34px', objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        )}
       </button>
     </div>
   )

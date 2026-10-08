@@ -125,16 +125,6 @@ export default function HorizontalServicesScroll({
     })
   }
 
-  const handlePrev = () => {
-    const prevIdx = activeIdx === 0 ? services.length - 1 : activeIdx - 1
-    scrollToService(prevIdx)
-  }
-
-  const handleNext = () => {
-    const nextIdx = activeIdx === services.length - 1 ? 0 : activeIdx + 1
-    scrollToService(nextIdx)
-  }
-
   return (
     <section
       ref={containerRef}
@@ -166,9 +156,8 @@ export default function HorizontalServicesScroll({
                     key={srv.title}
                     type="button"
                     onClick={() => scrollToService(idx)}
-                    className={`services-console-tab-btn ${
-                      isActive ? 'services-console-tab-btn--active' : ''
-                    }`}
+                    className={`services-console-tab-btn ${isActive ? 'services-console-tab-btn--active' : ''
+                      }`}
                   >
                     <span className="services-console-tab-num">0{idx + 1}</span>
                     <span className="services-console-tab-label">{srv.title}</span>
@@ -178,144 +167,121 @@ export default function HorizontalServicesScroll({
             </div>
           </div>
 
-        {/* Active Capability Stage (Split View: Details on Left, Sliding Images on Right) */}
-        <div className="services-console-stage">
-          {/* Left Column: Narrative & Scope */}
-          <div className="services-console-details" key={`details-${activeIdx}`}>
-            <div className="services-console-details-top">
-              <div className="services-console-badge-row">
-                <div className="services-console-icon-pill">
-                  <CorporateIcon name={currentService.iconName} size={24} color="#E87722" />
-                  <span>Practice Discipline 0{activeIdx + 1}</span>
-                </div>
-
-                <div className="services-console-arrows">
-                  <button
-                    type="button"
-                    onClick={handlePrev}
-                    className="services-console-arrow-btn"
-                    aria-label="Previous service"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    className="services-console-arrow-btn"
-                    aria-label="Next service"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <h3 className="services-console-active-title">{currentService.title}</h3>
-              <p className="services-console-active-desc">{currentService.desc}</p>
-
-              {/* Scope Checklist */}
-              <div className="services-console-scope-list">
-                <span className="services-console-scope-label">Core Practice Scope:</span>
-                <ul>
-                  {bullets.map((bullet, bIdx) => (
-                    <li key={bIdx}>
-                      <svg
-                        className="services-console-check-icon"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#E87722"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Action Row */}
-            <div className="services-console-action-row">
-              <a href={currentService.href} className="hero-btn hero-btn--gold" style={{ padding: '14px 32px', fontSize: 15.5 }}>
-                <span>Explore {currentService.title}</span>
-                <span style={{ marginLeft: 6 }}>→</span>
-              </a>
-              <a href="/contact" className="services-console-consult-link">
-                <span>Book Practice Consultation</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Right Column: Sliding Image Carousel */}
-          <div className="services-console-visual">
-            <div className="services-console-visual-frame">
-              <div
-                className="services-console-slider-track"
-                style={{
-                  display: 'flex',
-                  height: '100%',
-                  width: `${services.length * 100}%`,
-                  transform: `translateX(-${(activeIdx * 100) / services.length}%)`,
-                  transition: 'transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1)',
-                }}
-              >
-                {services.map((srv) => (
-                  <div
-                    key={srv.title}
-                    style={{
-                      width: `${100 / services.length}%`,
-                      height: '100%',
-                      position: 'relative',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <img
-                      src={srv.bgImage}
-                      alt={srv.title}
-                      className="services-console-visual-img"
-                      onError={(e) => {
-                        ;(e.target as HTMLImageElement).src = '/images/services.png'
-                      }}
-                    />
-                    <div className="services-console-visual-overlay" />
-                    <div className="services-console-visual-pill">
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
-                      <span>{srv.title}</span>
-                    </div>
+          {/* Active Capability Stage (Split View: Details on Left, Sliding Images on Right) */}
+          <div className="services-console-stage">
+            {/* Left Column: Narrative & Scope */}
+            <div className="services-console-details" key={`details-${activeIdx}`}>
+              <div className="services-console-details-top">
+                <div className="services-console-badge-row">
+                  <div className="services-console-icon-pill">
+                    <CorporateIcon name={currentService.iconName} size={24} color="#E87722" />
+                    <span>Practice Discipline 0{activeIdx + 1}</span>
                   </div>
-                ))}
+                </div>
+
+                <h3 className="services-console-active-title">{currentService.title}</h3>
+                <p className="services-console-active-desc">{currentService.desc}</p>
+
+                {/* Scope Checklist */}
+                <div className="services-console-scope-list">
+                  <span className="services-console-scope-label">Core Practice Scope:</span>
+                  <ul>
+                    {bullets.map((bullet, bIdx) => (
+                      <li key={bIdx}>
+                        <svg
+                          className="services-console-check-icon"
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#E87722"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Action Row */}
+              <div className="services-console-action-row">
+                <a href={currentService.href} className="hero-btn hero-btn--gold" style={{ padding: '14px 32px', fontSize: 15.5 }}>
+                  <span>Explore {currentService.title}</span>
+                  <span style={{ marginLeft: 6 }}>→</span>
+                </a>
+                <a href="/contact" className="services-console-consult-link">
+                  <span>Book Practice Consultation</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Sliding Image Carousel */}
+            <div className="services-console-visual">
+              <div className="services-console-visual-frame">
+                <div
+                  className="services-console-slider-track"
+                  style={{
+                    display: 'flex',
+                    height: '100%',
+                    width: `${services.length * 100}%`,
+                    transform: `translateX(-${(activeIdx * 100) / services.length}%)`,
+                    transition: 'transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1)',
+                  }}
+                >
+                  {services.map((srv) => (
+                    <div
+                      key={srv.title}
+                      style={{
+                        width: `${100 / services.length}%`,
+                        height: '100%',
+                        position: 'relative',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <img
+                        src={srv.bgImage}
+                        alt={srv.title}
+                        className="services-console-visual-img"
+                        onError={(e) => {
+                          ; (e.target as HTMLImageElement).src = '/images/services.png'
+                        }}
+                      />
+                      <div className="services-console-visual-overlay" />
+                      <div className="services-console-visual-pill">
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
+                        <span>{srv.title}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Catalog Button */}
-        <div style={{ textAlign: 'center', marginTop: 28 }}>
-          <a
-            href="/services"
-            className="hero-btn hero-btn--outline"
-            style={{
-              background: '#ffffff',
-              color: '#0F2A4A',
-              borderColor: '#cbd5e1',
-              padding: '10px 26px',
-              fontSize: 13.5,
-              fontWeight: 700,
-            }}
-          >
-            Explore Complete Service Catalog →
-          </a>
+          {/* Catalog Button */}
+          <div style={{ textAlign: 'center', marginTop: 28 }}>
+            <a
+              href="/services"
+              className="hero-btn hero-btn--outline"
+              style={{
+                background: '#ffffff',
+                color: '#0F2A4A',
+                borderColor: '#cbd5e1',
+                padding: '10px 26px',
+                fontSize: 13.5,
+                fontWeight: 700,
+              }}
+            >
+              Explore Complete Service Catalog →
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   )
 }

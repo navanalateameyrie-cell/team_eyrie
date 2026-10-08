@@ -267,17 +267,24 @@ a.card:hover {
 }
 
 .page-hero h1 {
+  font-family: var(--font-heading, "Montserrat", sans-serif);
   color: #fff;
-  font-size: clamp(32px, 3.5vw, 44px);
-  margin: 0 0 12px;
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  margin: 0 0 20px;
 }
 
 .page-hero p {
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 19px;
-  max-width: 860px;
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 400;
+  max-width: 680px;
   margin: 0;
-  line-height: 1.6;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
 }
 
 .breadcrumb {
@@ -399,9 +406,9 @@ a.card:hover {
   margin-bottom: 0.4em;
 }
 
-/* ---- header (Placed directly OVER the hero section) ---- */
+/* ---- header (Sticky / Fixed directly over hero and persisting on scroll) ---- */
 .site-header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -411,6 +418,31 @@ a.card:hover {
   border-bottom: none;
   box-shadow: none;
   pointer-events: auto;
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scrolled state: Solid professional dark backdrop with frost glass & elevation */
+.site-header--scrolled {
+  background: rgba(7, 18, 38, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.32);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-header--scrolled .site-header__top {
+  background: rgba(4, 11, 23, 0.75);
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-header--scrolled .site-header__brand-row {
+  background: transparent;
+  padding: 8px 0;
+  border-bottom: none;
 }
 
 .site-header .container,
@@ -428,6 +460,7 @@ a.card:hover {
   padding: 8px 0;
   font-size: 13px;
   color: #e2e8f0;
+  transition: all 0.3s ease;
 }
 
 .site-header__top-inner {
@@ -520,9 +553,11 @@ a.card:hover {
 
 /* Brand Row & Inline Navigation — Placed directly over Hero Canvas (Image 3) */
 .site-header__brand-row {
-  padding: 8px 0;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px 0;
+  background: linear-gradient(180deg, rgba(7, 16, 32, 0.46) 0%, rgba(7, 16, 32, 0.2) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .site-header__brand-inner {
@@ -539,7 +574,7 @@ a.card:hover {
   background: #ffffff;
   padding: 3px 8px;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: opacity 0.2s ease, transform 0.2s ease;
   flex-shrink: 0;
   line-height: 1;
@@ -561,16 +596,17 @@ a.card:hover {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  row-gap: 6px;
+  row-gap: 8px;
   justify-content: flex-end;
 }
 
 .main-menu__pipe {
-  color: rgba(255, 255, 255, 0.25);
-  font-weight: 300;
-  font-size: 14px;
-  margin: 0 12px;
+  color: rgba(255, 255, 255, 0.38);
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0 13px;
   user-select: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .main-menu__item-wrapper {
@@ -582,14 +618,16 @@ a.card:hover {
 .main-menu__link {
   font-family: var(--font-heading);
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.25px;
   padding: 6px 2px;
   text-decoration: none;
   display: inline-block;
   position: relative;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
   white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.45);
 }
 
 /* Smooth CA Gold underline hover effect directly under text */
@@ -599,17 +637,19 @@ a.card:hover {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 2.5px;
+  height: 3px;
   background-color: #E87722;
   border-radius: 2px;
   transform: scaleX(0);
   transform-origin: bottom right;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(232, 119, 34, 0.6);
 }
 
 .main-menu__link:hover {
   color: #E87722;
   text-decoration: none;
+  text-shadow: 0 1px 6px rgba(232, 119, 34, 0.6);
 }
 
 .main-menu__link:hover::after {
@@ -619,7 +659,8 @@ a.card:hover {
 
 .main-menu__link--active {
   color: #E87722 !important;
-  font-weight: 700;
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6), 0 0 10px rgba(232, 119, 34, 0.35);
 }
 
 .main-menu__link--active::after {
@@ -878,9 +919,10 @@ a.card:hover {
   .main-menu__link {
     display: block;
     padding: 14px 20px;
-    font-size: 14.5px;
-    font-weight: 600;
+    font-size: 15.5px;
+    font-weight: 700;
     color: #0F2A4A;
+    text-shadow: none;
     border-bottom: 1px solid #f1f5f9;
     width: 100%;
     transition: all 0.15s ease;
@@ -2981,44 +3023,60 @@ a.card:hover {
   font-weight: 700;
 }
 
+/* Eyebrow Header - Styled identical to Hero Section */
 .page-hero-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  font-weight: 800;
+  gap: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 2.2px;
+  letter-spacing: 2px;
   color: #E87722;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .page-hero-eyebrow__dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #E87722;
-  box-shadow: 0 0 12px #E87722;
+  box-shadow: 0 0 10px #E87722;
   flex-shrink: 0;
 }
 
+/* Page Title - Styled identical to Hero Section .hero-creative-title */
 .page-hero-title {
-  font-size: clamp(40px, 4.6vw, 60px);
-  font-weight: 800;
+  font-family: var(--font-heading, "Montserrat", sans-serif);
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 600;
+  line-height: 1.18;
   color: #ffffff;
-  margin: 0 0 18px;
-  line-height: 1.15;
-  letter-spacing: 0.2px;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+  margin: 0 0 20px;
+  letter-spacing: -0.3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
+.page-hero-title__main {
+  color: #ffffff;
+}
+
+.page-hero-title__accent {
+  color: #F97316;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtitle / Description - Styled identical to Hero Section .hero-creative-desc */
 .page-hero-subtitle {
-  font-size: clamp(18px, 1.5vw, 22px);
-  color: #cbd5e1;
-  line-height: 1.65;
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 400;
   margin: 0;
-  max-width: 900px;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  max-width: 680px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
 }
 
 /* Corporate Cards System */
@@ -4015,8 +4073,8 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: clamp(28px, 4.5vh, 48px);
-  padding-bottom: 24px;
+  padding-top: calc(84px + clamp(14px, 2vh, 28px));
+  padding-bottom: 20px;
   box-sizing: border-box;
   overflow: hidden;
   width: 100%;
@@ -4030,7 +4088,7 @@ html {
 .services-console-header {
   text-align: center;
   max-width: 880px;
-  margin: 0 auto 20px;
+  margin: 0 auto 14px;
 }
 
 .services-console-eyebrow {
@@ -4144,7 +4202,7 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: clamp(420px, 48vh, 500px);
+  min-height: clamp(380px, 44vh, 480px);
 }
 
 .services-console-badge-row {
@@ -4261,7 +4319,7 @@ html {
 .services-console-visual-frame {
   position: relative;
   width: 100%;
-  height: clamp(420px, 48vh, 500px);
+  height: clamp(380px, 44vh, 480px);
   border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(15, 42, 74, 0.14);
@@ -4360,8 +4418,8 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: clamp(28px, 4.5vh, 48px);
-  padding-bottom: 24px;
+  padding-top: calc(84px + clamp(14px, 2vh, 28px));
+  padding-bottom: 20px;
   box-sizing: border-box;
   overflow: hidden;
   width: 100%;
@@ -4375,7 +4433,7 @@ html {
 .why-editorial-header {
   text-align: center;
   max-width: 880px;
-  margin: 0 auto 24px;
+  margin: 0 auto 18px;
 }
 
 .why-editorial-tag {
@@ -4423,7 +4481,7 @@ html {
 .why-editorial-img-frame {
   position: relative;
   width: 100%;
-  height: clamp(440px, 52vh, 540px);
+  height: clamp(400px, 46vh, 500px);
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 22px 54px rgba(15, 42, 74, 0.16);
