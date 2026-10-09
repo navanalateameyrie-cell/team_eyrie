@@ -102,8 +102,8 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               <div
                 style={{
                   width: '100%',
-                  aspectRatio: '1 / 1.05',
-                  maxHeight: 380,
+                  aspectRatio: '4 / 4.8',
+                  maxHeight: 420,
                   borderRadius: 14,
                   overflow: 'hidden',
                   border: '1px solid rgba(152, 162, 179, 0.4)',

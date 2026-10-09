@@ -23,9 +23,8 @@ export const Media: CollectionConfig = {
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
     ],
     imageSizes: [
-      { name: 'thumbnail', width: 400, height: 300, position: 'centre' },
-      { name: 'profile', width: 600, height: 600, position: 'top' },
-      { name: 'card', width: 768, height: 512, position: 'centre' },
+      { name: 'thumbnail', width: 400, height: undefined },
+      { name: 'card', width: 800, height: undefined },
       { name: 'hero', width: 1920, height: undefined },
     ],
   },
