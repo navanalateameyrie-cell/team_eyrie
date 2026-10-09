@@ -1,5 +1,6 @@
 /* =================================================================
-   _buttons.scss — Modern buttons for Admin Panel
+   _buttons.scss — Modern Executive Buttons for Admin Panel
+   Team Eyrie Enterprise CMS
 ================================================================= */
 
 /* --- Base Button Resets --- */
@@ -12,92 +13,211 @@
   cursor: pointer !important;
   position: relative !important;
   overflow: hidden !important;
-  white-space: nowrap !important; /* Prevent text wrapping like in ADD SLIDE */
-  gap: 8px !important; /* Space between icon and text */
+  white-space: nowrap !important;
+  gap: 8px !important;
 }
 
-/* --- Primary Buttons (Save, Create, etc.) --- */
-.btn--style-primary, .btn--icon-style-with-border, #action-save, #action-publish {
-  background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+/* --- Primary Action Buttons (Save, Publish, Create) --- */
+.btn--style-primary,
+.btn--icon-style-with-border,
+#action-save,
+#action-publish,
+.form-submit button,
+.form-submit .btn,
+button[type="submit"].btn,
+.collection-edit__submit,
+button.form-submit__button,
+.list-create-new-doc__create-new-button,
+.list-header__title-actions a,
+.list-header__title-actions .btn,
+.list-header a[href$="/create"],
+.collection-list a[href$="/create"] {
+  background: linear-gradient(135deg, #1a4b8c 0%, #0f274a 100%) !important;
   color: #ffffff !important;
-  border-radius: 10px !important;
-  border: none !important;
+  border-radius: 8px !important;
+  border: 1px solid #0f274a !important;
   font-weight: 700 !important;
-  font-size: 13.5px !important;
+  font-size: 13px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.6px !important;
-  padding: 10px 24px !important;
-  box-shadow: 0 4px 12px rgba(176, 141, 87, 0.25), inset 0 1px 0 rgba(255,255,255,0.2) !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-  min-height: 42px !important;
-  
-  /* Metallic Sheen Effect */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transform: skewX(-20deg);
-    transition: left 0.6s ease;
-  }
+  padding: 7px 18px !important;
+  box-shadow: 0 3px 10px rgba(26, 75, 140, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  min-height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  gap: 8px !important;
+  cursor: pointer !important;
 
   &:hover {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 8px 20px rgba(176, 141, 87, 0.4), 0 0 0 2px rgba(176, 141, 87, 0.2) !important;
-    background: linear-gradient(135deg, #be9c66 0%, #a4804d 100%) !important;
+    background: linear-gradient(135deg, #2563eb 0%, #1a4b8c 100%) !important;
     color: #ffffff !important;
-    &::before { left: 150%; }
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(26, 75, 140, 0.45) !important;
   }
-  
+
   &:active {
     transform: translateY(1px) !important;
-    box-shadow: 0 2px 5px rgba(176, 141, 87, 0.3) !important;
+    box-shadow: 0 2px 6px rgba(26, 75, 140, 0.25) !important;
+  }
+
+  &:disabled,
+  &[disabled] {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
-/* --- Secondary Buttons (Edit, API, Cancel) --- */
-.btn--style-secondary, .btn--style-secondaryTransparent, .pill {
+/* Save Draft Button */
+#action-save-draft,
+button#action-save-draft {
   background: #ffffff !important;
-  color: var(--te-navy) !important;
+  color: #0f274a !important;
   border: 1.5px solid #cbd5e1 !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   font-weight: 700 !important;
-  font-size: 13.5px !important;
-  padding: 10px 20px !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-  box-shadow: 0 2px 5px rgba(11, 19, 36, 0.02) !important;
-  min-height: 42px !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 8px 18px !important;
+  min-height: 38px !important;
+  box-shadow: 0 1px 3px rgba(15, 39, 74, 0.04) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 
   &:hover {
     background: #f8fafc !important;
-    border-color: var(--te-gold) !important;
-    color: var(--te-gold) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 16px rgba(176, 141, 87, 0.15) !important;
+    border-color: #1a4b8c !important;
+    color: #1a4b8c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(26, 75, 140, 0.1) !important;
   }
 }
 
-/* Override Pills specifically if they act as links (like Create New) */
-.pill.pill--has-link {
-  background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
-  color: #ffffff !important;
-  border: none !important;
-  text-transform: uppercase !important;
-  box-shadow: 0 6px 16px rgba(176, 141, 87, 0.35) !important;
-  
+/* --- Secondary Buttons (Cancel, Filters, Columns, Sort) --- */
+.btn--style-secondary,
+.btn--style-secondaryTransparent,
+.list-controls button,
+.list-controls .btn,
+.list-controls__toggle-columns,
+.list-controls__toggle-where,
+.list-controls__toggle-sort,
+.list-controls__toggle-group-by,
+.list-controls__buttons button {
+  background: #ffffff !important;
+  color: #0f274a !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  padding: 7px 16px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px rgba(15, 39, 74, 0.04) !important;
+  min-height: 38px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+
+  svg {
+    color: #64748b !important;
+    transition: color 0.2s ease !important;
+  }
+
   &:hover {
-    background: linear-gradient(135deg, #d4b483 0%, var(--te-gold) 100%) !important;
+    background: #f8fafc !important;
+    border-color: #1a4b8c !important;
+    color: #1a4b8c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 10px rgba(26, 75, 140, 0.1) !important;
+
+    svg {
+      color: #1a4b8c !important;
+    }
+  }
+
+  &:active {
+    transform: translateY(0) !important;
+  }
+
+  /* When drawer is open/active */
+  &[aria-expanded="true"] {
+    background: #0f274a !important;
+    border-color: #0f274a !important;
     color: #ffffff !important;
-    transform: translateY(-4px) scale(1.05) !important;
+
+    svg {
+      color: #ffffff !important;
+    }
+  }
+}
+
+/* --- Upload, File Dropzone & Relationship Drawer Buttons --- */
+/* Fixes "Create New" and "Choose from existing" in Media / Hero Image / Icon fields */
+.file-field button,
+.upload button,
+.dropzone button,
+.field-type.upload button,
+.field-type.relationship button,
+.file-field__upload button,
+.file-field__toggler,
+.upload__toggler,
+.relationship__add-new,
+.relationship__drawer-toggler,
+.relationship-add-new,
+.doc-drawer__toggler,
+.field-type.upload .btn,
+.field-type.relationship .btn {
+  background: #ffffff !important;
+  color: #0f274a !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 7px !important;
+  padding: 7px 16px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 4px 6px !important;
+  text-decoration: none !important;
+
+  &:hover {
+    background: #f1f5f9 !important;
+    border-color: #1a4b8c !important;
+    color: #1a4b8c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(26, 75, 140, 0.15) !important;
+  }
+
+  &:active {
+    transform: translateY(0) !important;
   }
 }
 
 /* --- Document Tabs (Edit, API, Versions) --- */
-.doc-tab, .doc-tabs a, .doc-header__tabs a, .nav-tabs a, .tabs a, .tab, .tabs__tab, button.doc-tab {
-  background: linear-gradient(135deg, rgba(176, 141, 87, 0.1) 0%, rgba(176, 141, 87, 0.15) 100%) !important;
-  color: var(--te-gold) !important;
-  border: 1px solid rgba(176, 141, 87, 0.3) !important;
+.doc-tab,
+.doc-tabs a,
+.doc-header__tabs a,
+.nav-tabs a,
+.tabs a,
+.tab,
+.tabs__tab,
+button.doc-tab {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
   border-radius: 8px !important;
   padding: 6px 16px !important;
   font-weight: 600 !important;
@@ -105,65 +225,235 @@
   text-decoration: none !important;
   display: inline-flex !important;
   align-items: center !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.2s ease !important;
   margin-right: 8px !important;
 
-  &:hover, &.active, &.doc-tab--active {
-    background: linear-gradient(135deg, var(--te-gold) 0%, #967341 100%) !important;
+  &:hover {
+    background: #ffffff !important;
+    color: #0f274a !important;
+    border-color: #1a4b8c !important;
+  }
+
+  &.active,
+  &.doc-tab--active {
+    background: #0f274a !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(176, 141, 87, 0.25) !important;
-    border-color: transparent !important;
+    border-color: #0f274a !important;
+    box-shadow: 0 2px 6px rgba(15, 39, 74, 0.2) !important;
   }
 }
 
 /* --- Save/Publish Buttons Container --- */
-.form-submit, .collection-edit__sidebar .document-controls {
+.form-submit,
+.collection-edit__sidebar .document-controls {
   display: flex !important;
   gap: 12px !important;
   width: auto !important;
   flex-wrap: wrap !important;
-  
+
   .btn {
-    flex: 0 0 auto !important; /* Do not stretch or shrink the save button */
+    flex: 0 0 auto !important;
     justify-content: center !important;
   }
 }
 
-/* --- Icon Buttons (like Ellipsis, Close, Trash, Add) --- */
-.btn--icon-style-without-border, .btn--icon, .popup-button {
+/* --- Icon Buttons (Ellipsis, Trash, Close, etc.) --- */
+.btn--icon-style-without-border,
+.btn--icon,
+.popup-button {
   background: transparent !important;
-  color: var(--te-navy) !important;
+  color: #475569 !important;
   border-radius: 8px !important;
-  min-width: 42px !important;
-  width: auto !important; /* Allow width to expand if it contains text like ADD SLIDE */
-  height: 42px !important;
+  min-width: 38px !important;
+  height: 38px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 1.5px solid transparent !important;
-  transition: all 0.3s ease !important;
-  padding: 0 12px !important; /* Add horizontal padding so text doesn't touch edges */
+  border: 1px solid transparent !important;
+  transition: all 0.2s ease !important;
+  padding: 0 8px !important;
 
   &:hover {
-    background: rgba(176, 141, 87, 0.08) !important; /* Subtle gold background instead of aggressive border box */
-    color: var(--te-gold) !important;
-    transform: translateY(-1px) !important;
+    background: #f1f5f9 !important;
+    color: #0f274a !important;
+    border-color: #cbd5e1 !important;
   }
-  
-  &:active {
-    transform: translateY(0) !important;
-  }
-  
+
   svg {
-    width: 20px !important;
-    height: 20px !important;
-    /* Do not force fill: currentColor, it breaks stroke-based icons */
-    transition: all 0.3s ease !important;
+    width: 18px !important;
+    height: 18px !important;
+    transition: all 0.2s ease !important;
   }
 }
 
-/* Fix for popup button inside save/actions area */
+/* --- Document Controls 3-Dots Menu Button & Popup --- */
+.doc-controls__popup,
 .document-controls__popup {
   display: flex !important;
   align-items: center !important;
+  position: relative !important;
 }
+
+.doc-controls__dots {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  box-shadow: 0 1px 2px rgba(15, 39, 74, 0.04) !important;
+
+  > div {
+    width: 3.5px !important;
+    height: 3.5px !important;
+    border-radius: 50% !important;
+    background-color: #475569 !important;
+    transition: background-color 0.2s ease !important;
+  }
+
+  &:hover {
+    background: #f1f5f9 !important;
+    border-color: #1a4b8c !important;
+
+    > div {
+      background-color: #1a4b8c !important;
+    }
+  }
+}
+
+/* Popup Menu Dropdown Card */
+.popup__content,
+.doc-controls__popup .popup__content,
+.list-controls__popup .popup__content {
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 30px rgba(15, 39, 74, 0.12), 0 2px 8px rgba(15, 39, 74, 0.06) !important;
+  padding: 6px !important;
+  min-width: 180px !important;
+  z-index: 100 !important;
+
+  .popup-button-list__button,
+  .popup-button-list button,
+  .popup-button-list a,
+  a.popup-button-list__button {
+    color: #0f274a !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px 14px !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+    text-align: left !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    background: transparent !important;
+    border: none !important;
+
+    &:hover {
+      background: #f1f5f9 !important;
+      color: #1a4b8c !important;
+    }
+
+    /* Delete / destructive buttons */
+    &#action-delete,
+    &.popup-button-list__button--destructive {
+      color: #dc2626 !important;
+
+      &:hover {
+        background: #fef2f2 !important;
+        color: #b91c1c !important;
+      }
+    }
+  }
+}
+
+/* --- Array & Blocks Field Action Buttons --- */
+.array-field__add-row,
+.blocks-field__add-button,
+.field-type.array > .btn,
+.field-type.blocks > .btn,
+.array-field button[type="button"].btn,
+.blocks-field button[type="button"].btn,
+.array-field__add-button {
+  background: #f8fafc !important;
+  color: #0f274a !important;
+  border: 1.5px dashed #94a3b8 !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  margin-top: 12px !important;
+
+  &:hover {
+    background: #eff6ff !important;
+    border-color: #1a4b8c !important;
+    border-style: solid !important;
+    color: #1a4b8c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(26, 75, 140, 0.1) !important;
+  }
+}
+
+/* --- Pagination Controls --- */
+.pagination {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  padding: 16px 20px !important;
+  margin-top: 16px !important;
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+
+  .pagination__controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  .pagination__page-button,
+  .pagination button {
+    min-width: 34px !important;
+    height: 34px !important;
+    padding: 0 8px !important;
+    border-radius: 6px !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #0f274a !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+
+    &:hover {
+      background: #f1f5f9 !important;
+      border-color: #1a4b8c !important;
+      color: #1a4b8c !important;
+    }
+
+    &.pagination__page-button--active,
+    &.active {
+      background: #0f274a !important;
+      border-color: #0f274a !important;
+      color: #ffffff !important;
+    }
+  }
+}
+

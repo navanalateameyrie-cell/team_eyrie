@@ -18,16 +18,14 @@
   border: none !important;
 }
 
-/* Hide Payload's default header actions (hamburger + avatar) since we built a custom one */
+/* Hide Payload's default nav drawer togglers since we built a custom fixed sidebar */
 .nav-toggler,
 .nav__toggle,
 .close-nav,
 button[aria-label="Toggle navigation"],
 button[aria-label="Close navigation"],
 .hamburger-menu,
-.drawer__toggle,
-.app-header__actions,
-.app-header .avatar {
+.drawer__toggle {
   display: none !important;
   opacity: 0 !important;
   pointer-events: none !important;

@@ -68,16 +68,16 @@ export const LoginView: React.FC = () => {
 
           {/* ── LEFT: Branding & Stats Content ──────────────────────── */}
           <div style={S.leftBrand}>
-            <div style={S.pill}>✦ TRUSTED SINCE 2010 ✦</div>
+            <div style={S.pill}>✦ INTEGRATED PROFESSIONAL NETWORK ✦</div>
 
             <h1 style={S.leftH1}>
               Powering India's<br />
-              <span style={S.accent}>Premier CA Firm</span>
+              <span style={S.accent}>Premier CA &amp; Advisory Network</span>
             </h1>
 
             <p style={S.leftP}>
-              Welcome to Team Eyrie CMS. Access your client management,
-              recruitment portals, and service administrative controls.
+              Welcome to Team Eyrie Enterprise CMS. Manage corporate mandates,
+              recruitment pipelines, and fiduciary administrative controls.
             </p>
 
             <div style={S.divider} />
@@ -85,9 +85,9 @@ export const LoginView: React.FC = () => {
             {/* Glass Stat Cards */}
             <div style={S.stats}>
               {[
-                { v: '10+', l: 'Active Clients' },
-                { v: '5+', l: 'Years Experience' },
-                { v: '9', l: 'Office Locations' },
+                { v: '1,200+', l: 'Corporate Clients' },
+                { v: '25+', l: 'Years Legacy' },
+                { v: '9', l: 'Metro Offices' },
               ].map(({ v, l }) => (
                 <div key={l} style={S.statCard}>
                   <div style={S.statNum}>{v}</div>

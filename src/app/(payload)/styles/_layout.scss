@@ -15,29 +15,22 @@ main.template-default__main {
   margin-top: 0 !important;
 }
 
-/* Ensure inner content has proper max-width and acts as the main card */
+/* Ensure inner content has proper max-width and clean layout */
 .template-default__content,
 .payload__content {
-  padding: 32px !important;
-  max-width: none !important;
-  margin: 24px !important;
-  background: #ffffff !important;
-  border-radius: 18px !important;
-  box-shadow: 0 10px 40px rgba(11, 19, 36, 0.06), 0 2px 6px rgba(11, 19, 36, 0.03) !important;
-  border: 1px solid rgba(11, 19, 36, 0.04) !important;
-  min-height: calc(100vh - 120px) !important;
+  padding: 16px 24px 32px !important;
+  max-width: 1540px !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  min-height: calc(100vh - 80px) !important;
   position: relative !important;
+  box-sizing: border-box !important;
 
   @media (max-width: 1024px) {
-    padding: 24px 18px !important;
-    margin: 16px 12px !important;
-    border-radius: 14px !important;
-  }
-
-  @media (max-width: 768px) {
-    padding: 16px 12px !important;
-    margin: 10px 8px !important;
-    border-radius: 12px !important;
+    padding: 12px 14px 24px !important;
   }
 }
 
@@ -59,27 +52,3 @@ h1, h2, h3, h4, h5, h6 {
 .global-edit__header:empty,
 .doc-header:empty,
 .payload-default__step-nav:empty { display: none !important; }
-
-/* Remove empty space at top of edit views */
-.doc-controls,
-.form-controls,
-.doc-header,
-.collection-edit__header,
-.global-edit__header {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  min-height: 0 !important;
-}
-
-.collection-edit form,
-.global-edit form,
-.render-fields {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  background: transparent !important;
-}

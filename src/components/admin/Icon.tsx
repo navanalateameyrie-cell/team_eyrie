@@ -1,22 +1,25 @@
 import React from 'react'
 
 export const Icon = () => (
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    width: '100%',
-    minWidth: '150px'
-  }}>
-    <img 
-      src="/logo.png" 
-      alt="Team Eyrie Icon" 
+  <div
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 'auto',
+      height: 'auto',
+    }}
+  >
+    <img
+      src="/logo-trimmed.png"
+      alt="Team Eyrie"
       style={{
-        maxWidth: '100%',
-        height: 'auto',
-        maxHeight: '48px',
+        display: 'block',
+        height: '28px',
+        maxHeight: '28px',
+        width: 'auto',
+        maxWidth: 'none',
         objectFit: 'contain',
-        objectPosition: 'left center'
       }}
     />
   </div>

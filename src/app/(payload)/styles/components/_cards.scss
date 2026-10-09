@@ -48,24 +48,25 @@
   padding: 0 !important;
 }
 
-/* In Global views, position the save button top-right in the main white card */
+/* Proper flex alignment for save buttons inside document header and form */
 .global-edit > .document-controls, 
 .global-edit__header > .document-controls,
 .global-edit form > .document-controls,
-.global-edit .form-submit {
-  position: absolute !important;
-  top: 32px !important; /* Top padding of .template-default__content */
-  right: 32px !important; /* Right padding of .template-default__content */
+.global-edit .form-submit,
+.collection-edit .form-submit,
+.collection-edit .document-controls,
+.doc-controls .form-submit {
+  position: static !important;
   margin: 0 !important;
   display: flex !important;
   flex-direction: row !important;
-  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 12px !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  z-index: 50 !important;
-  width: auto !important; /* Prevent 100% width from squishing the button */
+  width: auto !important;
 }
 
 /* Adjust Main/Sidebar Grid in Edit View (Only for Collection Edit, Globals often don't have a sidebar) */

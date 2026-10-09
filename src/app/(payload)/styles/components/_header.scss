@@ -4,31 +4,73 @@
 
 /* --- Sticky App Header --- */
 .app-header {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(25px) !important;
-  -webkit-backdrop-filter: blur(25px) !important;
-  border-bottom: 1px solid rgba(176, 141, 87, 0.2) !important;
-  box-shadow: 0 4px 25px rgba(11, 19, 36, 0.04), inset 0 -2px 0 rgba(255, 255, 255, 0.6) !important;
-  color: var(--theme-text) !important;
+  background: linear-gradient(90deg, #071a3a 0%, #0d2346 40%, #133360 80%, #0c2140 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 2px solid #e87722 !important;
+  box-shadow: 0 4px 20px rgba(7, 26, 58, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+  color: #ffffff !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 100 !important;
-  padding: 12px 32px !important;
+  padding: 10px 28px !important;
+  min-height: 58px !important;
+  box-sizing: border-box !important;
 
   @media (max-width: 768px) {
-    padding: 10px 16px 10px 60px !important;
+    padding: 8px 16px 8px 56px !important;
   }
 }
 
+/* Payload default header overlay resets */
+.app-header__bg {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+.app-header__gradient-placeholder {
+  display: none !important;
+}
+
+.app-header .step-nav::after {
+  display: none !important;
+  content: none !important;
+}
+
 /* Flex layout to properly align logo and avatar inside the inner wrapper */
-.app-header > div, .app-header__wrapper, .app-header__content {
+.app-header > div,
+.app-header__wrapper,
+.app-header__content {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
-  max-width: none !important; /* Override Payload's default max-width container if present */
+  max-width: none !important; /* Override Payload default max-width container if present */
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.app-header__controls-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 16px !important;
+}
+
+.app-header__step-nav-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+}
+
+.app-header__mobile-nav-toggler {
+  color: #ffffff !important;
+  svg {
+    fill: #ffffff !important;
+  }
 }
 
 /* --- Header Internal Wrappers --- */
@@ -38,53 +80,117 @@
   gap: 16px !important;
   margin: 0 !important;
   padding: 0 !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
 }
 
-/* --- Restore Logo Styles --- */
-.app-header .step-nav a,
-.app-header .step-nav__link,
+/* --- Header Logo Capsule / Plate --- */
+/* Clean white background badge snugly hugging the corporate logo */
+.app-header .step-nav a:first-child,
+.app-header .step-nav__home,
+.app-header .step-nav__link:first-child,
 .app-header .step-nav__brand,
 .app-header .icon,
-.step-nav a:first-child,
 .app-header picture {
   width: auto !important;
-  max-width: none !important;
+  height: auto !important;
+  max-width: fit-content !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
   overflow: visible !important;
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
+  background: #ffffff !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  line-height: 1 !important;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(232, 119, 34, 0.4) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Reset all inner wrapper containers so none expand horizontally */
+  span,
+  div,
+  .te-header-logo-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: fit-content !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+  }
 }
 
-/* Ensure the logo SVG/img itself is perfectly sized */
-.app-header picture img, .app-header .icon svg, .app-header .icon img {
-  height: 38px !important; /* Professional height for the header */
+/* Ensure the logo SVG/img itself is perfectly sized to its exact aspect ratio */
+.app-header picture img,
+.app-header .icon svg,
+.app-header .icon img,
+.app-header .step-nav__home img {
+  height: 28px !important;
+  max-height: 28px !important;
   width: auto !important;
+  max-width: none !important;
   object-fit: contain !important;
   margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
 }
 
-/* --- Header Profile Avatar --- */
+/* --- Header Profile / Account Avatar --- */
+.app-header__account,
 .app-header .avatar {
-  width: 40px !important;
-  height: 40px !important;
-  background: linear-gradient(135deg, var(--te-navy) 0%, #1a2f4c 100%) !important;
-  border: 2px solid var(--te-gold) !important;
+  width: 38px !important;
+  height: 38px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 2px solid #c09b5a !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 12px rgba(176, 141, 87, 0.3) !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-  margin-left: auto !important; /* Force to right side just in case */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  margin-left: auto !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
 
   &:hover {
-    transform: scale(1.1) rotate(5deg) !important;
-    box-shadow: 0 6px 18px rgba(176, 141, 87, 0.45) !important;
+    transform: scale(1.08) !important;
+    border-color: #e87722 !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 4px 14px rgba(232, 119, 34, 0.45) !important;
+  }
+
+  .graphic-account {
+    width: 32px !important;
+    height: 32px !important;
+    display: block !important;
+
+    .graphic-account__bg {
+      fill: transparent !important;
+      stroke: none !important;
+    }
+
+    .graphic-account__head,
+    .graphic-account__body {
+      fill: #ffffff !important;
+    }
   }
 
   svg {
     fill: #ffffff !important;
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   img {
@@ -96,73 +202,128 @@
 }
 
 /* Ensure any right-side header controls wrap nicely */
-.app-header > div:last-child {
+.app-header > div:last-child,
+.app-header__actions-wrapper {
   display: flex !important;
   align-items: center !important;
-  gap: 16px !important;
+  gap: 14px !important;
   margin-left: auto !important;
 }
 
-/* --- Collection List Header & View Header --- */
-.payload-default__main > header,
-.collection-list__header, 
-.view-header,
-.collection-list > div > header,
-header.collection-list__header,
-.collection-list__header-wrap,
-.view-header > div {
+/* --- Collection List Header (.list-header) --- */
+.list-header,
+header.list-header {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
-  flex: 1 1 100% !important;
-  gap: 16px !important;
-  margin-bottom: 24px !important;
-  flex-wrap: wrap !important;
-}
+  gap: 14px !important;
+  margin-bottom: 14px !important;
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 12px 20px !important;
+  box-shadow: 0 1px 3px rgba(15, 39, 74, 0.04) !important;
+  box-sizing: border-box !important;
 
-/* Ensure inner wrappers containing the h1 and tabs vertically align */
-.view-header > div > div {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
+  .list-header__content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    gap: 14px !important;
+    flex-wrap: wrap !important;
+  }
 
-  
-  h1 {
-    font-size: 2.2rem !important;
-    background: linear-gradient(135deg, var(--te-navy) 0%, #30486b 100%) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    position: relative !important;
+  .list-header__title-and-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
     margin: 0 !important;
-    display: inline-block !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.02em !important;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 40px;
-      height: 5px;
-      background: linear-gradient(90deg, var(--te-gold) 0%, #123B6D 100%) !important;
-      border-radius: 4px;
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  }
 
-    &:hover::after {
-      width: 100%;
-    }
+  .list-header__title {
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: #0f274a !important;
+    margin: 0 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+  }
+
+  .list-header__title-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 !important;
+  }
+
+  .list-header__actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-left: auto !important;
   }
 }
 
-/* Ensure Tabs are vertically centered with the title */
-.doc-tabs, .nav-tabs, .doc-header__tabs, .tabs {
+/* --- Document Edit View Header (Title & Tabs: "Site Settings Edit API") --- */
+/* Clean, flush title bar without redundant white box or empty gap */
+.doc-header,
+header.doc-header,
+.view-header,
+.collection-edit__header,
+.global-edit__header {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 0 10px 0 !important;
+  width: 100% !important;
+  min-height: auto !important;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
+
+  &.gutter {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .doc-header__header,
+  > div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-wrap: wrap !important;
+  }
+
+  h1,
+  .doc-header__title,
+  .collection-edit__title {
+    font-size: 1.45rem !important;
+    font-weight: 800 !important;
+    color: #0f274a !important;
+    margin: 0 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+    display: inline-block !important;
+  }
+}
+
+/* Document Tabs (Edit, API) right beside title */
+.doc-tabs,
+.nav-tabs,
+.doc-header__tabs,
+.tabs,
+ul.doc-tabs {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
   margin: 0 !important;
   padding: 0 !important;
   list-style: none !important;
@@ -174,43 +335,186 @@ header.collection-list__header,
   display: flex !important;
   align-items: center !important;
   flex-wrap: wrap !important;
-  gap: 10px !important;
-  padding: 16px 32px 0 32px !important; /* Above the main card */
+  gap: 6px !important;
+  padding: 0 0 8px 0 !important;
+  margin: 0 !important;
 }
 
-/* Reset step-nav padding when it's inside the header (like the logo) */
-.app-header .step-nav, .app-header .payload-default__step-nav {
+.app-header .step-nav,
+.app-header .payload-default__step-nav {
   padding: 0 !important;
   margin: 0 !important;
-  gap: 16px !important;
+  gap: 12px !important;
+
+  a,
+  .step-nav__link {
+    color: #cbd5e1 !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      color: #e87722 !important;
+      background: transparent !important;
+      text-decoration: none !important;
+    }
+  }
+
+  span {
+    color: #94a3b8 !important;
+    font-weight: 500 !important;
+  }
+
+  .step-nav__last {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
 }
 
-.step-nav a, .step-nav span, .step-nav__link {
-  color: var(--te-navy) !important;
-  font-weight: 700 !important;
-  font-size: 0.85rem !important;
+.step-nav a,
+.step-nav span,
+.step-nav__link {
+  color: #64748b !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
   text-decoration: none !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.05em !important;
   transition: all 0.2s ease !important;
   display: inline-flex !important;
   align-items: center !important;
 }
 
-.step-nav a:hover, .step-nav__link:hover {
-  color: var(--te-gold) !important;
-  background: rgba(176, 141, 87, 0.1) !important;
-  padding: 6px 12px !important;
-  border-radius: 8px !important;
-  margin: -6px -12px !important; /* Offset padding */
+.step-nav a:hover,
+.step-nav__link:hover {
+  color: #1a4b8c !important;
+  background: transparent !important;
+  text-decoration: underline !important;
 }
 
-/* Document Save/Status Header overrides */
-.doc-header {
-  margin: 0 !important;
-  padding: 0 !important;
+/* --- Document Action Toolbar (.doc-controls) --- */
+/* Slim executive sticky bar holding Save / Publish, status, and metadata */
+.doc-controls,
+div.doc-controls {
+  position: sticky !important;
+  top: 56px !important;
+  z-index: 30 !important;
+  margin: 0 0 14px 0 !important;
+  padding: 6px 16px !important;
+  min-height: 44px !important;
+  height: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 39, 74, 0.04) !important;
+  box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  width: 100% !important;
+
+  /* Reset Gutter negative margins that push the Save button off screen */
+  &.gutter {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  &.gutter--negative-left { margin-left: 0 !important; }
+  &.gutter--negative-right { margin-right: 0 !important; }
+  &.gutter--left { padding-left: 16px !important; }
+  &.gutter--right { padding-right: 16px !important; }
+
+  .doc-controls__divider {
+    display: none !important;
+  }
+
+  .doc-controls__wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    gap: 12px !important;
+  }
+
+  .doc-controls__content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .doc-controls__meta {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    .doc-controls__list-item {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      font-size: 12.5px !important;
+      color: #64748b !important;
+      margin: 0 !important;
+      padding: 0 !important;
+
+      .doc-controls__label {
+        color: #64748b !important;
+        font-weight: 500 !important;
+        font-size: 11.5px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.04em !important;
+      }
+
+      .doc-controls__value {
+        color: #0f274a !important;
+        font-weight: 700 !important;
+        font-size: 12.5px !important;
+      }
+
+      p {
+        margin: 0 !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: #0f274a !important;
+      }
+    }
+  }
+
+  .doc-controls__controls-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-left: auto !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .doc-controls__controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    button,
+    .btn {
+      margin: 0 !important;
+    }
+  }
 }
+

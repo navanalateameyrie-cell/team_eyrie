@@ -8,10 +8,10 @@
 $navy:         #071A3A;
 $navy-light:   #0f2854;
 $navy-mid:     #123B6D;
-$gold:         #F0C04A;
-$gold-light:   #f7d77e;
-$gold-dim:     rgba(240, 192, 74, 0.18);
-$gold-glow:    rgba(240, 192, 74, 0.35);
+$gold:         #C09B5A;
+$gold-light:   #E6C181;
+$gold-dim:     rgba(192, 155, 90, 0.15);
+$gold-glow:    rgba(192, 155, 90, 0.25);
 $white:        #ffffff;
 $text-dim:     #98A2B3;
 $text-base:    #cbd5e1;
@@ -292,13 +292,14 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dashItemActive {
-  background: linear-gradient(135deg, $gold 0%, darken($gold, 12%) 100%) !important;
-  color: $white !important;
+  background: rgba(232, 119, 34, 0.16) !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 16px $gold-glow !important;
+  border: 1px solid rgba(232, 119, 34, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   transform: none !important;
 
-  .navIcon svg { stroke: $white !important; }
+  .navIcon svg { stroke: #E87722 !important; }
 
   &::before {
     content: '';
@@ -308,7 +309,7 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateY(-50%);
     width: 3px;
     height: 60%;
-    background: $white;
+    background: #E87722;
     border-radius: 0 2px 2px 0;
   }
 }
@@ -516,21 +517,23 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navItemActive {
-  background: linear-gradient(135deg, $gold 0%, darken($gold, 14%) 100%) !important;
-  color: $white !important;
+  background: rgba(232, 119, 34, 0.16) !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
-  box-shadow: 0 3px 12px $gold-glow !important;
+  border: 1px solid rgba(232, 119, 34, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
 
   &::before {
     transform: translateY(-50%) scaleY(1) !important;
     opacity: 1 !important;
-    background: rgba(255, 255, 255, 0.7) !important;
+    background: #E87722 !important;
   }
 
-  .navIcon svg { stroke: $white !important; }
+  .navIcon svg { stroke: #E87722 !important; }
 
   &:hover {
     transform: none !important;
+    background: rgba(232, 119, 34, 0.22) !important;
   }
 }
 
