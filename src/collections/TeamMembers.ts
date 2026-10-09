@@ -20,7 +20,16 @@ export const TeamMembers: CollectionConfig = {
       type: 'text',
       admin: { description: 'e.g. FCA, CS, LLB' },
     },
-    { name: 'photo', type: 'upload', relationTo: 'media' },
+    {
+      name: 'photo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Professional Profile Photo',
+      admin: {
+        description:
+          '📸 Best Fit Size: 600 × 600 px (1:1 Square, recommended) or 600 × 750 px (4:5 Portrait). Minimum: 400 × 400 px. Composition: Keep face centered with ~15% to 20% headroom margin above the hair. ✨ Tip: Click the image to use the built-in Crop & Focal Point marker to align the face perfectly.',
+      },
+    },
     { name: 'bio', type: 'richText' },
     {
       name: 'expertise',

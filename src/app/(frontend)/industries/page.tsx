@@ -1,8 +1,13 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import SectionHeader from '@/components/layout/SectionHeader'
 import CtaBanner from '@/components/layout/CtaBanner'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: 'Industries We Serve — Team Eyrie',
@@ -153,28 +158,28 @@ const industryThemePresets: Record<
   navy: {
     cardBg: 'linear-gradient(160deg, #ffffff 45%, #f1f5fa 100%)',
     borderColor: '#dbe4f0',
-    hoverBorder: '#1f3864',
-    hoverShadow: '0 14px 32px rgba(31, 56, 100, 0.12)',
-    topBar: 'linear-gradient(90deg, #1f3864 0%, #3b66ac 100%)',
-    iconGradient: 'linear-gradient(135deg, #2d508f 0%, #16294a 100%)',
-    iconShadow: '0 4px 12px rgba(31, 56, 100, 0.25)',
-    badgeBg: 'rgba(31, 56, 100, 0.08)',
-    badgeColor: '#1f3864',
-    badgeBorder: 'rgba(31, 56, 100, 0.18)',
-    linkColor: '#1f3864',
+    hoverBorder: '#1d4ed8',
+    hoverShadow: '0 14px 32px rgba(29, 78, 216, 0.14)',
+    topBar: 'linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%)',
+    iconGradient: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
+    iconShadow: '0 4px 12px rgba(29, 78, 216, 0.25)',
+    badgeBg: 'rgba(29, 78, 216, 0.08)',
+    badgeColor: '#1d4ed8',
+    badgeBorder: 'rgba(29, 78, 216, 0.18)',
+    linkColor: '#1d4ed8',
   },
   gold: {
     cardBg: 'linear-gradient(160deg, #ffffff 45%, #FFF7ED 100%)',
     borderColor: '#94A3B8',
-    hoverBorder: '#E87722',
-    hoverShadow: '0 14px 32px rgba(15, 42, 74, 0.12)',
-    topBar: 'linear-gradient(90deg, #1E3A8A 0%, #E87722 100%)',
-    iconGradient: 'linear-gradient(135deg, #E87722 0%, #D06312 100%)',
-    iconShadow: '0 4px 12px rgba(232, 119, 34, 0.35)',
-    badgeBg: 'rgba(30, 58, 138, 0.08)',
-    badgeColor: '#1E3A8A',
-    badgeBorder: 'rgba(30, 58, 138, 0.25)',
-    linkColor: '#1E3A8A',
+    hoverBorder: '#f26522',
+    hoverShadow: '0 14px 32px rgba(242, 101, 34, 0.14)',
+    topBar: 'linear-gradient(90deg, #1d4ed8 0%, #f26522 100%)',
+    iconGradient: 'linear-gradient(135deg, #f26522 0%, #ea580c 100%)',
+    iconShadow: '0 4px 12px rgba(242, 101, 34, 0.35)',
+    badgeBg: 'rgba(242, 101, 34, 0.08)',
+    badgeColor: '#f26522',
+    badgeBorder: 'rgba(242, 101, 34, 0.25)',
+    linkColor: '#1d4ed8',
   },
   teal: {
     cardBg: 'linear-gradient(160deg, #ffffff 45%, #f0fdf9 100%)',
@@ -321,7 +326,32 @@ const industries: Array<{
     { code: 'SEC-17', name: 'Trusts & Non-Profit Organisations', desc: '12A/80G tax exemptions, FCRA filings, statutory trust audits, and governance.', icon: 'heart', theme: 'green' },
   ]
 
-export default function IndustriesPage() {
+export default async function IndustriesPage() {
+  let displayIndustries = industries
+  try {
+    const payload = await getPayload({ config })
+    const dbIndustries = await payload.find({
+      collection: 'industries',
+      limit: 50,
+      sort: 'order',
+    }).catch(() => null)
+
+    if (dbIndustries && dbIndustries.docs && dbIndustries.docs.length > 0) {
+      displayIndustries = dbIndustries.docs.map((doc: any, idx: number) => {
+        const fallback = industries[idx % industries.length]
+        return {
+          code: `SEC-${String(idx + 1).padStart(2, '0')}`,
+          name: doc.name,
+          desc: doc.description || fallback.desc,
+          icon: fallback.icon,
+          theme: fallback.theme,
+        }
+      })
+    }
+  } catch {
+    // Fallback gracefully to curated defaults
+  }
+
   return (
     <main>
       <PageHero
@@ -341,8 +371,8 @@ export default function IndustriesPage() {
           />
 
           <div className="industry-sectors-grid">
-            {industries.map((ind) => {
-              const theme = industryThemePresets[ind.theme]
+            {displayIndustries.map((ind) => {
+              const theme = industryThemePresets[ind.theme] || industryThemePresets.navy
               return (
                 <div
                   key={ind.code}
@@ -401,7 +431,7 @@ export default function IndustriesPage() {
                       style={{
                         fontSize: 17.5,
                         fontWeight: 800,
-                        color: '#1f3864',
+                        color: '#0f172a',
                         margin: '0 0 8px',
                         lineHeight: 1.3,
                         letterSpacing: '-0.01em',

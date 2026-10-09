@@ -125,10 +125,10 @@ export default function SiteHeader({
               href="/login"
               className="top-bar__login-btn"
               style={{
-                background: '#E87722',
+                background: 'linear-gradient(135deg, #f26522 0%, #ea580c 100%)',
                 color: '#ffffff',
-                padding: '4px 14px',
-                borderRadius: '4px',
+                padding: '5px 16px',
+                borderRadius: '6px',
                 fontWeight: '700',
                 fontSize: '12.5px',
                 marginLeft: '10px',
@@ -136,7 +136,7 @@ export default function SiteHeader({
                 alignItems: 'center',
                 justifyContent: 'center',
                 textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(232, 119, 34, 0.35)',
+                boxShadow: '0 2px 8px rgba(242, 101, 34, 0.4)',
               }}
             >
               Login

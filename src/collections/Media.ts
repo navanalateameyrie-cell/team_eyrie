@@ -12,6 +12,9 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: 'media',
+    crop: true,
+    focalPoint: true,
+    displayPreview: true,
     mimeTypes: [
       'image/*',
       'video/*',
@@ -21,6 +24,7 @@ export const Media: CollectionConfig = {
     ],
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, position: 'centre' },
+      { name: 'profile', width: 600, height: 600, position: 'top' },
       { name: 'card', width: 768, height: 512, position: 'centre' },
       { name: 'hero', width: 1920, height: undefined },
     ],

@@ -227,8 +227,8 @@ export default function CustomDashboard() {
           <circle cx="12" cy="10" r="3" />
         </svg>
       ),
-      accent: '#0F2A4A',
-      bgTint: 'rgba(15, 42, 74, 0.08)',
+      accent: '#1d4ed8',
+      bgTint: 'rgba(29, 78, 216, 0.08)',
       link: '/admin/collections/offices',
     },
   ]

@@ -7,6 +7,7 @@ import IndiaNetworkMap from '@/components/map/IndiaNetworkMap'
 import WhyTeamEyrieScroll from '@/components/sections/WhyTeamEyrieScroll'
 import HorizontalServicesScroll from '@/components/sections/HorizontalServicesScroll'
 import VisionMissionOverview from '@/components/sections/VisionMissionOverview'
+import ComplianceCalendarWidget from '@/components/sections/ComplianceCalendarWidget'
 
 export const dynamic = 'force-dynamic'
 
@@ -43,64 +44,6 @@ const allianceFirms = [
   },
 ]
 
-const mainServices = [
-  {
-    title: 'Assurance & Audit',
-    desc: 'Statutory, Internal, Bank, Concurrent, Tax Audits, IFC, Forensic Reviews & Risk Advisory.',
-    iconName: 'assurance',
-    href: '/services/assurance-audit',
-    bgImage: '/images/bg1.png',
-  },
-  {
-    title: 'Tax Advisory',
-    desc: 'Direct Tax, Income Tax Litigation, International Tax, Transfer Pricing & FEMA Advisory.',
-    iconName: 'tax',
-    href: '/services/tax-advisory',
-    bgImage: '/images/bg2.png',
-  },
-  {
-    title: 'GST & Indirect Taxes',
-    desc: 'GST Advisory, Compliance, Litigation, Customs & Foreign Trade Policy guidance.',
-    iconName: 'gst',
-    href: '/services/gst-indirect-taxes',
-    bgImage: '/images/bg3.png',
-  },
-  {
-    title: 'Corporate & Regulatory',
-    desc: 'Company Law, Secretarial Compliance, Governance, RBI, SEBI & ROC Compliance.',
-    iconName: 'corporate',
-    href: '/services/corporate-regulatory',
-    bgImage: '/images/bg4.png',
-  },
-  {
-    title: 'Business Consulting',
-    desc: 'Business Structuring, Financial Modelling, Virtual CFO Services & Strategic Planning.',
-    iconName: 'consulting',
-    href: '/services/business-consulting',
-    bgImage: '/images/Aboutus.png',
-  },
-  {
-    title: 'Transaction Advisory',
-    desc: 'M&A, Start-up Advisory, VC/PE Advisory, Investor Due Diligence & Fund Raising.',
-    iconName: 'transaction',
-    href: '/services/transaction-advisory',
-    bgImage: '/images/Why.png',
-  },
-  {
-    title: 'Family Business Advisory',
-    desc: 'Family Constitution, Succession & Estate Planning, Governance & Wealth Preservation.',
-    iconName: 'family',
-    href: '/services/family-business',
-    bgImage: '/images/services.png',
-  },
-  {
-    title: 'Global Business Services',
-    desc: 'Cross-Border Transactions, NRI Taxation, International Structuring & Global Expansion.',
-    iconName: 'global',
-    href: '/services/global-business',
-    bgImage: '/images/industries.png',
-  },
-]
 
 const valuePillars = [
   {
@@ -135,125 +78,7 @@ const valuePillars = [
   },
 ]
 
-const industryHighlights = [
-  { name: 'Manufacturing & Engineering', icon: 'factory' },
-  { name: 'Banking & Financial Services', icon: 'landmark' },
-  { name: 'NBFCs & FinTech', icon: 'trending' },
-  { name: 'Information Technology & Software', icon: 'cpu' },
-  { name: 'Healthcare & Life Sciences', icon: 'heart' },
-  { name: 'Real Estate & Infrastructure', icon: 'building' },
-  { name: 'E-Commerce & Digital Retail', icon: 'shopping' },
-  { name: 'Start-ups & Scale-ups', icon: 'rocket' },
-  { name: 'MSMEs & Enterprise Clusters', icon: 'briefcase' },
-  { name: 'Family Businesses & Conglomerates', icon: 'users' },
-  { name: 'Renewable Energy & ESG', icon: 'leaf' },
-  { name: 'Logistics & Supply Chain', icon: 'truck' },
-]
 
-function getIndustryIcon(type: string) {
-  switch (type) {
-    case 'factory':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H2z" />
-          <path d="M17 18h1" /><path d="M12 18h1" /><path d="M7 18h1" />
-        </svg>
-      )
-    case 'landmark':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="3" y1="21" x2="21" y2="21" /><line x1="6" y1="18" x2="6" y2="11" />
-          <line x1="10" y1="18" x2="10" y2="11" /><line x1="14" y1="18" x2="14" y2="11" />
-          <line x1="18" y1="18" x2="18" y2="11" /><polygon points="12 2 20 7 4 7" />
-        </svg>
-      )
-    case 'trending':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-          <polyline points="17 6 23 6 23 12" />
-        </svg>
-      )
-    case 'cpu':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="4" y="4" width="16" height="16" rx="2" />
-          <rect x="9" y="9" width="6" height="6" />
-          <line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" />
-          <line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" />
-          <line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="14" x2="23" y2="14" />
-        </svg>
-      )
-    case 'heart':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-        </svg>
-      )
-    case 'building':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="4" y="2" width="16" height="20" rx="2" />
-          <line x1="9" y1="6" x2="9" y2="6.01" /><line x1="15" y1="6" x2="15" y2="6.01" />
-          <line x1="9" y1="10" x2="9" y2="10.01" /><line x1="15" y1="10" x2="15" y2="10.01" />
-          <line x1="9" y1="14" x2="9" y2="14.01" /><line x1="15" y1="14" x2="15" y2="14.01" />
-        </svg>
-      )
-    case 'shopping':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <path d="M16 10a4 4 0 0 1-8 0" />
-        </svg>
-      )
-    case 'rocket':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-          <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-        </svg>
-      )
-    case 'briefcase':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2" />
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-        </svg>
-      )
-    case 'users':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
-      )
-    case 'leaf':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
-          <path d="M2 21c0-3 1.85-5.36 5.08-6" />
-        </svg>
-      )
-    case 'truck':
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="1" y="3" width="15" height="13" />
-          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-          <circle cx="5.5" cy="18.5" r="2.5" />
-          <circle cx="18.5" cy="18.5" r="2.5" />
-        </svg>
-      )
-    default:
-      return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="10" />
-        </svg>
-      )
-  }
-}
 
 const defaultBgImages = [
   '/images/bg1.png',
@@ -280,12 +105,22 @@ function getServiceIconName(title: string): string {
 }
 
 export default async function HomePage() {
-  let displayServices = mainServices
+  let displayServices: any[] = []
+  let showServicesSection = true
+  let servicesEyebrow = 'Comprehensive Offerings'
+  let servicesHeading = 'What We Do'
+  let servicesSubheading =
+    'Delivering end-to-end solutions from assurance and taxation to transaction advisory and international expansion.'
   let heroSlides = undefined
   let heroEyebrow = "India's Integrated Professional Services Network"
   let heroHeadline = 'TEAM EYRIE'
   let heroSubheadline = 'Together, We Create Value. Together, We Build Trust.'
   let whyEyrieData: any = undefined
+  let heroPrimaryCtaLabel: string | undefined = undefined
+  let heroPrimaryCtaLink: string | undefined = undefined
+  let introHeading = 'Integrated Expertise Across Advisory, Audit & Governance'
+  let introBody: string | undefined = undefined
+  let homeStats: any[] | undefined = undefined
 
   try {
     const payload = await getPayload({ config })
@@ -296,7 +131,6 @@ export default async function HomePage() {
           limit: 50,
           sort: 'order',
           depth: 2,
-          where: { showOnHome: { equals: true } }
         })
         .catch(() => null),
       payload.findGlobal({ slug: 'home-page', depth: 2 }).catch(() => null),
@@ -304,26 +138,67 @@ export default async function HomePage() {
 
     const home: any = homePageRes
 
-    if (servicesRes && servicesRes.docs && servicesRes.docs.length > 0) {
-      displayServices = servicesRes.docs.map((doc: any, idx: number) => {
-        let bgImg = defaultBgImages[idx % defaultBgImages.length]
-        if (doc.heroImage && typeof doc.heroImage === 'object' && doc.heroImage.url) {
-          bgImg = doc.heroImage.url
-        }
-        return {
-          title: doc.title,
-          desc: doc.summary || 'Comprehensive specialized professional services and strategic business solutions.',
-          iconName: getServiceIconName(doc.title),
-          href: `/services/${doc.slug || ''}`,
-          bgImage: bgImg,
-        }
+    if (home?.servicesSection) {
+      if (home.servicesSection.showSection === false || home.servicesSection.showSection === 'false') {
+        showServicesSection = false
+      }
+      if (home.servicesSection.eyebrow) servicesEyebrow = home.servicesSection.eyebrow
+      if (home.servicesSection.heading) servicesHeading = home.servicesSection.heading
+      if (home.servicesSection.subheading) servicesSubheading = home.servicesSection.subheading
+    }
+
+    const serviceMap = new Map((servicesRes?.docs || []).map((doc: any) => [doc.id, doc]))
+
+    let rawServices: any[] = []
+    if (
+      home?.servicesSection?.selectedServices &&
+      Array.isArray(home.servicesSection.selectedServices) &&
+      home.servicesSection.selectedServices.length > 0
+    ) {
+      // Option B: User explicitly chose and ordered services in Home Page Global
+      rawServices = home.servicesSection.selectedServices
+        .map((item: any) => {
+          if (typeof item === 'object' && item !== null && item.title) {
+            return item
+          }
+          const id = typeof item === 'object' && item !== null ? item.id : item
+          return serviceMap.get(id)
+        })
+        .filter(Boolean)
+    } else if (servicesRes && Array.isArray(servicesRes.docs) && servicesRes.docs.length > 0) {
+      // Fallback: Services in collection marked showOnHome: true
+      rawServices = servicesRes.docs.filter((doc: any) => {
+        return doc.showOnHome === true || doc.showOnHome === 'true' || doc.showOnHome === 1
       })
     }
+
+    displayServices = rawServices.map((doc: any, idx: number) => {
+      let bgImg = defaultBgImages[idx % defaultBgImages.length]
+      if (doc.heroImage && typeof doc.heroImage === 'object' && doc.heroImage.url) {
+        bgImg = doc.heroImage.url
+      } else if (doc.bgImage) {
+        bgImg = doc.bgImage
+      }
+      const bullets =
+        Array.isArray(doc.subServices) && doc.subServices.length > 0
+          ? doc.subServices.map((s: any) => (typeof s === 'string' ? s : s.name)).filter(Boolean)
+          : doc.bullets
+      return {
+        title: doc.title,
+        desc: doc.summary || doc.desc || 'Comprehensive specialized professional services and strategic business solutions.',
+        iconName: doc.iconName || getServiceIconName(doc.title),
+        href: doc.href || `/services/${doc.slug || ''}`,
+        bgImage: bgImg,
+        bullets,
+      }
+    })
 
     if (home?.hero) {
       if (home.hero.eyebrow) heroEyebrow = home.hero.eyebrow
       if (home.hero.headline) heroHeadline = home.hero.headline
       if (home.hero.subheadline) heroSubheadline = home.hero.subheadline
+      if (home.hero.primaryCtaLabel) heroPrimaryCtaLabel = home.hero.primaryCtaLabel
+      if (home.hero.primaryCtaLink) heroPrimaryCtaLink = home.hero.primaryCtaLink
       if (Array.isArray(home.hero.slides) && home.hero.slides.length > 0) {
         heroSlides = home.hero.slides.map((s: any, idx: number) => {
           let img = defaultBgImages[idx % defaultBgImages.length]
@@ -348,37 +223,54 @@ export default async function HomePage() {
       }
     }
 
+    if (home?.intro) {
+      if (home.intro.heading) introHeading = home.intro.heading
+      if (home.intro.body) introBody = home.intro.body
+    }
+
+    if (Array.isArray(home?.stats) && home.stats.length > 0) {
+      homeStats = home.stats
+    }
+
     if (home?.whyEyrie) {
       const we = home.whyEyrie
-      const items =
-        Array.isArray(we.items) && we.items.length > 0
-          ? we.items
-            .filter((it: any) => it.showOnHome !== false)
-            .map((it: any, idx: number) => {
-              let img = defaultBgImages[idx % defaultBgImages.length]
-              if (it.image && typeof it.image === 'object' && it.image.url) {
-                img = it.image.url
-              } else if (it.imageUrl) {
-                img = it.imageUrl
-              }
-              const bullets = Array.isArray(it.bullets)
-                ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
-                : undefined
-              return {
-                id: `why-item-${idx}`,
-                num: `0${idx + 1}`,
-                tag: it.tag || 'Advantage',
-                title: it.title,
-                description: it.description,
-                image: img,
-                link: it.link || '/why-team-eyrie',
-                linkLabel: it.linkLabel || 'Explore Detail',
-                bullets,
-              }
-            })
+      const hasCustomItems = Array.isArray(we.items) && we.items.length > 0
+      const filtered = hasCustomItems
+        ? we.items.filter((it: any) => {
+          // Strictly exclude any item where showOnHome is false, 'false', 0, or null
+          if (it.showOnHome === false || it.showOnHome === 'false' || it.showOnHome === 0 || it.showOnHome === null) {
+            return false
+          }
+          return true
+        })
+        : []
+
+      const items = filtered.map((it: any, idx: number) => {
+        let img = defaultBgImages[idx % defaultBgImages.length]
+        if (it.image && typeof it.image === 'object' && it.image.url) {
+          img = it.image.url
+        } else if (it.imageUrl) {
+          img = it.imageUrl
+        }
+        const bullets = Array.isArray(it.bullets)
+          ? it.bullets.map((b: any) => (typeof b === 'string' ? b : b.text)).filter(Boolean)
           : undefined
+        return {
+          id: `why-item-${idx}`,
+          num: `0${idx + 1}`,
+          tag: it.tag || 'Advantage',
+          title: it.title,
+          description: it.description,
+          image: img,
+          link: it.link || '/why-team-eyrie',
+          linkLabel: it.linkLabel || 'Explore Detail',
+          bullets,
+        }
+      })
 
       whyEyrieData = {
+        showSection: we.showSection !== false,
+        hasCustomItems,
         tagline: we.tagline,
         heading: we.heading,
         subheading: we.subheading,
@@ -396,6 +288,8 @@ export default async function HomePage() {
         eyebrow={heroEyebrow}
         headline={heroHeadline}
         subheadline={heroSubheadline}
+        primaryCtaLabel={heroPrimaryCtaLabel}
+        primaryCtaLink={heroPrimaryCtaLink}
         slides={heroSlides}
         allianceFirms={allianceFirms}
       />
@@ -433,28 +327,63 @@ export default async function HomePage() {
       </section>
 
       {/* 3. Executive About & Multidisciplinary Capability */}
-      <section className="section-mobile-compact" style={{ padding: '38px 0 34px', background: '#F7F7F2' }}>
+      <section className="section-mobile-compact" style={{ padding: '38px 0 34px', background: '#F8FAFC' }}>
         <div className="container">
           <div className="layout-split-weighted">
             <div>
-              <span style={{ color: '#1E3A8A', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
+              <span style={{ color: '#1d4ed8', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
                 About Team Eyrie
               </span>
-              <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#0F2A4A', margin: '6px 0 14px', fontWeight: 800 }}>
-                Integrated Expertise Across Advisory, Audit & Governance
+              <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#0f172a', margin: '6px 0 14px', fontWeight: 800 }}>
+                {introHeading}
               </h2>
-              <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 12 }}>
-                Team Eyrie is a premier multidisciplinary professional services network established through the strategic alliance of three reputed Chartered Accountancy firms.
-              </p>
-              <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20 }}>
-                Our network brings together the collective intelligence of nearly <strong>20 Chartered Accountants</strong>, supported by an accomplished team of Company Secretaries, Advocates, Cost Accountants, MBAs, Insolvency Professionals, Valuation Specialists, and domain experts.
-              </p>
+              {introBody ? (
+                <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20, whiteSpace: 'pre-line' }}>
+                  {introBody}
+                </p>
+              ) : (
+                <>
+                  <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 12 }}>
+                    Team Eyrie is a premier multidisciplinary professional services network established through the strategic alliance of three reputed Chartered Accountancy firms.
+                  </p>
+                  <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20 }}>
+                    Our network brings together the collective intelligence of nearly <strong>20 Chartered Accountants</strong>, supported by an accomplished team of Company Secretaries, Advocates, Cost Accountants, MBAs, Insolvency Professionals, Valuation Specialists, and domain experts.
+                  </p>
+                </>
+              )}
+
+              {/* Dynamic Stats Strip if set in Admin Panel */}
+              {homeStats && homeStats.length > 0 && (
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: `repeat(auto-fit, minmax(130px, 1fr))`,
+                    gap: 12,
+                    marginBottom: 20,
+                    padding: '14px 18px',
+                    background: '#ffffff',
+                    border: '1px solid rgba(148, 163, 184, 0.25)',
+                    borderRadius: 10,
+                  }}
+                >
+                  {homeStats.map((st: any, sIdx: number) => (
+                    <div key={sIdx} style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: 'clamp(22px, 2vw, 28px)', fontWeight: 800, color: '#1d4ed8', lineHeight: 1.1 }}>
+                        {st.value}
+                      </div>
+                      <div style={{ fontSize: 12.5, fontWeight: 600, color: '#475569', marginTop: 2 }}>
+                        {st.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a href="/about" className="hero-btn hero-btn--gold" style={{ padding: '10px 24px', fontSize: 14.5 }}>
                   Read Network Profile
                 </a>
-                <a href="/why-team-eyrie" className="hero-btn hero-btn--outline" style={{ background: '#ffffff', color: '#0F2A4A', borderColor: '#98A2B3', padding: '10px 24px', fontSize: 14.5 }}>
+                <a href="/why-team-eyrie" className="hero-btn hero-btn--outline" style={{ background: '#ffffff', color: '#0f172a', borderColor: '#98A2B3', padding: '10px 24px', fontSize: 14.5 }}>
                   Why Choose Us
                 </a>
               </div>
@@ -466,42 +395,42 @@ export default async function HomePage() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 padding: '20px 0 20px 28px',
-                borderLeft: '2px solid rgba(232, 119, 34, 0.4)',
+                borderLeft: '2px solid rgba(242, 101, 34, 0.4)',
               }}
             >
-              <span style={{ fontSize: 11.5, fontWeight: 800, color: '#E87722', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>
+              <span style={{ fontSize: 11.5, fontWeight: 800, color: '#f26522', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>
                 Guiding Principles
               </span>
-              <h3 style={{ fontSize: 22, color: '#0F2A4A', margin: '0 0 20px', fontWeight: 800 }}>
+              <h3 style={{ fontSize: 22, color: '#0f172a', margin: '0 0 20px', fontWeight: 800 }}>
                 Our Core Pillars
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#0F2A4A', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CorporateIcon name="consulting" size={20} color="#E87722" />
+                  <div style={{ background: '#0f172a', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <CorporateIcon name="consulting" size={20} color="#f26522" />
                   </div>
                   <div>
-                    <strong style={{ color: '#0F2A4A', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Knowledge</strong>
+                    <strong style={{ color: '#0f172a', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Knowledge</strong>
                     <p style={{ margin: 0, fontSize: 13.5, color: '#475569', lineHeight: 1.5 }}>Technical precision and continuous learning across complex domains.</p>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#0F2A4A', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CorporateIcon name="assurance" size={20} color="#E87722" />
+                  <div style={{ background: '#0f172a', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <CorporateIcon name="assurance" size={20} color="#f26522" />
                   </div>
                   <div>
-                    <strong style={{ color: '#0F2A4A', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Integrity</strong>
+                    <strong style={{ color: '#0f172a', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Integrity</strong>
                     <p style={{ margin: 0, fontSize: 13.5, color: '#475569', lineHeight: 1.5 }}>Uncompromising professional ethics, transparency, and trust.</p>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#0F2A4A', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CorporateIcon name="gst" size={20} color="#E87722" />
+                  <div style={{ background: '#0f172a', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <CorporateIcon name="gst" size={20} color="#f26522" />
                   </div>
                   <div>
-                    <strong style={{ color: '#0F2A4A', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Innovation</strong>
+                    <strong style={{ color: '#0f172a', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Innovation</strong>
                     <p style={{ margin: 0, fontSize: 13.5, color: '#475569', lineHeight: 1.5 }}>Technology-driven workflows, data analytics, and modern solutions.</p>
                   </div>
                 </div>
@@ -515,104 +444,42 @@ export default async function HomePage() {
       <VisionMissionOverview />
 
       {/* 4. What We Do — Interactive Horizontal Services Showcase (Image on Right, Content & Horizontal Rail on Left) */}
-      <HorizontalServicesScroll services={displayServices} />
+      {showServicesSection && displayServices.length > 0 && (
+        <HorizontalServicesScroll
+          services={displayServices}
+          eyebrow={servicesEyebrow}
+          heading={servicesHeading}
+          subheading={servicesSubheading}
+        />
+      )}
 
-      {/* 5. Why Team Eyrie? (Interactive Sticky Scroll Feature Showcase) */}
-      <WhyTeamEyrieScroll
-        tagline={whyEyrieData?.tagline}
-        heading={whyEyrieData?.heading}
-        subheading={whyEyrieData?.subheading}
-        items={whyEyrieData?.items}
-      />
-
-      {/* 6. Industries We Serve (Horizontal Moving Marquee) */}
-      <section className="sectors-marquee-section">
+      {/* 4.5 Statutory Compliance Due Dates Interactive Calendar (Royal Blue & Electric Orange Signature Theme) */}
+      <section style={{ padding: '24px 0', background: '#F8FAFC' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 8 }}>
-            <span
-              style={{
-                color: '#E87722',
-                background: 'rgba(232, 119, 34, 0.12)',
-                border: '1px solid rgba(232, 119, 34, 0.35)',
-                padding: '5px 14px',
-                borderRadius: 20,
-                fontSize: 12,
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: 2,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 8px #E87722' }} />
-              Industry Expertise
-            </span>
-            <h2 style={{ color: '#ffffff', fontSize: 'clamp(26px, 2.4vw, 34px)', margin: '10px 0 0', fontWeight: 800 }}>
-              Sectors We Serve
-            </h2>
-            <p style={{ color: '#94A3B8', fontSize: 15, margin: '8px auto 0', maxWidth: 640, lineHeight: 1.55 }}>
-              Specialised advisory across 17+ core industries and complex regulatory frameworks
-            </p>
-          </div>
-        </div>
-
-        {/* Horizontal Infinite Moving Ticker Track */}
-        <div className="sectors-marquee-track-wrapper">
-          <div className="sectors-marquee-track">
-            {/* Set 1 */}
-            {industryHighlights.map((ind) => (
-              <div key={`ind-1-${ind.name}`} className="sector-chip">
-                <span className="sector-chip__icon">
-                  {getIndustryIcon(ind.icon)}
-                </span>
-                <span>{ind.name}</span>
-              </div>
-            ))}
-            {/* Set 2 (for continuous seamless infinite scrolling) */}
-            {industryHighlights.map((ind) => (
-              <div key={`ind-2-${ind.name}`} className="sector-chip">
-                <span className="sector-chip__icon">
-                  {getIndustryIcon(ind.icon)}
-                </span>
-                <span>{ind.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="container" style={{ textAlign: 'center', marginTop: 14 }}>
-          <a
-            href="/industries"
-            style={{
-              color: '#E87722',
-              textDecoration: 'none',
-              fontSize: 13.5,
-              fontWeight: 700,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '8px 22px',
-              borderRadius: 24,
-              background: 'rgba(232, 119, 34, 0.12)',
-              border: '1px solid rgba(232, 119, 34, 0.35)',
-              transition: 'all 0.25s ease',
-            }}
-          >
-            <span>Explore All 17 Specialised Sectors</span>
-            <span>→</span>
-          </a>
+          <ComplianceCalendarWidget />
         </div>
       </section>
+
+      {/* 5. Why Team Eyrie? (Interactive Sticky Scroll Feature Showcase) */}
+      {(!whyEyrieData || (whyEyrieData.showSection !== false && (!whyEyrieData.hasCustomItems || whyEyrieData.items.length > 0))) && (
+        <WhyTeamEyrieScroll
+          tagline={whyEyrieData?.tagline}
+          heading={whyEyrieData?.heading}
+          subheading={whyEyrieData?.subheading}
+          items={whyEyrieData?.hasCustomItems ? whyEyrieData?.items : undefined}
+        />
+      )}
+
+
 
       {/* 7. Interactive PAN India Network Map Section */}
       <section style={{ padding: '36px 0 30px', background: '#ffffff' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: 840, margin: '0 auto 18px' }}>
-            <span style={{ color: '#1a4b8c', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
+            <span style={{ color: '#1d4ed8', fontSize: 12.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>
               National Network Hub
             </span>
-            <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#0f274a', margin: '6px 0 10px', fontWeight: 800 }}>
+            <h2 style={{ fontSize: 'clamp(26px, 2.4vw, 34px)', color: '#0f172a', margin: '6px 0 10px', fontWeight: 800 }}>
               Our PAN-India Presence
             </h2>
             <p style={{ color: '#64748b', fontSize: 15.5, lineHeight: 1.55 }}>
@@ -626,12 +493,12 @@ export default async function HomePage() {
       </section>
 
       {/* 8. Call to Action */}
-      <section style={{ padding: '36px 0', background: 'linear-gradient(135deg, #f8fafc 0%, #edf4fc 100%)', borderTop: '1px solid #e2e8f0', borderBottom: '3px solid #1a4b8c', textAlign: 'center' }}>
+      <section style={{ padding: '36px 0', background: 'linear-gradient(135deg, #f8fafc 0%, #edf4fc 100%)', borderTop: '1px solid #e2e8f0', borderBottom: '3px solid #1d4ed8', textAlign: 'center' }}>
         <div className="container" style={{ maxWidth: 940 }}>
-          <span style={{ color: '#1a4b8c', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-block', marginBottom: 8 }}>
+          <span style={{ color: '#1d4ed8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'inline-block', marginBottom: 8 }}>
             Get Started With Team Eyrie
           </span>
-          <h2 style={{ color: '#0f274a', fontSize: 'clamp(24px, 2.6vw, 32px)', margin: '0 0 10px', fontWeight: 800 }}>
+          <h2 style={{ color: '#0f172a', fontSize: 'clamp(24px, 2.6vw, 32px)', margin: '0 0 10px', fontWeight: 800 }}>
             Trusted Advice. Practical Solutions. Sustainable Growth.
           </h2>
           <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.55, margin: '0 0 16px' }}>

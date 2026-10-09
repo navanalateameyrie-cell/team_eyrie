@@ -5,69 +5,61 @@
 
 /* --- Global Search & List Controls Bar --- */
 .list-controls {
-  margin-bottom: 20px !important;
+  margin-bottom: 12px !important;
   display: flex !important;
-  gap: 14px !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  flex-wrap: wrap !important;
+  flex-direction: column !important;
+  gap: 0 !important;
   background: #ffffff !important;
-  padding: 14px 20px !important;
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(15, 39, 74, 0.05) !important;
+  padding: 8px 14px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 3px rgba(15, 39, 74, 0.04) !important;
   border: 1px solid #e2e8f0 !important;
+  box-sizing: border-box !important;
 }
 
 .list-controls__wrap,
 .search-bar {
   display: flex !important;
-  flex: 1 1 100% !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 14px !important;
+  gap: 12px !important;
   width: 100% !important;
-  flex-wrap: wrap !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  min-height: auto !important;
 }
 
 .search-bar__actions {
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 8px !important;
   margin-left: auto !important;
-  flex-wrap: wrap !important;
+  flex-shrink: 0 !important;
 }
 
 .search-filter {
-  flex: 1 1 280px !important;
-  max-width: 440px !important;
+  flex: 1 1 260px !important;
+  max-width: 380px !important;
   position: relative !important;
   display: flex !important;
   align-items: center !important;
+  margin: 0 !important;
 }
 
 /* Search Icon */
 .search-filter svg,
-.search-bar > svg {
+.search-bar>svg,
+.search-bar .icon--search {
   position: absolute !important;
-  left: 14px !important;
+  left: 12px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  color: #64748b !important;
-  width: 16px !important;
-  height: 16px !important;
+  color: #94a3b8 !important;
+  width: 15px !important;
+  height: 15px !important;
   pointer-events: none !important;
   z-index: 10 !important;
-}
-
-/* Expansion Drawers (Columns, Where/Filters, Sort) */
-.list-controls__columns,
-.list-controls__where,
-.list-controls__sort,
-.list-controls__group-by {
-  width: 100% !important;
-  margin-top: 14px !important;
-  border-top: 1px solid #e2e8f0 !important;
-  padding-top: 14px !important;
 }
 
 /* Search Input */
@@ -81,13 +73,16 @@ input[placeholder*="Search" i] {
   background-color: #ffffff !important;
   border: 1.5px solid #cbd5e1 !important;
   border-radius: 8px !important;
-  padding: 10px 16px 10px 42px !important;
+  padding: 8px 14px 8px 36px !important;
   width: 100% !important;
-  font-size: 13.5px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  font-size: 13px !important;
   font-weight: 500 !important;
   color: #0f274a !important;
   box-shadow: 0 1px 2px rgba(15, 39, 74, 0.04) !important;
   margin: 0 !important;
+  box-sizing: border-box !important;
   transition: all 0.2s ease !important;
 
   &:hover {
@@ -100,6 +95,41 @@ input[placeholder*="Search" i] {
     border-color: #1a4b8c !important;
     box-shadow: 0 0 0 3px rgba(26, 75, 140, 0.15) !important;
     outline: none !important;
+  }
+}
+
+/* Expansion Drawers (Columns, Where/Filters, Sort) — Hidden completely when closed */
+.list-controls__columns,
+.list-controls__where,
+.list-controls__sort,
+.list-controls__group-by {
+  width: 100% !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+
+  /* Suppress borders and spacing when closed */
+  &[aria-hidden="true"],
+  &:not(.rah-static--height-auto):not([class*="rah-animating"]),
+  &[style*="height: 0"],
+  &[style*="height:0"] {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  /* Display cleanly when open */
+  &[aria-hidden="false"],
+  &.rah-static--height-auto,
+  &[class*="rah-animating"] {
+    display: block !important;
+    margin-top: 10px !important;
+    border-top: 1px solid #e2e8f0 !important;
+    padding-top: 12px !important;
   }
 }
 

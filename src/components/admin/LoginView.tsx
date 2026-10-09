@@ -222,19 +222,19 @@ export const LoginView: React.FC = () => {
 }
 
 // ─── Color Tokens ─────────────────────────────────────────────────────────
-const NAVY = '#071A3A'
-const BLUE = '#123B6D'
-const GOLD = '#F0C04A'
-const GOLD_LT = '#F7F7F2'
+const NAVY = '#0f172a'
+const BLUE = '#1d4ed8'
+const GOLD = '#f26522'
+const GOLD_LT = '#F8FAFC'
 const WHITE = '#ffffff'
 
 // ─── Styles ───────────────────────────────────────────────────────────────
 const S: Record<string, React.CSSProperties> = {
-  /* Full screen navy canvas */
+  /* Full screen royal blue canvas */
   page: {
     position: 'fixed',
     inset: 0,
-    background: `linear-gradient(135deg, ${NAVY} 0%, ${BLUE} 50%, #0d2444 100%)`,
+    background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

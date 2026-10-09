@@ -26,7 +26,7 @@ export default function ErrorBoundary({
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}
     >
-      <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#0F2A4A', marginBottom: '12px' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#0f172a', marginBottom: '12px' }}>
         Something went wrong
       </h2>
       <p style={{ color: '#64748b', fontSize: '15px', maxWidth: '480px', marginBottom: '24px', lineHeight: 1.6 }}>
@@ -36,7 +36,7 @@ export default function ErrorBoundary({
         <button
           onClick={() => reset()}
           style={{
-            background: '#E87722',
+            background: '#f26522',
             color: '#fff',
             border: 'none',
             padding: '10px 22px',
@@ -51,7 +51,7 @@ export default function ErrorBoundary({
         <a
           href="/"
           style={{
-            background: '#0F2A4A',
+            background: '#0f172a',
             color: '#fff',
             textDecoration: 'none',
             padding: '10px 22px',

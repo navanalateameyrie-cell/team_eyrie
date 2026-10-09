@@ -181,15 +181,18 @@ export default function WhyTeamEyrieScroll({
       className="why-editorial-section"
       id="why-team-eyrie"
       style={{
-        height: `calc(100vh + ${(displayItems.length - 1) * 65}vh)`,
+        height: displayItems.length > 1 ? `calc(100vh + ${(displayItems.length - 1) * 65}vh)` : 'auto',
       }}
     >
-      <div className="why-editorial-sticky">
+      <div
+        className="why-editorial-sticky"
+        style={displayItems.length <= 1 ? { position: 'static', height: 'auto', minHeight: 'auto', padding: '48px 0' } : undefined}
+      >
         <div className="container">
           {/* Section Header */}
           <div className="why-editorial-header">
             <span className="why-editorial-tag">
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722' }} />
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f26522' }} />
               {tagline}
             </span>
             <h2 className="why-editorial-heading">{heading}</h2>
@@ -222,24 +225,26 @@ export default function WhyTeamEyrieScroll({
                   )
                 })}
                 <div className="why-editorial-badge-pill">
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f26522', boxShadow: '0 0 6px #f26522' }} />
                   <span>{activeItem.tag}</span>
                 </div>
               </div>
 
               {/* Navigation Dash Indicators */}
-              <div className="why-editorial-dots">
-                {displayItems.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => scrollToAdvantage(idx)}
-                    className={`why-editorial-dot ${idx === activeIndex ? 'why-editorial-dot--active' : ''
-                      }`}
-                    aria-label={`Select advantage ${idx + 1}`}
-                  />
-                ))}
-              </div>
+              {displayItems.length > 1 && (
+                <div className="why-editorial-dots">
+                  {displayItems.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => scrollToAdvantage(idx)}
+                      className={`why-editorial-dot ${idx === activeIndex ? 'why-editorial-dot--active' : ''
+                        }`}
+                      aria-label={`Select advantage ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* RIGHT: Seamless Editorial Narrative Stream (6 Items) */}
@@ -273,7 +278,7 @@ export default function WhyTeamEyrieScroll({
                                 height="20"
                                 viewBox="0 0 24 24"
                                 fill="none"
-                                stroke="#E87722"
+                                stroke="#f26522"
                                 strokeWidth="2.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"

@@ -70,7 +70,7 @@ export default async function ServiceDetail({
 
             {Array.isArray(service.subServices) && service.subServices.length > 0 && (
               <>
-                <h2 style={{ fontSize: 26, color: '#1f3864', fontWeight: 800, marginTop: 44, marginBottom: 20 }}>
+                <h2 style={{ fontSize: 26, color: '#0f172a', fontWeight: 800, marginTop: 44, marginBottom: 20 }}>
                   What We Deliver
                 </h2>
                 <div className="grid--cards-2">
@@ -96,7 +96,7 @@ export default async function ServiceDetail({
                 padding: '36px 30px',
               }}
             >
-              <h3 style={{ fontSize: 20, color: '#1f3864', fontWeight: 800, margin: '0 0 10px' }}>
+              <h3 style={{ fontSize: 20, color: '#0f172a', fontWeight: 800, margin: '0 0 10px' }}>
                 Consult Our Practice Leaders
               </h3>
               <p style={{ color: '#64748b', fontSize: 14.5, lineHeight: 1.6, marginBottom: 22 }}>

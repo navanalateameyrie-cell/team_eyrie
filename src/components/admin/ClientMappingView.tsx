@@ -73,11 +73,11 @@ export default function ClientMappingView() {
 
                       return (
                         <tr key={`${client.id}-${idx}`} style={{ borderBottom: '1px solid #e2e8f0' }}>
-                          <td style={{ padding: '16px', fontWeight: 600, color: '#1f3864' }}>{client.name || 'Unnamed Client'}</td>
+                          <td style={{ padding: '16px', fontWeight: 600, color: '#0f172a' }}>{client.name || 'Unnamed Client'}</td>
                           <td style={{ padding: '16px' }}>{serviceTitle}</td>
                           <td style={{ padding: '16px' }}>
                             {cs.assignedProfessional ? (
-                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#F7F7F2', padding: '6px 12px', borderRadius: '20px', border: '1px solid #98A2B3', fontSize: '13px', fontWeight: 600, color: '#123B6D' }}>
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#F8FAFC', padding: '6px 12px', borderRadius: '20px', border: '1px solid #98A2B3', fontSize: '13px', fontWeight: 600, color: '#1d4ed8' }}>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                                 {staffName}
                               </span>

@@ -14,33 +14,67 @@ export const metadata: Metadata = {
 
 function Avatar({ photo, name }: { photo: any; name: string }) {
   const url = typeof photo === 'object' && photo?.url ? photo.url : null
+  const focalX = typeof photo === 'object' && photo?.focalX != null ? `${photo.focalX}%` : '50%'
+  const focalY = typeof photo === 'object' && photo?.focalY != null ? `${photo.focalY}%` : '18%'
+
   if (url) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
-      <img
-        src={url}
-        alt={name}
-        loading="lazy"
-        style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 10, marginBottom: 14 }}
-      />
+      <div
+        style={{
+          width: '100%',
+          height: 260,
+          borderRadius: 12,
+          overflow: 'hidden',
+          marginBottom: 14,
+          background: '#f8fafc',
+          border: '1px solid rgba(152, 162, 179, 0.35)',
+          boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+          position: 'relative',
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={url}
+          alt={name}
+          loading="lazy"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: `${focalX} ${focalY}`,
+            display: 'block',
+          }}
+        />
+      </div>
     )
   }
-  const initials = name.split(' ').map((w) => w[0]).slice(0, 2).join('')
+
+  const initials = name
+    .replace(/^(CA|CS|CMA|ADV|DR)\s+/i, '')
+    .trim()
+    .split(/\s+/)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase() || 'TE'
+
   return (
     <div
       style={{
         width: '100%',
-        height: 240,
-        borderRadius: 10,
-        background: 'linear-gradient(135deg, #0F2A4A 0%, #1E3A8A 100%)',
-        color: '#E87722',
+        height: 260,
+        borderRadius: 12,
+        background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
+        color: '#ffffff',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 44,
+        fontSize: 46,
         fontWeight: 800,
         marginBottom: 14,
-        border: '1px solid #98A2B3',
+        border: '1.5px solid rgba(242, 101, 34, 0.45)',
+        boxShadow: '0 4px 14px rgba(29, 78, 216, 0.18)',
+        letterSpacing: 1.5,
       }}
     >
       {initials}
@@ -129,10 +163,10 @@ export default async function PeoplePage() {
                     style={{ textDecoration: 'none', color: 'inherit' }}
                   >
                     <Avatar photo={p.photo} name={p.name} />
-                    <h3 style={{ fontSize: 20, color: '#0F2A4A', fontWeight: 800, margin: '0 0 4px' }}>
+                    <h3 style={{ fontSize: 20, color: '#0f172a', fontWeight: 800, margin: '0 0 4px' }}>
                       {p.name}
                     </h3>
-                    <div style={{ color: '#1E3A8A', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
+                    <div style={{ color: '#1d4ed8', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
                       {p.designation}
                     </div>
                     {p.qualifications && (
@@ -144,14 +178,14 @@ export default async function PeoplePage() {
                       <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.55, margin: '8px 0 10px' }}>
                         {shortBio}
                         {isLong && (
-                          <span style={{ color: '#E87722', fontWeight: 700, marginLeft: 6 }}>
+                          <span style={{ color: '#f26522', fontWeight: 700, marginLeft: 6 }}>
                             Read More →
                           </span>
                         )}
                       </p>
                     )}
                     <div className="corporate-card__footer" style={{ marginTop: 'auto', paddingTop: 14 }}>
-                      <span style={{ color: '#1E3A8A', fontWeight: 700 }}>View Profile →</span>
+                      <span style={{ color: '#1d4ed8', fontWeight: 700 }}>View Profile →</span>
                     </div>
                   </a>
                 )

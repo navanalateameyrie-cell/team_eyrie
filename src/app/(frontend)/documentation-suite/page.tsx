@@ -6,6 +6,10 @@ import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import SectionHeader from '@/components/layout/SectionHeader'
 import CtaBanner from '@/components/layout/CtaBanner'
+import ComplianceCalendarWidget from '@/components/sections/ComplianceCalendarWidget'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: 'Documentation Suite & Statutory Portal — Team Eyrie | Knowledge & Compliance Hub',
@@ -322,6 +326,10 @@ export default async function DocumentationSuitePage() {
             title="Key Compliance Due Dates Matrix"
             subtitle="Real-time statutory deadline reference across Goods & Services Tax (GST), Income Tax, TDS, MCA Corporate Law, and Payroll Regulations."
           />
+
+          <div style={{ marginBottom: 32 }}>
+            <ComplianceCalendarWidget />
+          </div>
 
           <div
             style={{

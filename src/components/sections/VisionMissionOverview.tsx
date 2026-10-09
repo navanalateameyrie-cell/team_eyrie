@@ -19,25 +19,25 @@ export default function VisionMissionOverview() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              background: 'rgba(30, 58, 138, 0.08)',
-              color: '#1E3A8A',
+              background: 'rgba(29, 78, 216, 0.08)',
+              color: '#1d4ed8',
               fontSize: 12,
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: 2,
               padding: '5px 14px',
               borderRadius: 20,
-              border: '1px solid rgba(30, 58, 138, 0.2)',
+              border: '1px solid rgba(29, 78, 216, 0.2)',
               marginBottom: 10,
             }}
           >
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f26522', boxShadow: '0 0 6px #f26522' }} />
             Foundational Purpose
           </span>
           <h2
             style={{
               fontSize: 'clamp(26px, 2.5vw, 36px)',
-              color: '#0F2A4A',
+              color: '#0f172a',
               margin: '0 0 10px',
               fontWeight: 800,
               letterSpacing: '-0.5px',
@@ -70,16 +70,16 @@ export default function VisionMissionOverview() {
             alignItems: 'stretch',
           }}
         >
-          {/* ── OUR VISION CARD (Navy Blue Deep Panel) ── */}
+          {/* ── OUR VISION CARD (Royal Blue Vibrant Theme Panel) ── */}
           <div
             className="vision-card-interactive"
             style={{
-              background: 'linear-gradient(145deg, #071A3A 0%, #0F2A4A 60%, #173B6E 100%)',
+              background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
               color: '#ffffff',
               borderRadius: 20,
               padding: '38px 32px 32px',
-              boxShadow: '0 16px 40px rgba(7, 26, 58, 0.16)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
+              boxShadow: '0 16px 40px rgba(29, 78, 216, 0.28)',
+              border: '1.5px solid rgba(255, 255, 255, 0.16)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -88,13 +88,27 @@ export default function VisionMissionOverview() {
               overflow: 'hidden',
             }}
           >
+            {/* Ambient Radial Accent Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: -50,
+                right: -50,
+                width: 200,
+                height: 200,
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(242, 101, 34, 0.25) 0%, rgba(29, 78, 216, 0) 70%)',
+                pointerEvents: 'none',
+              }}
+            />
+
             <div>
               <div
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
-                  background: 'rgba(255, 255, 255, 0.12)',
+                  background: 'rgba(255, 255, 255, 0.15)',
                   backdropFilter: 'blur(8px)',
                   padding: '5px 14px',
                   borderRadius: 20,
@@ -102,12 +116,12 @@ export default function VisionMissionOverview() {
                   fontWeight: 800,
                   letterSpacing: 1.5,
                   textTransform: 'uppercase',
-                  color: '#93C5FD',
+                  color: '#ffffff',
                   marginBottom: 18,
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
                 }}
               >
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#E87722', boxShadow: '0 0 6px #E87722' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#f26522', boxShadow: '0 0 8px #f26522' }} />
                 Our Vision
               </div>
 
@@ -127,7 +141,7 @@ export default function VisionMissionOverview() {
               <p
                 style={{
                   fontSize: 14.5,
-                  color: '#CBD5E1',
+                  color: '#e2e8f0',
                   lineHeight: 1.65,
                   margin: '0 0 24px',
                   fontWeight: 400,
@@ -145,7 +159,7 @@ export default function VisionMissionOverview() {
                   fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: 1.2,
-                  color: '#E87722',
+                  color: '#f26522',
                   marginBottom: 12,
                 }}
               >
@@ -162,19 +176,19 @@ export default function VisionMissionOverview() {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>National Scale with Local Care</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>Tech-Enabled Compliance</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>High-Trust Fiduciary Standard</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>Sustainable Enterprise Growth</span>
                 </div>
               </div>
@@ -187,7 +201,7 @@ export default function VisionMissionOverview() {
             style={{
               background: '#ffffff',
               border: '1.5px solid rgba(148, 163, 184, 0.45)',
-              borderTop: '5px solid #1E3A8A',
+              borderTop: '5px solid #1d4ed8',
               borderRadius: 20,
               padding: '38px 32px 32px',
               boxShadow: '0 14px 36px rgba(15, 42, 74, 0.06)',
@@ -205,19 +219,19 @@ export default function VisionMissionOverview() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
-                  background: 'rgba(30, 58, 138, 0.08)',
+                  background: 'rgba(29, 78, 216, 0.08)',
                   padding: '5px 14px',
                   borderRadius: 20,
                   fontSize: 11.5,
                   fontWeight: 800,
                   letterSpacing: 1.5,
                   textTransform: 'uppercase',
-                  color: '#1E3A8A',
+                  color: '#1d4ed8',
                   marginBottom: 18,
-                  border: '1px solid rgba(30, 58, 138, 0.2)',
+                  border: '1px solid rgba(29, 78, 216, 0.2)',
                 }}
               >
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#1E3A8A' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#1d4ed8' }} />
                 Our Mission
               </div>
 
@@ -226,7 +240,7 @@ export default function VisionMissionOverview() {
                   fontSize: 'clamp(22px, 2.1vw, 28px)',
                   fontWeight: 800,
                   margin: '0 0 14px',
-                  color: '#0F2A4A',
+                  color: '#0f172a',
                   lineHeight: 1.3,
                   letterSpacing: '-0.3px',
                 }}
@@ -255,7 +269,7 @@ export default function VisionMissionOverview() {
                   fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: 1.2,
-                  color: '#1E3A8A',
+                  color: '#1d4ed8',
                   marginBottom: 12,
                 }}
               >
@@ -272,19 +286,19 @@ export default function VisionMissionOverview() {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>Defensible Statutory Counsel</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>Partner-Led Accountability</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>Seamless Single-Window Service</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#E87722', fontWeight: 800 }}>✓</span>
+                  <span style={{ color: '#f26522', fontWeight: 800 }}>✓</span>
                   <span>Developing Top Tier CA Talent</span>
                 </div>
               </div>
@@ -297,7 +311,7 @@ export default function VisionMissionOverview() {
           <a
             href="/vision-mission"
             style={{
-              color: '#1E3A8A',
+              color: '#1d4ed8',
               textDecoration: 'none',
               fontSize: 14,
               fontWeight: 700,
@@ -306,8 +320,8 @@ export default function VisionMissionOverview() {
               gap: 8,
               padding: '8px 22px',
               borderRadius: 24,
-              background: 'rgba(30, 58, 138, 0.06)',
-              border: '1px solid rgba(30, 58, 138, 0.2)',
+              background: 'rgba(29, 78, 216, 0.08)',
+              border: '1px solid rgba(29, 78, 216, 0.2)',
               transition: 'all 0.25s ease',
             }}
           >

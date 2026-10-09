@@ -7,6 +7,9 @@ import SectionHeader from '@/components/layout/SectionHeader'
 import CorporateCard from '@/components/ui/CorporateCard'
 import CtaBanner from '@/components/layout/CtaBanner'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'About Us — Team Eyrie | Integrated Professional Services Network',
   description:
@@ -267,10 +270,10 @@ export default async function AboutPage() {
                   marginBottom: 10,
                 }}
               >
-                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#E87722' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#f26522' }} />
                 Who We Are
               </span>
-              <h2 style={{ fontSize: 'clamp(28px, 2.6vw, 38px)', color: '#0F2A4A', fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(28px, 2.6vw, 38px)', color: '#0f172a', fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25 }}>
                 Redefining Professional Services for the Modern Enterprise
               </h2>
               <p style={{ fontSize: 16, color: '#475569', lineHeight: 1.7, margin: '0 0 16px' }}>
@@ -283,22 +286,22 @@ export default async function AboutPage() {
 
             <div
               style={{
-                background: 'linear-gradient(145deg, #0F2A4A 0%, #1E3A8A 100%)',
+                background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
                 color: '#ffffff',
                 borderRadius: 16,
                 padding: '36px 30px',
-                boxShadow: '0 16px 36px rgba(15, 42, 74, 0.16)',
-                border: '1px solid rgba(232, 119, 34, 0.25)',
+                boxShadow: '0 16px 36px rgba(29, 78, 216, 0.22)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
               }}
             >
-              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 2, color: '#E87722', fontWeight: 700, marginBottom: 12 }}>
+              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 2, color: '#f26522', fontWeight: 700, marginBottom: 12 }}>
                 Our Core Philosophy
               </div>
-              <blockquote style={{ margin: '0 0 20px', fontSize: 19, fontWeight: 600, lineHeight: 1.45, fontStyle: 'italic', borderLeft: '3px solid #E87722', paddingLeft: 16 }}>
+              <blockquote style={{ margin: '0 0 20px', fontSize: 19, fontWeight: 600, lineHeight: 1.45, fontStyle: 'italic', borderLeft: '3px solid #f26522', paddingLeft: 16 }}>
                 “Together, We Create Value. Together, We Build Trust. Our responsibility is not merely compliance; it is providing the intellectual clarity and regulatory safety for businesses to scale with absolute confidence.”
               </blockquote>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#E87722', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 800, fontSize: 18 }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#f26522', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 800, fontSize: 18 }}>
                   TE
                 </div>
                 <div>
@@ -316,8 +319,8 @@ export default async function AboutPage() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
               gap: 20,
               padding: '28px 24px',
-              background: '#F7F7F2',
-              border: '1px solid rgba(152, 162, 179, 0.45)',
+              background: '#F8FAFC',
+              border: '1px solid rgba(152, 162, 179, 0.3)',
               borderRadius: 14,
               marginBottom: 56,
             }}
@@ -369,14 +372,14 @@ export default async function AboutPage() {
                   minWidth: 230,
                   background: '#ffffff',
                   border: '1px solid rgba(152, 162, 179, 0.4)',
-                  borderTop: '3.5px solid #1E3A8A',
+                  borderTop: '3.5px solid #1d4ed8',
                   borderRadius: 14,
                   padding: '18px 16px 14px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   textAlign: 'center',
-                  boxShadow: '0 6px 20px rgba(15, 42, 74, 0.06)',
+                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.06)',
                   transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
@@ -391,16 +394,16 @@ export default async function AboutPage() {
                         letterSpacing: 0.8,
                         padding: '3px 9px',
                         borderRadius: 12,
-                        background: 'rgba(30, 58, 138, 0.08)',
-                        color: '#1E3A8A',
-                        border: '1px solid rgba(30, 58, 138, 0.2)',
+                        background: 'rgba(29, 78, 216, 0.08)',
+                        color: '#1d4ed8',
+                        border: '1px solid rgba(29, 78, 216, 0.2)',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: 5,
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#E87722', flexShrink: 0 }} />
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#f26522', flexShrink: 0 }} />
                       {f.badgeLevel}
                     </span>
                   </div>
@@ -414,16 +417,16 @@ export default async function AboutPage() {
                         width: 44,
                         height: 44,
                         borderRadius: 12,
-                        background: 'linear-gradient(135deg, #0F2A4A 0%, #1E3A8A 100%)',
-                        border: '1.5px solid rgba(232, 119, 34, 0.5)',
-                        color: '#E87722',
+                        background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
+                        border: '1.5px solid rgba(242, 101, 34, 0.5)',
+                        color: '#ffffff',
                         fontSize: 15,
                         fontWeight: 800,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         letterSpacing: 0.5,
-                        boxShadow: '0 4px 12px rgba(15, 42, 74, 0.12)',
+                        boxShadow: '0 4px 12px rgba(29, 78, 216, 0.25)',
                         textDecoration: 'none',
                         marginBottom: 8,
                         transition: 'transform 0.2s ease',
@@ -442,7 +445,7 @@ export default async function AboutPage() {
                           {f.name}
                         </a>
                       </h3>
-                      <div style={{ fontSize: 12, color: '#1E3A8A', fontWeight: 700, margin: '1px 0 2px', lineHeight: 1.3 }}>
+                      <div style={{ fontSize: 12, color: '#1d4ed8', fontWeight: 700, margin: '1px 0 2px', lineHeight: 1.3 }}>
                         {f.practiceDomain}
                       </div>
                       <div style={{ fontSize: 11, color: '#64748b', fontWeight: 500 }}>
@@ -461,7 +464,7 @@ export default async function AboutPage() {
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: 2,
-                          color: '#E87722',
+                          color: '#f26522',
                           fontWeight: 700,
                           fontSize: 12,
                           marginLeft: 4,
@@ -481,7 +484,7 @@ export default async function AboutPage() {
                       style={{
                         fontSize: 11,
                         fontWeight: 600,
-                        background: '#F7F7F2',
+                        background: '#F8FAFC',
                         color: '#071A3A',
                         border: '1px solid rgba(152, 162, 179, 0.4)',
                         padding: '2px 8px',
@@ -506,7 +509,7 @@ export default async function AboutPage() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: 4,
-                      color: '#1E3A8A',
+                      color: '#1d4ed8',
                       fontWeight: 700,
                       fontSize: 12.5,
                       textDecoration: 'none',
@@ -524,10 +527,10 @@ export default async function AboutPage() {
           {/* ── SECTION 3: MULTIDISCIPLINARY EXPERT SQUAD ── */}
           <div
             style={{
-              background: '#F7F7F2',
+              background: '#F8FAFC',
               borderRadius: 16,
               border: '1.5px solid rgba(152, 162, 179, 0.45)',
-              borderLeft: '6px solid #1E3A8A',
+              borderLeft: '6px solid #1d4ed8',
               padding: '40px 32px',
               marginBottom: 56,
               boxShadow: '0 4px 18px rgba(7, 26, 58, 0.04)',
@@ -562,7 +565,7 @@ export default async function AboutPage() {
                   <div style={{ color: '#071A3A', fontSize: 14.5, fontWeight: 700, marginBottom: 4 }}>
                     {member.role}
                   </div>
-                  <div style={{ color: '#123B6D', fontSize: 12.5, fontWeight: 600 }}>
+                  <div style={{ color: '#1d4ed8', fontSize: 12.5, fontWeight: 600 }}>
                     {member.spec}
                   </div>
                 </div>
@@ -643,19 +646,19 @@ export default async function AboutPage() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>SQC-1</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>SQC-1</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Quality Control Framework</div>
               </div>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>100%</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>100%</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Peer Review Compliance</div>
               </div>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>ISO/IEC</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>ISO/IEC</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Data Confidentiality</div>
               </div>
               <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#E87722', marginBottom: 4 }}>Pan-India</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>Pan-India</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Statutory Authority</div>
               </div>
             </div>

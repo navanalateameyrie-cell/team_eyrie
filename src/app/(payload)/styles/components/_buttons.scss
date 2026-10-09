@@ -65,8 +65,12 @@ button.form-submit__button,
   }
 
   &:disabled,
-  &[disabled] {
-    opacity: 0.6 !important;
+  &[disabled],
+  &.btn--disabled {
+    background: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
+    opacity: 1 !important;
     cursor: not-allowed !important;
     transform: none !important;
     box-shadow: none !important;
@@ -215,27 +219,29 @@ button#action-save-draft {
 .tab,
 .tabs__tab,
 button.doc-tab {
-  background: #f8fafc !important;
+  background: transparent !important;
   color: #475569 !important;
-  border: 1px solid #cbd5e1 !important;
-  border-radius: 8px !important;
+  border: none !important;
+  border-radius: 6px !important;
   padding: 6px 16px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   font-size: 13px !important;
   text-decoration: none !important;
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   transition: all 0.2s ease !important;
-  margin-right: 8px !important;
+  margin: 0 !important;
 
   &:hover {
     background: #ffffff !important;
     color: #0f274a !important;
-    border-color: #1a4b8c !important;
+    box-shadow: 0 1px 3px rgba(15, 39, 74, 0.08) !important;
   }
 
   &.active,
-  &.doc-tab--active {
+  &.doc-tab--active,
+  &[aria-selected="true"] {
     background: #0f274a !important;
     color: #ffffff !important;
     border-color: #0f274a !important;

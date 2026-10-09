@@ -5,6 +5,9 @@ import SectionHeader from '@/components/layout/SectionHeader'
 import IndiaNetworkMap from '@/components/map/IndiaNetworkMap'
 import CtaBanner from '@/components/layout/CtaBanner'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'Our Presence — Team Eyrie',
   description:

@@ -7,6 +7,9 @@ import SectionHeader from '@/components/layout/SectionHeader'
 import CorporateCard from '@/components/ui/CorporateCard'
 import CtaBanner from '@/components/layout/CtaBanner'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'Vision, Mission & Core Values — Team Eyrie | Professional Standards',
   description:
@@ -154,20 +157,36 @@ export default async function VisionMissionPage() {
             {/* ── OUR VISION CARD ── */}
             <div
               style={{
-                background: 'linear-gradient(145deg, #0f274a 0%, #1a4b8c 100%)',
+                background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
                 color: '#ffffff',
                 borderRadius: 16,
                 padding: '40px 32px',
-                boxShadow: '0 16px 36px rgba(15, 39, 74, 0.12)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                boxShadow: '0 16px 40px rgba(29, 78, 216, 0.28)',
+                border: '1.5px solid rgba(255, 255, 255, 0.16)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
+              {/* Ambient Radial Accent Glow */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: -50,
+                  right: -50,
+                  width: 200,
+                  height: 200,
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(242, 101, 34, 0.25) 0%, rgba(29, 78, 216, 0) 70%)',
+                  pointerEvents: 'none',
+                }}
+              />
+
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255, 255, 255, 0.12)', padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: '#93c5fd', marginBottom: 20 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#60a5fa' }} />
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255, 255, 255, 0.15)', padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: '#ffffff', marginBottom: 20, border: '1px solid rgba(255, 255, 255, 0.22)' }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#f26522', boxShadow: '0 0 8px #f26522' }} />
                   Our Vision
                 </div>
                 <h3 style={{ fontSize: 'clamp(24px, 2.2vw, 30px)', fontWeight: 800, margin: '0 0 16px', color: '#ffffff', lineHeight: 1.3 }}>
@@ -179,14 +198,14 @@ export default async function VisionMissionPage() {
               </div>
 
               <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.15)', paddingTop: 20 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#93c5fd', marginBottom: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#f26522', marginBottom: 10 }}>
                   Vision Pillars
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13, color: '#cbd5e1' }}>
-                  <div>✓ National Scale with Local Care</div>
-                  <div>✓ Tech-Enabled Compliance</div>
-                  <div>✓ High-Trust Fiduciary Standard</div>
-                  <div>✓ Sustainable Enterprise Growth</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13, color: '#ffffff' }}>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>National Scale with Local Care</div>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>Tech-Enabled Compliance</div>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>High-Trust Fiduciary Standard</div>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>Sustainable Enterprise Growth</div>
                 </div>
               </div>
             </div>
@@ -196,21 +215,21 @@ export default async function VisionMissionPage() {
               style={{
                 background: '#ffffff',
                 border: '1.5px solid #cfe0f2',
-                borderTop: '6px solid #1a4b8c',
+                borderTop: '6px solid #1d4ed8',
                 borderRadius: 16,
                 padding: '40px 32px',
-                boxShadow: '0 12px 32px rgba(26, 75, 140, 0.06)',
+                boxShadow: '0 12px 32px rgba(29, 78, 216, 0.08)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
               }}
             >
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(26, 75, 140, 0.08)', padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: '#1a4b8c', marginBottom: 20 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#1a4b8c' }} />
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(29, 78, 216, 0.08)', padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: '#1d4ed8', marginBottom: 20, border: '1px solid rgba(29, 78, 216, 0.2)' }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#f26522' }} />
                   Our Mission
                 </div>
-                <h3 style={{ fontSize: 'clamp(24px, 2.2vw, 30px)', fontWeight: 800, margin: '0 0 16px', color: '#0f274a', lineHeight: 1.3 }}>
+                <h3 style={{ fontSize: 'clamp(24px, 2.2vw, 30px)', fontWeight: 800, margin: '0 0 16px', color: '#0f172a', lineHeight: 1.3 }}>
                   Transforming Regulatory Complexity into Strategic Confidence
                 </h3>
                 <p style={{ fontSize: 15.5, color: '#475569', lineHeight: 1.7, margin: '0 0 24px' }}>
@@ -219,14 +238,14 @@ export default async function VisionMissionPage() {
               </div>
 
               <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: 20 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#1a4b8c', marginBottom: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, color: '#1d4ed8', marginBottom: 10 }}>
                   Mission Execution
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13, color: '#475569' }}>
-                  <div>✓ Defensible Statutory Counsel</div>
-                  <div>✓ Partner-Led Accountability</div>
-                  <div>✓ Seamless Single-Window Service</div>
-                  <div>✓ Developing Top Tier CA Talent</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13, color: '#334155' }}>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>Defensible Statutory Counsel</div>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>Partner-Led Accountability</div>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>Seamless Single-Window Service</div>
+                  <div><span style={{ color: '#f26522', fontWeight: 800, marginRight: 6 }}>✓</span>Developing Top Tier CA Talent</div>
                 </div>
               </div>
             </div>

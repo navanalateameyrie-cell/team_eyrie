@@ -19,49 +19,6 @@ interface HorizontalServicesScrollProps {
   subheading?: string
 }
 
-const serviceCapabilities: Record<string, string[]> = {
-  'Assurance & Audit': [
-    'Statutory, Internal, Bank, & Concurrent Audits',
-    'Tax Audits & IFC (Internal Financial Controls)',
-    'Forensic Accounting, Fraud Reviews & Risk Advisory',
-  ],
-  'Tax Advisory': [
-    'Direct Tax Planning & Corporate Income Tax',
-    'Income Tax Appellate Tribunal (ITAT) & Litigation',
-    'International Tax Structuring & Transfer Pricing',
-  ],
-  'GST & Indirect Taxes': [
-    'Comprehensive GST Advisory & Routine Compliance',
-    'GST Departmental Audits, Appeals & Litigation',
-    'Customs & Foreign Trade Policy (FTP) Guidance',
-  ],
-  'Corporate & Regulatory': [
-    'Companies Act Compliance & ROC Secretarial Filings',
-    'NCLT Proceedings & Insolvency Resolution Support',
-    'RBI, FEMA, & SEBI Regulatory Alignments',
-  ],
-  'Business Consulting': [
-    'Corporate Restructuring & Strategic Growth Planning',
-    'Financial Modelling & MIS Automation',
-    'Virtual CFO & Interim Executive Advisory',
-  ],
-  'Transaction Advisory': [
-    'Mergers & Acquisitions (M&A) & Joint Ventures',
-    'Buy-Side & Sell-Side Financial Due Diligence',
-    'Valuation Reports & PE / VC Fund Raising Support',
-  ],
-  'Family Business Advisory': [
-    'Family Constitution & Governance Frameworks',
-    'Succession Planning & Estate Structuring',
-    'Private Trust Creation & Wealth Preservation',
-  ],
-  'Global Business Services': [
-    'Inbound (FDI) & Outbound (ODI) Investment Guidance',
-    'Cross-Border Tax Treaties (DTAA) & Expatriate Tax',
-    'NRI Taxation, Asset Repatriation & Global Expansion',
-  ],
-}
-
 export default function HorizontalServicesScroll({
   services,
   eyebrow = 'Comprehensive Offerings',
@@ -101,15 +58,13 @@ export default function HorizontalServicesScroll({
   }, [services.length])
 
   if (!services || services.length === 0) return null
+  const isSingleItem = services.length <= 1
   const currentService = services[activeIdx] || services[0]
 
   const bullets =
-    currentService.bullets ||
-    serviceCapabilities[currentService.title] || [
-      'End-to-end strategic advisory and regulatory compliance',
-      'Senior partner leadership and direct engagement',
-      'Technology-enabled workflows and measurable client outcomes',
-    ]
+    Array.isArray(currentService.bullets) && currentService.bullets.length > 0
+      ? currentService.bullets
+      : []
 
   const scrollToService = (idx: number) => {
     setActiveIdx(idx)
@@ -131,10 +86,22 @@ export default function HorizontalServicesScroll({
       className="services-console-section"
       id="services-showcase"
       style={{
-        height: `calc(100vh + ${(services.length - 1) * 60}vh)`,
+        height: isSingleItem ? 'auto' : `calc(100vh + ${(services.length - 1) * 60}vh)`,
+        paddingBottom: isSingleItem ? '60px' : undefined,
       }}
     >
-      <div className="services-console-sticky">
+      <div
+        className="services-console-sticky"
+        style={
+          isSingleItem
+            ? {
+                position: 'relative',
+                height: 'auto',
+                overflow: 'visible',
+              }
+            : undefined
+        }
+      >
         <div className="container">
           {/* Section Header */}
           <div className="services-console-header">
@@ -147,25 +114,27 @@ export default function HorizontalServicesScroll({
           </div>
 
           {/* Horizontal Interactive Category Tabs */}
-          <div className="services-console-nav-wrapper">
-            <div className="services-console-nav-track">
-              {services.map((srv, idx) => {
-                const isActive = idx === activeIdx
-                return (
-                  <button
-                    key={srv.title}
-                    type="button"
-                    onClick={() => scrollToService(idx)}
-                    className={`services-console-tab-btn ${isActive ? 'services-console-tab-btn--active' : ''
-                      }`}
-                  >
-                    <span className="services-console-tab-num">0{idx + 1}</span>
-                    <span className="services-console-tab-label">{srv.title}</span>
-                  </button>
-                )
-              })}
+          {!isSingleItem && (
+            <div className="services-console-nav-wrapper">
+              <div className="services-console-nav-track">
+                {services.map((srv, idx) => {
+                  const isActive = idx === activeIdx
+                  return (
+                    <button
+                      key={srv.title}
+                      type="button"
+                      onClick={() => scrollToService(idx)}
+                      className={`services-console-tab-btn ${isActive ? 'services-console-tab-btn--active' : ''
+                        }`}
+                    >
+                      <span className="services-console-tab-num">0{idx + 1}</span>
+                      <span className="services-console-tab-label">{srv.title}</span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Active Capability Stage (Split View: Details on Left, Sliding Images on Right) */}
           <div className="services-console-stage">
@@ -174,7 +143,7 @@ export default function HorizontalServicesScroll({
               <div className="services-console-details-top">
                 <div className="services-console-badge-row">
                   <div className="services-console-icon-pill">
-                    <CorporateIcon name={currentService.iconName} size={24} color="#E87722" />
+                    <CorporateIcon name={currentService.iconName} size={24} color="#f26522" />
                     <span>Practice Discipline 0{activeIdx + 1}</span>
                   </div>
                 </div>
@@ -182,30 +151,32 @@ export default function HorizontalServicesScroll({
                 <h3 className="services-console-active-title">{currentService.title}</h3>
                 <p className="services-console-active-desc">{currentService.desc}</p>
 
-                {/* Scope Checklist */}
-                <div className="services-console-scope-list">
-                  <span className="services-console-scope-label">Core Practice Scope:</span>
-                  <ul>
-                    {bullets.map((bullet, bIdx) => (
-                      <li key={bIdx}>
-                        <svg
-                          className="services-console-check-icon"
-                          width="22"
-                          height="22"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#E87722"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Scope Checklist (Dynamic Sub-Services) */}
+                {bullets.length > 0 && (
+                  <div className="services-console-scope-list">
+                    <span className="services-console-scope-label">Core Practice Scope:</span>
+                    <ul>
+                      {bullets.map((bullet, bIdx) => (
+                        <li key={bIdx}>
+                          <svg
+                            className="services-console-check-icon"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#f26522"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
               {/* Action Row */}
@@ -253,7 +224,7 @@ export default function HorizontalServicesScroll({
                       />
                       <div className="services-console-visual-overlay" />
                       <div className="services-console-visual-pill">
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E87722', boxShadow: '0 0 6px #E87722' }} />
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f26522', boxShadow: '0 0 6px #f26522' }} />
                         <span>{srv.title}</span>
                       </div>
                     </div>
@@ -270,7 +241,7 @@ export default function HorizontalServicesScroll({
               className="hero-btn hero-btn--outline"
               style={{
                 background: '#ffffff',
-                color: '#0F2A4A',
+                color: '#1d4ed8',
                 borderColor: '#cbd5e1',
                 padding: '10px 26px',
                 fontSize: 13.5,

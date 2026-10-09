@@ -10,20 +10,23 @@
   box-shadow: none !important;
   border: none !important;
   padding: 0 !important;
-  margin-top: 0 !important;
+  margin: 0 auto !important;
+  max-width: 1520px !important;
+  width: 100% !important;
   min-height: auto !important;
   display: flex !important;
   flex-direction: column !important;
   position: relative !important;
+  box-sizing: border-box !important;
 }
 
 /* --- Edit View Header Area --- */
 .collection-edit__header,
 .global-edit__header {
-  border-bottom: 1px solid rgba(11, 19, 36, 0.06) !important;
+  border: none !important;
   display: flex !important;
   justify-content: space-between !important;
-  align-items: flex-start !important;
+  align-items: center !important;
   flex-wrap: wrap !important;
   gap: 16px !important;
 }

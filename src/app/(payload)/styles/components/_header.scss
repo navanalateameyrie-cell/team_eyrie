@@ -38,14 +38,15 @@
 }
 
 /* Flex layout to properly align logo and avatar inside the inner wrapper */
-.app-header > div,
+.app-header>div,
 .app-header__wrapper,
 .app-header__content {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
-  max-width: none !important; /* Override Payload default max-width container if present */
+  max-width: none !important;
+  /* Override Payload default max-width container if present */
   padding: 0 !important;
   margin: 0 !important;
 }
@@ -68,6 +69,7 @@
 
 .app-header__mobile-nav-toggler {
   color: #ffffff !important;
+
   svg {
     fill: #ffffff !important;
   }
@@ -202,7 +204,7 @@
 }
 
 /* Ensure any right-side header controls wrap nicely */
-.app-header > div:last-child,
+.app-header>div:last-child,
 .app-header__actions-wrapper {
   display: flex !important;
   align-items: center !important;
@@ -267,7 +269,8 @@ header.list-header {
 }
 
 /* --- Document Edit View Header (Title & Tabs: "Site Settings Edit API") --- */
-/* Clean, flush title bar without redundant white box or empty gap */
+/* --- Document Edit View Header (Title & Tabs: "Site Settings Edit API") --- */
+/* Clean, flush title bar with Title on the Left and Edit / API tabs on the Right */
 .doc-header,
 header.doc-header,
 .view-header,
@@ -276,8 +279,9 @@ header.doc-header,
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 0 10px 0 !important;
+  padding: 16px 20px 8px 20px !important;
+  margin: 0 auto !important;
+  max-width: 1520px !important;
   width: 100% !important;
   min-height: auto !important;
   display: flex !important;
@@ -286,17 +290,28 @@ header.doc-header,
   box-sizing: border-box !important;
 
   &.gutter {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @media (max-width: 1024px) {
+    padding: 12px 14px 6px 14px !important;
+
+    &.gutter {
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+    }
   }
 
   .doc-header__header,
-  > div {
+  >div {
     display: flex !important;
     align-items: center !important;
-    gap: 14px !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    gap: 16px !important;
     margin: 0 !important;
     padding: 0 !important;
     flex-wrap: wrap !important;
@@ -305,17 +320,18 @@ header.doc-header,
   h1,
   .doc-header__title,
   .collection-edit__title {
-    font-size: 1.45rem !important;
+    font-size: 1.55rem !important;
     font-weight: 800 !important;
     color: #0f274a !important;
     margin: 0 !important;
-    letter-spacing: -0.02em !important;
-    line-height: 1.2 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.25 !important;
     display: inline-block !important;
+    flex: 0 0 auto !important;
   }
 }
 
-/* Document Tabs (Edit, API) right beside title */
+/* Document Tabs (Edit, API) pushed cleanly to the Right Side */
 .doc-tabs,
 .nav-tabs,
 .doc-header__tabs,
@@ -323,10 +339,65 @@ header.doc-header,
 ul.doc-tabs {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  gap: 4px !important;
+  margin: 0 96px 0 auto !important;
+  /* Pushes to the right with room for SAVE button */
+  padding: 3px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 9px !important;
   list-style: none !important;
+  box-sizing: border-box !important;
+
+  li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+  }
+
+  .doc-tab,
+  a,
+  button {
+    background: transparent !important;
+    color: #475569 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 16px !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    line-height: 1.4 !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
+
+    &:hover {
+      background: #ffffff !important;
+      color: #0f274a !important;
+      box-shadow: 0 1px 3px rgba(15, 39, 74, 0.08) !important;
+    }
+
+    &.active,
+    &.doc-tab--active,
+    &[aria-selected="true"] {
+      background: #0f274a !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(15, 39, 74, 0.2) !important;
+    }
+  }
+
+  li.doc-tab--active a,
+  li.active a {
+    background: #0f274a !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(15, 39, 74, 0.2) !important;
+  }
 }
 
 /* --- Breadcrumbs / Step Navigation --- */
@@ -396,38 +467,56 @@ ul.doc-tabs {
 }
 
 /* --- Document Action Toolbar (.doc-controls) --- */
-/* Slim executive sticky bar holding Save / Publish, status, and metadata */
+/* Pinned directly in the top header row on the right */
 .doc-controls,
 div.doc-controls {
-  position: sticky !important;
-  top: 56px !important;
-  z-index: 30 !important;
-  margin: 0 0 14px 0 !important;
-  padding: 6px 16px !important;
-  min-height: 44px !important;
+  position: absolute !important;
+  top: 16px !important;
+  right: 20px !important;
+  z-index: 20 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: auto !important;
   height: auto !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  background: rgba(255, 255, 255, 0.98) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border-radius: 8px !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 2px 8px rgba(15, 39, 74, 0.04) !important;
+  width: auto !important;
+  max-width: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: space-between !important;
+  justify-content: flex-end !important;
 
-  /* Reset Gutter negative margins that push the Save button off screen */
+  /* Reset Gutter */
   &.gutter {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  &.gutter--negative-left { margin-left: 0 !important; }
-  &.gutter--negative-right { margin-right: 0 !important; }
-  &.gutter--left { padding-left: 16px !important; }
-  &.gutter--right { padding-right: 16px !important; }
+
+  &.gutter--negative-left {
+    margin: 0 !important;
+  }
+
+  &.gutter--negative-right {
+    margin: 0 !important;
+  }
+
+  &.gutter--left {
+    padding: 0 !important;
+  }
+
+  &.gutter--right {
+    padding: 0 !important;
+  }
+
+  @media (max-width: 1024px) {
+    right: 14px !important;
+    top: 12px !important;
+  }
 
   .doc-controls__divider {
     display: none !important;
@@ -436,85 +525,88 @@ div.doc-controls {
   .doc-controls__wrapper {
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
+    justify-content: flex-end !important;
+    width: auto !important;
     margin: 0 !important;
     padding: 0 !important;
     height: auto !important;
-    gap: 12px !important;
+    gap: 0 !important;
   }
 
   .doc-controls__content {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
+    display: none !important;
   }
 
-  .doc-controls__meta {
+  .doc-controls__controls-wrapper,
+  .doc-controls__controls,
+  .form-submit {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
     display: flex !important;
     align-items: center !important;
-    flex-wrap: wrap !important;
-    gap: 12px !important;
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
+  }
+}
 
-    .doc-controls__list-item {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 5px !important;
-      font-size: 12.5px !important;
+.doc-controls__meta {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  .doc-controls__list-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-size: 12.5px !important;
+    color: #64748b !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .doc-controls__label {
       color: #64748b !important;
-      margin: 0 !important;
-      padding: 0 !important;
-
-      .doc-controls__label {
-        color: #64748b !important;
-        font-weight: 500 !important;
-        font-size: 11.5px !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.04em !important;
-      }
-
-      .doc-controls__value {
-        color: #0f274a !important;
-        font-weight: 700 !important;
-        font-size: 12.5px !important;
-      }
-
-      p {
-        margin: 0 !important;
-        font-size: 13px !important;
-        font-weight: 700 !important;
-        color: #0f274a !important;
-      }
+      font-weight: 500 !important;
+      font-size: 11.5px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.04em !important;
     }
-  }
 
-  .doc-controls__controls-wrapper {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    margin-left: auto !important;
-    padding: 0 !important;
-    flex-shrink: 0 !important;
-  }
+    .doc-controls__value {
+      color: #0f274a !important;
+      font-weight: 700 !important;
+      font-size: 12.5px !important;
+    }
 
-  .doc-controls__controls {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-
-    button,
-    .btn {
+    p {
       margin: 0 !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      color: #0f274a !important;
     }
   }
 }
 
+.doc-controls__controls-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-left: auto !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.doc-controls__controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  button,
+  .btn {
+    margin: 0 !important;
+  }
+}

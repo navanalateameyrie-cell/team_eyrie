@@ -63,7 +63,19 @@ export const Services: CollectionConfig = {
       type: 'checkbox',
       label: 'Show on Home Page',
       defaultValue: false,
-      admin: { position: 'sidebar', description: 'Check this box to display this service on the main home page.' },
+      admin: {
+        position: 'sidebar',
+        description: 'Check this box to display this service in the "What We Do" section on the home page.',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value }) => {
+            if (value === false || value === 'false' || value === 0 || value === null) return false
+            if (value === true || value === 'true' || value === 1) return true
+            return value ?? false
+          },
+        ],
+      },
     },
     {
       type: 'group',

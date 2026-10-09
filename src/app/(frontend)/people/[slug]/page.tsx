@@ -70,19 +70,21 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
   if (!p) notFound()
 
   const photoUrl = typeof p.photo === 'object' && p.photo?.url ? p.photo.url : null
+  const focalX = typeof p.photo === 'object' && p.photo?.focalX != null ? `${p.photo.focalX}%` : '50%'
+  const focalY = typeof p.photo === 'object' && p.photo?.focalY != null ? `${p.photo.focalY}%` : '18%'
   const expertise = Array.isArray(p.expertise) ? p.expertise.filter((e: any) => typeof e === 'object') : []
   const contact = p.contact || {}
 
   const initials = p.name
     ? p.name
-      .replace(/CA\s+/i, '')
+      .replace(/^(CA|CS|CMA|ADV|DR)\s+/i, '')
       .trim()
       .split(/\s+/)
       .map((n: string) => n[0])
       .join('')
       .slice(0, 2)
       .toUpperCase()
-    : 'CA'
+    : 'TE'
 
   return (
     <main>
@@ -97,29 +99,48 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
         <div className="container layout-sidebar-left">
           <aside>
             {photoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={photoUrl}
-                alt={p.name}
-                loading="lazy"
-                style={{ width: '100%', borderRadius: 14, objectFit: 'cover', border: '1px solid #e2e8f0', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
-              />
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '1 / 1.05',
+                  maxHeight: 380,
+                  borderRadius: 14,
+                  overflow: 'hidden',
+                  border: '1px solid rgba(152, 162, 179, 0.4)',
+                  boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)',
+                  background: '#f8fafc',
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photoUrl}
+                  alt={p.name}
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: `${focalX} ${focalY}`,
+                    display: 'block',
+                  }}
+                />
+              </div>
             ) : (
               <div
                 style={{
                   width: '100%',
-                  height: 240,
+                  height: 280,
                   borderRadius: 14,
-                  background: 'linear-gradient(135deg, #0F2A4A 0%, #1E3A8A 100%)',
-                  color: '#E87722',
+                  background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
+                  color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: 54,
                   fontWeight: 800,
                   letterSpacing: 2,
-                  boxShadow: '0 8px 24px rgba(15, 42, 74, 0.12)',
-                  border: '1.5px solid rgba(232, 119, 34, 0.45)',
+                  boxShadow: '0 8px 24px rgba(29, 78, 216, 0.25)',
+                  border: '1.5px solid rgba(242, 101, 34, 0.45)',
                 }}
               >
                 {initials}
@@ -133,13 +154,13 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               {p.qualifications && (
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Qualifications</div>
-                  <div style={{ color: '#0F2A4A', fontWeight: 700, fontSize: 14.5 }}>{p.qualifications}</div>
+                  <div style={{ color: '#0f172a', fontWeight: 700, fontSize: 14.5 }}>{p.qualifications}</div>
                 </div>
               )}
               {contact.email && (
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Email</div>
-                  <a href={`mailto:${contact.email}`} style={{ color: '#1E3A8A', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
+                  <a href={`mailto:${contact.email}`} style={{ color: '#1d4ed8', fontWeight: 700, fontSize: 14.5, textDecoration: 'none' }}>
                     {contact.email}
                   </a>
                 </div>
@@ -147,14 +168,14 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               {contact.phone && (
                 <div style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Phone</div>
-                  <a href={`tel:${contact.phone}`} style={{ color: '#0F2A4A', fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}>
+                  <a href={`tel:${contact.phone}`} style={{ color: '#0f172a', fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}>
                     {contact.phone}
                   </a>
                 </div>
               )}
               {contact.linkedin && (
                 <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #98A2B3' }}>
-                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#E87722', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#f26522', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
                     Connect on LinkedIn →
                   </a>
                 </div>
@@ -163,7 +184,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
           </aside>
 
           <div>
-            <h2 style={{ fontSize: 'clamp(26px, 2.2vw, 34px)', color: '#0F2A4A', fontWeight: 800, margin: '0 0 16px' }}>
+            <h2 style={{ fontSize: 'clamp(26px, 2.2vw, 34px)', color: '#0f172a', fontWeight: 800, margin: '0 0 16px' }}>
               Professional Background
             </h2>
             {p.bio ? (
@@ -178,7 +199,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
 
             {expertise.length > 0 && (
               <div style={{ marginTop: 40, paddingTop: 28, borderTop: '1px solid #e2e8f0' }}>
-                <h3 style={{ fontSize: 20, color: '#0F2A4A', fontWeight: 800, marginBottom: 14 }}>
+                <h3 style={{ fontSize: 20, color: '#0f172a', fontWeight: 800, marginBottom: 14 }}>
                   Areas of Practice &amp; Expertise
                 </h3>
                 <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -191,7 +212,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
                         border: '1px solid #cbd5e1',
                         padding: '7px 14px',
                         borderRadius: 8,
-                        color: '#1E3A8A',
+                        color: '#1d4ed8',
                         fontWeight: 600,
                         fontSize: 14,
                         textDecoration: 'none',

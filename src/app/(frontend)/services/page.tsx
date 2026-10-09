@@ -33,30 +33,30 @@ const serviceThemePresets: Record<
   navy: {
     cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0f4fa 100%)',
     borderColor: '#dbe4f0',
-    hoverBorder: '#1f3864',
-    hoverShadow: '0 16px 36px rgba(31, 56, 100, 0.12)',
-    topBar: 'linear-gradient(90deg, #1f3864 0%, #3b66ac 100%)',
-    iconGradient: 'linear-gradient(135deg, #2d508f 0%, #16294a 100%)',
-    iconShadow: '0 6px 16px rgba(31, 56, 100, 0.28)',
+    hoverBorder: '#1d4ed8',
+    hoverShadow: '0 16px 36px rgba(29, 78, 216, 0.14)',
+    topBar: 'linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%)',
+    iconGradient: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
+    iconShadow: '0 6px 16px rgba(29, 78, 216, 0.28)',
     tagBg: '#f5f8fc',
     tagBorder: '#dbe6f3',
-    tagHoverBorder: '#1f3864',
-    checkColor: '#1f3864',
-    linkColor: '#1f3864',
+    tagHoverBorder: '#1d4ed8',
+    checkColor: '#1d4ed8',
+    linkColor: '#1d4ed8',
   },
   gold: {
     cardBg: 'linear-gradient(155deg, #ffffff 40%, #FFF7ED 100%)',
     borderColor: '#94A3B8',
-    hoverBorder: '#E87722',
-    hoverShadow: '0 16px 36px rgba(15, 42, 74, 0.12)',
-    topBar: 'linear-gradient(90deg, #1E3A8A 0%, #E87722 100%)',
-    iconGradient: 'linear-gradient(135deg, #E87722 0%, #D06312 100%)',
-    iconShadow: '0 6px 16px rgba(232, 119, 34, 0.35)',
+    hoverBorder: '#f26522',
+    hoverShadow: '0 16px 36px rgba(242, 101, 34, 0.14)',
+    topBar: 'linear-gradient(90deg, #1d4ed8 0%, #f26522 100%)',
+    iconGradient: 'linear-gradient(135deg, #f26522 0%, #ea580c 100%)',
+    iconShadow: '0 6px 16px rgba(242, 101, 34, 0.35)',
     tagBg: '#FFF7ED',
     tagBorder: '#94A3B8',
-    tagHoverBorder: '#E87722',
-    checkColor: '#E87722',
-    linkColor: '#1E3A8A',
+    tagHoverBorder: '#f26522',
+    checkColor: '#f26522',
+    linkColor: '#1d4ed8',
   },
   teal: {
     cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0fdf9 100%)',
@@ -230,7 +230,7 @@ export default async function ServicesPage() {
                         <CorporateIcon name={catConfig.iconName} size={24} color="#ffffff" strokeWidth={2.4} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <h3 style={{ fontSize: 19, color: '#1f3864', margin: '0 0 3px', fontWeight: 800, letterSpacing: '-0.01em' }}>
+                        <h3 style={{ fontSize: 19, color: '#0f172a', margin: '0 0 3px', fontWeight: 800, letterSpacing: '-0.01em' }}>
                           {service.title}
                         </h3>
                         <p style={{ color: '#526071', fontSize: 13.5, margin: 0, lineHeight: 1.5 }}>

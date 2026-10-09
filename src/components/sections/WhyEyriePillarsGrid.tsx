@@ -205,7 +205,7 @@ export default function WhyEyriePillarsGrid({
                     width: 44,
                     height: 44,
                     borderRadius: 10,
-                    background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)',
+                    background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -220,7 +220,7 @@ export default function WhyEyriePillarsGrid({
                     fontWeight: 800,
                     letterSpacing: 0.8,
                     textTransform: 'uppercase',
-                    color: '#123B6D',
+                    color: '#1d4ed8',
                     background: 'rgba(18, 59, 109, 0.1)',
                     padding: '3px 9px',
                     borderRadius: 4,
@@ -235,7 +235,7 @@ export default function WhyEyriePillarsGrid({
                 style={{
                   fontSize: 19,
                   fontWeight: 800,
-                  color: '#071A3A',
+                  color: '#0f172a',
                   margin: '0 0 6px',
                   letterSpacing: '-0.01em',
                 }}
@@ -246,7 +246,7 @@ export default function WhyEyriePillarsGrid({
                 style={{
                   fontSize: 12.5,
                   fontWeight: 700,
-                  color: '#123B6D',
+                  color: '#1d4ed8',
                   marginBottom: 10,
                   lineHeight: 1.4,
                 }}
@@ -284,7 +284,7 @@ export default function WhyEyriePillarsGrid({
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  color: '#123B6D',
+                  color: '#1d4ed8',
                   fontSize: 13.5,
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -293,8 +293,8 @@ export default function WhyEyriePillarsGrid({
                   gap: 6,
                   transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#E87722')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#1E3A8A')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#f26522')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#1d4ed8')}
               >
                 <span>Read More</span>
                 <span style={{ transition: 'transform 0.2s ease' }}>→</span>
@@ -337,7 +337,7 @@ export default function WhyEyriePillarsGrid({
               maxHeight: '90vh',
               overflowY: 'auto',
               border: '1.5px solid #94A3B8',
-              borderTop: '5px solid #E87722',
+              borderTop: '5px solid #f26522',
               boxShadow: '0 25px 60px rgba(15, 42, 74, 0.22), 0 4px 16px rgba(0, 0, 0, 0.04)',
               padding: 'clamp(24px, 4vw, 36px)',
               position: 'relative',
@@ -386,7 +386,7 @@ export default function WhyEyriePillarsGrid({
                   width: 52,
                   height: 52,
                   borderRadius: 12,
-                  background: 'linear-gradient(135deg, #123B6D 0%, #071A3A 100%)',
+                  background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -402,7 +402,7 @@ export default function WhyEyriePillarsGrid({
                     style={{
                       fontSize: 11,
                       fontWeight: 800,
-                      color: '#123B6D',
+                      color: '#1d4ed8',
                       background: 'rgba(18, 59, 109, 0.1)',
                       padding: '2.5px 8px',
                       borderRadius: 4,
@@ -416,7 +416,7 @@ export default function WhyEyriePillarsGrid({
                 <h3
                   style={{
                     fontSize: 24,
-                    color: '#071A3A',
+                    color: '#0f172a',
                     fontWeight: 800,
                     margin: 0,
                     letterSpacing: '-0.01em',
@@ -431,7 +431,7 @@ export default function WhyEyriePillarsGrid({
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: '#123B6D',
+                color: '#1d4ed8',
                 marginBottom: 16,
                 paddingBottom: 14,
                 borderBottom: '1px solid #98A2B3',
@@ -470,12 +470,12 @@ export default function WhyEyriePillarsGrid({
                       display: 'flex',
                       alignItems: 'center',
                       gap: 10,
-                      background: '#F7F7F2',
+                      background: '#F8FAFC',
                       border: '1px solid #98A2B3',
                       borderRadius: 8,
                       padding: '10px 14px',
                       fontSize: 13.5,
-                      color: '#071A3A',
+                      color: '#0f172a',
                       fontWeight: 600,
                     }}
                   >
@@ -484,7 +484,7 @@ export default function WhyEyriePillarsGrid({
                         width: 20,
                         height: 20,
                         borderRadius: '50%',
-                        background: '#123B6D',
+                        background: '#1d4ed8',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -505,16 +505,16 @@ export default function WhyEyriePillarsGrid({
                 style={{
                   background: 'linear-gradient(135deg, #ffffff 0%, #FFF7ED 100%)',
                   border: '1px solid #94A3B8',
-                  borderLeft: '4px solid #E87722',
+                  borderLeft: '4px solid #f26522',
                   borderRadius: 8,
                   padding: '12px 16px',
                   marginBottom: 24,
                   fontSize: 13,
-                  color: '#0F2A4A',
+                  color: '#0f172a',
                   lineHeight: 1.5,
                 }}
               >
-                <strong style={{ color: '#1E3A8A' }}>Team Eyrie Advantage:</strong> {selectedPillar.leadershipNote}
+                <strong style={{ color: '#1d4ed8' }}>Team Eyrie Advantage:</strong> {selectedPillar.leadershipNote}
               </div>
             )}
 
@@ -548,7 +548,7 @@ export default function WhyEyriePillarsGrid({
               <a
                 href={`/contact?pillar=${encodeURIComponent(selectedPillar.title)}`}
                 style={{
-                  background: '#E87722',
+                  background: '#f26522',
                   color: '#ffffff',
                   textDecoration: 'none',
                   padding: '10px 22px',
@@ -558,7 +558,7 @@ export default function WhyEyriePillarsGrid({
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
-                  boxShadow: '0 4px 14px rgba(240, 192, 74, 0.35)',
+                  boxShadow: '0 4px 14px rgba(242, 101, 34, 0.35)',
                 }}
               >
                 <span>Consult Senior Partner</span>

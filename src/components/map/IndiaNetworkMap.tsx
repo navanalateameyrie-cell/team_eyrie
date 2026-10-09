@@ -182,27 +182,27 @@ export default function IndiaNetworkMap() {
               gap: 8,
               fontSize: 12.5,
               fontWeight: 700,
-              color: '#123B6D',
+              color: '#1d4ed8',
               textTransform: 'uppercase',
               letterSpacing: 2,
               marginBottom: 4,
             }}
           >
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }} />
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#f26522', boxShadow: '0 0 8px #f26522' }} />
             Integrated National Hub Network
           </div>
-          <h3 style={{ fontSize: 'clamp(22px, 2vw, 28px)', color: '#1f3864', fontWeight: 800, margin: 0 }}>
+          <h3 style={{ fontSize: 'clamp(22px, 2vw, 28px)', color: '#0f172a', fontWeight: 800, margin: 0 }}>
             PAN-India Practice Reach &amp; Convergence
           </h3>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#2563eb', border: '2px solid #ffffff', boxShadow: '0 0 6px #2563eb' }} />
+            <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#1d4ed8', border: '2px solid #ffffff', boxShadow: '0 0 6px #1d4ed8' }} />
             <span style={{ fontSize: 13.5, color: '#475569', fontWeight: 600 }}>Commercial Practice Nodes</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 14, height: 3, background: '#10b981', borderRadius: 2 }} />
+            <span style={{ width: 14, height: 3, background: '#f26522', borderRadius: 2 }} />
             <span style={{ fontSize: 13.5, color: '#475569', fontWeight: 600 }}>Active Auto-Convergence to Salem</span>
           </div>
         </div>
@@ -254,18 +254,18 @@ export default function IndiaNetworkMap() {
 
               {/* Pin Gradients */}
               <linearGradient id="goldPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#E87722" />
-                <stop offset="100%" stopColor="#D06312" />
+                <stop offset="0%" stopColor="#f26522" />
+                <stop offset="100%" stopColor="#ea580c" />
               </linearGradient>
 
               <linearGradient id="hubPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#10b981" />
-                <stop offset="100%" stopColor="#047857" />
+                <stop offset="0%" stopColor="#f26522" />
+                <stop offset="100%" stopColor="#ea580c" />
               </linearGradient>
 
               <linearGradient id="navyPinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#123B6D" />
-                <stop offset="100%" stopColor="#071A3A" />
+                <stop offset="0%" stopColor="#1d4ed8" />
+                <stop offset="100%" stopColor="#172554" />
               </linearGradient>
 
               {/* Keyframe Animations */}
@@ -303,7 +303,7 @@ export default function IndiaNetworkMap() {
               <path
                 d={borderData.smoothPathD}
                 fill="rgba(241, 245, 249, 0.95)"
-                stroke="rgba(31, 56, 100, 0.15)"
+                stroke="rgba(29, 78, 216, 0.15)"
                 strokeWidth={4}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -311,7 +311,7 @@ export default function IndiaNetworkMap() {
               <path
                 d={borderData.smoothPathD}
                 fill="none"
-                stroke="#1f3864"
+                stroke="#1d4ed8"
                 strokeWidth={2.2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -320,7 +320,7 @@ export default function IndiaNetworkMap() {
             </g>
 
             {/* Layer 2: Automatic Moving Connection Lines & Traveling Convergence Points into Salem */}
-            <g id="green-connection-lines">
+            <g id="network-connection-lines">
               {cities.map((c, i) => {
                 if (c.city === 'Salem') return null
                 const isCityActive = currentCity.city === c.city
@@ -335,7 +335,7 @@ export default function IndiaNetworkMap() {
                     <path
                       d={pathStr}
                       fill="none"
-                      stroke={isCityActive ? '#10b981' : '#22c55e'}
+                      stroke={isCityActive ? '#f26522' : '#3b82f6'}
                       strokeWidth={isCityActive ? 3.5 : 1.4}
                       strokeOpacity={isCityActive ? 0.95 : 0.35}
                       filter={isCityActive ? 'url(#hubGlow)' : 'none'}
@@ -346,15 +346,15 @@ export default function IndiaNetworkMap() {
                     <path
                       d={pathStr}
                       fill="none"
-                      stroke="#10b981"
+                      stroke={isCityActive ? '#f26522' : '#60a5fa'}
                       strokeWidth={isCityActive ? 2 : 1.1}
                       strokeDasharray="4,6"
-                      strokeOpacity={isCityActive ? 0.95 : 0.4}
+                      strokeOpacity={isCityActive ? 0.95 : 0.5}
                       className="flowing-green-line"
                     />
 
                     {/* Primary Traveling Data Particle towards Salem Hub */}
-                    <circle r={isCityActive ? '5' : '4'} fill="#10b981" filter="url(#hubGlow)">
+                    <circle r={isCityActive ? '5' : '4'} fill={isCityActive ? '#f26522' : '#3b82f6'} filter="url(#hubGlow)">
                       <animateMotion
                         path={pathStr}
                         dur={`${duration}s`}
@@ -380,7 +380,7 @@ export default function IndiaNetworkMap() {
                 cy={salemHub.y}
                 r="6"
                 fill="none"
-                stroke="#10b981"
+                stroke="#1d4ed8"
                 className="hub-radar-circle"
               />
               <circle
@@ -388,7 +388,7 @@ export default function IndiaNetworkMap() {
                 cy={salemHub.y}
                 r="6"
                 fill="none"
-                stroke="#E87722"
+                stroke="#f26522"
                 className="hub-radar-circle"
                 style={{ animationDelay: '1.2s' }}
               />
@@ -446,7 +446,7 @@ export default function IndiaNetworkMap() {
                         cy={c.y}
                         r="5"
                         fill="none"
-                        stroke={isHub ? '#10b981' : isHovered ? '#E87722' : '#1E3A8A'}
+                        stroke={isHub ? '#f26522' : isHovered ? '#f26522' : '#1d4ed8'}
                         className="node-pulse-active"
                       />
                     )}
@@ -465,9 +465,9 @@ export default function IndiaNetworkMap() {
                           transformOrigin: '0px 0px',
                           transition: 'transform 0.22s cubic-bezier(0.2, 0.8, 0.4, 1), filter 0.2s ease',
                           filter: isHovered
-                            ? 'drop-shadow(0 6px 12px rgba(232, 119, 34, 0.45))'
+                            ? 'drop-shadow(0 6px 12px rgba(242, 101, 34, 0.45))'
                             : isSelected
-                              ? 'drop-shadow(0 4px 8px rgba(15, 42, 74, 0.45))'
+                              ? 'drop-shadow(0 4px 8px rgba(29, 78, 216, 0.45))'
                               : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
                         }}
                       >
@@ -485,7 +485,7 @@ export default function IndiaNetworkMap() {
                                 ? 'url(#goldPinGrad)'
                                 : isSelected
                                   ? 'url(#navyPinGrad)'
-                                  : '#0F2A4A'
+                                  : '#1d4ed8'
                           }
                           stroke="#ffffff"
                           strokeWidth={isHub ? 2 : 1.6}
@@ -502,7 +502,7 @@ export default function IndiaNetworkMap() {
                           cx={0}
                           cy={isHub ? -18 : -15.5}
                           r={isHub ? 2 : 1.4}
-                          fill={isHub ? '#10b981' : isHovered ? '#E87722' : '#1E3A8A'}
+                          fill={isHub ? '#f26522' : isHovered ? '#f26522' : '#1d4ed8'}
                         />
                       </g>
                     </g>
@@ -512,7 +512,7 @@ export default function IndiaNetworkMap() {
                       x={labelX}
                       y={labelY}
                       textAnchor={isLeftLabel ? 'end' : 'start'}
-                      fill={isHighlighted ? (isHub ? '#047857' : isHovered ? '#1E3A8A' : '#0F2A4A') : '#1e293b'}
+                      fill={isHighlighted ? (isHub ? '#f26522' : isHovered ? '#1d4ed8' : '#0f172a') : '#1e293b'}
                       fontSize={isHub ? '16' : isHighlighted ? '15' : '13.5'}
                       fontWeight={isHighlighted || isHub ? '800' : '700'}
                       letterSpacing="0.2px"
@@ -546,8 +546,8 @@ export default function IndiaNetworkMap() {
             borderRadius: 14,
             padding: '24px 26px',
             border: '1.5px solid #e2e8f0',
-            borderLeft: currentCity.isHub ? '5px solid #10b981' : '5px solid #1f3864',
-            boxShadow: '0 8px 24px rgba(31, 56, 100, 0.06)',
+            borderLeft: currentCity.isHub ? '5px solid #f26522' : '5px solid #1d4ed8',
+            boxShadow: '0 8px 24px rgba(29, 78, 216, 0.08)',
             transition: 'border-color 0.25s ease',
           }}
         >
@@ -562,9 +562,9 @@ export default function IndiaNetworkMap() {
                   letterSpacing: 1.2,
                   padding: '4px 12px',
                   borderRadius: 14,
-                  background: currentCity.isHub ? 'rgba(16, 185, 129, 0.12)' : 'rgba(31, 56, 100, 0.08)',
-                  color: currentCity.isHub ? '#047857' : '#1f3864',
-                  border: currentCity.isHub ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(31, 56, 100, 0.18)',
+                  background: currentCity.isHub ? 'rgba(242, 101, 34, 0.12)' : 'rgba(29, 78, 216, 0.08)',
+                  color: currentCity.isHub ? '#f26522' : '#1d4ed8',
+                  border: currentCity.isHub ? '1px solid rgba(242, 101, 34, 0.3)' : '1px solid rgba(29, 78, 216, 0.2)',
                 }}
               >
                 {currentCity.role}
@@ -575,7 +575,7 @@ export default function IndiaNetworkMap() {
             <h4
               style={{
                 fontSize: 24,
-                color: '#1f3864',
+                color: '#0f172a',
                 fontWeight: 800,
                 margin: '0 0 8px',
                 letterSpacing: '-0.2px',
@@ -583,7 +583,7 @@ export default function IndiaNetworkMap() {
             >
               {currentCity.city}
               {currentCity.isHub && (
-                <span style={{ fontSize: 13.5, color: '#10b981', fontWeight: 700, marginLeft: 8, verticalAlign: 'middle' }}>
+                <span style={{ fontSize: 13.5, color: '#f26522', fontWeight: 700, marginLeft: 8, verticalAlign: 'middle' }}>
                   (Central Practice &amp; Coordination Hub)
                 </span>
               )}
@@ -612,11 +612,11 @@ export default function IndiaNetworkMap() {
                         padding: '8px 12px',
                         borderRadius: 6,
                         fontSize: 13,
-                        color: '#1f3864',
+                        color: '#0f172a',
                         fontWeight: 600,
                       }}
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={currentCity.isHub ? '#10b981' : '#123B6D'} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={currentCity.isHub ? '#f26522' : '#1d4ed8'} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                       <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{spec}</span>
@@ -646,16 +646,16 @@ export default function IndiaNetworkMap() {
                     onMouseEnter={() => setHoveredCity(c)}
                     onMouseLeave={() => setHoveredCity(null)}
                     style={{
-                      background: isSel ? (c.isHub ? '#047857' : '#1f3864') : '#ffffff',
+                      background: isSel ? (c.isHub ? '#f26522' : '#1d4ed8') : '#ffffff',
                       color: isSel ? '#ffffff' : '#334155',
-                      border: isSel ? (c.isHub ? '1px solid #047857' : '1px solid #1f3864') : '1px solid #cbd5e1',
+                      border: isSel ? (c.isHub ? '1px solid #f26522' : '1px solid #1d4ed8') : '1px solid #cbd5e1',
                       borderRadius: 6,
                       padding: '6px 12px',
                       fontSize: 12.5,
                       fontWeight: isSel ? 700 : 600,
                       cursor: 'pointer',
                       transition: 'all 0.18s ease',
-                      boxShadow: isSel ? '0 2px 8px rgba(31, 56, 100, 0.2)' : 'none',
+                      boxShadow: isSel ? '0 2px 8px rgba(29, 78, 216, 0.25)' : 'none',
                     }}
                   >
                     {c.isHub ? '★ ' : '📍 '}{c.city}
@@ -673,14 +673,14 @@ export default function IndiaNetworkMap() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: 8,
-                  background: currentCity.isHub ? '#047857' : '#1f3864',
+                  background: 'linear-gradient(135deg, #f26522 0%, #ea580c 100%)',
                   color: '#ffffff',
                   padding: '12px 18px',
                   borderRadius: 8,
                   fontSize: 14,
                   fontWeight: 700,
                   textDecoration: 'none',
-                  boxShadow: '0 3px 10px rgba(31, 56, 100, 0.2)',
+                  boxShadow: '0 4px 14px rgba(242, 101, 34, 0.4)',
                   transition: 'all 0.2s ease',
                 }}
               >

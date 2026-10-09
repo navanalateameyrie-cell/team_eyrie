@@ -11,6 +11,9 @@ const siteUrl = (
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://te1-steel.vercel.app')
 ).replace(/\/$/, '')
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Team Eyrie — India’s Integrated Professional Services Network',
