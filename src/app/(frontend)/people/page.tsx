@@ -15,18 +15,17 @@ export const metadata: Metadata = {
 function Avatar({ photo, name }: { photo: any; name: string }) {
   const url = typeof photo === 'object' && photo?.url ? photo.url : null
   const focalX = typeof photo === 'object' && photo?.focalX != null ? `${photo.focalX}%` : '50%'
-  const focalY = typeof photo === 'object' && photo?.focalY != null ? `${photo.focalY}%` : '15%'
+  const focalY = typeof photo === 'object' && photo?.focalY != null ? `${photo.focalY}%` : '35%'
 
   if (url) {
     return (
       <div
         style={{
           width: '100%',
-          aspectRatio: '4 / 4.8',
-          maxHeight: 330,
+          height: 240,
           borderRadius: 12,
           overflow: 'hidden',
-          marginBottom: 16,
+          marginBottom: 14,
           background: '#f8fafc',
           border: '1px solid rgba(152, 162, 179, 0.35)',
           boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)',
@@ -63,17 +62,16 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
     <div
       style={{
         width: '100%',
-        aspectRatio: '4 / 4.8',
-        maxHeight: 330,
+        height: 240,
         borderRadius: 12,
         background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
         color: '#ffffff',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 50,
+        fontSize: 48,
         fontWeight: 800,
-        marginBottom: 16,
+        marginBottom: 14,
         border: '1.5px solid rgba(242, 101, 34, 0.45)',
         boxShadow: '0 4px 14px rgba(29, 78, 216, 0.18)',
         letterSpacing: 1.5,
