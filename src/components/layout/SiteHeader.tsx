@@ -125,12 +125,14 @@ export default function SiteHeader({
               href="/login"
               className="top-bar__login-btn"
               style={{
+                fontFamily: 'var(--font-heading)',
                 background: 'linear-gradient(135deg, #f26522 0%, #ea580c 100%)',
                 color: '#ffffff',
                 padding: '5px 16px',
                 borderRadius: '6px',
                 fontWeight: '700',
                 fontSize: '12.5px',
+                letterSpacing: '0.3px',
                 marginLeft: '10px',
                 display: 'inline-flex',
                 alignItems: 'center',

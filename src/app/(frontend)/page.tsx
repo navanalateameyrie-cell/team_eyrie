@@ -121,10 +121,11 @@ export default async function HomePage() {
   let introHeading = 'Integrated Expertise Across Advisory, Audit & Governance'
   let introBody: string | undefined = undefined
   let homeStats: any[] | undefined = undefined
+  let complianceEvents: any[] = []
 
   try {
     const payload = await getPayload({ config })
-    const [servicesRes, homePageRes] = await Promise.all([
+    const [servicesRes, homePageRes, complianceEventsRes] = await Promise.all([
       payload
         .find({
           collection: 'services',
@@ -134,7 +135,31 @@ export default async function HomePage() {
         })
         .catch(() => null),
       payload.findGlobal({ slug: 'home-page', depth: 2 }).catch(() => null),
+      payload
+        .find({
+          collection: 'compliance-events' as any,
+          where: {
+            status: { not_equals: 'archived' },
+          },
+          limit: 200,
+          depth: 1,
+        })
+        .catch(() => null),
     ])
+
+    if (complianceEventsRes?.docs) {
+      complianceEvents = complianceEventsRes.docs.map((doc: any) => ({
+        id: doc.id,
+        title: doc.title,
+        date: doc.date,
+        category: doc.category,
+        isSpecialEvent: doc.isSpecialEvent,
+        regime: doc.regime,
+        description: doc.description,
+        applicableTo: doc.applicableTo,
+        status: doc.status,
+      }))
+    }
 
     const home: any = homePageRes
 
@@ -456,7 +481,7 @@ export default async function HomePage() {
       {/* 4.5 Statutory Compliance Due Dates Interactive Calendar (Royal Blue & Electric Orange Signature Theme) */}
       <section style={{ padding: '24px 0', background: '#F8FAFC' }}>
         <div className="container">
-          <ComplianceCalendarWidget />
+          <ComplianceCalendarWidget initialEvents={complianceEvents} />
         </div>
       </section>
 

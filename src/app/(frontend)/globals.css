@@ -416,6 +416,7 @@ a.card:hover {
   right: 0;
   width: 100%;
   z-index: 1000;
+  font-family: var(--font-heading);
   background: transparent;
   border-bottom: none;
   box-shadow: none;
@@ -480,12 +481,14 @@ a.card:hover {
 }
 
 .top-bar__link {
+  font-family: var(--font-heading);
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: #cbd5e1;
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
   text-decoration: none;
   transition: color 0.15s ease;
 }
@@ -515,29 +518,31 @@ a.card:hover {
 }
 
 .top-bar__pipe {
-  color: rgba(255, 255, 255, 0.22);
-  font-size: 12px;
-  font-weight: 300;
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 13px;
+  font-weight: 400;
   margin: 0 10px;
   user-select: none;
 }
 
 .top-bar__nav-link {
+  font-family: var(--font-heading);
   color: #cbd5e1;
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.25px;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .top-bar__nav-link:hover {
-  color: #38bdf8;
+  color: #f26522;
   text-decoration: none;
 }
 
 .top-bar__nav-link--active {
   color: #f26522;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Visually hidden, still announced by screen readers. */

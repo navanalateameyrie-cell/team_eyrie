@@ -15,20 +15,21 @@ export const metadata: Metadata = {
 function Avatar({ photo, name }: { photo: any; name: string }) {
   const url = typeof photo === 'object' && photo?.url ? photo.url : null
   const focalX = typeof photo === 'object' && photo?.focalX != null ? `${photo.focalX}%` : '50%'
-  const focalY = typeof photo === 'object' && photo?.focalY != null ? `${photo.focalY}%` : '35%'
+  const focalY = typeof photo === 'object' && photo?.focalY != null ? `${photo.focalY}%` : '22%'
 
   if (url) {
     return (
       <div
         style={{
-          width: '100%',
-          height: 240,
-          borderRadius: 12,
+          width: '80%',
+          maxWidth: 240,
+          aspectRatio: '4 / 4.7',
+          margin: '0 auto 16px auto',
+          borderRadius: 14,
           overflow: 'hidden',
-          marginBottom: 14,
           background: '#f8fafc',
-          border: '1px solid rgba(152, 162, 179, 0.35)',
-          boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)',
+          border: '1.5px solid rgba(152, 162, 179, 0.35)',
+          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.07)',
           position: 'relative',
         }}
       >
@@ -61,19 +62,20 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
   return (
     <div
       style={{
-        width: '100%',
-        height: 240,
-        borderRadius: 12,
+        width: '80%',
+        maxWidth: 240,
+        aspectRatio: '4 / 4.7',
+        margin: '0 auto 16px auto',
+        borderRadius: 14,
         background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
         color: '#ffffff',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 48,
+        fontSize: 42,
         fontWeight: 800,
-        marginBottom: 14,
         border: '1.5px solid rgba(242, 101, 34, 0.45)',
-        boxShadow: '0 4px 14px rgba(29, 78, 216, 0.18)',
+        boxShadow: '0 4px 16px rgba(29, 78, 216, 0.2)',
         letterSpacing: 1.5,
       }}
     >
