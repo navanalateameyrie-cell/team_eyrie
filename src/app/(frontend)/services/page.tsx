@@ -162,22 +162,39 @@ export const dynamic = 'force-dynamic'
 
 export default async function ServicesPage() {
   const payload = await getPayload({ config })
-  const { docs: services } = await payload.find({
-    collection: 'services',
-    limit: 100,
-    sort: 'order',
-  })
+  const [{ docs: services }, pageBannersRes] = await Promise.all([
+    payload.find({
+      collection: 'services',
+      limit: 100,
+      sort: 'order',
+    }),
+    payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
+  ])
+
+  const sBanner = (pageBannersRes as any)?.services
+  const bannerTitle = sBanner?.title || 'Our Practice Areas & Services'
+  const bannerSubtitle =
+    sBanner?.subtitle || 'Multidisciplinary Professional Solutions Delivered with Technical Excellence'
+  const bannerEyebrow = sBanner?.eyebrow || '8 Core Specialized Practice Domains'
+  const bannerImage =
+    typeof sBanner?.bgImage === 'object' && sBanner?.bgImage?.url
+      ? sBanner.bgImage.url
+      : typeof sBanner?.bgImage === 'string'
+        ? sBanner.bgImage
+        : '/images/services.png'
+  const bannerFocal = sBanner?.focalPosition || 'right center'
 
   const fallbackConfig = { theme: 'navy' as ServiceThemeColor, iconName: 'corporate' }
 
   return (
     <main>
       <PageHero
-        title="Our Practice Areas & Services"
-        subtitle="Multidisciplinary Professional Solutions Delivered with Technical Excellence"
-        eyebrow="8 Core Specialized Practice Domains"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]}
-        bgImage="/images/services.png"
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>

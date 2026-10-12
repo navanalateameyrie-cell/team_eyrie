@@ -8,6 +8,7 @@ export interface PageHeroProps {
   eyebrow?: string
   crumbs?: Breadcrumb[]
   bgImage?: string
+  bgPosition?: string
   children?: React.ReactNode
 }
 
@@ -67,6 +68,7 @@ export default function PageHero({
   subtitle,
   eyebrow = "India's Integrated Professional Services Network",
   bgImage = '/hero/hero-1.png',
+  bgPosition,
   children,
 }: PageHeroProps) {
   return (
@@ -76,6 +78,7 @@ export default function PageHero({
         className="page-hero-bg"
         style={{
           backgroundImage: `url('${bgImage}')`,
+          ...(bgPosition ? { backgroundPosition: bgPosition } : {}),
         }}
       />
       <div className="page-hero-overlay" />

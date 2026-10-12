@@ -328,13 +328,22 @@ const industries: Array<{
 
 export default async function IndustriesPage() {
   let displayIndustries = industries
+  let bannerTitle = 'Industries We Serve'
+  let bannerSubtitle = 'Deep Domain Specialization Across 17 Core Economic Sectors'
+  let bannerEyebrow = 'Specialized Sector Practices'
+  let bannerImage = '/images/industries.png'
+  let bannerFocal = 'right center'
+
   try {
     const payload = await getPayload({ config })
-    const dbIndustries = await payload.find({
-      collection: 'industries',
-      limit: 50,
-      sort: 'order',
-    }).catch(() => null)
+    const [dbIndustries, pageBannersRes] = await Promise.all([
+      payload.find({
+        collection: 'industries',
+        limit: 50,
+        sort: 'order',
+      }).catch(() => null),
+      payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
+    ])
 
     if (dbIndustries && dbIndustries.docs && dbIndustries.docs.length > 0) {
       displayIndustries = dbIndustries.docs.map((doc: any, idx: number) => {
@@ -348,6 +357,19 @@ export default async function IndustriesPage() {
         }
       })
     }
+
+    const indBanner = (pageBannersRes as any)?.industries
+    if (indBanner) {
+      if (indBanner.title) bannerTitle = indBanner.title
+      if (indBanner.subtitle) bannerSubtitle = indBanner.subtitle
+      if (indBanner.eyebrow) bannerEyebrow = indBanner.eyebrow
+      if (typeof indBanner.bgImage === 'object' && indBanner.bgImage?.url) {
+        bannerImage = indBanner.bgImage.url
+      } else if (typeof indBanner.bgImage === 'string') {
+        bannerImage = indBanner.bgImage
+      }
+      if (indBanner.focalPosition) bannerFocal = indBanner.focalPosition
+    }
   } catch {
     // Fallback gracefully to curated defaults
   }
@@ -355,11 +377,12 @@ export default async function IndustriesPage() {
   return (
     <main>
       <PageHero
-        title="Industries We Serve"
-        subtitle="Deep Domain Specialization Across 17 Core Economic Sectors"
-        eyebrow="Specialized Sector Practices"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Industries We Serve' }]}
-        bgImage="/images/industries.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>

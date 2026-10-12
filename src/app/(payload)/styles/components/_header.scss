@@ -279,59 +279,99 @@ header.doc-header,
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  padding: 16px 20px 8px 20px !important;
+  padding: 18px 24px 12px 24px !important;
   margin: 0 auto !important;
-  max-width: 1520px !important;
+  max-width: 1540px !important;
   width: 100% !important;
   min-height: auto !important;
   display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
   box-sizing: border-box !important;
 
   &.gutter {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
 
   @media (max-width: 1024px) {
-    padding: 12px 14px 6px 14px !important;
+    padding: 14px 16px 8px 16px !important;
 
     &.gutter {
-      padding-left: 14px !important;
-      padding-right: 14px !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
   }
 
-  .doc-header__header,
-  >div {
+  /* Row 1: Header row with Title on the left and Tabs pushed to the far right */
+  .doc-header__header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
-    gap: 16px !important;
+    gap: 20px !important;
     margin: 0 !important;
     padding: 0 !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
   }
 
+  /* Premium executive title styling */
   h1,
   .doc-header__title,
   .collection-edit__title {
-    font-size: 1.55rem !important;
+    font-size: 1.85rem !important;
     font-weight: 800 !important;
     color: #0f274a !important;
     margin: 0 !important;
     letter-spacing: -0.025em !important;
     line-height: 1.25 !important;
-    display: inline-block !important;
-    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex: 0 1 auto !important;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 24px;
+      background: linear-gradient(180deg, #e87722 0%, #1a4b8c 100%);
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* Row 2: Subtitle / Description text sitting cleanly underneath the title */
+  .doc-header__after-header {
+    display: block !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 !important;
+    padding: 0 0 0 17px !important;
+    color: #526071 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 1.55 !important;
+    letter-spacing: -0.005em !important;
+
+    p,
+    span,
+    div {
+      margin: 0 !important;
+      padding: 0 !important;
+      color: #526071 !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      line-height: 1.55 !important;
+    }
   }
 }
 
-/* Document Tabs (Edit, API) pushed cleanly to the Right Side */
+/* Document Tabs (Edit, API) pushed cleanly to the FAR RIGHT SIDE */
 .doc-tabs,
 .nav-tabs,
 .doc-header__tabs,
@@ -340,16 +380,32 @@ ul.doc-tabs {
   display: inline-flex !important;
   align-items: center !important;
   gap: 4px !important;
-  margin: 0 96px 0 auto !important;
-  /* Pushes to the right with room for SAVE button */
-  padding: 3px !important;
-  background: #f1f5f9 !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 9px !important;
+  margin-left: auto !important; /* Pushes button to the far right */
+  margin-right: 0 !important;   /* Clean flush right alignment */
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 4px !important;
+  background: #ffffff !important;
+  border: 1.5px solid #dbe4f0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 6px rgba(15, 39, 74, 0.05) !important;
   list-style: none !important;
   box-sizing: border-box !important;
+  flex-shrink: 0 !important;
 
-  li {
+  .doc-tabs__tabs-container,
+  ul.doc-tabs__tabs,
+  ul {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  li,
+  li.doc-tab {
     list-style: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -360,12 +416,13 @@ ul.doc-tabs {
   a,
   button {
     background: transparent !important;
-    color: #475569 !important;
+    color: #526071 !important;
     border: none !important;
-    border-radius: 6px !important;
-    padding: 6px 16px !important;
+    border-radius: 7px !important;
+    padding: 7px 18px !important;
     font-weight: 700 !important;
     font-size: 13px !important;
+    letter-spacing: 0.01em !important;
     text-decoration: none !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -378,9 +435,8 @@ ul.doc-tabs {
     white-space: nowrap !important;
 
     &:hover {
-      background: #ffffff !important;
+      background: #f1f5f9 !important;
       color: #0f274a !important;
-      box-shadow: 0 1px 3px rgba(15, 39, 74, 0.08) !important;
     }
 
     &.active,
@@ -388,16 +444,24 @@ ul.doc-tabs {
     &[aria-selected="true"] {
       background: #0f274a !important;
       color: #ffffff !important;
-      box-shadow: 0 2px 6px rgba(15, 39, 74, 0.2) !important;
+      box-shadow: 0 2px 6px rgba(15, 39, 74, 0.25) !important;
     }
   }
 
   li.doc-tab--active a,
-  li.active a {
+  li.doc-tab--active button,
+  li.active a,
+  li.active button {
     background: #0f274a !important;
     color: #ffffff !important;
-    box-shadow: 0 2px 6px rgba(15, 39, 74, 0.2) !important;
+    box-shadow: 0 2px 6px rgba(15, 39, 74, 0.25) !important;
   }
+}
+
+/* In collection views where top action buttons (Save / Publish) exist on the right, leave space */
+body:has(.doc-controls button) .doc-tabs,
+body:has(.doc-controls .btn) .doc-tabs {
+  margin-right: 120px !important;
 }
 
 /* --- Breadcrumbs / Step Navigation --- */

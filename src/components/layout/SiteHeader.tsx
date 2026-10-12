@@ -62,8 +62,10 @@ export default function SiteHeader({
     return pathname === target || pathname.startsWith(target + '/')
   }
 
+  const isHomePage = pathname === '/'
+
   return (
-    <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''}`}>
+    <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${!isHomePage ? 'site-header--solid' : ''}`}>
       {/* Top Contact & Quick Nav Bar */}
       <div className="site-header__top">
         <div className="container site-header__top-inner">

@@ -21,22 +21,40 @@ const CAT_LABEL: Record<string, string> = {
 
 export default async function InsightsPage() {
   const payload = await getPayload({ config })
-  const { docs: posts } = await payload.find({
-    collection: 'announcements',
-    where: { status: { equals: 'published' } },
-    limit: 50,
-    sort: '-publishedDate',
-    depth: 1,
-  })
+  const [{ docs: posts }, pageBannersRes] = await Promise.all([
+    payload.find({
+      collection: 'announcements',
+      where: { status: { equals: 'published' } },
+      limit: 50,
+      sort: '-publishedDate',
+      depth: 1,
+    }),
+    payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null as any),
+  ])
+
+  const iBanner = pageBannersRes?.insights
+  const bannerTitle = iBanner?.title || 'Knowledge & Insights'
+  const bannerSubtitle =
+    iBanner?.subtitle ||
+    'Thought leadership, tax updates, and regulatory jurisprudence from across our practice areas.'
+  const bannerEyebrow = iBanner?.eyebrow || 'Expert Commentary & Analysis'
+  const bannerImage =
+    typeof iBanner?.bgImage === 'object' && iBanner?.bgImage?.url
+      ? iBanner.bgImage.url
+      : typeof iBanner?.bgImage === 'string'
+        ? iBanner.bgImage
+        : '/hero/hero-2.png'
+  const bannerFocal = iBanner?.focalPosition || 'right center'
 
   return (
     <main>
       <PageHero
-        title="Knowledge & Insights"
-        subtitle="Thought leadership, tax updates, and regulatory jurisprudence from across our practice areas."
-        eyebrow="Expert Commentary & Analysis"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Insights' }]}
-        bgImage="/hero/hero-2.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>

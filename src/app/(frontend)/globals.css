@@ -448,6 +448,33 @@ a.card:hover {
   border-bottom: none;
 }
 
+/* Non-home / Solid state: Header is sticky in document flow so page banners start cleanly below it */
+.site-header--solid {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(7, 18, 38, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-header--solid .site-header__top {
+  background: rgba(4, 11, 23, 0.85);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-header--solid .site-header__brand-row {
+  background: transparent;
+  padding: 10px 0;
+  border-bottom: none;
+}
+
 .site-header .container,
 .site-footer .container {
   max-width: var(--container);
@@ -2927,15 +2954,15 @@ a.card:hover {
    STANDARDIZED REUSABLE DESIGN SYSTEM (PAGE HERO, CORPORATE CARDS, BANNERS)
    ========================================================================== */
 
-/* Page Hero Banner System (Full-Width Clean Hero with Direct Typography - Expanded Height) */
+/* Page Hero Banner System (Full-Width Clean Hero Positioned Directly Below Header) */
 .page-hero-wrapper {
   position: relative;
-  min-height: 60vh;
+  min-height: clamp(420px, 40vw, 500px);
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #0d1e38;
-  padding: 150px 0 90px;
+  background: #071226;
+  padding: 68px 0;
 }
 
 .page-hero-bg {
@@ -2945,10 +2972,9 @@ a.card:hover {
   right: 0;
   bottom: 0;
   background-size: cover;
-  background-position: center;
+  background-position: right center;
   opacity: 1;
-  filter: brightness(1.16) contrast(1.02) saturate(1.06);
-  transform: scale(1.01);
+  filter: brightness(1.06) contrast(1.02) saturate(1.04);
   z-index: 1;
 }
 
@@ -2956,10 +2982,10 @@ a.card:hover {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg,
-      rgba(15, 42, 74, 0.68) 0%,
-      rgba(15, 42, 74, 0.50) 42%,
-      rgba(15, 42, 74, 0.16) 72%,
-      rgba(15, 42, 74, 0.02) 100%);
+      rgba(7, 18, 38, 0.94) 0%,
+      rgba(7, 18, 38, 0.82) 42%,
+      rgba(7, 18, 38, 0.32) 75%,
+      rgba(7, 18, 38, 0.06) 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -3193,22 +3219,21 @@ a.card:hover {
 }
 
 /* ==========================================================================
-   Section-by-Section Scroll Reveal System (Smooth, Calm, Luxury Transition)
+   Section-by-Section Content Display System (Always visible, zero blank delays)
    ========================================================================== */
 html {
   scroll-behavior: smooth;
 }
 
 .scroll-reveal-item {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .scroll-reveal-item.is-revealed {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* Staggered micro-delay for cards inside grid collections */

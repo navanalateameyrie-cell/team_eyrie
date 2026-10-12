@@ -18,10 +18,31 @@ export const metadata: Metadata = {
 
 export default async function WhyTeamEyriePage() {
   let customPillars = undefined
+  let bannerTitle = 'Why Team Eyrie?'
+  let bannerSubtitle = 'The Multidisciplinary Professional Services Advantage'
+  let bannerEyebrow = '6 Core Strategic Pillars of Excellence'
+  let bannerImage = '/images/Why.png'
+  let bannerFocal = 'right center'
 
   try {
     const payload = await getPayload({ config })
-    const home: any = await payload.findGlobal({ slug: 'home-page' }).catch(() => null)
+    const [home, pageBannersRes]: any = await Promise.all([
+      payload.findGlobal({ slug: 'home-page' }).catch(() => null),
+      payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
+    ])
+
+    const wBanner = pageBannersRes?.whyEyrie
+    if (wBanner) {
+      if (wBanner.title) bannerTitle = wBanner.title
+      if (wBanner.subtitle) bannerSubtitle = wBanner.subtitle
+      if (wBanner.eyebrow) bannerEyebrow = wBanner.eyebrow
+      if (typeof wBanner.bgImage === 'object' && wBanner.bgImage?.url) {
+        bannerImage = wBanner.bgImage.url
+      } else if (typeof wBanner.bgImage === 'string') {
+        bannerImage = wBanner.bgImage
+      }
+      if (wBanner.focalPosition) bannerFocal = wBanner.focalPosition
+    }
 
     if (home?.whyEyrie?.items && Array.isArray(home.whyEyrie.items) && home.whyEyrie.items.length > 0) {
       customPillars = home.whyEyrie.items.map((it: any, idx: number) => {
@@ -49,11 +70,12 @@ export default async function WhyTeamEyriePage() {
   return (
     <main>
       <PageHero
-        title="Why Team Eyrie?"
-        subtitle="The Multidisciplinary Professional Services Advantage"
-        eyebrow="6 Core Strategic Pillars of Excellence"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Why Team Eyrie' }]}
-        bgImage="/images/Why.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>

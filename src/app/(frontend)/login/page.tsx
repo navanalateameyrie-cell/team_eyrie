@@ -4,19 +4,19 @@ import React, { useState } from 'react'
 
 export default function LoginPage() {
   const [isRegistering, setIsRegistering] = useState(false)
-  
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: ''
   })
-  
+
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
   })
-  
+
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -33,13 +33,13 @@ export default function LoginPage() {
     e.preventDefault()
     setIsSubmitting(true)
     setError('')
-    
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match')
       setIsSubmitting(false)
       return
     }
-    
+
     try {
       const { confirmPassword, ...submitData } = formData
       const res = await fetch('/api/partner-registrations', {
@@ -67,7 +67,7 @@ export default function LoginPage() {
     e.preventDefault()
     setIsSubmitting(true)
     setError('')
-    
+
     try {
       const endpoint = '/api/users/login';
       const res = await fetch(endpoint, {
@@ -91,7 +91,12 @@ export default function LoginPage() {
         }
       } else {
         const errorData = await res.json()
-        setError(errorData.errors?.[0]?.message || 'Invalid email or password.')
+        const rawMessage = errorData.errors?.[0]?.message || errorData.message || ''
+        if (rawMessage.toLowerCase().includes('locked') || rawMessage.toLowerCase().includes('attempts')) {
+          setError('Account temporarily locked due to 3 failed login attempts. Please wait 2 minutes before trying again.')
+        } else {
+          setError(rawMessage || 'Invalid email or password.')
+        }
       }
     } catch (err) {
       setError('A network error occurred. Please try again.')
@@ -102,12 +107,12 @@ export default function LoginPage() {
 
   if (submitted) {
     return (
-      <div className="login-page" style={{ 
-        minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', 
-        padding: '4rem 1rem', background: 'linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%)' 
+      <div className="login-page" style={{
+        minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '4rem 1rem', background: 'linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%)'
       }}>
-        <div className="login-container" style={{ 
-          background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '3rem 2.5rem', 
+        <div className="login-container" style={{
+          background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '3rem 2.5rem',
           borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', width: '100%', maxWidth: '550px',
           border: '1px solid rgba(255,255,255,0.2)', textAlign: 'center'
         }}>
@@ -118,8 +123,8 @@ export default function LoginPage() {
           </div>
           <h2 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '0.5rem' }}>Registration Submitted Successfully!</h2>
           <p style={{ color: '#64748b', marginBottom: '2rem' }}>Our admin team will review your details. You will receive an email notification once your account is active.</p>
-          
-          <button 
+
+          <button
             onClick={() => { setSubmitted(false); setIsRegistering(false) }}
             style={{ background: '#e66a2b', color: '#fff', padding: '0.8rem 1.5rem', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer' }}
           >
@@ -131,12 +136,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-page" style={{ 
-      minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', 
-      padding: '4rem 1rem', background: 'linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%)' 
+    <div className="login-page" style={{
+      minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '4rem 1rem', background: 'linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%)'
     }}>
-      <div className="login-container" style={{ 
-        background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '3rem 2.5rem', 
+      <div className="login-container" style={{
+        background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '3rem 2.5rem',
         borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', width: '100%', maxWidth: '550px',
         border: '1px solid rgba(255,255,255,0.2)'
       }}>
@@ -149,7 +154,7 @@ export default function LoginPage() {
             {isRegistering ? 'Create your client account to access our network.' : 'Welcome back! Please sign in to access your dashboard.'}
           </p>
         </div>
-        
+
         {error && (
           <div style={{ background: '#fee2e2', color: '#b91c1c', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
             {error}
@@ -158,7 +163,7 @@ export default function LoginPage() {
 
         {isRegistering ? (
           <form className="login-form" onSubmit={handleRegisterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            
+
             <div className="form-group">
               <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#334155', fontSize: '0.95rem' }}>Username *</label>
               <input type="text" id="username" name="username" value={formData.username} onChange={handleRegisterChange} required placeholder="e.g. johndoe" style={{ width: '100%', padding: '0.875rem 1rem', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', outline: 'none', backgroundColor: '#f8fafc' }} />
@@ -183,7 +188,7 @@ export default function LoginPage() {
               <button type="submit" disabled={isSubmitting} style={{ width: '100%', background: '#e66a2b', color: '#fff', padding: '1rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', cursor: isSubmitting ? 'not-allowed' : 'pointer', opacity: isSubmitting ? 0.7 : 1, transition: 'background 0.2s' }}>
                 {isSubmitting ? 'Submitting...' : 'Submit Registration'}
               </button>
-              
+
               <p style={{ textAlign: 'center', marginTop: '1rem', color: '#64748b' }}>
                 Already have an active account?{' '}
                 <button type="button" onClick={() => setIsRegistering(false)} style={{ background: 'none', border: 'none', color: '#e66a2b', fontWeight: '600', cursor: 'pointer', fontSize: '1rem', padding: 0 }}>
@@ -207,7 +212,7 @@ export default function LoginPage() {
             <button type="submit" style={{ marginTop: '0.5rem', background: '#e66a2b', color: '#fff', padding: '1rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', cursor: 'pointer', transition: 'background 0.2s' }}>
               Login
             </button>
-            
+
             <p style={{ textAlign: 'center', marginTop: '1rem', color: '#64748b' }}>
               Not a partner yet?{' '}
               <button type="button" onClick={() => setIsRegistering(true)} style={{ background: 'none', border: 'none', color: '#e66a2b', fontWeight: '600', cursor: 'pointer', fontSize: '1rem', padding: 0 }}>

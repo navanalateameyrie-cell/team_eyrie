@@ -86,21 +86,39 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
 
 export default async function PeoplePage() {
   const payload = await getPayload({ config })
-  const { docs: people } = await payload.find({
-    collection: 'team-members',
-    limit: 100,
-    sort: 'order',
-    depth: 1,
-  })
+  const [{ docs: people }, pageBannersRes] = await Promise.all([
+    payload.find({
+      collection: 'team-members',
+      limit: 100,
+      sort: 'order',
+      depth: 1,
+    }),
+    payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
+  ])
+
+  const pBanner = (pageBannersRes as any)?.people
+  const bannerTitle = pBanner?.title || 'Our People & Leadership'
+  const bannerSubtitle =
+    pBanner?.subtitle ||
+    'A network of nearly 20 Chartered Accountants supported by Company Secretaries, Advocates, Cost Accountants, MBAs, Insolvency Professionals, and Valuation Specialists.'
+  const bannerEyebrow = pBanner?.eyebrow || 'Multidisciplinary Leadership'
+  const bannerImage =
+    typeof pBanner?.bgImage === 'object' && pBanner?.bgImage?.url
+      ? pBanner.bgImage.url
+      : typeof pBanner?.bgImage === 'string'
+        ? pBanner.bgImage
+        : '/hero/hero-3.png'
+  const bannerFocal = pBanner?.focalPosition || 'right top'
 
   return (
     <main>
       <PageHero
-        title="Our People & Leadership"
-        subtitle="A network of nearly 20 Chartered Accountants supported by Company Secretaries, Advocates, Cost Accountants, MBAs, Insolvency Professionals, and Valuation Specialists."
-        eyebrow="Multidisciplinary Leadership"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Our People' }]}
-        bgImage="/hero/hero-3.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>

@@ -72,22 +72,40 @@ const firmCulturePillars = [
 
 export default async function CareersPage() {
   const payload = await getPayload({ config })
-  const { docs: jobs } = await payload.find({
-    collection: 'jobs',
-    where: { status: { equals: 'open' } },
-    limit: 100,
-    sort: '-createdAt',
-    depth: 1,
-  }).catch(() => ({ docs: [] }))
+  const [{ docs: jobs }, pageBannersRes] = await Promise.all([
+    payload.find({
+      collection: 'jobs',
+      where: { status: { equals: 'open' } },
+      limit: 100,
+      sort: '-createdAt',
+      depth: 1,
+    }).catch(() => ({ docs: [] })),
+    payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
+  ])
+
+  const careersBanner = (pageBannersRes as any)?.careers
+  const bannerTitle = careersBanner?.title || 'Careers & Articleship'
+  const bannerSubtitle =
+    careersBanner?.subtitle ||
+    'Together We Rise. Together We Excel. Build an Extraordinary Career with India’s Premier Professional Services Network.'
+  const bannerEyebrow = careersBanner?.eyebrow || 'Grow with Industry Leaders'
+  const bannerImage =
+    typeof careersBanner?.bgImage === 'object' && careersBanner?.bgImage?.url
+      ? careersBanner.bgImage.url
+      : typeof careersBanner?.bgImage === 'string'
+        ? careersBanner.bgImage
+        : '/hero/hero-3.png'
+  const bannerFocal = careersBanner?.focalPosition || 'right top'
 
   return (
     <main>
       <PageHero
-        title="Careers & Articleship"
-        subtitle="Together We Rise. Together We Excel. Build an Extraordinary Career with India’s Premier Professional Services Network."
-        eyebrow="Grow with Industry Leaders"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Careers' }]}
-        bgImage="/hero/hero-1.png"
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section" style={{ padding: '60px 0', background: '#ffffff' }}>

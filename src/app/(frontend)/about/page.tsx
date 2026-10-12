@@ -133,11 +133,26 @@ const multidisciplinarySquad = [
 
 export default async function AboutPage() {
   const payload = await getPayload({ config })
-  const [{ docs: teamMembers }, { docs: dbServices }, homePage] = await Promise.all([
+  const [{ docs: teamMembers }, { docs: dbServices }, homePage, pageBannersRes] = await Promise.all([
     payload.find({ collection: 'team-members', limit: 12, sort: 'order', depth: 1 }).catch(() => ({ docs: [] })),
     payload.find({ collection: 'services', limit: 8, sort: 'order' }).catch(() => ({ docs: [] })),
     payload.findGlobal({ slug: 'home-page' }).catch(() => null),
+    payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
   ])
+
+  const aboutBanner = (pageBannersRes as any)?.about
+  const bannerTitle = aboutBanner?.title || 'About Team Eyrie'
+  const bannerEyebrow = aboutBanner?.eyebrow || 'The Power of Strategic Alliance'
+  const bannerSubtitle =
+    aboutBanner?.subtitle ||
+    'An Integrated Multidisciplinary Professional Services Network Delivering Institutional Excellence Across India'
+  const bannerImage =
+    typeof aboutBanner?.bgImage === 'object' && aboutBanner?.bgImage?.url
+      ? aboutBanner.bgImage.url
+      : typeof aboutBanner?.bgImage === 'string'
+        ? aboutBanner.bgImage
+        : '/images/Aboutus.png'
+  const bannerFocal = aboutBanner?.focalPosition || 'right center'
 
   const displayMetrics =
     homePage?.stats && homePage.stats.length > 0
@@ -237,11 +252,12 @@ export default async function AboutPage() {
   return (
     <main>
       <PageHero
-        title="About Team Eyrie"
-        subtitle="An Integrated Multidisciplinary Professional Services Network Delivering Institutional Excellence Across India"
-        eyebrow="The Power of Strategic Alliance"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'About Team Eyrie' }]}
-        bgImage="/images/Aboutus.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       {/* ── SECTION 1: EXECUTIVE NARRATIVE ── */}

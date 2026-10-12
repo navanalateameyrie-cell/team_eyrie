@@ -27,6 +27,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
+import { PageBanners } from './globals/PageBanners'
 import { runSeed } from './seed/seedData'
 
 const filename = fileURLToPath(import.meta.url)
@@ -146,7 +147,7 @@ export default buildConfig({
     Appointments,
     ComplianceEvents,
   ],
-  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview],
+  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview, PageBanners],
   editor: lexicalEditor(),
   // Real email is sent when SMTP_* env vars are present; otherwise Payload falls
   // back to its console transport (emails are logged, not delivered).

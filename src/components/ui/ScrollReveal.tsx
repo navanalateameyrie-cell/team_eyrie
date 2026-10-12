@@ -26,19 +26,14 @@ export default function ScrollReveal() {
       threshold: 0.08,
     })
 
-    // Find all sections, cards, and reveal containers across the page
+    // Ensure all sections and cards are visible immediately
     const targets = document.querySelectorAll(
       'main > section, .section, .corporate-card, .pillar-hover-card, .section-header, .stats-strip, .network-grid'
     )
 
     targets.forEach((el) => {
-      el.classList.add('scroll-reveal-item')
-      observer.observe(el)
+      el.classList.add('is-revealed')
     })
-
-    return () => {
-      observer.disconnect()
-    }
   }, [pathname])
 
   return null

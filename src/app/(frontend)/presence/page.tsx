@@ -14,15 +14,44 @@ export const metadata: Metadata = {
     'Team Eyrie has offices and professional associates across 9 key commercial hubs in India: Chennai, Bengaluru, Mumbai, New Delhi, Goa, Salem, Madurai, Namakkal, and Mysuru.',
 }
 
-export default function PresencePage() {
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
+export default async function PresencePage() {
+  let bannerTitle = 'Our PAN-India Presence'
+  let bannerSubtitle = 'National Capabilities with Local Regulatory Insights Across 9 Commercial Hubs'
+  let bannerEyebrow = 'Integrated National Reach'
+  let bannerImage = '/hero/hero-4.png'
+  let bannerFocal = 'right center'
+
+  try {
+    const payload = await getPayload({ config })
+    const pageBannersRes: any = await payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null)
+    const pBanner = pageBannersRes?.presence
+    if (pBanner) {
+      if (pBanner.title) bannerTitle = pBanner.title
+      if (pBanner.subtitle) bannerSubtitle = pBanner.subtitle
+      if (pBanner.eyebrow) bannerEyebrow = pBanner.eyebrow
+      if (typeof pBanner.bgImage === 'object' && pBanner.bgImage?.url) {
+        bannerImage = pBanner.bgImage.url
+      } else if (typeof pBanner.bgImage === 'string') {
+        bannerImage = pBanner.bgImage
+      }
+      if (pBanner.focalPosition) bannerFocal = pBanner.focalPosition
+    }
+  } catch {
+    // Fall back to defaults
+  }
+
   return (
     <main>
       <PageHero
-        title="Our PAN-India Presence"
-        subtitle="National Capabilities with Local Regulatory Insights Across 9 Commercial Hubs"
-        eyebrow="Integrated National Reach"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Our Presence' }]}
-        bgImage="/hero/hero-4.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>

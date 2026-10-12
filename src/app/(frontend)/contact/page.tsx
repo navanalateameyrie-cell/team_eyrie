@@ -13,22 +13,36 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const payload = await getPayload({ config })
-  const [{ docs: services }, { docs: offices }, settings] = await Promise.all([
+  const [{ docs: services }, { docs: offices }, settings, pageBannersRes] = await Promise.all([
     payload.find({ collection: 'services', limit: 50, sort: 'order', depth: 0 }),
     payload.find({ collection: 'offices', limit: 50, sort: 'order', depth: 0 }),
     payload.findGlobal({ slug: 'site-settings', depth: 0 }).catch(() => null as any),
+    payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null as any),
   ])
 
   const contact = settings?.contact || {}
+  const cBanner = pageBannersRes?.contact
+  const bannerTitle = cBanner?.title || 'Contact Us'
+  const bannerSubtitle =
+    cBanner?.subtitle || 'Trusted Advice. Practical Solutions. Sustainable Growth. Tell us how we can assist your business.'
+  const bannerEyebrow = cBanner?.eyebrow || 'Connect with Senior Practice Partners'
+  const bannerImage =
+    typeof cBanner?.bgImage === 'object' && cBanner?.bgImage?.url
+      ? cBanner.bgImage.url
+      : typeof cBanner?.bgImage === 'string'
+        ? cBanner.bgImage
+        : '/hero/hero-2.png'
+  const bannerFocal = cBanner?.focalPosition || 'right center'
 
   return (
     <main>
       <PageHero
-        title="Contact Us"
-        subtitle="Trusted Advice. Practical Solutions. Sustainable Growth. Tell us how we can assist your business."
-        eyebrow="Connect with Senior Practice Partners"
-        crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact Us' }]}
-        bgImage="/hero/hero-2.png"
+        title={bannerTitle}
+        subtitle={bannerSubtitle}
+        eyebrow={bannerEyebrow}
+        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        bgImage={bannerImage}
+        bgPosition={bannerFocal}
       />
 
       <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>
