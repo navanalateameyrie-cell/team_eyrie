@@ -450,8 +450,8 @@ export const AdminSidebar: React.FC = () => {
                 <text x="16" y="21" textAnchor="middle" fontSize="11" fontWeight="800" fill="white" fontFamily="Arial">TE</text>
                 <defs>
                   <linearGradient id="brandGrad" x1="3" y1="2" x2="29" y2="30">
-                    <stop offset="0%" stopColor="#F0C04A" />
-                    <stop offset="100%" stopColor="#123B6D" />
+                    <stop offset="0%" stopColor="#f26522" />
+                    <stop offset="100%" stopColor="#1d4ed8" />
                   </linearGradient>
                 </defs>
               </svg>

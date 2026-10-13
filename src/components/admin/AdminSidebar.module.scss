@@ -4,18 +4,18 @@
 //  Design: Glassmorphism + Gold Gradient + Animated Collapse + Floating Tooltips
 // =============================================================================
 
-// ─── Design Tokens ────────────────────────────────────────────────────────────
-$navy:         #071A3A;
-$navy-light:   #0f2854;
-$navy-mid:     #123B6D;
-$gold:         #C09B5A;
-$gold-light:   #E6C181;
-$gold-dim:     rgba(192, 155, 90, 0.15);
-$gold-glow:    rgba(192, 155, 90, 0.25);
+// ─── Design Tokens (Royal Sapphire Blue & Amber Glow — matching Header) ───────
+$navy:         #1d4ed8;
+$navy-light:   #1e40af;
+$navy-mid:     #172554;
+$gold:         #f26522;
+$gold-light:   #fb923c;
+$gold-dim:     rgba(242, 101, 34, 0.18);
+$gold-glow:    rgba(242, 101, 34, 0.35);
 $white:        #ffffff;
-$text-dim:     #98A2B3;
-$text-base:    #cbd5e1;
-$text-bright:  #e2e8f0;
+$text-dim:     #bfdbfe;
+$text-base:    #e0e7ff;
+$text-bright:  #ffffff;
 
 $sidebar-w:       260px;
 $sidebar-w-mini:  68px;
@@ -37,30 +37,30 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   flex-direction: column;
   overflow: hidden;
 
-  // Glassmorphism base — deep navy with subtle glass sheen
+  // Royal Sapphire Blue gradient matching the admin top header
   background: linear-gradient(
     180deg,
-    #{$navy} 0%,
-    #{$navy-light} 50%,
-    darken($navy, 2%) 100%
+    #1d4ed8 0%,
+    #1e40af 45%,
+    #172554 100%
   );
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 2px solid #e87722;
   box-shadow:
-    4px 0 24px rgba(0, 0, 0, 0.4),
-    inset -1px 0 0 rgba(255, 255, 255, 0.04);
+    4px 0 28px rgba(15, 23, 42, 0.35),
+    inset -1px 0 0 rgba(255, 255, 255, 0.1);
 
-  // Subtle animated gradient overlay (top shimmer)
+  // Subtle ambient glow overlay matching the top header shimmer
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 200px;
-    background: linear-gradient(
-      180deg,
-      rgba(176, 141, 87, 0.07) 0%,
-      transparent 100%
+    height: 180px;
+    background: radial-gradient(
+      circle at 40% 0%,
+      rgba(242, 101, 34, 0.22) 0%,
+      rgba(29, 78, 216, 0) 70%
     );
     pointer-events: none;
     z-index: 0;
@@ -107,16 +107,16 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    background: #071A3A;
-    border: 1.5px solid #F0C04A;
-    color: #F0C04A;
-    box-shadow: 0 4px 16px rgba(7, 26, 58, 0.35);
+    background: #1d4ed8;
+    border: 1.5px solid #f26522;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(29, 78, 216, 0.35);
     z-index: 1002;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
 
     &:hover {
-      background: #123B6D;
+      background: #1e40af;
       transform: scale(1.05);
     }
 
@@ -214,15 +214,15 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 2px;
-  color: $gold;
+  color: #ffffff;
   line-height: 1;
 }
 
 .brandSub {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.8px;
-  color: $text-dim;
+  color: #bfdbfe;
   text-transform: uppercase;
   line-height: 1;
 }
@@ -231,10 +231,10 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   width: 28px;
   height: 28px;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: $text-dim;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,10 +248,10 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    background: $gold-dim;
-    border-color: rgba(176, 141, 87, 0.4);
-    color: $gold-light;
-    box-shadow: 0 0 12px $gold-glow;
+    background: rgba(242, 101, 34, 0.25);
+    border-color: #f26522;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(242, 101, 34, 0.35);
   }
 }
 
@@ -282,24 +282,24 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   overflow: visible;
 
   &:hover {
-    background: $gold-dim;
+    background: rgba(255, 255, 255, 0.12);
     color: $white;
     transform: translateX(3px);
 
-    .navIcon svg { stroke: $gold-light; transform: scale(1.1); }
+    .navIcon svg { stroke: #fb923c; transform: scale(1.1); }
     .tooltip { opacity: 1; pointer-events: none; transform: translateX(0); }
   }
 }
 
 .dashItemActive {
-  background: rgba(232, 119, 34, 0.16) !important;
+  background: rgba(255, 255, 255, 0.16) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  border: 1px solid rgba(232, 119, 34, 0.35) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  border: 1.5px solid rgba(242, 101, 34, 0.75) !important;
+  box-shadow: 0 4px 14px rgba(10, 25, 47, 0.3) !important;
   transform: none !important;
 
-  .navIcon svg { stroke: #E87722 !important; }
+  .navIcon svg { stroke: #f26522 !important; }
 
   &::before {
     content: '';
@@ -307,10 +307,11 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 3px;
+    width: 3.5px;
     height: 60%;
-    background: #E87722;
+    background: #f26522;
     border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 8px #f26522;
   }
 }
 
@@ -517,23 +518,24 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navItemActive {
-  background: rgba(232, 119, 34, 0.16) !important;
+  background: rgba(255, 255, 255, 0.16) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  border: 1px solid rgba(232, 119, 34, 0.35) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(242, 101, 34, 0.6) !important;
+  box-shadow: 0 4px 14px rgba(10, 25, 47, 0.25) !important;
 
   &::before {
     transform: translateY(-50%) scaleY(1) !important;
     opacity: 1 !important;
-    background: #E87722 !important;
+    background: #f26522 !important;
+    box-shadow: 0 0 8px #f26522 !important;
   }
 
-  .navIcon svg { stroke: #E87722 !important; }
+  .navIcon svg { stroke: #f26522 !important; }
 
   &:hover {
     transform: none !important;
-    background: rgba(232, 119, 34, 0.22) !important;
+    background: rgba(255, 255, 255, 0.22) !important;
   }
 }
 
@@ -571,19 +573,19 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   transition: opacity 0.18s ease, transform 0.18s ease;
   z-index: 99999;
 
-  background: $navy-mid;
+  background: #172554;
   color: $white;
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.4px;
   padding: 7px 14px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: 3px solid $gold;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-left: 3px solid #f26522;
   white-space: nowrap;
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(176, 141, 87, 0.15);
+    0 8px 24px rgba(10, 25, 47, 0.6),
+    0 0 0 1px rgba(242, 101, 34, 0.2);
 
   // Triangle pointer
   &::before {
@@ -593,7 +595,7 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
     top: 50%;
     transform: translateY(-50%);
     border: 5px solid transparent;
-    border-right-color: $gold;
+    border-right-color: #f26522;
   }
 }
 
@@ -616,10 +618,10 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   padding: 0 10px 12px;
 
-  // Glass frost effect
+  // Glass frost effect matching sapphire base
   background: linear-gradient(
     0deg,
-    rgba(11, 19, 36, 0.98) 0%,
+    rgba(23, 37, 84, 0.98) 0%,
     transparent 100%
   );
 }
@@ -637,7 +639,7 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   overflow: visible;
 
   &:hover {
-    background: $gold-dim;
+    background: rgba(255, 255, 255, 0.12);
     .tooltip { opacity: 1; transform: translateX(0); }
   }
 }
@@ -646,8 +648,8 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, $gold-dim, rgba(176,141,87,0.3));
-  border: 1.5px solid rgba(176, 141, 87, 0.4);
+  background: linear-gradient(135deg, rgba(242, 101, 34, 0.3), rgba(29, 78, 216, 0.6));
+  border: 1.5px solid rgba(242, 101, 34, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -656,7 +658,7 @@ $transition:      cubic-bezier(0.4, 0, 0.2, 1);
   svg {
     width: 16px;
     height: 16px;
-    stroke: $gold-light;
+    stroke: #ffffff;
   }
 }
 
