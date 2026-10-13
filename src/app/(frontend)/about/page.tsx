@@ -292,10 +292,10 @@ export default async function AboutPage() {
               <h2 style={{ fontSize: 'clamp(28px, 2.6vw, 38px)', color: '#0f172a', fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25 }}>
                 Redefining Professional Services for the Modern Enterprise
               </h2>
-              <p style={{ fontSize: 16, color: '#475569', lineHeight: 1.7, margin: '0 0 16px' }}>
+              <p style={{ fontSize: 16, color: '#475569', lineHeight: 1.7, margin: '0 0 16px', textAlign: 'justify', textJustify: 'inter-word' }}>
                 <strong>Team Eyrie</strong> is an integrated multidisciplinary professional services network established through the strategic alliance of three reputed Chartered Accountancy partnerships: <strong>V. Verma & Co.</strong>, <strong>S S A L Associates</strong>, and <strong>R. Sridharan & Company</strong>.
               </p>
-              <p style={{ fontSize: 15, color: '#64748b', lineHeight: 1.7, margin: 0 }}>
+              <p style={{ fontSize: 15, color: '#64748b', lineHeight: 1.7, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
                 Recognizing the growing complexity of Indian and global commerce, our founding partners united decades of specialized legacy practices into a singular cohesive national network. Together, we combine the personalized attention and institutional trust of traditional CA practice with the scale, technical breadth, and tech-driven infrastructure required by high-growth enterprises, multinational corporations, and family offices.
               </p>
             </div>
@@ -636,46 +636,129 @@ export default async function AboutPage() {
           {/* ── SECTION 6: QUALITY & ICAI CODE ASSURANCE ── */}
           <div
             style={{
-              background: '#071A3A',
+              background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
               color: '#ffffff',
-              borderRadius: 16,
-              padding: '40px 32px',
+              borderRadius: 18,
+              padding: '44px 36px',
               marginBottom: 48,
-              border: '1px solid rgba(152, 162, 179, 0.3)',
+              border: '1.5px solid rgba(255, 255, 255, 0.16)',
+              boxShadow: '0 16px 40px rgba(29, 78, 216, 0.28)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 32,
+              gap: 36,
               alignItems: 'center',
+              position: 'relative',
+              overflow: 'hidden',
             }}
           >
-            <div>
-              <span style={{ color: '#93c5fd', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, display: 'block', marginBottom: 8 }}>
+            {/* Ambient Radial Accent Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: -60,
+                right: -60,
+                width: 240,
+                height: 240,
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(242, 101, 34, 0.28) 0%, rgba(29, 78, 216, 0) 70%)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  padding: '6px 14px',
+                  borderRadius: 20,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: 1.5,
+                  textTransform: 'uppercase',
+                  color: '#ffffff',
+                  marginBottom: 18,
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                }}
+              >
+                <span
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    backgroundColor: '#f26522',
+                    boxShadow: '0 0 8px #f26522',
+                  }}
+                />
                 Institutional Governance
-              </span>
-              <h3 style={{ fontSize: 'clamp(22px, 2vw, 28px)', fontWeight: 800, margin: '0 0 12px', color: '#ffffff' }}>
+              </div>
+              <h3 style={{ fontSize: 'clamp(24px, 2.2vw, 30px)', fontWeight: 800, margin: '0 0 14px', color: '#ffffff', lineHeight: 1.3, letterSpacing: '-0.015em' }}>
                 Unwavering Adherence to ICAI Regulatory Standards
               </h3>
-              <p style={{ fontSize: 14.5, color: '#cbd5e1', lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontSize: 15.5, color: '#e2e8f0', lineHeight: 1.7, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
                 Every engagement conducted under the Team Eyrie banner strictly complies with the Chartered Accountants Act, 1949, the ICAI Code of Ethics, and Standard on Quality Control (SQC-1). Our partners maintain rigorous peer review compliance and documented audit trails.
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>SQC-1</div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Quality Control Framework</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, position: 'relative', zIndex: 1 }}>
+              <div
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  borderRadius: 14,
+                  padding: '20px 18px',
+                  border: '1.2px solid rgba(255, 255, 255, 0.18)',
+                  boxShadow: '0 6px 18px rgba(10, 25, 47, 0.15)',
+                }}
+              >
+                <div style={{ fontSize: 26, fontWeight: 800, color: '#f26522', marginBottom: 4, letterSpacing: '-0.01em' }}>SQC-1</div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: '#f8fafc', lineHeight: 1.4 }}>Quality Control Framework</div>
               </div>
-              <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>100%</div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Peer Review Compliance</div>
+              <div
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  borderRadius: 14,
+                  padding: '20px 18px',
+                  border: '1.2px solid rgba(255, 255, 255, 0.18)',
+                  boxShadow: '0 6px 18px rgba(10, 25, 47, 0.15)',
+                }}
+              >
+                <div style={{ fontSize: 26, fontWeight: 800, color: '#f26522', marginBottom: 4, letterSpacing: '-0.01em' }}>100%</div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: '#f8fafc', lineHeight: 1.4 }}>Peer Review Compliance</div>
               </div>
-              <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>ISO/IEC</div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Data Confidentiality</div>
+              <div
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  borderRadius: 14,
+                  padding: '20px 18px',
+                  border: '1.2px solid rgba(255, 255, 255, 0.18)',
+                  boxShadow: '0 6px 18px rgba(10, 25, 47, 0.15)',
+                }}
+              >
+                <div style={{ fontSize: 26, fontWeight: 800, color: '#f26522', marginBottom: 4, letterSpacing: '-0.01em' }}>ISO/IEC</div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: '#f8fafc', lineHeight: 1.4 }}>Data Confidentiality</div>
               </div>
-              <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: 10, padding: 18, border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#f26522', marginBottom: 4 }}>Pan-India</div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>Statutory Authority</div>
+              <div
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  borderRadius: 14,
+                  padding: '20px 18px',
+                  border: '1.2px solid rgba(255, 255, 255, 0.18)',
+                  boxShadow: '0 6px 18px rgba(10, 25, 47, 0.15)',
+                }}
+              >
+                <div style={{ fontSize: 26, fontWeight: 800, color: '#f26522', marginBottom: 4, letterSpacing: '-0.01em' }}>Pan-India</div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: '#f8fafc', lineHeight: 1.4 }}>Statutory Authority</div>
               </div>
             </div>
           </div>

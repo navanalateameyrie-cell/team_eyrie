@@ -363,15 +363,15 @@ export default async function HomePage() {
                 {introHeading}
               </h2>
               {introBody ? (
-                <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20, whiteSpace: 'pre-line' }}>
+                <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20, whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}>
                   {introBody}
                 </p>
               ) : (
                 <>
-                  <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 12 }}>
+                  <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 12, textAlign: 'justify', textJustify: 'inter-word' }}>
                     Team Eyrie is a premier multidisciplinary professional services network established through the strategic alliance of three reputed Chartered Accountancy firms.
                   </p>
-                  <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20 }}>
+                  <p style={{ color: '#475569', fontSize: 15.5, lineHeight: 1.65, marginBottom: 20, textAlign: 'justify', textJustify: 'inter-word' }}>
                     Our network brings together the collective intelligence of nearly <strong>20 Chartered Accountants</strong>, supported by an accomplished team of Company Secretaries, Advocates, Cost Accountants, MBAs, Insolvency Professionals, Valuation Specialists, and domain experts.
                   </p>
                 </>

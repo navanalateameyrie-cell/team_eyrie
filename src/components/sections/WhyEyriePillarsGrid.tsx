@@ -261,6 +261,8 @@ export default function WhyEyriePillarsGrid({
                   color: '#526071',
                   lineHeight: 1.55,
                   margin: '0 0 16px',
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
                 }}
               >
                 {pil.shortSummary}
@@ -451,6 +453,8 @@ export default function WhyEyriePillarsGrid({
                   fontSize: 14.5,
                   lineHeight: 1.68,
                   margin: 0,
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
                 }}
               >
                 {selectedPillar.fullDetails}

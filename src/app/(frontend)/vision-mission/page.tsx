@@ -192,7 +192,7 @@ export default async function VisionMissionPage() {
                 <h3 style={{ fontSize: 'clamp(24px, 2.2vw, 30px)', fontWeight: 800, margin: '0 0 16px', color: '#ffffff', lineHeight: 1.3 }}>
                   To Be India’s Most Trusted &amp; Technically Formidable Professional Services Network
                 </h3>
-                <p style={{ fontSize: 15.5, color: '#e2e8f0', lineHeight: 1.7, margin: '0 0 24px' }}>
+                <p style={{ fontSize: 15.5, color: '#e2e8f0', lineHeight: 1.7, margin: '0 0 24px', textAlign: 'justify', textJustify: 'inter-word' }}>
                   To establish Team Eyrie as India’s foremost integrated multidisciplinary network—celebrated by enterprises, regulatory authorities, and the profession for uncompromising independence, technical mastery, and strategic value creation.
                 </p>
               </div>
@@ -232,7 +232,7 @@ export default async function VisionMissionPage() {
                 <h3 style={{ fontSize: 'clamp(24px, 2.2vw, 30px)', fontWeight: 800, margin: '0 0 16px', color: '#0f172a', lineHeight: 1.3 }}>
                   Transforming Regulatory Complexity into Strategic Confidence
                 </h3>
-                <p style={{ fontSize: 15.5, color: '#475569', lineHeight: 1.7, margin: '0 0 24px' }}>
+                <p style={{ fontSize: 15.5, color: '#475569', lineHeight: 1.7, margin: '0 0 24px', textAlign: 'justify', textJustify: 'inter-word' }}>
                   To deliver world-class professional assurance, tax jurisprudence, and transactional advisory by fusing decades of specialized legacy expertise with modern collaborative technology—enabling clients to navigate evolving economic frontiers with complete certainty.
                 </p>
               </div>
@@ -318,7 +318,7 @@ export default async function VisionMissionPage() {
                   <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0f274a', margin: '0 0 10px' }}>
                     {sc.title}
                   </h3>
-                  <p style={{ fontSize: 14, color: '#64748b', lineHeight: 1.6, margin: '0 0 18px' }}>
+                  <p style={{ fontSize: 14, color: '#64748b', lineHeight: 1.6, margin: '0 0 18px', textAlign: 'justify', textJustify: 'inter-word' }}>
                     {sc.description}
                   </p>
                   <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: '#334155', lineHeight: 1.7 }}>
@@ -374,7 +374,7 @@ export default async function VisionMissionPage() {
                   <h4 style={{ fontSize: 16, fontWeight: 700, color: '#0f274a', margin: '0 0 8px' }}>
                     {goal.title}
                   </h4>
-                  <p style={{ fontSize: 13.5, color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                  <p style={{ fontSize: 13.5, color: '#64748b', lineHeight: 1.6, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
                     {goal.description}
                   </p>
                 </div>

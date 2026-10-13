@@ -82,6 +82,7 @@ export default function SectionHeader({
             color: isDark ? '#cbd5e1' : '#475569',
             lineHeight: 1.65,
             margin: 0,
+            textAlign: align,
           }}
         >
           {subtitle}

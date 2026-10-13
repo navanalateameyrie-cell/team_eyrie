@@ -145,6 +145,8 @@ export default function VisionMissionOverview() {
                   lineHeight: 1.65,
                   margin: '0 0 24px',
                   fontWeight: 400,
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
                 }}
               >
                 To establish Team Eyrie as India’s foremost integrated multidisciplinary network—celebrated by enterprises, regulatory authorities, and the profession for uncompromising independence, technical mastery, and strategic value creation.
@@ -255,6 +257,8 @@ export default function VisionMissionOverview() {
                   lineHeight: 1.65,
                   margin: '0 0 24px',
                   fontWeight: 400,
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
                 }}
               >
                 To deliver world-class professional assurance, tax jurisprudence, and transactional advisory by fusing decades of specialized legacy expertise with modern collaborative technology—enabling clients to navigate evolving economic frontiers with complete certainty.

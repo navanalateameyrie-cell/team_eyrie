@@ -134,6 +134,8 @@ export default function CorporateCard({
               fontSize: 14.5,
               lineHeight: 1.65,
               margin: items && items.length > 0 ? '0 0 16px' : 0,
+              textAlign: 'justify',
+              textJustify: 'inter-word',
             }}
           >
             {description}
