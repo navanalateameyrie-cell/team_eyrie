@@ -71,8 +71,8 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
   const p = await getPerson(slug)
   if (!p) notFound()
 
-  const photoUrl = getMediaUrl(p.photo, 'card')
-  const { x: focalX, y: focalY } = getFocalPoint(p.photo, { x: '50%', y: '18%' })
+  const photoUrl = getMediaUrl(p.photo, 'auto')
+  const { x: focalX, y: focalY } = getFocalPoint(p.photo, { x: '50%', y: '14%' })
   const expertise = Array.isArray(p.expertise) ? p.expertise.filter((e: any) => typeof e === 'object') : []
   const contact = p.contact || {}
 
@@ -103,7 +103,7 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               <div
                 style={{
                   width: '100%',
-                  aspectRatio: '4 / 4.8',
+                  aspectRatio: '1 / 1.1',
                   maxHeight: 420,
                   borderRadius: 14,
                   overflow: 'hidden',
@@ -130,21 +130,38 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
               <div
                 style={{
                   width: '100%',
-                  height: 280,
+                  height: 300,
                   borderRadius: 14,
-                  background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
-                  color: '#ffffff',
+                  background: 'linear-gradient(145deg, #f8fafc 0%, #edf2f7 100%)',
+                  color: '#1e3a8a',
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 54,
-                  fontWeight: 800,
-                  letterSpacing: 2,
-                  boxShadow: '0 8px 24px rgba(29, 78, 216, 0.25)',
-                  border: '1.5px solid rgba(242, 101, 34, 0.45)',
+                  boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)',
+                  border: '1px solid #cbd5e1',
                 }}
               >
-                {initials}
+                <div
+                  style={{
+                    width: 72,
+                    height: 72,
+                    borderRadius: '50%',
+                    background: '#dbeafe',
+                    color: '#1d4ed8',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 28,
+                    fontWeight: 800,
+                    letterSpacing: 1.5,
+                  }}
+                >
+                  {initials}
+                </div>
+                <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600, marginTop: 12, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                  Profile
+                </span>
               </div>
             )}
 

@@ -16,22 +16,21 @@ export const metadata: Metadata = {
 }
 
 function Avatar({ photo, name }: { photo: any; name: string }) {
-  const url = getMediaUrl(photo, 'card')
-  const { x: focalX, y: focalY } = getFocalPoint(photo, { x: '50%', y: '22%' })
+  const url = getMediaUrl(photo, 'auto')
+  const { x: focalX, y: focalY } = getFocalPoint(photo, { x: '50%', y: '14%' })
 
   if (url) {
     return (
       <div
         style={{
-          width: '80%',
-          maxWidth: 240,
-          aspectRatio: '4 / 4.7',
-          margin: '0 auto 16px auto',
-          borderRadius: 14,
+          width: '100%',
+          aspectRatio: '1 / 1',
+          margin: '0 0 16px 0',
+          borderRadius: 12,
           overflow: 'hidden',
           background: '#f8fafc',
-          border: '1.5px solid rgba(152, 162, 179, 0.35)',
-          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.07)',
+          border: '1px solid rgba(152, 162, 179, 0.35)',
+          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)',
           position: 'relative',
         }}
       >
@@ -64,24 +63,41 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
   return (
     <div
       style={{
-        width: '80%',
-        maxWidth: 240,
-        aspectRatio: '4 / 4.7',
-        margin: '0 auto 16px auto',
-        borderRadius: 14,
-        background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
-        color: '#ffffff',
+        width: '100%',
+        aspectRatio: '1 / 1',
+        margin: '0 0 16px 0',
+        borderRadius: 12,
+        background: 'linear-gradient(145deg, #f8fafc 0%, #edf2f7 100%)',
+        color: '#1e3a8a',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 42,
-        fontWeight: 800,
-        border: '1.5px solid rgba(242, 101, 34, 0.45)',
-        boxShadow: '0 4px 16px rgba(29, 78, 216, 0.2)',
-        letterSpacing: 1.5,
+        border: '1px solid #cbd5e1',
+        boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
+        position: 'relative',
       }}
     >
-      {initials}
+      <div
+        style={{
+          width: 58,
+          height: 58,
+          borderRadius: '50%',
+          background: '#dbeafe',
+          color: '#1d4ed8',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 22,
+          fontWeight: 800,
+          letterSpacing: 1,
+        }}
+      >
+        {initials}
+      </div>
+      <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600, marginTop: 8, letterSpacing: 0.5, textTransform: 'uppercase' }}>
+        Profile
+      </span>
     </div>
   )
 }
@@ -185,29 +201,26 @@ export default async function PeoplePage() {
                     style={{ textDecoration: 'none', color: 'inherit' }}
                   >
                     <Avatar photo={p.photo} name={p.name} />
-                    <h3 style={{ fontSize: 20, color: '#0f172a', fontWeight: 800, margin: '0 0 4px' }}>
+                    <h3 style={{ fontSize: 19, color: '#0f172a', fontWeight: 800, margin: '0 0 6px', lineHeight: 1.3 }}>
                       {p.name}
                     </h3>
-                    <div style={{ color: '#1d4ed8', fontWeight: 700, fontSize: 14, marginBottom: 6 }}>
+                    <div style={{ color: '#1d4ed8', fontWeight: 700, fontSize: 13.5, minHeight: 38, marginBottom: 4, display: 'flex', alignItems: 'center' }}>
                       {p.designation}
                     </div>
-                    {p.qualifications && (
-                      <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500, marginBottom: 6 }}>
+                    {p.qualifications ? (
+                      <div style={{ fontSize: 12.5, color: '#64748b', fontWeight: 600, minHeight: 20, marginBottom: 10 }}>
                         {p.qualifications}
                       </div>
+                    ) : (
+                      <div style={{ minHeight: 20, marginBottom: 10 }} />
                     )}
                     {shortBio && (
-                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.55, margin: '8px 0 10px' }}>
+                      <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.55, margin: '0 0 14px', flexGrow: 1 }}>
                         {shortBio}
-                        {isLong && (
-                          <span style={{ color: '#f26522', fontWeight: 700, marginLeft: 6 }}>
-                            Read More →
-                          </span>
-                        )}
                       </p>
                     )}
-                    <div className="corporate-card__footer" style={{ marginTop: 'auto', paddingTop: 14 }}>
-                      <span style={{ color: '#1d4ed8', fontWeight: 700 }}>View Profile →</span>
+                    <div className="corporate-card__footer" style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid #f1f5f9' }}>
+                      <span style={{ color: '#1d4ed8', fontWeight: 700, fontSize: 13.5 }}>View Profile →</span>
                     </div>
                   </a>
                 )

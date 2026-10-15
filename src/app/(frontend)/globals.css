@@ -3394,9 +3394,10 @@ a.card:hover {
 }
 
 .corporate-card--light:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(15, 42, 74, 0.12);
-  border-color: #f26522;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(15, 42, 74, 0.10);
+  border-color: #cbd5e1;
+  border-top-color: #2563eb;
 }
 
 .corporate-card--glass-dark {
@@ -3409,21 +3410,23 @@ a.card:hover {
 
 .corporate-card--glass-dark:hover {
   transform: translateY(-3px);
-  border-color: #f26522;
+  border-color: rgba(255, 255, 255, 0.4);
+  border-left-color: #f26522;
   box-shadow: 0 16px 36px rgba(37, 99, 235, 0.35);
 }
 
 .corporate-card--partner {
   background: #ffffff;
-  border: 1px solid #94A3B8;
-  border-left: 5px solid #1d4ed8;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #1d4ed8;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
 }
 
 .corporate-card--partner:hover {
   transform: translateY(-3px);
-  border-color: #f26522;
-  box-shadow: 0 12px 26px rgba(15, 42, 74, 0.12);
+  border-color: #cbd5e1;
+  border-left-color: #2563eb;
+  box-shadow: 0 12px 26px rgba(15, 42, 74, 0.08);
 }
 
 .corporate-card--clickable {

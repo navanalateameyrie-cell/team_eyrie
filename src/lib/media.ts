@@ -21,27 +21,25 @@ export function getMediaUrl(
 
   let targetUrl: string | null = null
 
-  // Check sizes in preference order
-  if (media.sizes && typeof media.sizes === 'object') {
+  // In Payload, when an admin uses the Crop / Frame tool, Payload saves the cropped image
+  // directly to media.url. Therefore, media.url is the definitive cropped master file!
+  // Fall back to media.sizes only if media.url is missing, or if preferredSize is explicitly requested.
+  if (media.url) {
+    targetUrl = media.url
+  } else if (media.sizes && typeof media.sizes === 'object') {
     if (preferredSize === 'card' && media.sizes.card?.url) {
       targetUrl = media.sizes.card.url
     } else if (preferredSize === 'thumbnail' && media.sizes.thumbnail?.url) {
       targetUrl = media.sizes.thumbnail.url
     } else if (preferredSize === 'hero' && media.sizes.hero?.url) {
       targetUrl = media.sizes.hero.url
-    } else if (preferredSize === 'auto') {
-      // Auto: prefer card (crisp & cropped), then thumbnail, then hero
+    } else {
       targetUrl =
         media.sizes.card?.url ||
         media.sizes.thumbnail?.url ||
         media.sizes.hero?.url ||
         null
     }
-  }
-
-  // Fallback to primary url
-  if (!targetUrl && media.url) {
-    targetUrl = media.url
   }
 
   if (!targetUrl) return null
@@ -62,11 +60,11 @@ export function getMediaUrl(
 
 /**
  * Normalizes focal point coordinates from Payload upload objects.
- * Handles both 0..100 percentage values and 0..1 normalized floats.
+ * Uses a safe default headroom (14%) to prevent cutting off foreheads and hair.
  */
 export function getFocalPoint(
   media: any,
-  fallback = { x: '50%', y: '20%' },
+  fallback = { x: '50%', y: '14%' },
 ): { x: string; y: string } {
   if (!media || typeof media !== 'object') return fallback
 
@@ -74,7 +72,6 @@ export function getFocalPoint(
     if (val == null || val === '') return defaultVal
     const num = Number(val)
     if (isNaN(num)) return defaultVal
-    // If stored as decimal 0..1 (e.g. 0.35 -> 35%)
     if (num > 0 && num <= 1) return `${Math.round(num * 100)}%`
     return `${Math.round(num)}%`
   }
