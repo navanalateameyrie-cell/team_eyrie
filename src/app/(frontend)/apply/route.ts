@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getConsentNotice, buildAckEmail } from '@/lib/consent'
+import { isJobExpired } from '@/lib/jobs'
 
 export const dynamic = 'force-dynamic'
 
@@ -50,9 +51,9 @@ export async function POST(req: Request) {
 
     const payload = await getPayload({ config })
 
-    // Confirm the job exists and is open.
+    // Confirm the job exists, is open, and has not passed its closing date.
     const job = await payload.findByID({ collection: 'jobs', id: jobId, depth: 0 }).catch(() => null)
-    if (!job || (job as any).status !== 'open') {
+    if (!job || (job as any).status !== 'open' || isJobExpired((job as any).closingDate)) {
       return Response.json({ ok: false, error: 'This position is no longer accepting applications.' }, { status: 400 })
     }
 

@@ -5,6 +5,7 @@ import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import SectionHeader from '@/components/layout/SectionHeader'
 import CtaBanner from '@/components/layout/CtaBanner'
+import { isJobExpired, getClosingDateInfo } from '@/lib/jobs'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
@@ -72,7 +73,7 @@ const firmCulturePillars = [
 
 export default async function CareersPage() {
   const payload = await getPayload({ config })
-  const [{ docs: jobs }, pageBannersRes] = await Promise.all([
+  const [{ docs: allJobs }, pageBannersRes] = await Promise.all([
     payload.find({
       collection: 'jobs',
       where: { status: { equals: 'open' } },
@@ -82,6 +83,9 @@ export default async function CareersPage() {
     }).catch(() => ({ docs: [] })),
     payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
   ])
+
+  // Automatically filter out jobs whose closing date has passed
+  const jobs = (allJobs || []).filter((j: any) => !isJobExpired(j.closingDate))
 
   const careersBanner = (pageBannersRes as any)?.careers
   const bannerTitle = careersBanner?.title || 'Careers & Articleship'
@@ -222,6 +226,7 @@ export default async function CareersPage() {
                 const locations = Array.isArray(j.location)
                   ? j.location.filter((l: any) => typeof l === 'object').map((l: any) => l.city)
                   : []
+                const deadlineInfo = getClosingDateInfo(j.closingDate)
                 return (
                   <div
                     key={j.id}
@@ -279,6 +284,29 @@ export default async function CareersPage() {
                             }}
                           >
                             🏷️ {j.department}
+                          </span>
+                        )}
+                        {deadlineInfo && (
+                          <span
+                            style={{
+                              fontSize: 11.5,
+                              fontWeight: 700,
+                              background: deadlineInfo.isUrgent ? '#fef2f2' : '#fffbeb',
+                              color: deadlineInfo.isUrgent ? '#b91c1c' : '#92400e',
+                              border: `1px solid ${deadlineInfo.isUrgent ? '#fecaca' : '#fde68a'}`,
+                              padding: '3px 10px',
+                              borderRadius: 6,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 4,
+                            }}
+                            title={`Applications close on ${deadlineInfo.formatted}`}
+                          >
+                            <span>{deadlineInfo.isUrgent ? '⏰' : '📅'}</span>
+                            <span>Apply by {deadlineInfo.formatted}</span>
+                            {deadlineInfo.urgencyText && (
+                              <span style={{ opacity: 0.85, fontWeight: 600 }}>({deadlineInfo.urgencyText})</span>
+                            )}
                           </span>
                         )}
                       </div>

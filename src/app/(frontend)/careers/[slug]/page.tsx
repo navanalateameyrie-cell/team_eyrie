@@ -7,6 +7,7 @@ import PageHero from '@/components/layout/PageHero'
 import RichText from '@/components/ui/RichText'
 import JobApplicationForm from '@/components/forms/JobApplicationForm'
 import { getConsentNotice } from '@/lib/consent'
+import { isJobExpired, getClosingDateInfo } from '@/lib/jobs'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,13 +32,16 @@ async function getJob(slug: string) {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const job = await getJob(slug)
-  return { title: job ? `${job.title} — Careers — Team Eyrie` : 'Careers — Team Eyrie' }
+  if (!job || isJobExpired(job.closingDate)) {
+    return { title: 'Position Not Found — Careers — Team Eyrie' }
+  }
+  return { title: `${job.title} — Careers — Team Eyrie` }
 }
 
 export default async function JobDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const job = await getJob(slug)
-  if (!job) notFound()
+  if (!job || isJobExpired(job.closingDate)) notFound()
 
   const payload = await getPayload({ config })
   const notice = await getConsentNotice(payload)
@@ -46,6 +50,7 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
   const locations = Array.isArray(job.location)
     ? job.location.filter((l: any) => typeof l === 'object').map((l: any) => l.city)
     : []
+  const deadlineInfo = getClosingDateInfo(job.closingDate)
 
   return (
     <main>
@@ -70,12 +75,35 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
               )}
               {job.department && (
                 <span style={{ fontSize: 13, fontWeight: 600, background: '#f1f5f9', color: '#334155', padding: '5px 12px', borderRadius: 6 }}>
-                  {job.department}
+                  🏷️ {job.department}
                 </span>
               )}
               {(job.experienceMin != null || job.experienceMax != null) && (
                 <span style={{ fontSize: 13, fontWeight: 600, background: '#f1f5f9', color: '#334155', padding: '5px 12px', borderRadius: 6 }}>
                   {[job.experienceMin, job.experienceMax].filter((x) => x != null).join('–')} yrs experience
+                </span>
+              )}
+              {deadlineInfo && (
+                <span
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    background: deadlineInfo.isUrgent ? '#fef2f2' : '#fffbeb',
+                    color: deadlineInfo.isUrgent ? '#b91c1c' : '#92400e',
+                    border: `1px solid ${deadlineInfo.isUrgent ? '#fecaca' : '#fde68a'}`,
+                    padding: '5px 12px',
+                    borderRadius: 6,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                  }}
+                  title={`Applications close on ${deadlineInfo.formatted}`}
+                >
+                  <span>{deadlineInfo.isUrgent ? '⏰' : '📅'}</span>
+                  <span>Apply by {deadlineInfo.formatted}</span>
+                  {deadlineInfo.urgencyText && (
+                    <span style={{ opacity: 0.85, fontWeight: 600 }}>({deadlineInfo.urgencyText})</span>
+                  )}
                 </span>
               )}
             </div>
@@ -122,6 +150,35 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
               <h3 style={{ fontSize: 20, color: '#0f274a', fontWeight: 800, margin: '0 0 12px' }}>
                 Apply for this Position
               </h3>
+              {deadlineInfo && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 13,
+                    color: '#64748b',
+                    marginBottom: 16,
+                    padding: '8px 12px',
+                    borderRadius: 6,
+                    background: deadlineInfo.isUrgent ? '#fef2f2' : '#f8fafc',
+                    border: `1px solid ${deadlineInfo.isUrgent ? '#fecaca' : '#e2e8f0'}`,
+                  }}
+                >
+                  <span>{deadlineInfo.isUrgent ? '⏰' : '📅'}</span>
+                  <span>
+                    Deadline:{' '}
+                    <strong style={{ color: deadlineInfo.isUrgent ? '#b91c1c' : '#0f274a' }}>
+                      {deadlineInfo.formatted}
+                    </strong>
+                  </span>
+                  {deadlineInfo.urgencyText && (
+                    <span style={{ color: '#b91c1c', fontWeight: 700, marginLeft: 'auto', fontSize: 11.5 }}>
+                      {deadlineInfo.urgencyText}
+                    </span>
+                  )}
+                </div>
+              )}
               {isOpen ? (
                 <div style={{ marginTop: 8 }}>
                   <JobApplicationForm

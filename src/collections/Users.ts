@@ -90,6 +90,11 @@ export const Users: CollectionConfig = {
                 const serviceDoc = await req.payload.findByID({ collection: 'services', id: typeof currentService.service === 'object' ? currentService.service?.id : currentService.service });
 
                 if (prof && serviceDoc) {
+                  const siteUrl = (
+                    process.env.NEXT_PUBLIC_SERVER_URL ||
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://te1-steel.vercel.app')
+                  ).replace(/\/$/, '');
+
                   await req.payload.sendEmail({
                     to: doc.email,
                     subject: `Professional Assigned: ${serviceDoc.title}`,
@@ -103,7 +108,7 @@ export const Users: CollectionConfig = {
                           <p>We are pleased to inform you that <strong>${prof.name || 'a dedicated staff member'}</strong> has been assigned to handle your <strong>${serviceDoc.title}</strong> service engagement.</p>
                           <p>They will be reviewing your requirements and may request specific documents through your Client Portal.</p>
                           <p style="margin-top: 30px;">
-                            <a href="http://localhost:3001/client-dashboard" style="background-color: #C09B5A; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">Access Client Portal</a>
+                            <a href="${siteUrl}/client-dashboard" style="background-color: #C09B5A; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">Access Client Portal</a>
                           </p>
                         </div>
                       </div>

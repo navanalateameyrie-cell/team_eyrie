@@ -37,7 +37,7 @@ export function baseUrl(): string {
   return (
     process.env.NEXT_PUBLIC_SERVER_URL ||
     process.env.PAYLOAD_PUBLIC_SERVER_URL ||
-    'http://localhost:4000'
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://te1-steel.vercel.app')
   ).replace(/\/$/, '')
 }
 

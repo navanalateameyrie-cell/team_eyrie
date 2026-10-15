@@ -1,5 +1,7 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import SectionHeader from '@/components/layout/SectionHeader'
 import IndiaNetworkMap from '@/components/map/IndiaNetworkMap'
@@ -13,9 +15,6 @@ export const metadata: Metadata = {
   description:
     'Team Eyrie has offices and professional associates across 9 key commercial hubs in India: Chennai, Bengaluru, Mumbai, New Delhi, Goa, Salem, Madurai, Namakkal, and Mysuru.',
 }
-
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 export default async function PresencePage() {
   let bannerTitle = 'Our PAN-India Presence'

@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const { message, history } = await req.json()
 
     const apiKey = process.env.OPENROUTER_API_KEY
-    
+
     if (!apiKey || apiKey === 'sk-or-v1-your-openrouter-api-key-here') {
       return NextResponse.json({
         reply: "Hello! The OpenRouter API key has not been configured yet. Please add it to your .env file."
@@ -61,7 +61,9 @@ export async function POST(req: Request) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
         // Optional OpenRouter headers to identify your app
-        'HTTP-Referer': process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001',
+        'HTTP-Referer':
+          process.env.NEXT_PUBLIC_SERVER_URL ||
+          (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://te1-steel.vercel.app'),
         'X-Title': 'Team Eyrie Chatbot',
       },
       body: JSON.stringify({

@@ -102,7 +102,10 @@ export const Jobs: CollectionConfig = {
         {
           name: 'closingDate',
           type: 'date',
-          admin: { width: '50%' },
+          admin: {
+            width: '50%',
+            description: 'Application deadline. The job will remain active throughout this date and automatically disappear from the website the following day.',
+          },
         },
       ],
     },
