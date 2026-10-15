@@ -50,6 +50,11 @@ function writeConsent(consent: Consent) {
   )}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`
 }
 
+function deleteConsent() {
+  if (typeof document === 'undefined') return
+  document.cookie = `${COOKIE_NAME}=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax`
+}
+
 function genConsentId(): string {
   const arr = new Uint8Array(24)
   crypto.getRandomValues(arr)
@@ -119,6 +124,17 @@ export default function CookieConsent() {
 
   useEffect(() => {
     setMounted(true)
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.has('reset-cookies') || params.has('cookies') || params.has('reset-consent')) {
+        deleteConsent()
+        setConsent(null)
+        setDraft({ necessary: true, preferences: false, statistics: false, marketing: false })
+        setPanelOpen(true)
+        setMode('banner')
+        return
+      }
+    }
     const existing = readConsent()
     if (existing) {
       setConsent(existing)
@@ -155,8 +171,14 @@ export default function CookieConsent() {
   const allowSelection = () => persist({ ...draft, necessary: true }, consent ? 'updated' : 'accepted')
 
   const withdraw = () => {
-    persist({ necessary: true, preferences: false, statistics: false, marketing: false }, 'withdrawn')
-    setMode('state')
+    deleteConsent()
+    if (consent) {
+      void logConsent({ ...consent, categories: { necessary: true, preferences: false, statistics: false, marketing: false } }, 'withdrawn')
+    }
+    setConsent(null)
+    setDraft({ necessary: true, preferences: false, statistics: false, marketing: false })
+    setMode('banner')
+    setPanelOpen(true)
   }
 
   if (!mounted) return null
@@ -165,6 +187,7 @@ export default function CookieConsent() {
   const floatingButton = consent && !panelOpen && (
     <button
       aria-label="Cookie settings"
+      title="Cookie Preferences & Policy (Click to review or reset)"
       onClick={() => {
         setMode('state')
         setPanelOpen(true)
@@ -173,16 +196,19 @@ export default function CookieConsent() {
         position: 'fixed',
         left: 12,
         bottom: 12,
-        width: 36,
-        height: 36,
+        width: 38,
+        height: 38,
         borderRadius: '50%',
         background: BRAND,
         color: '#fff',
-        border: 'none',
+        border: '1.5px solid rgba(255, 255, 255, 0.4)',
         cursor: 'pointer',
         boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
-        fontSize: 16,
+        fontSize: 18,
         zIndex: 9998,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       🍪
@@ -342,7 +368,7 @@ export default function CookieConsent() {
           ) : (
             <>
               <button style={btnOutline} onClick={withdraw}>
-                Withdraw your consent
+                Withdraw & Re-ask Consent
               </button>
               <button style={btnPrimary} onClick={() => setMode('edit')}>
                 Change your consent
@@ -365,7 +391,7 @@ const bannerWrap: React.CSSProperties = {
   background: '#fff',
   borderTop: '3px solid ' + ACCENT,
   boxShadow: '0 -4px 20px rgba(0,0,0,0.12)',
-  zIndex: 9999,
+  zIndex: 99999,
   padding: '16px 20px',
 }
 const bannerInner: React.CSSProperties = {
@@ -381,7 +407,7 @@ const overlay: React.CSSProperties = {
   position: 'fixed',
   inset: 0,
   background: 'rgba(15,23,42,0.45)',
-  zIndex: 9999,
+  zIndex: 99999,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
