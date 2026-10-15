@@ -24,7 +24,7 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
       <div
         style={{
           width: '100%',
-          aspectRatio: '1 / 1',
+          aspectRatio: '4 / 4.6',
           margin: '0 0 16px 0',
           borderRadius: 12,
           overflow: 'hidden',
@@ -64,7 +64,7 @@ function Avatar({ photo, name }: { photo: any; name: string }) {
     <div
       style={{
         width: '100%',
-        aspectRatio: '1 / 1',
+        aspectRatio: '4 / 4.6',
         margin: '0 0 16px 0',
         borderRadius: 12,
         background: 'linear-gradient(145deg, #f8fafc 0%, #edf2f7 100%)',
