@@ -264,6 +264,7 @@ export default function HeroSection({
   return (
     <section
       className="hero-creative-section"
+      suppressHydrationWarning
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-label="Hero Section"
@@ -298,12 +299,12 @@ export default function HeroSection({
           )
         })}
 
-        {/* Clean Natural Dark Overlay for High Text Legibility */}
+        {/* Dark gradient overlays for text legibility */}
         <div className="hero-creative-bg__overlay" />
         <div className="hero-creative-bg__overlay-radial" />
       </div>
 
-      {/* Main Content Layout Container: Overlaid Text on Left Side (No Cards) */}
+      {/* Overlaid text content */}
       <div className="container hero-creative-container">
         <div className="hero-creative-content" key={activeSlide.id}>
           {/* Eyebrow */}
@@ -311,12 +312,12 @@ export default function HeroSection({
             <span>{eyebrow}</span>
           </div>
 
-          {/* Prominent White Headline with Accent Highlight */}
+          {/* Headline with Accent Highlight */}
           <h1 className="hero-creative-title">
             {renderHeadline(activeSlide.title)}
           </h1>
 
-          {/* High Contrast Clean Description */}
+          {/* Description */}
           <p className="hero-creative-desc">
             {activeSlide.description}
           </p>
@@ -346,7 +347,7 @@ export default function HeroSection({
             </a>
           </div>
 
-          {/* Slide Indicators / Lines */}
+          {/* Slide Indicators */}
           {activeSlides.length > 1 && (
             <div className="hero-creative-indicators" aria-label="Slide Selection">
               {activeSlides.map((slide, idx) => {
@@ -370,3 +371,4 @@ export default function HeroSection({
     </section>
   )
 }
+

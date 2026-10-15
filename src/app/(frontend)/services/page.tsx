@@ -1,9 +1,12 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
-import SectionHeader from '@/components/layout/SectionHeader'
 import CtaBanner from '@/components/layout/CtaBanner'
-import CorporateIcon from '@/components/ui/CorporateIcon'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: 'Services — Team Eyrie',
@@ -11,165 +14,211 @@ export const metadata: Metadata = {
     'Integrated professional services across Assurance & Audit, Tax Advisory, GST & Indirect Taxes, Corporate & Regulatory Advisory, Business Consulting, Transaction Advisory, Family Business Advisory, and Global Business Services.',
 }
 
-type ServiceThemeColor = 'navy' | 'gold' | 'teal' | 'indigo' | 'sky' | 'emerald' | 'bronze' | 'azure'
-
-const serviceThemePresets: Record<
-  ServiceThemeColor,
-  {
-    cardBg: string
-    borderColor: string
-    hoverBorder: string
-    hoverShadow: string
-    topBar: string
-    iconGradient: string
-    iconShadow: string
-    tagBg: string
-    tagBorder: string
-    tagHoverBorder: string
-    checkColor: string
-    linkColor: string
+function renderServiceIcon(nameOrSlug: string) {
+  const key = (nameOrSlug || '').toLowerCase()
+  const props = {
+    width: 38,
+    height: 38,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.6,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
   }
-> = {
-  navy: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0f4fa 100%)',
-    borderColor: '#dbe4f0',
-    hoverBorder: '#1d4ed8',
-    hoverShadow: '0 16px 36px rgba(29, 78, 216, 0.14)',
-    topBar: 'linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%)',
-    iconGradient: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
-    iconShadow: '0 6px 16px rgba(29, 78, 216, 0.28)',
-    tagBg: '#f5f8fc',
-    tagBorder: '#dbe6f3',
-    tagHoverBorder: '#1d4ed8',
-    checkColor: '#1d4ed8',
-    linkColor: '#1d4ed8',
-  },
-  gold: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #FFF7ED 100%)',
-    borderColor: '#94A3B8',
-    hoverBorder: '#f26522',
-    hoverShadow: '0 16px 36px rgba(242, 101, 34, 0.14)',
-    topBar: 'linear-gradient(90deg, #1d4ed8 0%, #f26522 100%)',
-    iconGradient: 'linear-gradient(135deg, #f26522 0%, #ea580c 100%)',
-    iconShadow: '0 6px 16px rgba(242, 101, 34, 0.35)',
-    tagBg: '#FFF7ED',
-    tagBorder: '#94A3B8',
-    tagHoverBorder: '#f26522',
-    checkColor: '#f26522',
-    linkColor: '#1d4ed8',
-  },
-  teal: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0fdf9 100%)',
-    borderColor: '#cbf0e7',
-    hoverBorder: '#0d9488',
-    hoverShadow: '0 16px 36px rgba(13, 148, 136, 0.12)',
-    topBar: 'linear-gradient(90deg, #0d9488 0%, #2dd4bf 100%)',
-    iconGradient: 'linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)',
-    iconShadow: '0 6px 16px rgba(13, 148, 136, 0.28)',
-    tagBg: '#f0fbf8',
-    tagBorder: '#d2f2ea',
-    tagHoverBorder: '#0d9488',
-    checkColor: '#0d9488',
-    linkColor: '#0f766e',
-  },
-  indigo: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #f4f5fe 100%)',
-    borderColor: '#dde1fc',
-    hoverBorder: '#4f46e5',
-    hoverShadow: '0 16px 36px rgba(79, 70, 229, 0.12)',
-    topBar: 'linear-gradient(90deg, #4f46e5 0%, #818cf8 100%)',
-    iconGradient: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
-    iconShadow: '0 6px 16px rgba(79, 70, 229, 0.28)',
-    tagBg: '#f6f7fe',
-    tagBorder: '#e2e6fb',
-    tagHoverBorder: '#4f46e5',
-    checkColor: '#4f46e5',
-    linkColor: '#4338ca',
-  },
-  sky: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0f7fc 100%)',
-    borderColor: '#cbe5f7',
-    hoverBorder: '#0284c7',
-    hoverShadow: '0 16px 36px rgba(2, 132, 199, 0.12)',
-    topBar: 'linear-gradient(90deg, #0284c7 0%, #38bdf8 100%)',
-    iconGradient: 'linear-gradient(135deg, #38bdf8 0%, #0369a1 100%)',
-    iconShadow: '0 6px 16px rgba(2, 132, 199, 0.28)',
-    tagBg: '#f0f7fd',
-    tagBorder: '#d7ecfa',
-    tagHoverBorder: '#0284c7',
-    checkColor: '#0284c7',
-    linkColor: '#0369a1',
-  },
-  emerald: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #f0fdf6 100%)',
-    borderColor: '#ccf2de',
-    hoverBorder: '#059669',
-    hoverShadow: '0 16px 36px rgba(5, 150, 105, 0.12)',
-    topBar: 'linear-gradient(90deg, #059669 0%, #34d399 100%)',
-    iconGradient: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
-    iconShadow: '0 6px 16px rgba(5, 150, 105, 0.28)',
-    tagBg: '#f1fcf6',
-    tagBorder: '#d6f5e4',
-    tagHoverBorder: '#059669',
-    checkColor: '#059669',
-    linkColor: '#047857',
-  },
-  bronze: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #fcf7f1 100%)',
-    borderColor: '#f6e3c9',
-    hoverBorder: '#b45309',
-    hoverShadow: '0 16px 36px rgba(180, 83, 9, 0.12)',
-    topBar: 'linear-gradient(90deg, #b45309 0%, #fbbf24 100%)',
-    iconGradient: 'linear-gradient(135deg, #f59e0b 0%, #9a3412 100%)',
-    iconShadow: '0 6px 16px rgba(180, 83, 9, 0.28)',
-    tagBg: '#fdf8f2',
-    tagBorder: '#f8ebd9',
-    tagHoverBorder: '#b45309',
-    checkColor: '#b45309',
-    linkColor: '#b45309',
-  },
-  azure: {
-    cardBg: 'linear-gradient(155deg, #ffffff 40%, #f1f6fd 100%)',
-    borderColor: '#d0e1fc',
-    hoverBorder: '#2563eb',
-    hoverShadow: '0 16px 36px rgba(37, 99, 235, 0.12)',
-    topBar: 'linear-gradient(90deg, #2563eb 0%, #60a5fa 100%)',
-    iconGradient: 'linear-gradient(135deg, #60a5fa 0%, #1d4ed8 100%)',
-    iconShadow: '0 6px 16px rgba(37, 99, 235, 0.28)',
-    tagBg: '#f3f8fe',
-    tagBorder: '#dbe8fc',
-    tagHoverBorder: '#2563eb',
-    checkColor: '#2563eb',
-    linkColor: '#1d4ed8',
-  },
+
+  // 1. Direct Taxes & Litigation (Scales of Justice)
+  if (key.includes('litigation') || key.includes('direct-tax') || key.includes('direct tax')) {
+    return (
+      <svg {...props}>
+        <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+        <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+        <path d="M7 21h10" />
+        <path d="M12 3v18" />
+        <path d="M3 7h18" />
+      </svg>
+    )
+  }
+
+  // 2. Assurance & Audit (Shield with checkmark)
+  if (key.includes('assurance') || key.includes('audit')) {
+    return (
+      <svg {...props}>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <polyline points="9 12 11 14 15 10" />
+      </svg>
+    )
+  }
+
+  // 3. Tax Advisory (Document with analytics / trending chart)
+  if (key.includes('tax-advisory') || key.includes('tax advisory') || key.includes('tax')) {
+    return (
+      <svg {...props}>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <path d="M8 17v-3" />
+        <path d="M12 17v-6" />
+        <path d="M16 17v-4" />
+      </svg>
+    )
+  }
+
+  // 4. GST & Indirect Taxes (Coins stack with percentage)
+  if (key.includes('gst') || key.includes('indirect')) {
+    return (
+      <svg {...props}>
+        <ellipse cx="9" cy="6" rx="6" ry="2.5" />
+        <path d="M3 6v4c0 1.4 2.7 2.5 6 2.5" />
+        <path d="M3 10v4c0 1.4 2.7 2.5 6 2.5" />
+        <circle cx="17.5" cy="15.5" r="4.5" />
+        <line x1="16" y1="17" x2="19" y2="14" />
+        <circle cx="16" cy="14" r="0.75" fill="currentColor" />
+        <circle cx="19" cy="17" r="0.75" fill="currentColor" />
+      </svg>
+    )
+  }
+
+  // 5. Corporate & Regulatory Advisory (Pillars / Greek temple landmark)
+  if (key.includes('corporate-regulatory-advisory') || key.includes('regulatory advisory') || key.includes('corporate & regulatory advisory')) {
+    return (
+      <svg {...props}>
+        <line x1="3" y1="21" x2="21" y2="21" />
+        <line x1="6" y1="18" x2="6" y2="11" />
+        <line x1="10" y1="18" x2="10" y2="11" />
+        <line x1="14" y1="18" x2="14" y2="11" />
+        <line x1="18" y1="18" x2="18" y2="11" />
+        <polygon points="12 3 21 8 3 8" />
+      </svg>
+    )
+  }
+
+  // 6. Corporate & Regulatory / Governance (Document with verification badge)
+  if (key.includes('corporate') || key.includes('regulatory') || key.includes('governance')) {
+    return (
+      <svg {...props}>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <path d="m9 15 2 2 4-4" />
+      </svg>
+    )
+  }
+
+  // 7. Transaction Advisory (Deal Handshake)
+  if (key.includes('transaction') || key.includes('m&a') || key.includes('deal')) {
+    return (
+      <svg {...props}>
+        <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+        <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+        <path d="m21 3 1 11h-2" />
+        <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+        <path d="M3 4h8" />
+      </svg>
+    )
+  }
+
+  // 8. Family Business (Generations / users)
+  if (key.includes('family') || key.includes('wealth')) {
+    return (
+      <svg {...props}>
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    )
+  }
+
+  // 9. Global Business Services (Globe)
+  if (key.includes('global') || key.includes('international')) {
+    return (
+      <svg {...props}>
+        <circle cx="12" cy="12" r="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      </svg>
+    )
+  }
+
+  // Default: Executive Briefcase
+  return (
+    <svg {...props}>
+      <rect x="2" y="7" width="20" height="14" rx="2" />
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+    </svg>
+  )
 }
 
-const serviceConfigMap: Record<string, { theme: ServiceThemeColor; iconName: string }> = {
-  'assurance-audit': { theme: 'navy', iconName: 'assurance' },
-  'tax-advisory': { theme: 'gold', iconName: 'tax' },
-  'gst-indirect-taxes': { theme: 'teal', iconName: 'gst' },
-  'corporate-regulatory-advisory': { theme: 'indigo', iconName: 'corporate' },
-  'business-consulting': { theme: 'sky', iconName: 'consulting' },
-  'transaction-advisory': { theme: 'emerald', iconName: 'transaction' },
-  'family-business-advisory': { theme: 'bronze', iconName: 'family' },
-  'global-business-services': { theme: 'azure', iconName: 'global' },
-}
-
-import { getPayload } from 'payload'
-import config from '@payload-config'
-
-export const dynamic = 'force-dynamic'
+const defaultServices = [
+  {
+    slug: 'direct-taxes-and-company-law-litigations',
+    title: 'Direct Taxes and Company Law Litigations',
+    summary:
+      'He regularly advises and represents clients in complex tax assessments, appeals and proceedings before various authorities and tribunals. His expertise includes interpreting tax laws, developing strong legal strategies and presenting matters with clarity and precision.',
+  },
+  {
+    slug: 'assurance-audit',
+    title: 'Assurance & Audit',
+    summary:
+      'Delivering reliable audit and assurance services that strengthen financial transparency, improve internal controls, and build confidence among stakeholders.',
+  },
+  {
+    slug: 'tax-advisory',
+    title: 'Tax Advisory',
+    summary:
+      'Providing strategic tax planning and advisory solutions to help businesses remain compliant, manage tax liabilities, and make informed financial decisions.',
+  },
+  {
+    slug: 'gst-indirect-taxes',
+    title: 'GST & Indirect Taxes',
+    summary:
+      'End-to-end GST and indirect tax support, including compliance, advisory, registrations, returns, reconciliations, and regulatory requirements.',
+  },
+  {
+    slug: 'corporate-regulatory-advisory',
+    title: 'Corporate & Regulatory Advisory',
+    summary:
+      'Company law, secretarial and regulatory compliance across the RBI, FEMA, SEBI and ROC frameworks.',
+    subServices: [
+      { name: 'Company law' },
+      { name: 'Secretarial & regulatory compliance' },
+      { name: 'RBI' },
+      { name: 'FEMA' },
+      { name: 'SEBI' },
+      { name: 'ROC frameworks' },
+    ],
+  },
+  {
+    slug: 'corporate-regulatory',
+    title: 'Corporate & Regulatory',
+    summary:
+      'Helping businesses navigate corporate laws, regulatory requirements, statutory compliance, and governance with confidence and efficiency.',
+  },
+  {
+    slug: 'transaction-advisory',
+    title: 'Transaction Advisory',
+    summary:
+      'Strategic capital raising, M&A due diligence, business valuations under IBBI/FEMA rules, and restructuring advisory across the deal lifecycle.',
+  },
+  {
+    slug: 'family-business-advisory',
+    title: 'Family Business Advisory',
+    summary:
+      'Succession planning, family constitutions, trust settlements, and long-term wealth preservation for multi-generational business families.',
+  },
+]
 
 export default async function ServicesPage() {
   const payload = await getPayload({ config })
-  const [{ docs: services }, pageBannersRes] = await Promise.all([
+  const [{ docs: dbServices }, pageBannersRes] = await Promise.all([
     payload.find({
       collection: 'services',
       limit: 100,
       sort: 'order',
-    }),
+    }).catch(() => ({ docs: [] })),
     payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
   ])
+
+  const services = dbServices && dbServices.length > 0 ? dbServices : defaultServices
 
   const sBanner = (pageBannersRes as any)?.services
   const bannerTitle = sBanner?.title || 'Our Practice Areas & Services'
@@ -184,8 +233,6 @@ export default async function ServicesPage() {
         : '/images/services.png'
   const bannerFocal = sBanner?.focalPosition || 'right center'
 
-  const fallbackConfig = { theme: 'navy' as ServiceThemeColor, iconName: 'corporate' }
-
   return (
     <main>
       <PageHero
@@ -197,107 +244,83 @@ export default async function ServicesPage() {
         bgPosition={bannerFocal}
       />
 
-      <section className="section" style={{ padding: '48px 0', background: '#ffffff' }}>
+      <section className="section" style={{ padding: '64px 0 72px', background: '#ffffff' }}>
         <div className="container">
-          <SectionHeader
-            eyebrow="What We Do"
-            title="Integrated Advisory & Assurance Solutions"
-            subtitle="Team Eyrie combines deep technical expertise with industry specialization across eight core practice areas, providing seamless support for corporate, institutional, and high-net-worth clients."
-          />
+          <div className="services-editorial-layout">
+            {/* Left Column: Sticky Editorial Introduction */}
+            <aside className="services-editorial-aside">
+              <div className="services-editorial-aside__inner">
+                <div className="services-editorial-eyebrow">
+                  <span>PRACTICE AREAS</span>
+                  <span className="services-editorial-eyebrow__line" />
+                </div>
 
-          <div className="services-catalog-grid">
-            {services.map((service: any) => {
-              const catConfig = serviceConfigMap[service.slug] || fallbackConfig
-              const theme = serviceThemePresets[catConfig.theme]
-              return (
-                <div
-                  key={service.slug}
-                  id={service.slug}
-                  className="service-practice-card"
-                  style={
-                    {
-                      '--card-bg': theme.cardBg,
-                      '--card-border': theme.borderColor,
-                      '--hover-border': theme.hoverBorder,
-                      '--hover-shadow': theme.hoverShadow,
-                      '--top-bar': theme.topBar,
-                      '--tag-hover-border': theme.tagHoverBorder,
-                      scrollMarginTop: 90,
-                    } as React.CSSProperties
-                  }
-                >
-                  <div>
-                    {/* Card Header */}
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
-                      <div
-                        className="service-practice-icon-box"
-                        style={{
-                          width: 48,
-                          height: 48,
-                          borderRadius: 12,
-                          background: theme.iconGradient,
-                          border: '1.5px solid rgba(255, 255, 255, 0.8)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                          boxShadow: theme.iconShadow,
-                        }}
-                      >
-                        <CorporateIcon name={catConfig.iconName} size={24} color="#ffffff" strokeWidth={2.4} />
+                <h2 className="services-editorial-title">
+                  Expertise that moves business forward
+                </h2>
+
+                <div className="services-editorial-accent-bar" />
+
+                <p className="services-editorial-subtitle">
+                  Team Eyrie combines deep technical expertise with industry specialization across eight core practice areas, providing seamless support for corporate, institutional, and high-net-worth clients.
+                </p>
+              </div>
+            </aside>
+
+            {/* Right Column: 2-Column Editorial Grid (No Boxed Cards) */}
+            <div className="services-editorial-grid">
+              {services.map((service: any, idx: number) => {
+                const num = String(idx + 1).padStart(2, '0')
+                return (
+                  <div
+                    key={service.slug || num}
+                    id={service.slug}
+                    className="services-editorial-item"
+                    style={{ scrollMarginTop: 90 }}
+                  >
+                    {/* Index Number */}
+                    <div className="services-editorial-num">{num}</div>
+
+                    {/* Body: Outline Line Icon + Content */}
+                    <div className="services-editorial-body">
+                      <div className="services-editorial-icon">
+                        {renderServiceIcon(service.slug || service.title)}
                       </div>
-                      <div style={{ flex: 1 }}>
-                        <h3 style={{ fontSize: 19, color: '#0f172a', margin: '0 0 3px', fontWeight: 800, letterSpacing: '-0.01em' }}>
+
+                      <div className="services-editorial-content">
+                        <h3 className="services-editorial-name">
                           {service.title}
                         </h3>
-                        <p style={{ color: '#526071', fontSize: 13.5, margin: 0, lineHeight: 1.5 }}>
+
+                        <p className="services-editorial-desc">
                           {service.summary}
                         </p>
+
+                        {/* Inline Pipe Separated Sub-Services */}
+                        {service.subServices && service.subServices.length > 0 && (
+                          <div className="services-editorial-subtext">
+                            {service.subServices.slice(0, 6).map((sub: any, sIdx: number) => (
+                              <React.Fragment key={sub.name || sIdx}>
+                                {sIdx > 0 && <span className="services-editorial-pipe">|</span>}
+                                <span>{sub.name}</span>
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        )}
+
+                        <a
+                          href={`/services/${service.slug}`}
+                          className="services-editorial-link"
+                        >
+                          <span>Explore practice</span>
+                          <span className="services-editorial-arrow">→</span>
+                        </a>
                       </div>
                     </div>
-
-                    <hr style={{ border: 'none', borderTop: `1px solid ${theme.borderColor}`, margin: '0 0 14px', opacity: 0.85 }} />
-
-                    {/* Capabilities Sub-items Grid */}
-                    <div
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-                        gap: 8,
-                      }}
-                    >
-                      {service.subServices?.map((item: any) => (
-                        <div
-                          key={item.name || item.id}
-                          className="service-practice-tag"
-                          style={{
-                            background: theme.tagBg,
-                            border: `1px solid ${theme.tagBorder}`,
-                          }}
-                        >
-                          <CorporateIcon name="check" size={13} color={theme.checkColor} strokeWidth={2.8} />
-                          <span style={{ whiteSpace: 'normal', lineHeight: 1.3 }}>{item.name}</span>
-                        </div>
-                      ))}
-                    </div>
                   </div>
-
-                  {/* Card Action Link */}
-                  <div style={{ marginTop: 18, paddingTop: 13, borderTop: `1px dashed ${theme.borderColor}`, display: 'flex', justifyContent: 'flex-end' }}>
-                    <a
-                      href={`/services/${service.slug}`}
-                      className="service-practice-link"
-                      style={{
-                        color: theme.linkColor,
-                      }}
-                    >
-                      <span>Explore {service.title} Practice</span>
-                      <span className="service-practice-arrow">→</span>
-                    </a>
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
 
           <CtaBanner

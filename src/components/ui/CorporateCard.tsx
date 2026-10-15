@@ -48,12 +48,12 @@ export default function CorporateCard({
                 width: 48,
                 height: 48,
                 borderRadius: 12,
-                background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)',
+                background: 'linear-gradient(135deg, #2b52d4 0%, #1d4ed8 100%)',
                 border: '1.5px solid rgba(255, 255, 255, 0.6)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 6px 16px rgba(7, 26, 58, 0.25)',
+                boxShadow: '0 6px 16px rgba(37, 99, 235, 0.25)',
               }}
             >
               <CorporateIcon name={iconName} size={24} color="#ffffff" strokeWidth={2.4} />

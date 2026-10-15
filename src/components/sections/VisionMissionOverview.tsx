@@ -74,12 +74,12 @@ export default function VisionMissionOverview() {
           <div
             className="vision-card-interactive"
             style={{
-              background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
+              background: 'linear-gradient(135deg, #2b52d4 0%, #2563eb 50%, #1d4ed8 100%)',
               color: '#ffffff',
               borderRadius: 20,
               padding: '38px 32px 32px',
-              boxShadow: '0 16px 40px rgba(29, 78, 216, 0.28)',
-              border: '1.5px solid rgba(255, 255, 255, 0.16)',
+              boxShadow: '0 16px 40px rgba(37, 99, 235, 0.25)',
+              border: '1.5px solid rgba(255, 255, 255, 0.24)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -97,7 +97,7 @@ export default function VisionMissionOverview() {
                 width: 200,
                 height: 200,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(242, 101, 34, 0.25) 0%, rgba(29, 78, 216, 0) 70%)',
+                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(37, 99, 235, 0) 70%)',
                 pointerEvents: 'none',
               }}
             />

@@ -265,15 +265,15 @@ export default function ComplianceCalendarWidget({
     <div
       className={`compliance-calendar-widget ${className}`}
       style={{
-        background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
+        background: 'linear-gradient(135deg, #2b52d4 0%, #2563eb 50%, #1d4ed8 100%)',
         borderRadius: 22,
         padding: '36px 38px',
         color: '#ffffff',
-        boxShadow: '0 20px 48px rgba(29, 78, 216, 0.32), 0 4px 14px rgba(15, 23, 42, 0.18)',
+        boxShadow: '0 20px 48px rgba(37, 99, 235, 0.28), 0 4px 14px rgba(29, 78, 216, 0.16)',
         position: 'relative',
         overflow: 'hidden',
         boxSizing: 'border-box',
-        border: '1.5px solid rgba(255, 255, 255, 0.18)',
+        border: '1.5px solid rgba(255, 255, 255, 0.24)',
       }}
     >
       {/* Ambient background accent glows */}
@@ -413,13 +413,13 @@ export default function ComplianceCalendarWidget({
           {/* ── Active Date Spotlight Showcase Card ── */}
           <div
             style={{
-              background: 'rgba(15, 23, 42, 0.35)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              border: '1.5px solid rgba(255, 255, 255, 0.16)',
+              background: 'rgba(255, 255, 255, 0.14)',
+              backdropFilter: 'blur(14px)',
+              WebkitBackdropFilter: 'blur(14px)',
+              border: '1.5px solid rgba(255, 255, 255, 0.28)',
               borderRadius: 16,
               padding: '22px 24px',
-              boxShadow: '0 8px 24px rgba(15, 23, 42, 0.2)',
+              boxShadow: '0 8px 24px rgba(20, 50, 160, 0.15)',
               minHeight: 170,
               display: 'flex',
               flexDirection: 'column',
@@ -607,14 +607,14 @@ export default function ComplianceCalendarWidget({
            ══════════════════════════════════════════════════════════ */}
         <div
           style={{
-            background: 'rgba(15, 23, 42, 0.34)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1.5px solid rgba(255, 255, 255, 0.14)',
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            border: '1.5px solid rgba(255, 255, 255, 0.28)',
             borderRadius: 18,
             padding: '30px 20px 22px 20px',
             position: 'relative',
-            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.22)',
+            boxShadow: '0 12px 32px rgba(20, 50, 160, 0.18)',
           }}
         >
           {/* ── Realistic Spiral Binder Rings at Head of Calendar ── */}
@@ -670,10 +670,10 @@ export default function ComplianceCalendarWidget({
                     width: 17,
                     height: 8,
                     borderRadius: 4,
-                    background: '#070c18',
+                    background: 'rgba(20, 55, 175, 0.75)',
                     marginTop: -7,
-                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.95), 0 0.5px 0 rgba(255, 255, 255, 0.18)',
-                    border: '0.5px solid rgba(0, 0, 0, 0.6)',
+                    boxShadow: 'inset 0 2px 4px rgba(10, 30, 100, 0.7), 0 0.5px 0 rgba(255, 255, 255, 0.25)',
+                    border: '0.5px solid rgba(255, 255, 255, 0.2)',
                     zIndex: 1,
                   }}
                 />
@@ -841,9 +841,9 @@ export default function ComplianceCalendarWidget({
                 (viewYear === realCurrentYear && viewMonth < realCurrentMonth) ||
                 (isViewingCurrentMonth && day < realCurrentDay)
 
-              let cellBg = 'rgba(255, 255, 255, 0.08)'
+              let cellBg = 'rgba(255, 255, 255, 0.12)'
               let cellColor = '#ffffff'
-              let cellBorder = '1px solid rgba(255, 255, 255, 0.08)'
+              let cellBorder = '1px solid rgba(255, 255, 255, 0.18)'
               let boxShadow = 'none'
 
               if (isSpecial) {
@@ -860,12 +860,12 @@ export default function ComplianceCalendarWidget({
                 boxShadow = '0 2px 8px rgba(242, 101, 34, 0.5)'
               } else if (isToday) {
                 // Today styling: Golden outline ring
-                cellBg = 'rgba(255, 255, 255, 0.14)'
+                cellBg = 'rgba(255, 255, 255, 0.22)'
                 cellBorder = '2.5px solid #f59e0b'
                 boxShadow = '0 0 0 2px rgba(245, 158, 11, 0.25)'
               } else if (isPassed) {
-                cellBg = 'rgba(255, 255, 255, 0.04)'
-                cellColor = '#cbd5e1'
+                cellBg = 'rgba(255, 255, 255, 0.07)'
+                cellColor = '#dbeafe'
               }
 
               if (isSelected) {

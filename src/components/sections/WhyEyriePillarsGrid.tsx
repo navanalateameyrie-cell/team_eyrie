@@ -205,11 +205,11 @@ export default function WhyEyriePillarsGrid({
                     width: 44,
                     height: 44,
                     borderRadius: 10,
-                    background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)',
+                    background: 'linear-gradient(135deg, #2b52d4 0%, #1d4ed8 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(7, 26, 58, 0.25)',
+                    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
                   }}
                 >
                   <CorporateIcon name={pil.iconName} size={22} color="#ffffff" strokeWidth={2.4} />
@@ -388,12 +388,12 @@ export default function WhyEyriePillarsGrid({
                   width: 52,
                   height: 52,
                   borderRadius: 12,
-                  background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)',
+                  background: 'linear-gradient(135deg, #2b52d4 0%, #1d4ed8 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
-                  boxShadow: '0 6px 16px rgba(7, 26, 58, 0.25)',
+                  boxShadow: '0 6px 16px rgba(37, 99, 235, 0.25)',
                 }}
               >
                 <CorporateIcon name={selectedPillar.iconName} size={26} color="#ffffff" strokeWidth={2.4} />

@@ -6,8 +6,10 @@ import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import RichText from '@/components/ui/RichText'
 import CtaBanner from '@/components/layout/CtaBanner'
+import { getMediaUrl, getFocalPoint } from '@/lib/media'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 async function getPerson(slug: string) {
   const payload = await getPayload({ config })
@@ -69,9 +71,8 @@ export default async function PersonDetail({ params }: { params: Promise<{ slug:
   const p = await getPerson(slug)
   if (!p) notFound()
 
-  const photoUrl = typeof p.photo === 'object' && p.photo?.url ? p.photo.url : null
-  const focalX = typeof p.photo === 'object' && p.photo?.focalX != null ? `${p.photo.focalX}%` : '50%'
-  const focalY = typeof p.photo === 'object' && p.photo?.focalY != null ? `${p.photo.focalY}%` : '18%'
+  const photoUrl = getMediaUrl(p.photo, 'card')
+  const { x: focalX, y: focalY } = getFocalPoint(p.photo, { x: '50%', y: '18%' })
   const expertise = Array.isArray(p.expertise) ? p.expertise.filter((e: any) => typeof e === 'object') : []
   const contact = p.contact || {}
 

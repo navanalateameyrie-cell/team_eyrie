@@ -4,6 +4,7 @@ import './globals.css'
 import CookieConsent from '@/components/ui/CookieConsent'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import SmoothScroll from '@/components/ui/SmoothScroll'
+import PageTransitionLoader from '@/components/ui/PageTransitionLoader'
 import { SiteHeaderServer, SiteFooter, SiteWidgetsServer } from '@/components/layout/SiteChrome'
 
 const siteUrl = (
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <PageTransitionLoader />
         <SmoothScroll />
         <ScrollReveal />
         <SiteHeaderServer />

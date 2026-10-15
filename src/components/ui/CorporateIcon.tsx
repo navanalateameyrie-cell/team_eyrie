@@ -40,10 +40,11 @@ export default function CorporateIcon({
     case 'scale':
       return (
         <svg {...svgProps}>
+          <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+          <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+          <path d="M7 21h10" />
           <path d="M12 3v18" />
-          <path d="M6 7.5h12" />
-          <path d="M4 14.5l4-7 4 7H4z" />
-          <path d="M12 14.5l4-7 4 7h-8z" />
+          <path d="M3 7h18" />
         </svg>
       )
     case 'gst':
@@ -80,9 +81,11 @@ export default function CorporateIcon({
     case 'handshake':
       return (
         <svg {...svgProps}>
-          <path d="m11 17 2 2a1 1 0 0 0 1.4 0l3.6-3.6" />
-          <path d="m18 14 3-3a1 1 0 0 0 0-1.4l-4.6-4.6a1 1 0 0 0-1.4 0l-7 7" />
-          <path d="m3 14 4.6-4.6a1 1 0 0 1 1.4 0l4 4" />
+          <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+          <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+          <path d="m21 3 1 11h-2" />
+          <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+          <path d="M3 4h8" />
         </svg>
       )
     case 'family':

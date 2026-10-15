@@ -5,17 +5,19 @@ import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import SectionHeader from '@/components/layout/SectionHeader'
 import CtaBanner from '@/components/layout/CtaBanner'
+import { getMediaUrl, getFocalPoint } from '@/lib/media'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'Our People — Team Eyrie',
   description: 'Meet the professionals behind Team Eyrie’s multidisciplinary expertise.',
 }
 
 function Avatar({ photo, name }: { photo: any; name: string }) {
-  const url = typeof photo === 'object' && photo?.url ? photo.url : null
-  const focalX = typeof photo === 'object' && photo?.focalX != null ? `${photo.focalX}%` : '50%'
-  const focalY = typeof photo === 'object' && photo?.focalY != null ? `${photo.focalY}%` : '22%'
+  const url = getMediaUrl(photo, 'card')
+  const { x: focalX, y: focalY } = getFocalPoint(photo, { x: '50%', y: '22%' })
 
   if (url) {
     return (

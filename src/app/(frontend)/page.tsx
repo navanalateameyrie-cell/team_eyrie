@@ -431,8 +431,8 @@ export default async function HomePage() {
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#0f172a', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CorporateIcon name="consulting" size={20} color="#f26522" />
+                  <div style={{ background: 'linear-gradient(135deg, #2b52d4 0%, #1d4ed8 100%)', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(37, 99, 235, 0.22)' }}>
+                    <CorporateIcon name="consulting" size={20} color="#ffffff" />
                   </div>
                   <div>
                     <strong style={{ color: '#0f172a', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Knowledge</strong>
@@ -441,8 +441,8 @@ export default async function HomePage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#0f172a', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CorporateIcon name="assurance" size={20} color="#f26522" />
+                  <div style={{ background: 'linear-gradient(135deg, #2b52d4 0%, #1d4ed8 100%)', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(37, 99, 235, 0.22)' }}>
+                    <CorporateIcon name="assurance" size={20} color="#ffffff" />
                   </div>
                   <div>
                     <strong style={{ color: '#0f172a', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Integrity</strong>
@@ -451,8 +451,8 @@ export default async function HomePage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ background: '#0f172a', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CorporateIcon name="gst" size={20} color="#f26522" />
+                  <div style={{ background: 'linear-gradient(135deg, #2b52d4 0%, #1d4ed8 100%)', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(37, 99, 235, 0.22)' }}>
+                    <CorporateIcon name="gst" size={20} color="#ffffff" />
                   </div>
                   <div>
                     <strong style={{ color: '#0f172a', fontSize: 15.5, display: 'block', marginBottom: 2, fontWeight: 700 }}>Innovation</strong>

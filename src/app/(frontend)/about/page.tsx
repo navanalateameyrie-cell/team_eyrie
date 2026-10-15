@@ -23,45 +23,6 @@ const keyMetrics = [
   { value: '1,200+', label: 'Enterprises & Clients', subtext: 'MNCs, listed entities & fast-growing startups' },
 ]
 
-const allianceFirms = [
-  {
-    initials: 'VV',
-    name: 'V. Verma & Co.',
-    role: 'Chartered Accountants',
-    badgeLevel: 'Senior Alliance Firm',
-    practiceDomain: 'Direct Tax & Corporate Restructuring',
-    heritage: 'Established Practice',
-    description:
-      'Premier practice delivering statutory assurance, high-stakes direct tax litigation, transfer pricing, and corporate restructuring.',
-    focusAreas: ['Statutory & Internal Audit', 'Direct Tax Litigation', 'Transfer Pricing & BEPS', 'Corporate Restructuring'],
-    linkHref: '/contact?firm=verma',
-  },
-  {
-    initials: 'SS',
-    name: 'S S A L Associates',
-    role: 'Chartered Accountants',
-    badgeLevel: 'Founding Partner Firm',
-    practiceDomain: 'Indirect Tax, GST & Assurance',
-    heritage: 'National Tax Practice',
-    description:
-      'Recognized market leader in GST, indirect tax advisory, risk management, supply-chain fiscal modeling, and internal controls.',
-    focusAreas: ['GST Advisory & Health Check', 'Litigation & Appeals', 'Internal Controls & IFC', 'Transaction Tax'],
-    linkHref: '/contact?firm=ssal',
-  },
-  {
-    initials: 'RS',
-    name: 'R. Sridharan & Company',
-    role: 'Chartered Accountants',
-    badgeLevel: 'Founding Partner Firm',
-    practiceDomain: 'Corporate Finance & Valuation',
-    heritage: 'Advisory & Corporate Finance',
-    description:
-      'Renowned for strategic business valuation under IBBI/FEMA rules, M&A due diligence, and cross-border advisory.',
-    focusAreas: ['Business Valuations (IBBI)', 'M&A Due Diligence', 'Cross-Border Inbound/Outbound', 'FEMA & RBI Compliance'],
-    linkHref: '/contact?firm=sridharan',
-  },
-]
-
 const practiceDisciplines = [
   {
     iconName: 'shield',
@@ -133,8 +94,7 @@ const multidisciplinarySquad = [
 
 export default async function AboutPage() {
   const payload = await getPayload({ config })
-  const [{ docs: teamMembers }, { docs: dbServices }, homePage, pageBannersRes] = await Promise.all([
-    payload.find({ collection: 'team-members', limit: 12, sort: 'order', depth: 1 }).catch(() => ({ docs: [] })),
+  const [{ docs: dbServices }, homePage, pageBannersRes] = await Promise.all([
     payload.find({ collection: 'services', limit: 8, sort: 'order' }).catch(() => ({ docs: [] })),
     payload.findGlobal({ slug: 'home-page' }).catch(() => null),
     payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
@@ -162,92 +122,6 @@ export default async function AboutPage() {
         subtext: 'Institutional capability metric',
       }))
       : keyMetrics
-
-  const partnerCards =
-    teamMembers.length > 0
-      ? teamMembers.map((tm: any) => {
-        const initials = tm.name
-          ? tm.name
-            .replace(/CA\s+/i, '')
-            .trim()
-            .split(/\s+/)
-            .map((n: string) => n[0])
-            .join('')
-            .slice(0, 2)
-            .toUpperCase()
-          : 'CA'
-
-        let bioSnippet = ''
-        if (typeof tm.bio === 'string') {
-          bioSnippet = tm.bio
-        } else if (tm.bio?.root?.children) {
-          bioSnippet = tm.bio.root.children
-            .map((c: any) => c.children?.map((ch: any) => ch.text || '').join('') || '')
-            .join(' ')
-        }
-
-        const rawDesignation = tm.designation || 'Senior Partner'
-        const parts = rawDesignation.split(/—|-/).map((s: string) => s.trim())
-        const badgeLevel = parts[0] || 'Senior Partner'
-        const practiceDomain =
-          parts.length > 1
-            ? parts.slice(1).join(' — ')
-            : tm.serviceTitle || 'Tax & Advisory Practice'
-
-        const focusAreas =
-          Array.isArray(tm.expertise) && tm.expertise.length > 0
-            ? tm.expertise.map((e: any) => (typeof e === 'object' ? e.title : 'Advisory Practice'))
-            : tm.serviceTitle
-              ? [tm.serviceTitle]
-              : ['Corporate Assurance', 'Taxation & Regulatory']
-
-        const personSlug =
-          tm.slug ||
-          (tm.name
-            ? tm.name
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, '')
-              .replace(/\s+/g, '-')
-              .replace(/-+/g, '-')
-              .replace(/^-|-$/g, '')
-            : '')
-        const linkHref = personSlug ? `/people/${personSlug}` : (tm.id ? `/people/${tm.id}` : '/contact')
-
-        const fullDescription =
-          bioSnippet ||
-          'Senior Partner spearheading multidisciplinary corporate advisory, compliance and regulatory representation.'
-
-        // Compact summary (max ~90 chars for clean 2-line height)
-        const MAX_DESC = 90
-        const isLong = fullDescription.length > MAX_DESC
-        let shortDescription = fullDescription
-        if (isLong) {
-          const cut = fullDescription.slice(0, MAX_DESC)
-          const lastSpace = cut.lastIndexOf(' ')
-          shortDescription = (lastSpace > 60 ? cut.slice(0, lastSpace) : cut).trim() + '...'
-        }
-
-        return {
-          initials,
-          name: tm.name,
-          role: tm.qualifications || 'Chartered Accountant',
-          badgeLevel,
-          practiceDomain,
-          heritage: tm.officeCity ? `${tm.officeCity} Hub` : 'Partner Leadership',
-          description: fullDescription,
-          shortDescription,
-          isLong,
-          focusAreas,
-          linkHref,
-          isPerson: true,
-        }
-      })
-      : allianceFirms.map((f) => ({
-        ...f,
-        shortDescription: f.description,
-        isLong: false,
-        isPerson: false,
-      }))
 
   return (
     <main>
@@ -302,12 +176,12 @@ export default async function AboutPage() {
 
             <div
               style={{
-                background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
+                background: 'linear-gradient(135deg, #2b52d4 0%, #2563eb 50%, #1d4ed8 100%)',
                 color: '#ffffff',
                 borderRadius: 16,
                 padding: '36px 30px',
-                boxShadow: '0 16px 36px rgba(29, 78, 216, 0.22)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                boxShadow: '0 16px 36px rgba(37, 99, 235, 0.22)',
+                border: '1.5px solid rgba(255, 255, 255, 0.22)',
               }}
             >
               <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: 2, color: '#f26522', fontWeight: 700, marginBottom: 12 }}>
@@ -351,190 +225,6 @@ export default async function AboutPage() {
                 </div>
                 <div style={{ fontSize: 12.5, color: '#64748b' }}>
                   {m.subtext}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* ── SECTION 2: THE 3 ALLIANCE FIRMS ── */}
-          <SectionHeader
-            eyebrow="Our Alliance Foundation"
-            title="The Three Pillar Partnerships"
-            subtitle="Each alliance firm brings specialized industry credentials, deep regulatory relationships, and decades of client trust."
-          />
-
-          {/* Centered Floating Partner Cards Container (Compact Height) */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              alignItems: 'stretch',
-              gap: 16,
-              marginBottom: 48,
-              maxWidth: 1280,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          >
-            {partnerCards.map((f) => (
-              <div
-                key={f.name}
-                className="partner-showcase-card"
-                style={{
-                  flex: '1 1 250px',
-                  width: '100%',
-                  maxWidth: 285,
-                  minWidth: 230,
-                  background: '#ffffff',
-                  border: '1px solid rgba(152, 162, 179, 0.4)',
-                  borderTop: '3.5px solid #1d4ed8',
-                  borderRadius: 14,
-                  padding: '18px 16px 14px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  textAlign: 'center',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.06)',
-                  transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              >
-                <div>
-                  {/* Top Bar: Compact Single Badge */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 10 }}>
-                    <span
-                      style={{
-                        fontSize: 10.5,
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        letterSpacing: 0.8,
-                        padding: '3px 9px',
-                        borderRadius: 12,
-                        background: 'rgba(29, 78, 216, 0.08)',
-                        color: '#1d4ed8',
-                        border: '1px solid rgba(29, 78, 216, 0.2)',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 5,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#f26522', flexShrink: 0 }} />
-                      {f.badgeLevel}
-                    </span>
-                  </div>
-
-                  {/* Profile Identity: Compact Monogram & Names */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
-                    {/* Prestigious Monogram Icon Box */}
-                    <a
-                      href={f.linkHref}
-                      style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 12,
-                        background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
-                        border: '1.5px solid rgba(242, 101, 34, 0.5)',
-                        color: '#ffffff',
-                        fontSize: 15,
-                        fontWeight: 800,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        letterSpacing: 0.5,
-                        boxShadow: '0 4px 12px rgba(29, 78, 216, 0.25)',
-                        textDecoration: 'none',
-                        marginBottom: 8,
-                        transition: 'transform 0.2s ease',
-                      }}
-                      title={`View ${f.name} Profile`}
-                    >
-                      {f.initials}
-                    </a>
-
-                    <div style={{ textAlign: 'center', width: '100%' }}>
-                      <h3 style={{ fontSize: 17, color: '#071A3A', fontWeight: 800, margin: '0 0 2px', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
-                        <a
-                          href={f.linkHref}
-                          style={{ color: '#071A3A', textDecoration: 'none', transition: 'color 0.2s ease' }}
-                        >
-                          {f.name}
-                        </a>
-                      </h3>
-                      <div style={{ fontSize: 12, color: '#1d4ed8', fontWeight: 700, margin: '1px 0 2px', lineHeight: 1.3 }}>
-                        {f.practiceDomain}
-                      </div>
-                      <div style={{ fontSize: 11, color: '#64748b', fontWeight: 500 }}>
-                        {f.role}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Concise Description with Read More */}
-                  <p style={{ fontSize: 12, color: '#475569', lineHeight: 1.5, textAlign: 'center', margin: '0 0 10px' }}>
-                    {f.shortDescription}
-                    {f.isLong && (
-                      <a
-                        href={f.linkHref}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 2,
-                          color: '#f26522',
-                          fontWeight: 700,
-                          fontSize: 12,
-                          marginLeft: 4,
-                          textDecoration: 'none',
-                          whiteSpace: 'nowrap',
-                          transition: 'color 0.2s ease',
-                        }}
-                      >
-                        Read More →
-                      </a>
-                    )}
-                  </p>
-
-                  {/* Domain Focus Chip */}
-                  <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'center' }}>
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 600,
-                        background: '#F8FAFC',
-                        color: '#071A3A',
-                        border: '1px solid rgba(152, 162, 179, 0.4)',
-                        padding: '2px 8px',
-                        borderRadius: 5,
-                        maxWidth: '90%',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {f.focusAreas[0] || 'Tax Advisory'}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Footer Link */}
-                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 10, display: 'flex', justifyContent: 'center' }}>
-                  <a
-                    href={f.linkHref}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 4,
-                      color: '#1d4ed8',
-                      fontWeight: 700,
-                      fontSize: 12.5,
-                      textDecoration: 'none',
-                      transition: 'color 0.2s ease',
-                    }}
-                  >
-                    <span>View Profile</span>
-                    <span>→</span>
-                  </a>
                 </div>
               </div>
             ))}
@@ -636,13 +326,13 @@ export default async function AboutPage() {
           {/* ── SECTION 6: QUALITY & ICAI CODE ASSURANCE ── */}
           <div
             style={{
-              background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 45%, #172554 100%)',
+              background: 'linear-gradient(135deg, #2b52d4 0%, #2563eb 50%, #1d4ed8 100%)',
               color: '#ffffff',
               borderRadius: 18,
               padding: '44px 36px',
               marginBottom: 48,
-              border: '1.5px solid rgba(255, 255, 255, 0.16)',
-              boxShadow: '0 16px 40px rgba(29, 78, 216, 0.28)',
+              border: '1.5px solid rgba(255, 255, 255, 0.22)',
+              boxShadow: '0 16px 40px rgba(37, 99, 235, 0.25)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: 36,

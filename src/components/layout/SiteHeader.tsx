@@ -12,7 +12,7 @@ const topNavItems = [
   { label: 'Our Team', href: '/people' },
   { label: 'News and Articles', href: '/insights' },
   { label: 'Documentation Suite', href: 'https://apps.teameyrie.com/', external: true },
-  { label: 'Career', href: '/careers' },
+  { label: 'Careers', href: '/careers' },
   { label: 'LMS Login', href: 'https://web.classplusapp.com/login', external: true },
 ]
 
