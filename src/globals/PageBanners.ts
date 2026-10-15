@@ -165,6 +165,16 @@ export const PageBanners: GlobalConfig = {
             'right center'
           ),
         },
+        {
+          label: 'Gallery',
+          name: 'gallery',
+          fields: createBannerFields(
+            'Photo & Media Gallery',
+            'Moments & Milestones',
+            'Explore conferences, leadership summits, firm celebrations, and our state-of-the-art office infrastructure across India.',
+            'right center'
+          ),
+        },
       ],
     },
   ],

@@ -1,0 +1,608 @@
+'use client'
+
+import React, { useState, useEffect, useRef } from 'react'
+
+export interface GalleryItem {
+  id: string | number
+  title: string
+  category: string
+  imageUrl: string
+  caption?: string | null
+  location?: string | null
+  date?: string | null
+}
+
+const CATEGORIES = [
+  { id: 'all', label: 'All Photos' },
+  { id: 'events', label: 'Events & Celebrations' },
+  { id: 'conferences', label: 'Seminars & Conferences' },
+  { id: 'office', label: 'Office & Infrastructure' },
+  { id: 'team', label: 'Team & Culture' },
+  { id: 'client', label: 'Client Engagements' },
+]
+
+const CATEGORY_NAMES: Record<string, string> = {
+  events: 'Events & Celebrations',
+  conferences: 'Seminars & Conferences',
+  office: 'Office & Infrastructure',
+  team: 'Team & Culture',
+  client: 'Client Engagements',
+}
+
+export default function GalleryView({ items }: { items: GalleryItem[] }) {
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [activeItem, setActiveItem] = useState<GalleryItem | null>(null)
+  const thumbnailContainerRef = useRef<HTMLDivElement>(null)
+
+  const filteredItems =
+    selectedCategory === 'all'
+      ? items
+      : items.filter((item) => item.category === selectedCategory)
+
+  const activeIndex = activeItem ? filteredItems.findIndex((it) => it.id === activeItem.id) : -1
+
+  const handleNext = () => {
+    if (activeIndex >= 0 && activeIndex < filteredItems.length - 1) {
+      setActiveItem(filteredItems[activeIndex + 1])
+    } else {
+      setActiveItem(filteredItems[0])
+    }
+  }
+
+  const handlePrev = () => {
+    if (activeIndex > 0) {
+      setActiveItem(filteredItems[activeIndex - 1])
+    } else {
+      setActiveItem(filteredItems[filteredItems.length - 1])
+    }
+  }
+
+  // Keyboard navigation: Escape to close, arrows to cycle
+  useEffect(() => {
+    if (!activeItem) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveItem(null)
+      if (e.key === 'ArrowRight') handleNext()
+      if (e.key === 'ArrowLeft') handlePrev()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activeItem, activeIndex, filteredItems])
+
+  // Auto-scroll active thumbnail into view
+  useEffect(() => {
+    if (!activeItem || !thumbnailContainerRef.current) return
+    const container = thumbnailContainerRef.current
+    const activeThumb = container.querySelector('[data-active="true"]') as HTMLElement | null
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
+  }, [activeItem])
+
+  return (
+    <div>
+      <style>{`
+        .gallery-modal-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 99999;
+          background: rgba(8, 14, 28, 0.90);
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          animation: galleryFadeIn 0.2s ease-out;
+        }
+
+        @keyframes galleryFadeIn {
+          from { opacity: 0; transform: scale(0.98); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        .gallery-modal-card {
+          background: #ffffff;
+          border-radius: 20px;
+          box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
+          width: min(94vw, 1040px);
+          height: min(88vh, 600px);
+          display: flex;
+          flex-direction: row;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .gallery-modal-image-col {
+          flex: 1.15;
+          background: #0b1324;
+          position: relative;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .gallery-modal-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+        }
+
+        .gallery-modal-info-col {
+          flex: 1;
+          background: #ffffff;
+          padding: 32px 36px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+          box-sizing: border-box;
+          overflow-y: auto;
+        }
+
+        .gallery-info-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+
+        .gallery-info-counter {
+          font-size: 13.5px;
+          font-weight: 600;
+          color: #475569;
+          letter-spacing: 0.3px;
+        }
+
+        .gallery-info-close {
+          background: transparent;
+          border: none;
+          color: #0f274a;
+          font-size: 20px;
+          cursor: pointer;
+          padding: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+          transition: transform 0.15s ease, color 0.15s ease;
+        }
+
+        .gallery-info-close:hover {
+          color: #ea580c;
+          transform: scale(1.15);
+        }
+
+        .gallery-info-category {
+          color: #ea580c;
+          font-size: 11.5px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-bottom: 8px;
+        }
+
+        .gallery-info-title {
+          font-size: 30px;
+          font-weight: 800;
+          color: #0b1e3b;
+          margin: 0 0 14px;
+          font-family: var(--font-heading), "Cinzel", Georgia, serif;
+          line-height: 1.25;
+        }
+
+        .gallery-info-caption {
+          font-size: 14.5px;
+          color: #475569;
+          line-height: 1.65;
+          margin: 0 0 18px;
+          max-width: 440px;
+        }
+
+        .gallery-info-meta {
+          display: flex;
+          align-items: center;
+          gap: 22px;
+          font-size: 13.5px;
+          color: #334155;
+          font-weight: 600;
+        }
+
+        .gallery-thumbnail-list {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          flex: 1;
+          padding: 4px 2px;
+        }
+
+        .gallery-thumbnail-list::-webkit-scrollbar {
+          display: none;
+        }
+
+        .gallery-thumb-btn {
+          width: 58px;
+          height: 42px;
+          border-radius: 6px;
+          overflow: hidden;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: all 0.18s ease;
+          border: 1.5px solid #e2e8f0;
+          opacity: 0.72;
+          padding: 0;
+          background: #f8fafc;
+        }
+
+        .gallery-thumb-btn--active {
+          border: 2.5px solid #ea580c;
+          opacity: 1;
+          box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+          transform: scale(1.03);
+        }
+
+        .gallery-thumb-btn:hover {
+          opacity: 1;
+        }
+
+        .gallery-thumb-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .gallery-nav-btn {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: #f1f5f9;
+          border: 1.5px solid #e2e8f0;
+          color: #334155;
+          font-size: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: all 0.15s ease;
+        }
+
+        .gallery-nav-btn:hover {
+          background: #e2e8f0;
+          border-color: #cbd5e1;
+          color: #0f274a;
+        }
+
+        @media (max-width: 820px) {
+          .gallery-modal-card {
+            flex-direction: column;
+            height: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+          }
+          .gallery-modal-image-col {
+            height: 260px;
+            flex: none;
+          }
+          .gallery-modal-info-col {
+            padding: 24px 20px;
+            flex: none;
+          }
+          .gallery-info-title {
+            font-size: 24px;
+          }
+        }
+      `}</style>
+
+      {/* Category Filter Pills */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 10,
+          justifyContent: 'center',
+          marginBottom: 44,
+        }}
+      >
+        {CATEGORIES.map((cat) => {
+          const isActive = selectedCategory === cat.id
+          const count =
+            cat.id === 'all' ? items.length : items.filter((i) => i.category === cat.id).length
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              style={{
+                fontFamily: 'inherit',
+                fontSize: 13.5,
+                fontWeight: isActive ? 700 : 600,
+                padding: '8px 18px',
+                borderRadius: 30,
+                border: isActive ? '1.5px solid #1a4b8c' : '1.5px solid #e2e8f0',
+                background: isActive ? '#1a4b8c' : '#ffffff',
+                color: isActive ? '#ffffff' : '#475569',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                boxShadow: isActive ? '0 4px 12px rgba(26, 75, 140, 0.2)' : 'none',
+              }}
+            >
+              <span>{cat.label}</span>
+              <span
+                style={{
+                  fontSize: 11.5,
+                  padding: '2px 7px',
+                  borderRadius: 12,
+                  background: isActive ? 'rgba(255, 255, 255, 0.2)' : '#f1f5f9',
+                  color: isActive ? '#ffffff' : '#64748b',
+                }}
+              >
+                {count}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Grid of Photo Cards */}
+      {filteredItems.length === 0 ? (
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '60px 20px',
+            background: '#f8fafc',
+            borderRadius: 12,
+            border: '1.5px dashed #cbd5e1',
+          }}
+        >
+          <div style={{ fontSize: 36, marginBottom: 10 }}>📷</div>
+          <h3 style={{ fontSize: 18, color: '#0f274a', margin: '0 0 6px' }}>No photos in this category yet</h3>
+          <p style={{ fontSize: 14, color: '#64748b', margin: 0 }}>
+            New photographs and event highlights are updated regularly by our media team.
+          </p>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: 24,
+          }}
+        >
+          {filteredItems.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => setActiveItem(item)}
+              style={{
+                background: '#ffffff',
+                border: '1.5px solid #e2e8f0',
+                borderRadius: 14,
+                overflow: 'hidden',
+                boxShadow: '0 4px 14px rgba(15, 39, 74, 0.04)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)'
+                e.currentTarget.style.boxShadow = '0 12px 28px rgba(15, 39, 74, 0.1)'
+                e.currentTarget.style.borderColor = '#cbd5e1'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(15, 39, 74, 0.04)'
+                e.currentTarget.style.borderColor = '#e2e8f0'
+              }}
+            >
+              {/* Photo Container */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  paddingTop: '62%', // 16:10 aspect ratio
+                  background: '#0b1324',
+                  overflow: 'hidden',
+                }}
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.4s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)'
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: 12,
+                    left: 12,
+                    background: 'rgba(15, 39, 74, 0.82)',
+                    backdropFilter: 'blur(8px)',
+                    color: '#C09B5A',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    padding: '4px 10px',
+                    borderRadius: 6,
+                    letterSpacing: 0.3,
+                  }}
+                >
+                  {CATEGORY_NAMES[item.category] || item.category}
+                </span>
+
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 10,
+                    right: 10,
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    color: '#ffffff',
+                    width: 30,
+                    height: 30,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 14,
+                  }}
+                >
+                  🔍
+                </div>
+              </div>
+
+              {/* Card Meta Content */}
+              <div style={{ padding: '18px 20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8, fontSize: 12, color: '#64748b' }}>
+                  {item.location && <span>📍 {item.location}</span>}
+                  {item.date && <span>📅 {item.date}</span>}
+                </div>
+                <h3 style={{ fontSize: 16.5, fontWeight: 700, color: '#0f274a', margin: '0 0 8px', lineHeight: 1.4 }}>
+                  {item.title}
+                </h3>
+                {item.caption && (
+                  <p style={{ fontSize: 13.5, color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                    {item.caption}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Exact Split-Card Modal (Image on Left, White Card on Right with Thumbnails) */}
+      {activeItem && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="gallery-modal-backdrop"
+          onClick={() => setActiveItem(null)}
+        >
+          <div
+            className="gallery-modal-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* LEFT SIDE: Full-Bleed Photograph */}
+            <div className="gallery-modal-image-col">
+              <img
+                src={activeItem.imageUrl}
+                alt={activeItem.title}
+                className="gallery-modal-image"
+              />
+            </div>
+
+            {/* RIGHT SIDE: Clean White Content Panel */}
+            <div className="gallery-modal-info-col">
+              {/* Header: Logo on Left + Counter & Close on Right */}
+              <div className="gallery-info-header">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <img
+                    src="/logo.png"
+                    alt="Team Eyrie"
+                    style={{ height: '34px', width: 'auto', objectFit: 'contain' }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <span className="gallery-info-counter">
+                    {activeIndex + 1} / {filteredItems.length}
+                  </span>
+                  <button
+                    onClick={() => setActiveItem(null)}
+                    className="gallery-info-close"
+                    title="Close (Esc)"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Middle Section: Category, Heading, Story, Metadata */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div className="gallery-info-category">
+                  {CATEGORY_NAMES[activeItem.category] || activeItem.category}
+                </div>
+
+                <h2 className="gallery-info-title">{activeItem.title}</h2>
+
+                <p className="gallery-info-caption">
+                  {activeItem.caption ||
+                    'Our team enjoyed a refreshing day together, strengthening bonds and creating memories beyond work.'}
+                </p>
+
+                <div className="gallery-info-meta">
+                  {activeItem.location && <span>📍 {activeItem.location}</span>}
+                  {activeItem.date && <span>📅 {activeItem.date}</span>}
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div style={{ height: '1px', background: '#e2e8f0', margin: '20px 0 16px' }} />
+
+              {/* Bottom Carousel: Left Arrow + Thumbnails + Right Arrow */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'space-between' }}>
+                <button
+                  onClick={handlePrev}
+                  className="gallery-nav-btn"
+                  title="Previous photo (← Arrow)"
+                >
+                  ‹
+                </button>
+
+                <div ref={thumbnailContainerRef} className="gallery-thumbnail-list">
+                  {filteredItems.map((it) => {
+                    const isCurrent = it.id === activeItem.id
+                    return (
+                      <button
+                        key={it.id}
+                        data-active={isCurrent ? 'true' : 'false'}
+                        onClick={() => setActiveItem(it)}
+                        className={`gallery-thumb-btn ${isCurrent ? 'gallery-thumb-btn--active' : ''}`}
+                        title={it.title}
+                      >
+                        <img
+                          src={it.imageUrl}
+                          alt={it.title}
+                          className="gallery-thumb-img"
+                        />
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  className="gallery-nav-btn"
+                  title="Next photo (→ Arrow)"
+                >
+                  ›
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

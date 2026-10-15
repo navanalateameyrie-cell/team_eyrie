@@ -23,6 +23,7 @@ const mainNavItems = [
   { label: 'Industries', href: '/industries' },
   { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
   { label: 'Our Presence', href: '/presence' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Contact Us', href: '/contact' },
 ]
 
