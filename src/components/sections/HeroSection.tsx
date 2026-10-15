@@ -24,7 +24,7 @@ export const defaultHeroSlides: HeroSlide[] = [
     title: 'Tailored Solutions for 17+ Core Sectors',
     description:
       'Specialized advisory tailored for Manufacturing, BFSI, Healthcare, Technology, Logistics, Startups, MSMEs, and Large Commercial Conglomerates.',
-    image: '/images/herosection.png',
+    image: '/images/ca2-poster.jpg',
     video: '/videos/ca2.mp4',
     primaryCta: { label: 'Schedule Consultation', href: '/contact' },
     secondaryCta: { label: 'Explore Services', href: '/services' },
@@ -50,7 +50,7 @@ export const defaultHeroSlides: HeroSlide[] = [
     description:
       'A united national network of Chartered Accountants, Company Secretaries, Legal Counsel, and Valuation Specialists delivering institutional excellence.',
     image: '/images/finalslide3-poster.png',
-    video: '/media/finalslide3.mp4',
+    video: '/videos/finalslide3.mp4',
     primaryCta: { label: 'About Team Eyrie', href: '/about' },
     secondaryCta: { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
   },
@@ -161,6 +161,11 @@ function SlideVideo({
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
   React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true
+      videoRef.current.muted = true
+      videoRef.current.playsInline = true
+    }
     if (isActive && videoRef.current) {
       const playPromise = videoRef.current.play()
       if (playPromise !== undefined) {
@@ -183,23 +188,16 @@ function SlideVideo({
       className="hero-creative-bg__video"
     >
       <source src={src} type={src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
-      {src.endsWith('.mov') && <source src="/videos/ca2.mp4" type="video/mp4" />}
+      {src.includes('ca2') && (
+        <>
+          <source src="/videos/ca2.mp4" type="video/mp4" />
+          <source src="/media/ca2.mp4" type="video/mp4" />
+        </>
+      )}
       {src.includes('finalslide3') && (
         <>
-          <source src="/media/finalslide3.mp4" type="video/mp4" />
           <source src="/videos/finalslide3.mp4" type="video/mp4" />
-        </>
-      )}
-      {src.includes('newweb') && (
-        <>
-          <source src="/media/newweb.mp4" type="video/mp4" />
-          <source src="/videos/newweb.mp4" type="video/mp4" />
-        </>
-      )}
-      {src.includes('gstheader') && (
-        <>
-          <source src="/media/gstheader.mp4" type="video/mp4" />
-          <source src="/videos/gstheader.mp4" type="video/mp4" />
+          <source src="/media/finalslide3.mp4" type="video/mp4" />
         </>
       )}
     </video>
@@ -273,13 +271,15 @@ export default function HeroSection({
       <div className="hero-creative-bg">
         {activeSlides.map((slide, idx) => {
           const isActive = idx === activeIndex
+          // Slide 1 (idx 0) and Slide 3 (idx 2) are animated videos; Slide 2 (idx 1) and Slide 4 (idx 3) are static images
           const isVideo = Boolean(
-            slide.video ||
-            slide.image?.endsWith('.mp4') ||
-            slide.image?.endsWith('.mov') ||
-            slide.image?.endsWith('.webm')
+            (idx === 0 || idx === 2) &&
+            (slide.video ||
+              slide.image?.endsWith('.mp4') ||
+              slide.image?.endsWith('.mov') ||
+              slide.image?.endsWith('.webm'))
           )
-          const videoSrc = slide.video || (isVideo ? slide.image : undefined)
+          const videoSrc = (idx === 0 || idx === 2) ? (slide.video || (isVideo ? slide.image : undefined)) : undefined
 
           return (
             <div

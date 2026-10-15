@@ -46,7 +46,7 @@ export const HomePage: GlobalConfig = {
             { name: 'title', type: 'text', required: true, label: 'Slide Title' },
             { name: 'description', type: 'textarea', label: 'Description' },
             { name: 'image', type: 'upload', relationTo: 'media', label: 'Upload Background Image' },
-            { name: 'imageUrl', type: 'text', label: 'Or Image Path (e.g. /images/herosection.png)', admin: { width: '50%' } },
+            { name: 'imageUrl', type: 'text', label: 'Or Image Path (e.g. /images/ca2-poster.jpg)', admin: { width: '50%' } },
             { name: 'videoUrl', type: 'text', label: 'Or Video Path (e.g. /videos/ca2.mp4)', admin: { width: '50%' } },
             { name: 'primaryCtaLabel', type: 'text', label: 'Primary CTA Label', admin: { width: '50%' } },
             { name: 'primaryCtaLink', type: 'text', label: 'Primary CTA Link', admin: { width: '50%' } },
