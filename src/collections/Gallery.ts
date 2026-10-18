@@ -42,12 +42,23 @@ export const Gallery: CollectionConfig = {
       ],
     },
     {
+      name: 'images',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+      label: 'Upload Multiple Images (Card Slideshow)',
+      admin: {
+        description:
+          'Upload or select multiple photographs for this card. Visitors can browse through them using side arrows on the card.',
+      },
+    },
+    {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      label: 'Image Upload',
+      label: 'Single / Primary Image Upload',
       admin: {
-        description: 'Upload high-resolution photograph (JPEG, PNG, WebP).',
+        description: 'Primary photograph (used as cover image or fallback).',
       },
     },
     {
@@ -57,6 +68,40 @@ export const Gallery: CollectionConfig = {
       admin: {
         description: 'e.g. /images/indian-advisory-team.png if using a static file',
       },
+    },
+    {
+      name: 'imageUrls',
+      type: 'textarea',
+      label: 'Or Additional Static Image URLs (One per line)',
+      admin: {
+        description: 'Optional: Enter additional static image paths (one per line) for multi-image slideshow.',
+      },
+    },
+    {
+      name: 'galleryImages',
+      type: 'array',
+      label: 'Detailed Photo Slides (Optional)',
+      admin: {
+        description: 'Add individual photos with custom captions.',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Photo',
+        },
+        {
+          name: 'imageUrl',
+          type: 'text',
+          label: 'Or Photo URL',
+        },
+        {
+          name: 'caption',
+          type: 'text',
+          label: 'Photo Caption',
+        },
+      ],
     },
     {
       name: 'caption',

@@ -175,6 +175,16 @@ export const PageBanners: GlobalConfig = {
             'right center'
           ),
         },
+        {
+          label: 'Resource Center',
+          name: 'resourceCenter',
+          fields: createBannerFields(
+            'Resource Center',
+            'Statutory Intelligence & Compliance Toolkit',
+            'Interactive Financial Calculators, Statutory Utilities, Bare Acts, Official Forms, and Regulatory Portals',
+            'right center'
+          ),
+        },
       ],
     },
   ],

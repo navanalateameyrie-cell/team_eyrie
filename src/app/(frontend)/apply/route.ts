@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 
     // Confirm the job exists, is open, and has not passed its closing date.
     const job = await payload.findByID({ collection: 'jobs', id: jobId, depth: 0 }).catch(() => null)
-    if (!job || (job as any).status !== 'open' || isJobExpired((job as any).closingDate)) {
+    if (!job || (job as any).status === 'closed' || isJobExpired((job as any).closingDate)) {
       return Response.json({ ok: false, error: 'This position is no longer accepting applications.' }, { status: 400 })
     }
 

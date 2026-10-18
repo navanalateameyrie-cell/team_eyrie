@@ -11,10 +11,10 @@ export const Jobs: CollectionConfig = {
     group: 'Recruitment',
   },
   access: {
-    // Only published jobs are public; recruiters/admins manage all.
+    // Published and open jobs are public; recruiters/admins manage all.
     read: ({ req: { user } }) => {
       if (user) return true
-      return { status: { equals: 'open' } }
+      return { status: { not_equals: 'closed' } }
     },
     create: isRecruiter,
     update: isRecruiter,
@@ -47,11 +47,11 @@ export const Jobs: CollectionConfig = {
               Cell: '/components/admin/StatusCell',
             },
           },
-          defaultValue: 'draft',
+          defaultValue: 'open',
           options: [
+            { label: 'Open (Visible on Website)', value: 'open' },
             { label: 'Draft', value: 'draft' },
-            { label: 'Open', value: 'open' },
-            { label: 'Closed', value: 'closed' },
+            { label: 'Closed (Hidden)', value: 'closed' },
           ],
         },
       ],

@@ -46,7 +46,7 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
   const payload = await getPayload({ config })
   const notice = await getConsentNotice(payload)
 
-  const isOpen = job.status === 'open'
+  const isOpen = job.status !== 'closed'
   const locations = Array.isArray(job.location)
     ? job.location.filter((l: any) => typeof l === 'object').map((l: any) => l.city)
     : []

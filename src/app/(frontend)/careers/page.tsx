@@ -76,7 +76,7 @@ export default async function CareersPage() {
   const [{ docs: allJobs }, pageBannersRes] = await Promise.all([
     payload.find({
       collection: 'jobs',
-      where: { status: { equals: 'open' } },
+      where: { status: { not_equals: 'closed' } },
       limit: 100,
       sort: '-createdAt',
       depth: 1,

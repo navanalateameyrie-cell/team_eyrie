@@ -11,6 +11,11 @@ const nextConfig = {
         destination: 'https://apps.teameyrie.com/',
         permanent: false,
       },
+      {
+        source: '/knowledge-bank',
+        destination: '/resource-center',
+        permanent: true,
+      },
     ]
   },
 }
