@@ -4,10 +4,10 @@ import { slugField } from '../fields/slug'
 
 export const Announcements: CollectionConfig = {
   slug: 'announcements',
-  labels: { singular: 'Announcement / Insight', plural: 'Announcements & Insights' },
+  labels: { singular: 'News & Article', plural: 'News & Articles' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'publishedDate', 'status'],
+    defaultColumns: ['title', 'category', 'pdfFile', 'publishedDate', 'status'],
     group: 'Content',
   },
   access: {
@@ -25,12 +25,30 @@ export const Announcements: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
+      defaultValue: 'news',
       options: [
-        { label: 'News', value: 'news' },
-        { label: 'Insight / Article', value: 'insight' },
+        { label: 'News (PDF Download & Read)', value: 'news' },
+        { label: 'Article / Thought Leadership (Read on Website)', value: 'insight' },
         { label: 'Regulatory Update', value: 'regulatory' },
         { label: 'Event', value: 'event' },
       ],
+    },
+    {
+      name: 'pdfFile',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'News PDF Document',
+      admin: {
+        description: 'Upload a PDF file for News circulars or press releases. When users view this news card on the website, they get an option to Download and Read.',
+      },
+    },
+    {
+      name: 'pdfUrl',
+      type: 'text',
+      label: 'External PDF / Document URL (Optional)',
+      admin: {
+        description: 'Direct link to an external PDF or Gazette notification if not uploading a file above.',
+      },
     },
     { name: 'excerpt', type: 'textarea' },
     { name: 'coverImage', type: 'upload', relationTo: 'media' },

@@ -6,7 +6,7 @@ export const JobApplications: CollectionConfig = {
   labels: { singular: 'Application', plural: 'Applications' },
   admin: {
     useAsTitle: 'fullName',
-    defaultColumns: ['fullName', 'job', 'stage', 'createdAt'],
+    defaultColumns: ['fullName', 'job', 'qualification', 'preferredLocation', 'stage', 'createdAt'],
     group: 'Recruitment',
   },
   access: {
@@ -23,9 +23,12 @@ export const JobApplications: CollectionConfig = {
       relationTo: 'jobs',
       required: true,
     },
+    { name: 'jobTitle', type: 'text', label: 'Position / Role' },
     { name: 'fullName', type: 'text', required: true },
     { name: 'email', type: 'email', required: true },
     { name: 'phone', type: 'text', required: true },
+    { name: 'qualification', type: 'text', label: 'Professional Qualification' },
+    { name: 'preferredLocation', type: 'text', label: 'Office Location' },
     {
       name: 'resume',
       type: 'upload',

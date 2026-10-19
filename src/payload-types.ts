@@ -74,6 +74,7 @@ export interface Config {
     offices: Office;
     'team-members': TeamMember;
     jobs: Job;
+    qualifications: Qualification;
     'job-applications': JobApplication;
     'contact-leads': ContactLead;
     announcements: Announcement;
@@ -96,6 +97,7 @@ export interface Config {
     offices: OfficesSelect<false> | OfficesSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     jobs: JobsSelect<false> | JobsSelect<true>;
+    qualifications: any;
     'job-applications': JobApplicationsSelect<false> | JobApplicationsSelect<true>;
     'contact-leads': ContactLeadsSelect<false> | ContactLeadsSelect<true>;
     announcements: AnnouncementsSelect<false> | AnnouncementsSelect<true>;
@@ -440,8 +442,23 @@ export interface Job {
         id?: string | null;
       }[]
     | null;
+  qualifications?: (number | Qualification)[] | null;
   openings?: number | null;
   closingDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Qualification Master interface
+ */
+export interface Qualification {
+  id: number;
+  name: string;
+  role?: (number | Job) | null;
+  roleName?: string | null;
+  description?: string | null;
+  status?: ('active' | 'inactive') | null;
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -452,9 +469,12 @@ export interface Job {
 export interface JobApplication {
   id: number;
   job: number | Job;
+  jobTitle?: string | null;
   fullName: string;
   email: string;
   phone: string;
+  qualification?: string | null;
+  preferredLocation?: string | null;
   /**
    * Uploaded résumé / CV (PDF or document).
    */
@@ -527,6 +547,8 @@ export interface Announcement {
    */
   slug?: string | null;
   category?: ('news' | 'insight' | 'regulatory' | 'event') | null;
+  pdfFile?: (number | null) | Media;
+  pdfUrl?: string | null;
   excerpt?: string | null;
   coverImage?: (number | null) | Media;
   body?: {
@@ -1000,6 +1022,7 @@ export interface JobsSelect<T extends boolean = true> {
         item?: T;
         id?: T;
       };
+  qualifications?: T;
   openings?: T;
   closingDate?: T;
   updatedAt?: T;
@@ -1011,9 +1034,12 @@ export interface JobsSelect<T extends boolean = true> {
  */
 export interface JobApplicationsSelect<T extends boolean = true> {
   job?: T;
+  jobTitle?: T;
   fullName?: T;
   email?: T;
   phone?: T;
+  qualification?: T;
+  preferredLocation?: T;
   resume?: T;
   currentEmployer?: T;
   totalExperience?: T;
@@ -1066,6 +1092,8 @@ export interface AnnouncementsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   category?: T;
+  pdfFile?: T;
+  pdfUrl?: T;
   excerpt?: T;
   coverImage?: T;
   body?: T;

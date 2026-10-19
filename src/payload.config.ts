@@ -24,12 +24,14 @@ import { PartnerRegistrations } from './collections/PartnerRegistrations'
 import { Appointments } from './collections/Appointments'
 import { ComplianceEvents } from './collections/ComplianceEvents'
 import { Gallery } from './collections/Gallery'
+import { Qualifications } from './collections/Qualifications'
 import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
 import { PageBanners } from './globals/PageBanners'
 import { runSeed } from './seed/seedData'
+import { seedQualifications } from './seed/seedQualifications'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -148,6 +150,7 @@ export default buildConfig({
     Appointments,
     ComplianceEvents,
     Gallery,
+    Qualifications,
   ],
   globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview, PageBanners],
   editor: lexicalEditor(),
@@ -242,6 +245,13 @@ export default buildConfig({
       payload.logger.info(`[Database Seed] ${log.join(' | ')}`)
     } catch (err) {
       payload.logger.warn({ err }, 'Seed initialization warning')
+    }
+
+    // ── Seed: Qualification Master ──────────────────────────────────────
+    try {
+      await seedQualifications(payload)
+    } catch (err) {
+      payload.logger.warn({ err }, 'Qualification Master seed warning')
     }
   },
 })

@@ -24,7 +24,7 @@ async function getJob(slug: string) {
     collection: 'jobs',
     where: { slug: { equals: slug } },
     limit: 1,
-    depth: 1,
+    depth: 2,
   })
   return docs[0] as any | undefined
 }
@@ -47,10 +47,15 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
   const notice = await getConsentNotice(payload)
 
   const isOpen = job.status !== 'closed'
-  const locations = Array.isArray(job.location)
-    ? job.location.filter((l: any) => typeof l === 'object').map((l: any) => l.city)
+  const locations: string[] = Array.isArray(job.location)
+    ? job.location
+      .map((l: any) => (typeof l === 'object' && l ? l.city : typeof l === 'string' ? l : ''))
+      .filter(Boolean)
     : []
   const deadlineInfo = getClosingDateInfo(job.closingDate)
+  const quals = Array.isArray(job.qualifications)
+    ? job.qualifications.map((q: any) => (typeof q === 'object' ? q.name : q)).filter(Boolean)
+    : []
 
   return (
     <main>
@@ -184,6 +189,8 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
                   <JobApplicationForm
                     jobId={job.id}
                     jobTitle={job.title}
+                    locations={locations}
+                    qualifications={quals}
                     consent={{
                       label: notice.checkboxLabel,
                       reassurance: notice.reassuranceLine,

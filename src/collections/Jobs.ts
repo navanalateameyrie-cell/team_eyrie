@@ -112,6 +112,16 @@ export const Jobs: CollectionConfig = {
     { name: 'summary', type: 'textarea', required: true },
     { name: 'description', type: 'richText' },
     {
+      name: 'qualifications',
+      type: 'relationship',
+      relationTo: 'qualifications' as any,
+      hasMany: true,
+      label: 'Professional Qualifications (from Qualification Master)',
+      admin: {
+        description: 'Select the required or eligible professional qualifications for this job opening.',
+      },
+    },
+    {
       name: 'responsibilities',
       type: 'array',
       fields: [{ name: 'item', type: 'text', required: true }],

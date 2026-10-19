@@ -5,18 +5,12 @@ import config from '@payload-config'
 import PageHero from '@/components/layout/PageHero'
 import SectionHeader from '@/components/layout/SectionHeader'
 import CtaBanner from '@/components/layout/CtaBanner'
+import InsightsView from '@/components/insights/InsightsView'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
-  title: 'Insights — Team Eyrie',
-  description: 'News, articles, thought leadership and regulatory updates from Team Eyrie.',
-}
-
-const CAT_LABEL: Record<string, string> = {
-  news: 'News',
-  insight: 'Insight',
-  regulatory: 'Regulatory Update',
-  event: 'Event',
+  title: 'News and Articles — Team Eyrie',
+  description: 'News, articles, thought leadership, circulars, and regulatory updates from Team Eyrie.',
 }
 
 export default async function InsightsPage() {
@@ -27,17 +21,17 @@ export default async function InsightsPage() {
       where: { status: { equals: 'published' } },
       limit: 50,
       sort: '-publishedDate',
-      depth: 1,
+      depth: 2,
     }),
     payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null as any),
   ])
 
   const iBanner = pageBannersRes?.insights
-  const bannerTitle = iBanner?.title || 'Knowledge & Insights'
+  const bannerTitle = iBanner?.title || 'News and Articles'
   const bannerSubtitle =
     iBanner?.subtitle ||
-    'Thought leadership, tax updates, and regulatory jurisprudence from across our practice areas.'
-  const bannerEyebrow = iBanner?.eyebrow || 'Expert Commentary & Analysis'
+    'Thought leadership, official circulars, news bulletins, and regulatory jurisprudence from across our practice areas.'
+  const bannerEyebrow = iBanner?.eyebrow || 'Publications & Circulars'
   const bannerImage =
     typeof iBanner?.bgImage === 'object' && iBanner?.bgImage?.url
       ? iBanner.bgImage.url
@@ -52,7 +46,7 @@ export default async function InsightsPage() {
         title={bannerTitle}
         subtitle={bannerSubtitle}
         eyebrow={bannerEyebrow}
-        crumbs={[{ label: 'Home', href: '/' }, { label: bannerTitle }]}
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'News and Articles' }]}
         bgImage={bannerImage}
         bgPosition={bannerFocal}
       />
@@ -60,100 +54,12 @@ export default async function InsightsPage() {
       <section className="section section-mobile-compact" style={{ padding: '80px 0', background: '#ffffff' }}>
         <div className="container">
           <SectionHeader
-            eyebrow="Publications"
-            title="Latest Regulatory Updates & Thought Leadership"
-            subtitle="Stay informed on crucial direct tax amendments, GST circulars, SEBI compliances, and corporate jurisprudence."
+            eyebrow="Publications & Circulars"
+            title="News, Bulletins & Thought Leadership"
+            subtitle="Browse official circulars with direct PDF download & read options, or read in-depth analysis on direct tax amendments, GST circulars, and corporate jurisprudence."
           />
 
-          {posts.length === 0 ? (
-            <div
-              style={{
-                textAlign: 'center',
-                padding: '60px 24px',
-                background: '#f8fafc',
-                borderRadius: 16,
-                border: '1px solid #e2e8f0',
-              }}
-            >
-              <p style={{ fontSize: 17, color: '#64748b', margin: 0 }}>
-                Articles, technical bulletins, and regulatory updates will be published here soon.
-              </p>
-            </div>
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                gap: 24,
-                marginBottom: 48,
-              }}
-            >
-              {posts.map((p: any) => {
-                const img = typeof p.coverImage === 'object' && p.coverImage?.url ? p.coverImage.url : null
-                return (
-                  <a
-                    key={p.id}
-                    href={`/insights/${p.slug}`}
-                    className="corporate-card corporate-card--light corporate-card--clickable"
-                    style={{
-                      flex: '1 1 320px',
-                      maxWidth: 380,
-                      minWidth: 280,
-                      padding: 0,
-                      overflow: 'hidden',
-                      textDecoration: 'none',
-                      color: 'inherit',
-                    }}
-                  >
-                    {img && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={img}
-                        alt={p.title}
-                        loading="lazy"
-                        style={{ width: '100%', height: 180, objectFit: 'cover' }}
-                      />
-                    )}
-                    <div style={{ padding: '24px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                      {p.category && (
-                        <span
-                          style={{
-                            color: '#123B6D',
-                            fontWeight: 700,
-                            fontSize: 12,
-                            textTransform: 'uppercase',
-                            letterSpacing: 1.2,
-                            marginBottom: 8,
-                          }}
-                        >
-                          {CAT_LABEL[p.category] || p.category}
-                        </span>
-                      )}
-                      <h3 style={{ fontSize: 19, color: '#071A3A', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.35 }}>
-                        {p.title}
-                      </h3>
-                      {p.excerpt && (
-                        <p style={{ color: '#64748b', fontSize: 14, lineHeight: 1.6, margin: '0 0 14px' }}>
-                          {p.excerpt}
-                        </p>
-                      )}
-                      <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid #98A2B3' }}>
-                        {p.publishedDate && (
-                          <span style={{ fontSize: 12.5, color: '#94a3b8', fontWeight: 500 }}>
-                            {new Date(p.publishedDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
-                          </span>
-                        )}
-                        <span style={{ fontSize: 13.5, color: '#123B6D', fontWeight: 700 }}>
-                          Read Article →
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                )
-              })}
-            </div>
-          )}
+          <InsightsView items={posts as any} />
 
           <CtaBanner
             eyebrow="Custom Regulatory Briefings"

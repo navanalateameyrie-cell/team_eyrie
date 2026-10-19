@@ -76,9 +76,12 @@ export async function POST(req: Request) {
         overrideAccess: true,
         data: {
           job: jobId as any,
+          jobTitle: form.get('jobTitle')?.toString() || (job as any).title || undefined,
           fullName,
           email,
           phone,
+          qualification: form.get('qualification')?.toString() || undefined,
+          preferredLocation: form.get('preferredLocation')?.toString() || undefined,
           resume: media.id as any,
           currentEmployer: form.get('currentEmployer')?.toString() || undefined,
           totalExperience: form.get('totalExperience') ? Number(form.get('totalExperience')) : undefined,

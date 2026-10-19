@@ -79,7 +79,7 @@ export default async function CareersPage() {
       where: { status: { not_equals: 'closed' } },
       limit: 100,
       sort: '-createdAt',
-      depth: 1,
+      depth: 2,
     }).catch(() => ({ docs: [] })),
     payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
   ])
@@ -227,6 +227,9 @@ export default async function CareersPage() {
                   ? j.location.filter((l: any) => typeof l === 'object').map((l: any) => l.city)
                   : []
                 const deadlineInfo = getClosingDateInfo(j.closingDate)
+                const quals = Array.isArray(j.qualifications)
+                  ? j.qualifications.map((q: any) => (typeof q === 'object' ? q.name : q)).filter(Boolean)
+                  : []
                 return (
                   <div
                     key={j.id}

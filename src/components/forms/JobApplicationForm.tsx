@@ -22,11 +22,15 @@ function humanSize(bytes: number): string {
 
 export default function JobApplicationForm({
   jobId,
-  jobTitle,
+  jobTitle = '',
+  locations = [],
+  qualifications = [],
   consent,
 }: {
-  jobId: string | number
-  jobTitle: string
+  jobId?: string | number
+  jobTitle?: string
+  locations?: string[]
+  qualifications?: string[]
   consent: Consent
 }) {
   const [open, setOpen] = useState(false)
@@ -37,6 +41,11 @@ export default function JobApplicationForm({
   const [dragOver, setDragOver] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
+
+  const hasJobTitle = Boolean(jobTitle && jobTitle.trim().length > 0)
+  const hasLocations = Array.isArray(locations) && locations.length > 0
+  const isSingleLocation = hasLocations && locations.length === 1
+  const hasQualifications = Array.isArray(qualifications) && qualifications.length > 0
 
   // Lock body scroll while the modal is open + close on Escape.
   useEffect(() => {
@@ -75,7 +84,9 @@ export default function JobApplicationForm({
     setStatus('sending')
     setError('')
     const fd = new FormData(e.currentTarget)
-    fd.set('job', String(jobId))
+    if (jobId) {
+      fd.set('job', String(jobId))
+    }
     fd.set('consent', agreed ? 'true' : 'false')
     fd.set('resume', file)
     try {
@@ -103,9 +114,6 @@ export default function JobApplicationForm({
       >
         {applied ? '✓ Application Submitted' : 'Apply Now'}
       </button>
-      <p style={{ margin: '10px 0 0', fontSize: 12.5, color: 'var(--muted, #5a6472)', textAlign: 'center' }}>
-        Takes ~2 minutes · PDF or Word résumé
-      </p>
 
       {/* Modal — portaled to <body> so it escapes any transformed ancestor
           (e.g. ScrollReveal) and stays fixed to the real viewport. */}
@@ -114,7 +122,7 @@ export default function JobApplicationForm({
           <div
             role="dialog"
             aria-modal="true"
-            aria-label={`Apply for ${jobTitle}`}
+            aria-label={`Apply for ${jobTitle || 'Role'}`}
             onMouseDown={(e) => e.target === e.currentTarget && setOpen(false)}
             style={{
               position: 'fixed',
@@ -129,10 +137,10 @@ export default function JobApplicationForm({
           >
             {applied ? (
               <div style={cardStyle}>
-                <ModalHeader jobTitle={jobTitle} onClose={() => setOpen(false)} />
+                <ModalHeader onClose={() => setOpen(false)} />
                 <div style={{ padding: '20px 24px', overflowY: 'auto' }}>
                   <div className="alert alert--success" style={{ marginBottom: 16 }}>
-                    <strong>Application received.</strong> Thank you for applying for <em>{jobTitle}</em>. Our
+                    <strong>Application received.</strong> Thank you for applying for <em>{jobTitle || 'this position'}</em>. Our
                     recruitment team will review your profile and be in touch. A confirmation with a
                     consent-withdrawal link has been emailed to you.
                   </div>
@@ -143,7 +151,7 @@ export default function JobApplicationForm({
               </div>
             ) : (
               <form ref={formRef} onSubmit={onSubmit} style={cardStyle}>
-                <ModalHeader jobTitle={jobTitle} onClose={() => setOpen(false)} />
+                <ModalHeader onClose={() => setOpen(false)} />
 
                 {/* Scrollable body */}
                 <div style={{ padding: '18px 24px', overflowY: 'auto', overflowX: 'hidden', flex: '1 1 auto' }}>
@@ -152,55 +160,145 @@ export default function JobApplicationForm({
                   <div
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))',
                       columnGap: 16,
+                      rowGap: 14,
                     }}
                   >
-                    <div className="field">
+                    {/* 1. Job Role / Position: Fixed if known, Manual Entry if not */}
+                    <div className="field" style={{ margin: 0 }}>
+                      <label htmlFor="jobTitleInput">Position / Role *</label>
+                      {hasJobTitle ? (
+                        <input
+                          id="jobTitleInput"
+                          name="jobTitle"
+                          value={jobTitle}
+                          readOnly
+                          style={{
+                            background: '#f8fafc',
+                            color: '#0f172a',
+                            fontWeight: 600,
+                            borderColor: '#cbd5e1',
+                            cursor: 'not-allowed',
+                          }}
+                        />
+                      ) : (
+                        <input
+                          id="jobTitleInput"
+                          name="jobTitle"
+                          required
+                          placeholder="e.g. Audit Manager, Law Intern"
+                        />
+                      )}
+                    </div>
+
+                    {/* 2. Office Location: Fixed if single location, Filtered if multiple, Manual if not mentioned */}
+                    <div className="field" style={{ margin: 0 }}>
+                      <label htmlFor="preferredLocation">Office Location *</label>
+                      {isSingleLocation ? (
+                        <input
+                          id="preferredLocation"
+                          name="preferredLocation"
+                          value={locations[0]}
+                          readOnly
+                          style={{
+                            background: '#f8fafc',
+                            color: '#0f172a',
+                            fontWeight: 600,
+                            borderColor: '#cbd5e1',
+                            cursor: 'not-allowed',
+                          }}
+                        />
+                      ) : hasLocations ? (
+                        <select
+                          id="preferredLocation"
+                          name="preferredLocation"
+                          defaultValue={locations[0]}
+                          required
+                        >
+                          {locations.map((loc) => (
+                            <option key={loc} value={loc}>
+                              {loc}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <select id="preferredLocation" name="preferredLocation" defaultValue="" required>
+                          <option value="">— Select Office —</option>
+                          <option value="Bengaluru (Karnataka)">Bengaluru (Karnataka)</option>
+                          <option value="Mumbai (Maharashtra)">Mumbai (Maharashtra)</option>
+                          <option value="Chennai (Tamil Nadu)">Chennai (Tamil Nadu)</option>
+                          <option value="Delhi (NCR)">Delhi (NCR)</option>
+                          <option value="Hyderabad (Telangana)">Hyderabad (Telangana)</option>
+                          <option value="Kochi (Kerala)">Kochi (Kerala)</option>
+                          <option value="Pune (Maharashtra)">Pune (Maharashtra)</option>
+                          <option value="Remote / Open to Relocation">Remote / Open to Relocation</option>
+                        </select>
+                      )}
+                    </div>
+
+                    {/* 3. Full Name */}
+                    <div className="field" style={{ margin: 0 }}>
                       <label htmlFor="fullName">Full name *</label>
                       <input id="fullName" name="fullName" required placeholder="e.g. Ananya Sharma" />
                     </div>
-                    <div className="field">
+
+                    {/* 4. Email */}
+                    <div className="field" style={{ margin: 0 }}>
                       <label htmlFor="email">Email *</label>
                       <input id="email" name="email" type="email" required placeholder="ananya@example.com" />
                     </div>
-                    <div className="field">
+
+                    {/* 5. Phone */}
+                    <div className="field" style={{ margin: 0 }}>
                       <label htmlFor="phone">Phone *</label>
                       <input id="phone" name="phone" required placeholder="+91 98765 43210" />
                     </div>
-                    <div className="field">
-                      <label htmlFor="qualification">Professional Qualification / Track *</label>
+
+                    {/* 6. Professional Qualification: From Master if mapped, else general */}
+                    <div className="field" style={{ margin: 0 }}>
+                      <label htmlFor="qualification">Professional Qualification *</label>
                       <select id="qualification" name="qualification" defaultValue="" required>
-                        <option value="">— Select Qualification / Track —</option>
-                        <option value="qualified_ca">Chartered Accountant (ACA / FCA)</option>
-                        <option value="ca_finalist">Semi-Qualified (CA Final / Inter)</option>
-                        <option value="articleship">ICAI Article Trainee (Both/Single Group)</option>
-                        <option value="cs_llb">Company Secretary / Legal Counsel (CS/LLB)</option>
-                        <option value="audit_exec">Audit & Tax Executive (B.Com/M.Com/MBA)</option>
+                        <option value="">— Select Qualification —</option>
+                        {hasQualifications ? (
+                          <>
+                            {qualifications.map((q) => (
+                              <option key={q} value={q}>
+                                {q}
+                              </option>
+                            ))}
+                            <option value="Other / Equivalent Qualification">Other / Equivalent Qualification</option>
+                          </>
+                        ) : (
+                          <>
+                            <option value="Chartered Accountant (ACA / FCA)">Chartered Accountant (ACA / FCA)</option>
+                            <option value="Semi-Qualified (CA Final / Inter)">Semi-Qualified (CA Final / Inter)</option>
+                            <option value="ICAI Article Trainee">ICAI Article Trainee</option>
+                            <option value="Company Secretary (ACS / FCS)">Company Secretary (ACS / FCS)</option>
+                            <option value="Cost & Management Accountant (CMA)">Cost & Management Accountant (CMA)</option>
+                            <option value="Law Graduate / LLB / LLM">Law Graduate / LLB / LLM</option>
+                            <option value="MBA (Finance / HR)">MBA (Finance / HR)</option>
+                            <option value="Commerce Graduate (B.Com / M.Com)">Commerce Graduate (B.Com / M.Com)</option>
+                            <option value="Other Degree / Qualification">Other Degree / Qualification</option>
+                          </>
+                        )}
                       </select>
                     </div>
-                    <div className="field">
-                      <label htmlFor="preferredLocation">Preferred Office Location *</label>
-                      <select id="preferredLocation" name="preferredLocation" defaultValue="">
-                        <option value="">— Select Office —</option>
-                        <option value="bengaluru">Bengaluru (Karnataka)</option>
-                        <option value="mumbai">Mumbai (Maharashtra)</option>
-                        <option value="delhi">New Delhi / NCR</option>
-                        <option value="chennai">Chennai (Tamil Nadu)</option>
-                        <option value="hyderabad">Hyderabad (Telangana)</option>
-                        <option value="kochi">Kochi (Kerala)</option>
-                      </select>
-                    </div>
-                    <div className="field">
+
+                    {/* 7. Total experience */}
+                    <div className="field" style={{ margin: 0 }}>
                       <label htmlFor="totalExperience">Total experience (yrs)</label>
                       <input id="totalExperience" name="totalExperience" type="number" min="0" step="0.5" placeholder="e.g. 2" />
                     </div>
-                    <div className="field">
+
+                    {/* 8. Notice period */}
+                    <div className="field" style={{ margin: 0 }}>
                       <label htmlFor="noticePeriod">Notice period</label>
                       <input id="noticePeriod" name="noticePeriod" placeholder="e.g. Immediate / 30 days" />
                     </div>
                   </div>
-                  <div className="field">
+
+                  <div className="field" style={{ marginTop: 14 }}>
                     <label htmlFor="linkedin">LinkedIn Profile URL</label>
                     <input id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username" />
                   </div>
@@ -298,12 +396,7 @@ export default function JobApplicationForm({
                 </div>
 
                 {/* Sticky footer — submit always visible */}
-                <div style={{ padding: '14px 24px', borderTop: '1px solid #e6e9ef', flexShrink: 0, background: '#fff' }}>
-                  {!agreed && (
-                    <p style={{ margin: '0 0 8px', fontSize: 12, color: '#94a3b8', textAlign: 'center' }}>
-                      Please attach your résumé and tick the consent box to submit.
-                    </p>
-                  )}
+                <div style={{ padding: '16px 24px', borderTop: '1px solid #e6e9ef', flexShrink: 0, background: '#fff' }}>
                   <button
                     type="submit"
                     className="btn btn--primary"
@@ -334,23 +427,23 @@ const cardStyle: React.CSSProperties = {
   boxShadow: '0 24px 70px rgba(0,0,0,0.35)',
 }
 
-function ModalHeader({ jobTitle, onClose }: { jobTitle: string; onClose: () => void }) {
+function ModalHeader({ onClose }: { onClose: () => void }) {
   return (
     <div
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        padding: '20px 24px',
+        alignItems: 'center',
+        padding: '18px 24px',
         borderBottom: '1px solid #e6e9ef',
         flexShrink: 0,
       }}
     >
-      <div style={{ minWidth: 0 }}>
-        <h3 style={{ margin: 0, color: '#0f274a', fontSize: 20, fontWeight: 700 }}>Apply for this role</h3>
-        <p style={{ margin: '4px 0 0', color: '#5a6472', fontSize: 14 }}>{jobTitle}</p>
-      </div>
+      <h3 style={{ margin: 0, color: '#0f274a', fontSize: 20, fontWeight: 700 }}>
+        Apply for this role
+      </h3>
       <button
+        type="button"
         aria-label="Close"
         onClick={onClose}
         style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#333', lineHeight: 1, flexShrink: 0 }}
