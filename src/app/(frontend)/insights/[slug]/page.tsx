@@ -154,40 +154,84 @@ export default async function InsightDetail({ params }: { params: Promise<{ slug
                     <span>📥</span>
                     <span>Download PDF</span>
                   </a>
-                  <a
-                    href={pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn--outline"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '11px 20px',
-                      fontSize: 14.5,
-                      fontWeight: 700,
-                      textDecoration: 'none',
-                      borderRadius: 8,
-                      background: '#ffffff',
-                    }}
-                  >
-                    <span>👁️</span>
-                    <span>Open in Fullscreen</span>
-                  </a>
                 </div>
               </div>
 
-              {/* Embedded Document Reader View */}
+              {/* Front Page Preview View */}
               <div style={{ marginTop: 22 }}>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#475569', margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                  Document Reader:
-                </p>
-                <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid #cbd5e1', background: '#e2e8f0' }}>
-                  <iframe
-                    src={`${pdfUrl}#toolbar=1&navpanes=0`}
-                    title={post.title}
-                    style={{ width: '100%', height: 620, border: 'none', display: 'block' }}
-                  />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <p style={{ fontSize: 12.5, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    Document Preview (Front Page):
+                  </p>
+                  <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>
+                    Page 1 Preview
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    position: 'relative',
+                    borderRadius: 10,
+                    overflow: 'hidden',
+                    border: '1.5px solid #cbd5e1',
+                    background: '#ffffff',
+                    boxShadow: '0 4px 12px rgba(15, 39, 74, 0.05)',
+                  }}
+                >
+                  {/* Page 1 only: pointerEvents none prevents scrolling into remaining pages */}
+                  <div style={{ height: 460, overflow: 'hidden', pointerEvents: 'none', background: '#f8fafc' }}>
+                    <iframe
+                      src={`${pdfUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                      title={post.title}
+                      style={{
+                        width: '100%',
+                        height: '750px',
+                        border: 'none',
+                        display: 'block',
+                        pointerEvents: 'none',
+                      }}
+                    />
+                  </div>
+
+                  {/* Bottom Download Prompt Overlay */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '24px 20px 20px',
+                      background: 'linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0.96) 65%, rgba(255,255,255,0) 100%)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <p style={{ margin: '0 0 10px', fontSize: 13.5, color: '#334155', fontWeight: 600 }}>
+                      Showing front page preview only. Download the PDF to view all pages.
+                    </p>
+                    <a
+                      href={pdfUrl}
+                      download={pdfFilename}
+                      className="btn btn--primary"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '9px 20px',
+                        fontSize: 13.5,
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                        borderRadius: 6,
+                        boxShadow: '0 4px 12px rgba(26,75,140,0.2)',
+                      }}
+                    >
+                      <span>📥</span>
+                      <span>Download Full Document (PDF)</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

@@ -306,7 +306,7 @@ export default function InsightsView({ items }: { items: InsightItem[] }) {
                             gap: 4,
                           }}
                         >
-                          <span>Read Online →</span>
+                          <span>View →</span>
                         </a>
                       </>
                     ) : (
