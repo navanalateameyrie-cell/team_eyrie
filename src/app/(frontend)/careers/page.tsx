@@ -78,14 +78,20 @@ export default async function CareersPage() {
       collection: 'jobs',
       where: { status: { not_equals: 'closed' } },
       limit: 100,
-      sort: '-createdAt',
+      sort: 'order',
       depth: 2,
     }).catch(() => ({ docs: [] })),
     payload.findGlobal({ slug: 'page-banners' as any, depth: 1 }).catch(() => null),
   ])
 
-  // Automatically filter out jobs whose closing date has passed
-  const jobs = (allJobs || []).filter((j: any) => !isJobExpired(j.closingDate))
+  // Automatically filter out jobs whose closing date has passed and sort order-wise
+  const rawJobs = (allJobs || []).filter((j: any) => !isJobExpired(j.closingDate))
+  const jobs = [...rawJobs].sort((a: any, b: any) => {
+    const orderA = typeof a.order === 'number' && a.order > 0 ? a.order : 9999
+    const orderB = typeof b.order === 'number' && b.order > 0 ? b.order : 9999
+    if (orderA !== orderB) return orderA - orderB
+    return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+  })
 
   const careersBanner = (pageBannersRes as any)?.careers
   const bannerTitle = careersBanner?.title || 'Careers & Articleship'
@@ -175,7 +181,7 @@ export default async function CareersPage() {
             ))}
           </div>
 
-          {/* ── SECTION 2: CURRENT OPENINGS (SIMPLIFIED FULL-WIDTH LIST) ── */}
+          {/* ── SECTION 2: CURRENT OPENINGS ── */}
           <SectionHeader
             eyebrow="Active Positions"
             title="Current Openings Across India"
@@ -224,12 +230,11 @@ export default async function CareersPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 56 }}>
               {jobs.map((j: any) => {
                 const locations = Array.isArray(j.location)
-                  ? j.location.filter((l: any) => typeof l === 'object').map((l: any) => l.city)
+                  ? j.location
+                    .map((l: any) => (typeof l === 'object' && l ? l.city : typeof l === 'string' ? l : ''))
+                    .filter(Boolean)
                   : []
                 const deadlineInfo = getClosingDateInfo(j.closingDate)
-                const quals = Array.isArray(j.qualifications)
-                  ? j.qualifications.map((q: any) => (typeof q === 'object' ? q.name : q)).filter(Boolean)
-                  : []
                 return (
                   <div
                     key={j.id}
@@ -259,7 +264,7 @@ export default async function CareersPage() {
                             borderRadius: 6,
                           }}
                         >
-                          {TYPE_LABEL[j.employmentType] || j.employmentType}
+                          {(j.employmentType && TYPE_LABEL[j.employmentType]) || j.employmentType || 'Full-time'}
                         </span>
                         {locations.length > 0 && (
                           <span
@@ -327,7 +332,7 @@ export default async function CareersPage() {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
                       <a
-                        href={`/careers/${j.slug}`}
+                        href={`/careers/${j.slug || j.id}`}
                         style={{
                           background: '#1a4b8c',
                           color: '#ffffff',

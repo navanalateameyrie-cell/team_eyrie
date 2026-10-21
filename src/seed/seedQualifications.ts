@@ -204,7 +204,7 @@ export async function seedQualifications(payload: Payload) {
               requirements: item.qualifications.map((q) => ({
                 item: q.name,
               })),
-            },
+            } as any,
           })
           jobId = newJob.id
         }
@@ -219,7 +219,7 @@ export async function seedQualifications(payload: Payload) {
             overrideAccess: true,
             data: {
               order: roleOrder,
-            },
+            } as any,
           })
         } catch {
           // ignore

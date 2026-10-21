@@ -445,6 +445,7 @@ export interface Job {
   qualifications?: (number | Qualification)[] | null;
   openings?: number | null;
   closingDate?: string | null;
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
