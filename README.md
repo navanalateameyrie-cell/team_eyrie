@@ -2,6 +2,8 @@
 
 Corporate website for **Team Eyrie** — Next.js (App Router) + **Payload CMS** + **PostgreSQL**.
 
+> **Repository Status**: Synced and verified for `navanalateameyrie-cell/team_eyrie`.
+
 ## Stack
 - **Next.js 15.4** (React 19) — frontend + backend API routes
 - **Payload CMS 3.87** — admin panel & content API (mounted at `/admin`)
