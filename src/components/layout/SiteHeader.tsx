@@ -23,7 +23,7 @@ const mainNavItems = [
   { label: 'Industries', href: '/industries' },
   { label: 'Why Team Eyrie', href: '/why-team-eyrie' },
   { label: 'Our Presence', href: '/presence' },
-  { label: 'Knowledge Bank', href: '/knowledge-bank' },
+  // { label: 'Knowledge Bank', href: '/knowledge-bank' }, // Hidden as requested by client
   { label: 'Gallery', href: '/gallery' },
   { label: 'Contact Us', href: '/contact' },
 ]

@@ -103,7 +103,7 @@ export async function SiteFooter() {
             <a href="/industries">Industries</a>
             <a href="/people">Our People</a>
             <a href="/insights">Insights &amp; Updates</a>
-            <a href="/knowledge-bank">Knowledge Bank</a>
+            {/* <a href="/knowledge-bank">Knowledge Bank</a> */}
             <a href="/careers">Careers</a>
             <a href="/gallery">Gallery</a>
           </div>
