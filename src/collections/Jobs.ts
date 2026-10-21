@@ -5,9 +5,10 @@ import { slugField } from '../fields/slug'
 export const Jobs: CollectionConfig = {
   slug: 'jobs',
   labels: { singular: 'Job Opening', plural: 'Job Openings' },
+  defaultSort: 'order',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'location', 'employmentType', 'status', 'closingDate'],
+    defaultColumns: ['order', 'title', 'location', 'employmentType', 'status', 'closingDate'],
     group: 'Recruitment',
   },
   access: {
@@ -21,6 +22,16 @@ export const Jobs: CollectionConfig = {
     delete: isRecruiter,
   },
   fields: [
+    {
+      name: 'order',
+      type: 'number',
+      label: 'Display Order / Sequence',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        description: 'Order in which this job appears on the website (e.g. 1, 2, 3... Ascending).',
+      },
+    },
     { name: 'title', type: 'text', required: true },
     slugField('title', { admin: { position: undefined } }),
     {

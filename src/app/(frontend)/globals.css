@@ -513,10 +513,10 @@ a.card:hover {
   width: 100%;
   z-index: 1000;
   font-family: var(--font-heading);
-  background: linear-gradient(135deg, #2B52D4 0%, #3055CC 45%, #2748C0 100%);
+  background: linear-gradient(135deg, #122f5d 0%, #1b417e 45%, #153566 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 24px rgba(30, 58, 180, 0.30);
+  box-shadow: 0 4px 24px rgba(18, 47, 93, 0.32);
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   pointer-events: auto;
   transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -527,17 +527,17 @@ a.card:hover {
 
 /* Scrolled state */
 .site-header--scrolled {
-  background: linear-gradient(135deg, #2B52D4 0%, #2E50CC 45%, #2646BA 100%);
+  background: linear-gradient(135deg, rgba(18, 47, 93, 0.98) 0%, rgba(27, 65, 126, 0.98) 45%, rgba(21, 53, 102, 0.99) 100%);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 8px 32px rgba(28, 54, 180, 0.38);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(18, 47, 93, 0.40);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .site-header--scrolled .site-header__top {
-  background: rgba(22, 42, 140, 0.40);
+  background: rgba(10, 27, 56, 0.45);
   padding: 5px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .site-header--scrolled .site-header__brand-row {
@@ -554,17 +554,17 @@ a.card:hover {
   right: 0;
   width: 100%;
   z-index: 1000;
-  background: linear-gradient(135deg, #2B52D4 0%, #3055CC 45%, #2748C0 100%);
+  background: linear-gradient(135deg, #122f5d 0%, #1b417e 45%, #153566 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(28, 54, 180, 0.32);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 32px rgba(18, 47, 93, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .site-header--solid .site-header__top {
-  background: rgba(22, 42, 140, 0.38);
+  background: rgba(10, 27, 56, 0.42);
   padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .site-header--solid .site-header__brand-row {
@@ -581,10 +581,10 @@ a.card:hover {
 
 /* Top Strip Header */
 .site-header__top {
-  background: rgba(18, 36, 120, 0.45);
+  background: rgba(10, 27, 56, 0.45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding: 8px 0;
   font-size: 13px;
   color: #e2e8f0;
@@ -686,7 +686,7 @@ a.card:hover {
 /* Brand Row & Inline Navigation */
 .site-header__brand-row {
   padding: 10px 0;
-  background: rgba(20, 40, 130, 0.30);
+  background: rgba(13, 34, 70, 0.35);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
@@ -1174,9 +1174,9 @@ a.card:hover {
 /* ---- footer ---- */
 .site-footer {
   position: relative;
-  background-color: #2b52d4;
+  background-color: #122f5d;
   background-image:
-    linear-gradient(135deg, rgba(43, 82, 212, 0.96) 0%, rgba(37, 99, 235, 0.96) 50%, rgba(29, 78, 216, 0.98) 100%),
+    linear-gradient(135deg, rgba(18, 47, 93, 0.97) 0%, rgba(27, 65, 126, 0.96) 50%, rgba(18, 43, 85, 0.98) 100%),
     url('/images/footer.png');
   background-size: cover;
   background-position: center;
@@ -1185,7 +1185,7 @@ a.card:hover {
   padding: 56px 0 28px;
   font-size: 14.5px;
   border-top: 3.5px solid #f26522;
-  box-shadow: 0 -12px 36px rgba(29, 78, 216, 0.25);
+  box-shadow: 0 -12px 36px rgba(18, 47, 93, 0.35);
   overflow: hidden;
 }
 
@@ -1197,7 +1197,7 @@ a.card:hover {
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(242, 101, 34, 0.22) 0%, rgba(29, 78, 216, 0) 70%);
+  background: radial-gradient(circle, rgba(242, 101, 34, 0.22) 0%, rgba(18, 47, 93, 0) 70%);
   pointer-events: none;
   z-index: 1;
 }

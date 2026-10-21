@@ -255,20 +255,17 @@ export default function JobApplicationForm({
                       <input id="phone" name="phone" required placeholder="+91 98765 43210" />
                     </div>
 
-                    {/* 6. Professional Qualification: From Master if mapped, else general */}
+                    {/* 6. Professional Qualification: From Master mapped to this role */}
                     <div className="field" style={{ margin: 0 }}>
                       <label htmlFor="qualification">Professional Qualification *</label>
                       <select id="qualification" name="qualification" defaultValue="" required>
                         <option value="">— Select Qualification —</option>
                         {hasQualifications ? (
-                          <>
-                            {qualifications.map((q) => (
-                              <option key={q} value={q}>
-                                {q}
-                              </option>
-                            ))}
-                            <option value="Other / Equivalent Qualification">Other / Equivalent Qualification</option>
-                          </>
+                          qualifications.map((q) => (
+                            <option key={q} value={q}>
+                              {q}
+                            </option>
+                          ))
                         ) : (
                           <>
                             <option value="Chartered Accountant (ACA / FCA)">Chartered Accountant (ACA / FCA)</option>
@@ -279,7 +276,6 @@ export default function JobApplicationForm({
                             <option value="Law Graduate / LLB / LLM">Law Graduate / LLB / LLM</option>
                             <option value="MBA (Finance / HR)">MBA (Finance / HR)</option>
                             <option value="Commerce Graduate (B.Com / M.Com)">Commerce Graduate (B.Com / M.Com)</option>
-                            <option value="Other Degree / Qualification">Other Degree / Qualification</option>
                           </>
                         )}
                       </select>

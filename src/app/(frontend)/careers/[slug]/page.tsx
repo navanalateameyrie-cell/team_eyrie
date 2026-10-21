@@ -53,9 +53,29 @@ export default async function JobDetail({ params }: { params: Promise<{ slug: st
       .filter(Boolean)
     : []
   const deadlineInfo = getClosingDateInfo(job.closingDate)
-  const quals = Array.isArray(job.qualifications)
+  let quals = Array.isArray(job.qualifications)
     ? job.qualifications.map((q: any) => (typeof q === 'object' ? q.name : q)).filter(Boolean)
     : []
+
+  if (quals.length === 0 && job.title) {
+    try {
+      const mappedDocs = await payload.find({
+        collection: 'qualifications',
+        where: {
+          or: [
+            { role: { equals: job.id } },
+            { roleName: { equals: job.title } },
+          ],
+        },
+        limit: 50,
+      })
+      if (mappedDocs.docs && mappedDocs.docs.length > 0) {
+        quals = mappedDocs.docs.map((d: any) => d.name).filter(Boolean)
+      }
+    } catch {
+      // Fallback silently if query error
+    }
+  }
 
   return (
     <main>

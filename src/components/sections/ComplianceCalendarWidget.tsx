@@ -265,11 +265,11 @@ export default function ComplianceCalendarWidget({
     <div
       className={`compliance-calendar-widget ${className}`}
       style={{
-        background: 'linear-gradient(135deg, #2b52d4 0%, #2563eb 50%, #1d4ed8 100%)',
+        background: 'linear-gradient(135deg, #122f5d 0%, #1b417e 50%, #204d94 100%)',
         borderRadius: 22,
         padding: '36px 38px',
         color: '#ffffff',
-        boxShadow: '0 20px 48px rgba(37, 99, 235, 0.28), 0 4px 14px rgba(29, 78, 216, 0.16)',
+        boxShadow: '0 20px 48px rgba(18, 47, 93, 0.35), 0 4px 14px rgba(27, 65, 126, 0.2)',
         position: 'relative',
         overflow: 'hidden',
         boxSizing: 'border-box',
@@ -295,7 +295,7 @@ export default function ComplianceCalendarWidget({
           left: '25%',
           width: 320,
           height: 320,
-          background: 'radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(27, 65, 126, 0.45) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />
@@ -419,7 +419,7 @@ export default function ComplianceCalendarWidget({
               border: '1.5px solid rgba(255, 255, 255, 0.28)',
               borderRadius: 16,
               padding: '22px 24px',
-              boxShadow: '0 8px 24px rgba(20, 50, 160, 0.15)',
+              boxShadow: '0 8px 24px rgba(18, 47, 93, 0.25)',
               minHeight: 170,
               display: 'flex',
               flexDirection: 'column',
@@ -614,7 +614,7 @@ export default function ComplianceCalendarWidget({
             borderRadius: 18,
             padding: '30px 20px 22px 20px',
             position: 'relative',
-            boxShadow: '0 12px 32px rgba(20, 50, 160, 0.18)',
+            boxShadow: '0 12px 32px rgba(18, 47, 93, 0.28)',
           }}
         >
           {/* ── Realistic Spiral Binder Rings at Head of Calendar ── */}

@@ -7,6 +7,7 @@ export interface RoleQualificationSeed {
   experienceMin: number
   experienceMax: number
   summary: string
+  order?: number
   qualifications: {
     name: string
     description?: string
@@ -16,6 +17,7 @@ export interface RoleQualificationSeed {
 export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   {
     roleTitle: 'Company secretary Articles/Interns',
+    order: 1,
     department: 'Corporate & Regulatory Advisory',
     employmentType: 'internship',
     experienceMin: 0,
@@ -29,6 +31,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'Corporate & Secretarial Compliance Manager',
+    order: 2,
     department: 'Corporate & Regulatory Advisory',
     employmentType: 'full-time',
     experienceMin: 3,
@@ -42,6 +45,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'Virtual CFO & Business Consulting Lead',
+    order: 3,
     department: 'Business Consulting',
     employmentType: 'full-time',
     experienceMin: 5,
@@ -55,6 +59,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'Articleship Trainee / CA Article Assistant',
+    order: 4,
     department: 'Multi-disciplinary Practice',
     employmentType: 'internship',
     experienceMin: 0,
@@ -67,6 +72,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'GST & Indirect Taxation Specialist',
+    order: 5,
     department: 'GST & Indirect Taxes',
     employmentType: 'full-time',
     experienceMin: 1,
@@ -80,6 +86,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'Direct Tax Advisory — Senior Associate',
+    order: 6,
     department: 'Tax Advisory',
     employmentType: 'full-time',
     experienceMin: 2,
@@ -92,6 +99,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'Audit & Assurance — Manager',
+    order: 7,
     department: 'Assurance & Audit',
     employmentType: 'full-time',
     experienceMin: 3,
@@ -104,6 +112,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'HR Manager',
+    order: 8,
     department: 'Human Resources & Talent Management',
     employmentType: 'full-time',
     experienceMin: 2,
@@ -116,6 +125,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'Law Interns',
+    order: 9,
     department: 'Legal Jurisprudence & Corporate Law',
     employmentType: 'internship',
     experienceMin: 0,
@@ -129,6 +139,7 @@ export const ROLE_QUALIFICATIONS_DATA: RoleQualificationSeed[] = [
   },
   {
     roleTitle: 'General Interns',
+    order: 10,
     department: 'Operations & Business Support',
     employmentType: 'internship',
     experienceMin: 0,
@@ -146,6 +157,8 @@ export async function seedQualifications(payload: Payload) {
     let orderIndex = 1
 
     for (const item of ROLE_QUALIFICATIONS_DATA) {
+      const roleOrder = item.order || (ROLE_QUALIFICATIONS_DATA.indexOf(item) + 1)
+
       // 1. Locate or create Job opening
       let jobRes = await payload.find({
         collection: 'jobs',
@@ -176,6 +189,7 @@ export async function seedQualifications(payload: Payload) {
             overrideAccess: true,
             data: {
               title: item.roleTitle,
+              order: roleOrder,
               department: item.department,
               employmentType: item.employmentType,
               status: 'open',
@@ -193,6 +207,22 @@ export async function seedQualifications(payload: Payload) {
             },
           })
           jobId = newJob.id
+        }
+      }
+
+      // Ensure existing jobs have their display order synchronized
+      if (jobId) {
+        try {
+          await payload.update({
+            collection: 'jobs',
+            id: jobId,
+            overrideAccess: true,
+            data: {
+              order: roleOrder,
+            },
+          })
+        } catch {
+          // ignore
         }
       }
 
