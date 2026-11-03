@@ -22,4 +22,5 @@ scripts/translate/work/
 # database dumps
 *.dump
 *.sql
+blob_migration_backup/
 
