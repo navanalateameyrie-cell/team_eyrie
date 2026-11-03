@@ -42,13 +42,33 @@ const dbUrl =
   process.env.POSTGRES_URL ||
   ''
 
-const isLocalDb = !dbUrl || dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost')
+// Direct (session-mode, port 5432) connection, used ONLY for schema push and
+// migrations. Supabase's transaction pooler (port 6543) cannot run DDL
+// reliably, so runtime queries use the pooler URL in `dbUrl` while schema
+// changes use this one. Falls back to dbUrl for local/dev where both point at
+// the same server.
+const directDbUrl =
+  process.env.DATABASE_URL_DIRECT ||
+  process.env.DATABASE_URI_DIRECT ||
+  dbUrl
 
-if (dbUrl) {
+// Push (PAYLOAD_DB_PUSH) and `payload migrate` (PAYLOAD_MIGRATING) must connect
+// via the direct URL; everything else uses the pooler.
+const useDirectConnection =
+  process.env.PAYLOAD_DB_PUSH === 'true' || process.env.PAYLOAD_MIGRATING === 'true'
+
+const activeDbUrl = useDirectConnection ? directDbUrl : dbUrl
+
+const isLocalDb =
+  !activeDbUrl || activeDbUrl.includes('127.0.0.1') || activeDbUrl.includes('localhost')
+
+if (activeDbUrl) {
   try {
-    const sanitized = dbUrl.replace(/^postgres(ql)?:/, 'http:')
+    const sanitized = activeDbUrl.replace(/^postgres(ql)?:/, 'http:')
     const parsed = new URL(sanitized)
-    console.log(`[Payload DB] Connecting to database host: ${parsed.hostname}`)
+    console.log(
+      `[Payload DB] Connecting to database host: ${parsed.hostname} (${useDirectConnection ? 'direct/migration' : 'pooler/runtime'})`,
+    )
   } catch {
     console.log('[Payload DB] Connecting with provided connection string.')
   }
@@ -171,17 +191,31 @@ export default buildConfig({
       },
     })
     : undefined,
-  secret: process.env.PAYLOAD_SECRET || 'team-eyrie-payload-secret-key-prod-2026-safe',
+  // A hardcoded fallback secret in source lets anyone who can read the repo
+  // forge admin sessions, so production must supply its own; dev keeps a
+  // throwaway. Set PAYLOAD_SECRET in Vercel BEFORE deploying.
+  secret:
+    process.env.PAYLOAD_SECRET ||
+    (process.env.NODE_ENV === 'production'
+      ? (() => {
+          throw new Error('PAYLOAD_SECRET environment variable is required in production')
+        })()
+      : 'dev-only-insecure-payload-secret'),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: dbUrl,
+      // Runtime uses the Supabase transaction pooler (6543); push/migrations use
+      // the direct connection (5432). See `useDirectConnection` above.
+      connectionString: activeDbUrl,
       ssl: isLocalDb ? false : { rejectUnauthorized: false },
-      connectionTimeoutMillis: 30000,  // increased for remote Render DB latency
+      connectionTimeoutMillis: 30000, // remote Supabase latency headroom
       idleTimeoutMillis: 60000,
-      max: 5,
+      // Serverless: each warm Vercel function holds its own pool against the
+      // shared transaction pooler, so keep this tiny and release on idle.
+      max: Number(process.env.DB_POOL_MAX || 1),
+      allowExitOnIdle: true,
     },
     push: process.env.PAYLOAD_DB_PUSH === 'true',
   }),
@@ -198,13 +232,13 @@ export default buildConfig({
         collection: 'users',
         where: { email: { equals: 'tedev@gmail.com' } },
       })
-      if (existingSuperAdmin.totalDocs === 0) {
+      if (existingSuperAdmin.totalDocs === 0 && process.env.PAYLOAD_SEED_ADMINS === 'true') {
         await payload.create({
           collection: 'users',
           data: {
             name: 'Super Admin Developer',
             email: 'tedev@gmail.com',
-            password: 'dev@123',
+            password: process.env.SEED_SUPER_ADMIN_PASSWORD || '',
             role: 'super_admin' as any,
           },
         })
@@ -223,13 +257,13 @@ export default buildConfig({
         collection: 'users',
         where: { email: { equals: 'admin@teameyrie.local' } },
       })
-      if (existingAdmin.totalDocs === 0) {
+      if (existingAdmin.totalDocs === 0 && process.env.PAYLOAD_SEED_ADMINS === 'true') {
         await payload.create({
           collection: 'users',
           data: {
             name: 'Admin',
             email: 'admin@teameyrie.local',
-            password: 'Admin@12345',
+            password: process.env.SEED_ADMIN_PASSWORD || '',
             role: 'admin' as any,
           },
         })
