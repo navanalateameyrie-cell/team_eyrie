@@ -1,0 +1,33 @@
+name: Keep Supabase alive
+
+# Supabase free-tier projects pause after ~7 days of inactivity. This workflow
+# runs a trivial query twice a week to reset that timer so the production DB
+# never pauses. Scheduled workflows only run from the default branch (main).
+
+on:
+  schedule:
+    # 06:00 UTC every Monday (1) and Friday (5).
+    # Note: GitHub may delay scheduled runs by a few minutes under load.
+    - cron: "0 6 * * 1,5"
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the database
+        env:
+          # Add this as a repo secret:
+          #   Settings -> Secrets and variables -> Actions -> New repository secret
+          # Name:  SUPABASE_DB_URL
+          # Value: your Supabase pooler connection string (same as DATABASE_URL),
+          #        e.g. postgresql://postgres.<ref>:<password>@aws-1-<region>.pooler.supabase.com:6543/postgres
+          #        — with any "@" in the password percent-encoded as %40.
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "::error::SUPABASE_DB_URL secret is not set"
+            exit 1
+          fi
+          # psql is pre-installed on ubuntu-latest runners.
+          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -c "select now() as kept_alive_at;"
