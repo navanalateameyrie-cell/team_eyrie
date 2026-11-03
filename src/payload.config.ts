@@ -103,9 +103,6 @@ export default buildConfig({
     // Component, 500ing the whole admin panel after login. The shells absorb
     // those props and render the client components with none.
     components: {
-      // Renders in the top-right of the admin header (visible only to the
-      // logged-in admin) via a server shell that discards non-serializable props.
-      actions: ['/components/admin/shells#VisitCount'],
       Nav: '/components/admin/shells#AdminNav',
       graphics: {
         // Logo and Icon are Server Components already, so they are safe to
