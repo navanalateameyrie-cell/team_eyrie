@@ -113,9 +113,9 @@ export async function SiteFooter() {
             <p style={{ margin: '0 0 10px' }}>
               {offices.map((o) => o.city).join(' • ')}
             </p>
+            <a href="/contact">Contact Us →</a>
             {contact.phone && <a href={`tel:${contact.phone}`}>📞 {contact.phone}</a>}
             <a href="tel:+919845721255">📞 +91 9845721255</a>
-            <a href="/contact">Contact Us →</a>
             {contact.email && (
               <a
                 href={`mailto:${contact.email}`}
