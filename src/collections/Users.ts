@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: {
-    tokenExpiration: 45 * 60, // 45 minutes (2,700 seconds)
+    tokenExpiration: 30 * 60, // 30 minutes (1,800 seconds)
     maxLoginAttempts: 3, // Lock out after 3 failed attempts
     lockTime: 2 * 60 * 1000, // Lock duration: 2 minutes (120,000 ms)
   },

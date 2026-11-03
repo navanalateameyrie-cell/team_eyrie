@@ -1,9 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@payloadcms/ui'
 import styles from './AdminSidebar.module.scss'
+
+// Where to send the admin after logout or an idle session timeout.
+const SITE_HOME_URL = 'https://teameyrie.com'
+// Auto-logout after this much inactivity (matches the 30-min token lifetime).
+const IDLE_LIMIT_MS = 30 * 60 * 1000
 
 // ─── Navigation Config ──────────────────────────────────────────────────────
 
@@ -401,6 +406,35 @@ export const AdminSidebar: React.FC = () => {
     )
   }, [collapsed, mobileOpen])
 
+  // End the session (logout) and send the user to the public site. Shared by
+  // the Logout button and the idle timeout below.
+  const endSession = useCallback(async () => {
+    try {
+      await fetch('/api/users/logout', { method: 'POST', credentials: 'include' })
+    } catch {
+      // Ignore — redirect regardless so the session always ends visibly.
+    }
+    window.location.href = SITE_HOME_URL
+  }, [])
+
+  // Idle session timeout: log out and redirect after 30 minutes of inactivity.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const reset = () => {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        void endSession()
+      }, IDLE_LIMIT_MS)
+    }
+    const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart']
+    events.forEach((e) => window.addEventListener(e, reset, { passive: true }))
+    reset()
+    return () => {
+      if (timer) clearTimeout(timer)
+      events.forEach((e) => window.removeEventListener(e, reset))
+    }
+  }, [endSession])
+
   const isDashboard = pathname === '/admin' || pathname === '/admin/'
 
   return (
@@ -564,7 +598,15 @@ export const AdminSidebar: React.FC = () => {
             )}
             {collapsed && <span className={styles.tooltip}>Account</span>}
           </a>
-          <a href="/admin/logout" className={styles.logoutBtn} title="Logout">
+          <a
+            href="/admin/logout"
+            className={styles.logoutBtn}
+            title="Logout"
+            onClick={(e) => {
+              e.preventDefault()
+              void endSession()
+            }}
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
               <polyline points="16 17 21 12 16 7" />
