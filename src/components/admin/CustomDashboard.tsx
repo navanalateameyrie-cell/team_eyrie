@@ -246,7 +246,7 @@ export default function CustomDashboard() {
       ),
       accent: '#0EA5E9',
       bgTint: 'rgba(14, 165, 233, 0.08)',
-      link: '/',
+      link: undefined,
     },
   ]
 
@@ -328,32 +328,48 @@ export default function CustomDashboard() {
 
       {/* ── PRIMARY KPI CARDS ── */}
       <section className="te-dash-kpis">
-        {kpis.map((kpi, idx) => (
-          <a key={idx} href={kpi.link} className={`te-kpi-card te-kpi-card--${idx}`}>
-            <div className="te-kpi-card__top">
-              <span className="te-kpi-card__title">{kpi.title}</span>
-              <div
-                className="te-kpi-card__icon"
-                style={{ color: kpi.accent, background: kpi.bgTint }}
-              >
-                {kpi.icon}
+        {kpis.map((kpi, idx) => {
+          const inner = (
+            <>
+              <div className="te-kpi-card__top">
+                <span className="te-kpi-card__title">{kpi.title}</span>
+                <div
+                  className="te-kpi-card__icon"
+                  style={{ color: kpi.accent, background: kpi.bgTint }}
+                >
+                  {kpi.icon}
+                </div>
               </div>
-            </div>
 
-            <div className="te-kpi-card__body">
-              <span className="te-kpi-card__val">{kpi.value}</span>
-              <span className="te-kpi-card__sub">{kpi.sub}</span>
-            </div>
+              <div className="te-kpi-card__body">
+                <span className="te-kpi-card__val">{kpi.value}</span>
+                <span className="te-kpi-card__sub">{kpi.sub}</span>
+              </div>
 
-            <div className="te-kpi-card__footer">
-              <span>View collection</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
+              {kpi.link && (
+                <div className="te-kpi-card__footer">
+                  <span>View collection</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </div>
+              )}
+            </>
+          )
+
+          // Cards that map to a collection are links; the Site Visits stat has
+          // nowhere to go, so it renders as a plain, non-clickable card.
+          return kpi.link ? (
+            <a key={idx} href={kpi.link} className={`te-kpi-card te-kpi-card--${idx}`}>
+              {inner}
+            </a>
+          ) : (
+            <div key={idx} className={`te-kpi-card te-kpi-card--${idx}`} style={{ cursor: 'default' }}>
+              {inner}
             </div>
-          </a>
-        ))}
+          )
+        })}
       </section>
 
       {/* ── TWO-COLUMN OPERATIONAL HUB ── */}
