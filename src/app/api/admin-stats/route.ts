@@ -20,6 +20,7 @@ export async function GET() {
       announcements,
       recentLeads,
       recentApps,
+      siteStats,
     ] = await Promise.all([
       payload.count({ collection: 'users', overrideAccess: true }).catch(() => ({ totalDocs: 0 })),
       payload.count({ collection: 'jobs', overrideAccess: true }).catch(() => ({ totalDocs: 0 })),
@@ -43,6 +44,7 @@ export async function GET() {
         depth: 1,
         overrideAccess: true,
       }).catch(() => ({ docs: [] })),
+      payload.findGlobal({ slug: 'site-stats' as any, overrideAccess: true }).catch(() => ({ uniqueVisits: 0 })),
     ])
 
     return NextResponse.json({
@@ -55,6 +57,7 @@ export async function GET() {
       services: services.totalDocs || 0,
       offices: offices.totalDocs || 0,
       announcements: announcements.totalDocs || 0,
+      siteVisits: (siteStats as any)?.uniqueVisits || 0,
       recentLeads: recentLeads.docs.map((lead: any) => ({
         id: lead.id,
         name: lead.name,
@@ -84,6 +87,7 @@ export async function GET() {
       services: 0,
       offices: 0,
       announcements: 0,
+      siteVisits: 0,
       recentLeads: [],
       recentApps: [],
     })

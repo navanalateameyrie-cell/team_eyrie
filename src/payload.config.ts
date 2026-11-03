@@ -30,6 +30,7 @@ import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
 import { PageBanners } from './globals/PageBanners'
+import { SiteStats } from './globals/SiteStats'
 import { runSeed } from './seed/seedData'
 import { seedQualifications } from './seed/seedQualifications'
 
@@ -42,7 +43,13 @@ const dbUrl =
   process.env.POSTGRES_URL ||
   ''
 
-const isLocalDb = !dbUrl || dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost')
+// Runtime ALWAYS connects via DATABASE_URL (the Supabase transaction pooler,
+// port 6543, on serverless). Migrations/schema-push are run as a separate
+// command with DATABASE_URL pointed at the direct/session connection (port
+// 5432) — never baked into the runtime pool, so a stray PAYLOAD_DB_PUSH or a
+// bad DATABASE_URL_DIRECT can't break the running app.
+const isLocalDb =
+  !dbUrl || dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost')
 
 if (dbUrl) {
   try {
@@ -152,7 +159,7 @@ export default buildConfig({
     Gallery,
     Qualifications,
   ],
-  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview, PageBanners],
+  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview, PageBanners, SiteStats],
   editor: lexicalEditor(),
   // Real email is sent when SMTP_* env vars are present; otherwise Payload falls
   // back to its console transport (emails are logged, not delivered).
@@ -171,17 +178,30 @@ export default buildConfig({
       },
     })
     : undefined,
-  secret: process.env.PAYLOAD_SECRET || 'team-eyrie-payload-secret-key-prod-2026-safe',
+  // A hardcoded fallback secret in source lets anyone who can read the repo
+  // forge admin sessions, so production must supply its own; dev keeps a
+  // throwaway. Set PAYLOAD_SECRET in Vercel BEFORE deploying.
+  secret:
+    process.env.PAYLOAD_SECRET ||
+    (process.env.NODE_ENV === 'production'
+      ? (() => {
+          throw new Error('PAYLOAD_SECRET environment variable is required in production')
+        })()
+      : 'dev-only-insecure-payload-secret'),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
+      // Runtime uses the Supabase transaction pooler (6543) via DATABASE_URL.
       connectionString: dbUrl,
       ssl: isLocalDb ? false : { rejectUnauthorized: false },
-      connectionTimeoutMillis: 30000,  // increased for remote Render DB latency
+      connectionTimeoutMillis: 30000, // remote Supabase latency headroom
       idleTimeoutMillis: 60000,
-      max: 5,
+      // Serverless: each warm Vercel function holds its own pool against the
+      // shared transaction pooler, so keep this tiny and release on idle.
+      max: Number(process.env.DB_POOL_MAX || 3),
+      allowExitOnIdle: true,
     },
     push: process.env.PAYLOAD_DB_PUSH === 'true',
   }),
@@ -198,13 +218,13 @@ export default buildConfig({
         collection: 'users',
         where: { email: { equals: 'tedev@gmail.com' } },
       })
-      if (existingSuperAdmin.totalDocs === 0) {
+      if (existingSuperAdmin.totalDocs === 0 && process.env.PAYLOAD_SEED_ADMINS === 'true') {
         await payload.create({
           collection: 'users',
           data: {
             name: 'Super Admin Developer',
             email: 'tedev@gmail.com',
-            password: 'dev@123',
+            password: process.env.SEED_SUPER_ADMIN_PASSWORD || '',
             role: 'super_admin' as any,
           },
         })
@@ -223,13 +243,13 @@ export default buildConfig({
         collection: 'users',
         where: { email: { equals: 'admin@teameyrie.local' } },
       })
-      if (existingAdmin.totalDocs === 0) {
+      if (existingAdmin.totalDocs === 0 && process.env.PAYLOAD_SEED_ADMINS === 'true') {
         await payload.create({
           collection: 'users',
           data: {
             name: 'Admin',
             email: 'admin@teameyrie.local',
-            password: 'Admin@12345',
+            password: process.env.SEED_ADMIN_PASSWORD || '',
             role: 'admin' as any,
           },
         })

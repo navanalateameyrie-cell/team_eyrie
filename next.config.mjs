@@ -29,13 +29,16 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://va.vercel-scripts.com https://cdn.jsdelivr.net",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://va.vercel-scripts.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://vercel.live",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       "img-src 'self' blob: data: https: https://*.vercel-storage.com https://*.public.blob.vercel-storage.com",
       "media-src 'self' blob: data: https: https://*.vercel-storage.com https://*.public.blob.vercel-storage.com",
       "connect-src 'self' https: wss:",
       "worker-src 'self' blob:",
+      // Vercel Live preview toolbar (feedback.js + its iframe); only injected
+      // on *.vercel.app previews, never the production domain.
+      "frame-src 'self' https://vercel.live",
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",

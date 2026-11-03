@@ -32,6 +32,7 @@ interface DashboardStats {
   services: number
   offices: number
   announcements: number
+  siteVisits: number
   recentLeads: RecentLead[]
   recentApps: RecentApp[]
 }
@@ -46,6 +47,7 @@ const INITIAL_STATS: DashboardStats = {
   services: 0,
   offices: 0,
   announcements: 0,
+  siteVisits: 0,
   recentLeads: [],
   recentApps: [],
 }
@@ -120,6 +122,7 @@ export default function CustomDashboard() {
           services: data.services || 0,
           offices: data.offices || 0,
           announcements: data.announcements || 0,
+          siteVisits: data.siteVisits || 0,
           recentLeads: Array.isArray(data.recentLeads) ? data.recentLeads : [],
           recentApps: Array.isArray(data.recentApps) ? data.recentApps : [],
         })
@@ -230,6 +233,20 @@ export default function CustomDashboard() {
       accent: '#1d4ed8',
       bgTint: 'rgba(29, 78, 216, 0.08)',
       link: '/admin/collections/offices',
+    },
+    {
+      title: 'Site Visits',
+      value: stats.siteVisits,
+      sub: 'Unique visitors to the website',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      ),
+      accent: '#0EA5E9',
+      bgTint: 'rgba(14, 165, 233, 0.08)',
+      link: '/',
     },
   ]
 
