@@ -30,6 +30,7 @@ import { HomePage } from './globals/HomePage'
 import { ConsentSettings } from './globals/ConsentSettings'
 import { RecruitmentOverview } from './globals/RecruitmentOverview'
 import { PageBanners } from './globals/PageBanners'
+import { SiteStats } from './globals/SiteStats'
 import { runSeed } from './seed/seedData'
 import { seedQualifications } from './seed/seedQualifications'
 
@@ -102,6 +103,9 @@ export default buildConfig({
     // Component, 500ing the whole admin panel after login. The shells absorb
     // those props and render the client components with none.
     components: {
+      // Renders in the top-right of the admin header (visible only to the
+      // logged-in admin) via a server shell that discards non-serializable props.
+      actions: ['/components/admin/shells#VisitCount'],
       Nav: '/components/admin/shells#AdminNav',
       graphics: {
         // Logo and Icon are Server Components already, so they are safe to
@@ -158,7 +162,7 @@ export default buildConfig({
     Gallery,
     Qualifications,
   ],
-  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview, PageBanners],
+  globals: [SiteSettings, HomePage, ConsentSettings, RecruitmentOverview, PageBanners, SiteStats],
   editor: lexicalEditor(),
   // Real email is sent when SMTP_* env vars are present; otherwise Payload falls
   // back to its console transport (emails are logged, not delivered).

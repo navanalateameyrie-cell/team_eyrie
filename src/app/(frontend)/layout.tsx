@@ -6,6 +6,7 @@ import ScrollReveal from '@/components/ui/ScrollReveal'
 import SmoothScroll from '@/components/ui/SmoothScroll'
 import PageTransitionLoader from '@/components/ui/PageTransitionLoader'
 import { SiteHeaderServer, SiteFooter, SiteWidgetsServer } from '@/components/layout/SiteChrome'
+import VisitTracker from '@/components/analytics/VisitTracker'
 
 const siteUrl = (
   process.env.NEXT_PUBLIC_SERVER_URL ||
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <VisitTracker />
         <PageTransitionLoader />
         <SmoothScroll />
         <ScrollReveal />
