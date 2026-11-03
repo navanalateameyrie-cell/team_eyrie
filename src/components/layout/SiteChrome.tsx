@@ -114,10 +114,30 @@ export async function SiteFooter() {
               {offices.map((o) => o.city).join(' • ')}
             </p>
             {contact.phone && <a href={`tel:${contact.phone}`}>📞 {contact.phone}</a>}
-            {contact.email && <a href={`mailto:${contact.email}`}>✉️ {contact.email}</a>}
+            <a href="tel:+919845721255">📞 +91 9845721255</a>
             <a href="/contact">Contact Us →</a>
-            <a href="tel:+918618259712" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>📞 8618259712</a>
-            <a href="tel:+919845721255" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>📞 9845721255</a>
+            {contact.email && (
+              <a
+                href={`mailto:${contact.email}`}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}
+              >
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ flexShrink: 0 }}
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+                {contact.email}
+              </a>
+            )}
             {(social.linkedin || social.twitter || social.facebook) && (
               <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
                 {social.linkedin && <a href={social.linkedin}>LinkedIn</a>}
