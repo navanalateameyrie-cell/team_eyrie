@@ -4,9 +4,17 @@ import { getPayload } from 'payload'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const payload = await getPayload({ config: configPromise })
+
+    // Admin-only: this endpoint returns business metrics and potentially PII
+    // (recent leads / applications), so it must never be publicly reachable.
+    const { user } = await payload.auth({ headers: req.headers })
+    const role = (user as { role?: string } | null)?.role
+    if (!user || role === 'client') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     const [
       users,
