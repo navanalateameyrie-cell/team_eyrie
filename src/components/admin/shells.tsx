@@ -4,7 +4,6 @@ import AdminSidebarClient from './AdminSidebar'
 import CustomDashboardClient from './CustomDashboard'
 import ClientMappingViewClient from './ClientMappingView'
 import { LoginView as LoginViewClient } from './LoginView'
-import VisitCountBadgeClient from './VisitCountBadge'
 
 /**
  * Server shells for the custom admin components.
@@ -54,8 +53,4 @@ export function ClientMapping(_props: AdminServerProps) {
 
 export function Login(_props: AdminServerProps) {
   return <LoginViewClient />
-}
-
-export function VisitCount(_props: AdminServerProps) {
-  return <VisitCountBadgeClient />
 }
