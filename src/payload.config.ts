@@ -42,33 +42,19 @@ const dbUrl =
   process.env.POSTGRES_URL ||
   ''
 
-// Direct (session-mode, port 5432) connection, used ONLY for schema push and
-// migrations. Supabase's transaction pooler (port 6543) cannot run DDL
-// reliably, so runtime queries use the pooler URL in `dbUrl` while schema
-// changes use this one. Falls back to dbUrl for local/dev where both point at
-// the same server.
-const directDbUrl =
-  process.env.DATABASE_URL_DIRECT ||
-  process.env.DATABASE_URI_DIRECT ||
-  dbUrl
-
-// Push (PAYLOAD_DB_PUSH) and `payload migrate` (PAYLOAD_MIGRATING) must connect
-// via the direct URL; everything else uses the pooler.
-const useDirectConnection =
-  process.env.PAYLOAD_DB_PUSH === 'true' || process.env.PAYLOAD_MIGRATING === 'true'
-
-const activeDbUrl = useDirectConnection ? directDbUrl : dbUrl
-
+// Runtime ALWAYS connects via DATABASE_URL (the Supabase transaction pooler,
+// port 6543, on serverless). Migrations/schema-push are run as a separate
+// command with DATABASE_URL pointed at the direct/session connection (port
+// 5432) — never baked into the runtime pool, so a stray PAYLOAD_DB_PUSH or a
+// bad DATABASE_URL_DIRECT can't break the running app.
 const isLocalDb =
-  !activeDbUrl || activeDbUrl.includes('127.0.0.1') || activeDbUrl.includes('localhost')
+  !dbUrl || dbUrl.includes('127.0.0.1') || dbUrl.includes('localhost')
 
-if (activeDbUrl) {
+if (dbUrl) {
   try {
-    const sanitized = activeDbUrl.replace(/^postgres(ql)?:/, 'http:')
+    const sanitized = dbUrl.replace(/^postgres(ql)?:/, 'http:')
     const parsed = new URL(sanitized)
-    console.log(
-      `[Payload DB] Connecting to database host: ${parsed.hostname} (${useDirectConnection ? 'direct/migration' : 'pooler/runtime'})`,
-    )
+    console.log(`[Payload DB] Connecting to database host: ${parsed.hostname}`)
   } catch {
     console.log('[Payload DB] Connecting with provided connection string.')
   }
@@ -206,15 +192,14 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      // Runtime uses the Supabase transaction pooler (6543); push/migrations use
-      // the direct connection (5432). See `useDirectConnection` above.
-      connectionString: activeDbUrl,
+      // Runtime uses the Supabase transaction pooler (6543) via DATABASE_URL.
+      connectionString: dbUrl,
       ssl: isLocalDb ? false : { rejectUnauthorized: false },
       connectionTimeoutMillis: 30000, // remote Supabase latency headroom
       idleTimeoutMillis: 60000,
       // Serverless: each warm Vercel function holds its own pool against the
       // shared transaction pooler, so keep this tiny and release on idle.
-      max: Number(process.env.DB_POOL_MAX || 1),
+      max: Number(process.env.DB_POOL_MAX || 3),
       allowExitOnIdle: true,
     },
     push: process.env.PAYLOAD_DB_PUSH === 'true',
